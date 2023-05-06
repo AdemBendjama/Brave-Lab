@@ -1,0 +1,13 @@
+{% extends 'main_home/LoginPage.html' %}
+{% load static %}
+
+{% block content %}
+
+    </section>
+    
+    <div class="login-Container">
+        <h1>You Are Logged Out</h1>
+        <small><a href="{% url 'login-page' %}">Login Again ?</a></small>
+    </div>
+
+{% endblock content %}

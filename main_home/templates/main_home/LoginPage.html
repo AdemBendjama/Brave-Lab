@@ -1,15 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Login-SignUp.css">
-    <title>Log In</title>
-</head>
+{% extends 'main_home/base.html' %}
+{% load static %}
+
+    
+{% block css %}
+    
+    <link rel="stylesheet" href="{% static 'css/Login-SignUp.css' %}">
+    <style>
+        body{
+            background-image:url("{% static 'img/signupback.png' %}");
+        }
+
+        .header{
+            height: auto !important;
+        }
+    </style>
+    
+{% endblock css %}
 
 
-<body>
+{% block content %}
+
+    </section>
+
     <div class="login-Container">
         <form>
             <div class="email">
@@ -34,10 +46,9 @@
 
             <p class="account-redirect">
                 You Dont have an account?
-                <a href="./SignUpPage.html">Sign Up</a>
+                <a href="{% url 'register-page' %}">Sign Up</a>
             </p>
         </form>
     </div>
 
-</body>
-</html>
+{% endblock content %}
