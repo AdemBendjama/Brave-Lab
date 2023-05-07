@@ -18,11 +18,8 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from main_home import views as home_views
 from django.urls import path , include
-
+from django.contrib.auth.models import Group, Permission
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('main_home.urls')),
-    path('register/' , home_views.register , name="register" ),
-    path('login/', auth_views.LoginView.as_view(template_name="main_home/login.html") , name="login"),
-    path('logout/',auth_views.LogoutView.as_view(template_name="main_home/logout.html" ), name="logout"),
+    path('',include('main_home.urls')), 
 ]
