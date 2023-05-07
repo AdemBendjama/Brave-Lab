@@ -2,7 +2,6 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-
                              
 class UserRegisterForm(UserCreationForm):
     
@@ -22,6 +21,7 @@ class UserRegisterForm(UserCreationForm):
         }
         fields = ['username','email','first_name', 'last_name' , 'phone_number',
                   'gender' , 'address' , 'password1' , 'password2', 'policy']
+        
         
         
 class LoginForm(forms.Form):

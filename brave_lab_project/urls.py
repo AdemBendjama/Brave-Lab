@@ -19,6 +19,8 @@ from django.contrib.auth import views as auth_views
 from main_home import views as home_views
 from django.urls import path , include
 from django.contrib.auth.models import Group, Permission
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('main_home.urls')), 
