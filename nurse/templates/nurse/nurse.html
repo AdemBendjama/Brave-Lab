@@ -1,0 +1,81 @@
+{% extends 'main_home/base.html' %}
+{% load static %}
+    
+{% block css %}
+    
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="{% static 'css/nurse.css' %}" />
+    
+{% endblock css %}
+
+{% block header %}{% endblock header %}
+
+{% block content %}
+
+    <div class="container">
+        <header>
+        <div class ="Welcome">
+            <h1> Welcome Back</h1>
+            <p>Here is today stats from the laboratroy!</p>
+        </div>
+        <div class="searchBox">
+            <input class="searchInput"type="text" name="" placeholder="Search">
+            <button class="searchButton" href="#">
+                <i class="material-icons">
+                    search
+                </i>
+            </button>
+        </div>
+        <div class="Profile">
+            <span class="material-icons">
+                account_circle
+                </span>
+            <p>Nurse</p>
+            <span class="material-icons">
+                expand_more
+                </span>
+        </div>
+        </header>
+        <div class="Main">
+            <h1>MAIN CONTENT</h1>
+        </div>
+    </div>
+    <section>
+        <div>
+            <h1>@Brave Laboratory</h1>
+        </div>
+        <div class="Upper">
+            <ul>
+                <li><span class="material-icons">layers</span>
+                    Overview
+                </li>
+                <li><span class="material-icons">chat</span>
+                    Messages
+                </li>
+                <li>
+                    <span class="material-icons">list_alt</span>
+                    Requests List 
+                </li>
+                <li>
+                    <span class="material-icons">notes</span>
+                    Generate Test Result
+                </li>
+                <li class="set">
+                    <span class="material-icons"> settings</span>
+                    Settings
+                </li>
+            </ul>
+        </div>
+        <div class="Downs">
+            <ul>
+                <li>Help</li>
+                <li>Contact us</li>
+                <li>
+                    <span class="material-icons">
+                        logout
+                        </span><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </section>
+
+{% endblock content %}

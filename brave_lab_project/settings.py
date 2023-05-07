@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'main_home.apps.MainHomeConfig',
     'client.apps.ClientConfig',
+    'nurse.apps.NurseConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

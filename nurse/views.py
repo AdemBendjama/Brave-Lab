@@ -4,6 +4,6 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 @login_required
-def client_home(request):
+def nurse_home(request):
     
-    return render(request,'client/client.html')
+    return render(request,'nurse/nurse.html')
