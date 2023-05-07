@@ -3,6 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render,redirect
 from .forms import UserRegisterForm
 from django.contrib import admin
+from django.contrib.auth.models import Group
 
 # Create your views here.
 
@@ -25,6 +26,7 @@ def register(request):
 
 
 def login_view(request):
+    
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -34,12 +36,42 @@ def login_view(request):
             
             if user is not None:
                 login(request,user)
+                
                 if user.is_superuser :
                     return redirect('/admin/')
-                else :
-                    return redirect('client')
+                
+                if is_client(user) :
+                        return redirect('client')
+                    
+                if is_nurse(user) :
+                    return redirect('nurse')
+                
+                # else if is_receptionist(user) :
+                #     return redirect('receptionist')
+                
+                # else if is_auditor(user) :
+                #     return redirect('auditor')
                 
     else:
         form = AuthenticationForm()
         
     return render(request, 'main_home/login.html', {'form': form})
+
+
+
+
+def is_client(user):
+    client_group = Group.objects.get(name='client')
+    return client_group in user.groups.all()
+
+def is_nurse(user):
+    nurse_group = Group.objects.get(name='nurse')
+    return nurse_group in user.groups.all()
+
+def is_receptionist(user):
+    receptionist_group = Group.objects.get(name='receptionist')
+    return receptionist_group in user.groups.all()
+
+def is_auditor(user):
+    auditor_group = Group.objects.get(name='auditor')
+    return auditor_group in user.groups.all()
