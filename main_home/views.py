@@ -2,6 +2,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render,redirect
 from .forms import UserRegisterForm
+from django.contrib import admin
+
 # Create your views here.
 
 def home(request):
@@ -29,9 +31,14 @@ def login_view(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
+            
             if user is not None:
-                login(request, user)
-                return redirect('client')
+                login(request,user)
+                if user.is_superuser :
+                    return redirect('/admin/')
+                else :
+                    return redirect('client')
+                
     else:
         form = AuthenticationForm()
         

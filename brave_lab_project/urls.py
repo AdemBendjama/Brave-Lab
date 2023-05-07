@@ -21,7 +21,7 @@ from django.contrib.auth.models import Group, Permission
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls , name='admin'),
     path('',include('main_home.urls')), 
-    path('client/',include('client.urls')),
+    path('client/',include('client.urls'),name="client"),
 ]
