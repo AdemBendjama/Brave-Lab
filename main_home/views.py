@@ -46,11 +46,11 @@ def login_view(request):
                 if is_nurse(user) :
                     return redirect('nurse')
                 
-                # else if is_receptionist(user) :
-                #     return redirect('receptionist')
+                if is_receptionist(user) :
+                    return redirect('receptionist')
                 
-                # else if is_auditor(user) :
-                #     return redirect('auditor')
+                if is_auditor(user) :
+                    return redirect('auditor')
                 
     else:
         form = AuthenticationForm()

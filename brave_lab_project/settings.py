@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'main_home.apps.MainHomeConfig',
     'client.apps.ClientConfig',
     'nurse.apps.NurseConfig',
+    'receptionist.apps.ReceptionistConfig',
+    'auditor.apps.AuditorConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
