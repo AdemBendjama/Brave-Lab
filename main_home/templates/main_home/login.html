@@ -25,19 +25,25 @@
     <div class="login-Container">
         <form method = 'POST'>
             {% csrf_token %}
+            
             <div class="email field">
                 {{ form.username.label_tag }}
                 {{ form.username }}
             </div>
             
+            <div class="login-errors">
+                {% for error in form.non_field_errors %}
+                    {{error}}
+                {% endfor %}
+            </div>
             <div class="password field">
                 {{ form.password.label_tag }}
                 {{ form.password }}
             </div>
 
-
+            
             <input class="login-button" type="submit" value="Login">
-
+            
 
         </form>
         <div class="remember-me">

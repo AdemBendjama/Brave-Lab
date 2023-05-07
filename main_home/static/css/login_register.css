@@ -144,6 +144,12 @@ div .password-container .password input {
     cursor: pointer;
 }
 
+
+.login-errors{
+    width: 80% ;
+    font-size: 14px;
+}
+
 /************************************/
 
 /*Remember me checkbox*/
