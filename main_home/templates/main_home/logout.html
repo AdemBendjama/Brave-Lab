@@ -1,4 +1,4 @@
-{% extends 'main_home/LoginPage.html' %}
+{% extends 'main_home/login.html' %}
 {% load static %}
 
 {% block content %}
@@ -7,7 +7,7 @@
     
     <div class="login-Container">
         <h1>You Are Logged Out</h1>
-        <small><a href="{% url 'login-page' %}">Login Again ?</a></small>
+        <small><a href="{% url 'login' %}">Login Again ?</a></small>
     </div>
 
 {% endblock content %}

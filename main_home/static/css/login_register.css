@@ -3,7 +3,7 @@ body {
     background-color: white;
     font-family: sans-serif;
     background-color: #00758c7a;
-    background-image: url(/Login-SignUp-Backgound.png);
+    background-image: url(/login_register-Backgound.png);
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -79,13 +79,7 @@ form input:focus {
     border: 2px solid #00a1c1;
 }
 
-div .email,
-div .name .last-name,
-div .name .first-name,
-div .number,
-div .gender,
-div .address,
-div .password {
+div .field {
     display: flex;
     flex-direction: column;
     gap: 0.7em;

@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
     <title>Brave Laboratory</title>
-    <link rel="stylesheet" href="{% static 'css/HomePage.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
 
     {% block css %}{% endblock css %}
 
@@ -17,14 +17,14 @@
 <body>
     <section class="header">
         <nav>
-            <a href="{% url 'home-page' %}"><img alt="Brave Lab Logo" src="{% static 'img/download.png' %}"></a>
+            <a href="{% url 'home' %}"><img alt="Brave Lab Logo" src="{% static 'img/download.png' %}"></a>
             <div class="nav-links">
                 <ul>
-                    <li><a href="{% url 'home-page' %}">HOME</a></li>
+                    <li><a href="{% url 'home' %}">HOME</a></li>
                     <li><a href="">ABOUT</a></li>
                     <li><a href="">SERVICES</a></li>
                     <li><a href="">CONTACT</a></li>
-                    <li><a href="{% url 'login-page' %}">SIGN IN</a></li>
+                    <li><a href="{% url 'login' %}">SIGN IN</a></li>
                 </ul>
             </div>
         </nav>
