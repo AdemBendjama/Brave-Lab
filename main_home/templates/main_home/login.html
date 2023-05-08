@@ -31,11 +31,14 @@
                 {{ form.username }}
             </div>
             
-            <div class="login-errors">
-                {% for error in form.non_field_errors %}
-                    {{error}}
-                {% endfor %}
-            </div>
+            {% if form.errors %}
+                <div class="login-errors">
+                    {% for error in form.non_field_errors %}
+                        {{error}}
+                    {% endfor %}
+                </div>
+            {% endif%}
+
             <div class="password field">
                 {{ form.password.label_tag }}
                 {{ form.password }}

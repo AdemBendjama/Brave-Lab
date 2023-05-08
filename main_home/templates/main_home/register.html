@@ -16,21 +16,27 @@
             {{ form.username.label_tag }}
             {{ form.username }}
         </div>
-        <div class="login-errors">
-            {% for error in form.username.errors %}
-                {{ error }} 
-            {% endfor %}
-        </div>
+        
+        {% if form.errors %}
+                <div class="login-errors">
+                    {% for error in form.username.errors %}
+                        {{ error }} 
+                    {% endfor %}
+                </div>
+        {% endif %}
 
         <div class="email field">
             {{ form.email.label_tag }}
             {{ form.email }}
         </div>
-        <div class="login-errors">
-            {% for error in form.email.errors %}
-                {{ error }} 
-            {% endfor %}
-        </div>
+
+        {% if form.errors %}
+            <div class="login-errors">
+                {% for error in form.email.errors %}
+                    {{ error }} 
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <div class="name">
             <div class="first-name field">
@@ -42,44 +48,56 @@
                 {{ form.last_name }}
             </div>
         </div>
-        <div class="login-errors">
-            {% for error in form.first_name.errors %}
-                {{ error }} 
-            {% endfor %}
-            {% for error in form.last_name.errors %}
-                {{ error }} 
-            {% endfor %}
-        </div>
+
+        {% if form.errors %}
+            <div class="login-errors">
+                {% for error in form.first_name.errors %}
+                    {{ error }} 
+                {% endfor %}
+                {% for error in form.last_name.errors %}
+                    {{ error }} 
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <div class="number field">
             {{ form.phone_number.label_tag }}
             {{ form.phone_number }}
         </div>
-        <div class="login-errors">
-            {% for error in form.phone_number.errors %}
-                {{ error }} 
-            {% endfor %}
-        </div>
+
+        {% if form.errors %}
+            <div class="login-errors">
+                {% for error in form.phone_number.errors %}
+                    {{ error }} 
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <div class="gender field">
             {{ form.gender.label_tag }}
             {{ form.gender }}
         </div>
-        <div class="login-errors">
-            {% for error in form.gender.errors %}
-                {{ error }} 
-            {% endfor %}
-        </div>
+
+        {% if form.errors %}
+            <div class="login-errors">
+                {% for error in form.gender.errors %}
+                    {{ error }} 
+                {% endfor %}
+            </div>
+        {% endif %}
         
         <div class="address field">
             {{ form.address.label_tag }}
             {{ form.address }}
         </div>
-        <div class="login-errors">
-            {% for error in form.address.errors %}
-                {{ error }} 
-            {% endfor %}
-        </div>
+
+        {% if form.errors %}
+            <div class="login-errors">
+                {% for error in form.address.errors %}
+                    {{ error }} 
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <div class="password-container">
             <div class="password field">
@@ -92,14 +110,17 @@
                 {{ form.password2 }}
             </div>
         </div>
-        <div class="login-errors">
-            {% for error in form.password1.errors %}
-                {{ error }} 
-            {% endfor %}
-            {% for error in form.password2.errors %}
-                {{ error }} 
-            {% endfor %}
-        </div>
+
+        {% if form.errors %}
+            <div class="login-errors">
+                {% for error in form.password1.errors %}
+                    {{ error }} 
+                {% endfor %}
+                {% for error in form.password2.errors %}
+                    {{ error }} 
+                {% endfor %}
+            </div>
+        {% endif %}
 
         
 

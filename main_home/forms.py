@@ -10,11 +10,13 @@ phone_regex = RegexValidator(
                              
 class UserRegisterForm(UserCreationForm):
     
-    phone_number = forms.CharField(validators=[phone_regex],widget = forms.NumberInput(attrs={'placeholder': '+213 0000000000'}))
+    phone_number = forms.CharField(validators=[phone_regex])
     gender = forms.ChoiceField(choices=((None, 'Choose Here :'),('Male', 'Male'), ('Female', 'Female')))
-    address = forms.CharField(max_length=50,widget = forms.TextInput(attrs={'placeholder': 'Setif, El Eulma'}))
+    address = forms.CharField(max_length=50)
     policy = forms.BooleanField()
     
+    phone_number.widget.attrs.update({"placeholder":"+213 0000000000"})
+    address.widget.attrs.update({"placeholder":"Setif, El Eulma"})
     
     class Meta():
         model = User
