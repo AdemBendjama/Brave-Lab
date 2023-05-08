@@ -148,6 +148,7 @@ div .password-container .password input {
 .login-errors{
     width: 80% ;
     font-size: 14px;
+    text-align: center;
 }
 
 /************************************/
