@@ -41,7 +41,7 @@ def login_view(request):
                     return redirect('/admin/')
                 
                 if is_client(user) :
-                        return redirect('client')
+                    return redirect('client')
                     
                 if is_nurse(user) :
                     return redirect('nurse')

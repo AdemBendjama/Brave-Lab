@@ -11,7 +11,7 @@ phone_regex = RegexValidator(
 class UserRegisterForm(UserCreationForm):
     
     phone_number = forms.CharField(validators=[phone_regex])
-    gender = forms.ChoiceField(choices=((None, 'Choose Here :'),('Male', 'Male'), ('Female', 'Female')))
+    gender = forms.ChoiceField(choices=((None, 'Choose Here :'),('M', 'Male'), ('F', 'Female')))
     address = forms.CharField(max_length=50)
     policy = forms.BooleanField()
     
@@ -30,7 +30,3 @@ class UserRegisterForm(UserCreationForm):
                   'gender' , 'address' , 'password1' , 'password2', 'policy']
         
         
-        
-class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
