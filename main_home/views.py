@@ -4,6 +4,7 @@ from django.shortcuts import render,redirect
 from .forms import UserRegisterForm
 from django.contrib import admin
 from django.contrib.auth.models import Group
+from client.models import Client
 
 # Create your views here.
 
@@ -16,7 +17,25 @@ def register(request):
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            # Automaticly save the client and add him to the client group
+            # save the user into the user database
+            user = form.save()
+            # add him to the client group
+            group = Group.objects.get(name="client")
+            group.user_set.add(user)
+            # extract form data
+            data = form.cleaned_data
+            phone_number = data.get("phone_number")
+            gender = data.get("gender")
+            address = data.get("address")
+            policy = data.get("policy")
+            # add him with any additionel information into the client table
+            Client.objects.create(user = user,
+                            phone_number = phone_number,
+                            gender = gender,
+                            address = address,
+                            policy = policy)
+            
             return redirect('login')
             
     else :
