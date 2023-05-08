@@ -3,148 +3,223 @@
     margin:0;
     padding:0;
 }
+
+a{
+    text-decoration: none;
+}
 .container{
-    background-color:gainsboro;
+    background-color:rgb(255, 255, 255);
     text-align: center;
     float:right;
-    width:83%;
+    width:100%;
     height:100vh;
-}
-.Main{
-height:89%;
 }
 header{
     width:100%;
-    height:11%;
+    height:9%;
     background-color: rgb(255, 255, 255);
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
+    box-shadow: 4px 14px 41px -1px rgba(0,0,0,0.86);
+    -webkit-box-shadow: 4px 14px 41px -1px rgba(0,0,0,0.86);
+    -moz-box-shadow: 4px 14px 41px -1px rgba(0,0,0,0.86);
 }
-.searchBox {
-    transform:  translate(-50%,50%);
-    background: #2f3640;
-    height: 40px;
-    border-radius: 40px;
-    padding: 10px;
-    position: relative;
-    top:-30px;
-    left:340px;
+.wlc{
+    margin-left:300px;
 }
-.searchBox:hover > .searchInput {
-    width: 240px;
-    padding: 0 6px;
-}
-.searchBox:hover > .searchButton {
-background: white;
-color : #2f3640;
-}
-.searchButton {
-    color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #2f3640;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.4s;
-}
-.searchInput {
-    border:none;
-    background: none;
-    outline:none;
-    float:left;
-    padding: 0;
-    color: white;
-    font-size: 16px;
-    transition: 0.4s;
-    line-height: 40px;
-    width: 0px;
-
-}
-.Profile{
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    padding:10px;
-    padding-inline:20px;
-    gap:10px;
-    background-color:gainsboro;
-    border-radius: 25px;
-}
-.Profile :hover{
-    cursor: pointer;
-}
-.Profile p{
-    font-size:20px;
-}
-.Profile span {
-    font-size:40px;
-}
-section{
+.Left{
+    float:right;
+    margin:40px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    flex-direction: column;
-    background-color: #00748C;
-    width:17%;
-    height:100vh;
-    float:left;
+    flex-direction: row;
+    justify-content:space-between;
+    gap:30px;
 }
-section h1{
-    position: relative;
-    top:-75%;
+.DROPS{
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    font-size:23px;
-    color:white;
+    flex-direction: row;
 }
-section ul{
-    height:80%;
+.DROPS a{
+    width:40px;
+    height:40px;
+    padding:50px;
+    text-decoration: none;
+    color:black;
+    padding:1px;
 }
-.Upper ul{
-    text-align: center;
-    top:-115px;
-    position: relative;
+.DROPS li{
+    padding:20px;
     list-style: none;
-    color:white;
-    font-size:18px;
-    display: flex;
-    flex-direction: column;
-    border-bottom:2px gainsboro solid;
-    border-top:2px gainsboro solid;
 }
-.Upper ul li {
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    gap:15px;
-    font-size:18px;
-    margin:30px;
-    padding-inline:5px;
-    transition:0.5s;
-}
-.Upper ul li:hover{
+.DROPS li:hover ul{
     transition: 0.5s;
+    display:block;
+    transition: 0.5s;
+}
+.DROPS li span{
+    font-size: 40px;
+}
+.DROPS li a:hover{
+color:#267ca6;
+transition: 0.5s;
     transform:scale(1.2);
     cursor:pointer;
 }
-.Downs ul{
+.search {
+    width: 100%;
+    position: relative;
     display: flex;
-    flex-direction: column;
-    text-align:start;
-    gap:3px;
-    list-style:none;
-    color:gainsboro;
 }
-.Downs ul li {
-    text-decoration: underline;
-    margin-bottom: 3px;
+.search span{
+    font-size:30px;
 }
-.Downs ul li:hover{
+.DROPS li ul{
+    top: 85px;
+    right:0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    display: none;
+    background-color: #267ca6;
+    border-radius: 10px;
+    height:auto;
+    transition: 0.5s;
+}
+.DROPS li ul li{
+    font-size: 15px;
+    padding:20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap:5px;
+    color:white;
+    transition: 0.5s;
+}
+.DROPS li ul li:hover{
+    transition: 0.5s;
+    background-color:rgb(255, 255, 255);
+    cursor:pointer;
+    color:black;
+}
+.searchTerm {
+    width: 300px;
+    border: 3px solid gainsboro;
+    border-right: none;
+    padding: 10px;
+    height: 20px;
+    border-radius:25px 0 0 25px;
+    outline: none;
+    color: #267ca6;
+}
+.searchButton {
+    display: flex;
+    align-items: center;
+    background:gainsboro ;
+    text-align: center;
+    color: rgb(0, 0, 0);
     cursor: pointer;
+    padding:4px;
+    font-size: 20px;
+    border: solid 3px gainsboro;
+    border-radius:0px 25px 25px 0px ;
+}
+nav{
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    height:100vh;
+    background-color: #267ca6;
+    width:90px;
+    overflow: hidden;
+    transition:width 0.2s linear;
+    box-shadow: 0 20px 35px rgb(0, 0, 0),0.1;
+}
+.logo{
+    position: absolute;
+    top:-8px;
+    text-align: center;
+    display: flex;
+    transition: all 0.5s ease;
+    margin:10px 0 0 10px;
+}
+.logo:hover{
+    display: flex;
+}
+.logo img{
+    width:45px;
+    height:45px;
+}
+.logo span{
+    font-weight: bold;
+    padding-left: 15px;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+nav a{
+    position: relative;
+    color:gainsboro;
+    font-size: 18px;
+    display:table;
+    width:300px;
+    padding: 10px;
+}
+nav .material-icons{
+    position: relative;
+    width:70px;
+    height:40px;
+    top:14px;
+    font-size:20px;
+    text-align: center;
+}
+nav ul {
+    margin-top: 200px;
+}
+.nav-item{
+    position: relative;
+    top:12px;
+    margin-left: 10px;
+}
+nav:hover{
+    width:280px;
+    transition: all 0.5 ease;
+}
+nav ul li {
+    transition: 0.5s;
+}
+.end{
+    position: absolute;
+    bottom:10px;
+}
+nav ul li a {
+    padding:20px 10px;
+}
+nav ul li{
+    transition: .5s;
+}
+nav ul li::after{
+    content:'';
+    display: block;
+    position: relative;
+    left:0;
+    width: 5px;
+    height:100%;
+    background-color: rgb(0, 0, 0);
+}
+nav ul li:hover{
+cursor: pointer;
+background-color:white;
+transform: scale(1.1);
+}
+nav ul li a:hover{
+    color:black;
+}
+.Main{
+    height:89%;
 }

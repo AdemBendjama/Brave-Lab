@@ -11,74 +11,54 @@
 {% block header %}{% endblock header %}
     
 {% block content %}
-    
+
     <div class="container">
         <header>
-        <div class ="Welcome">
-            <h1>Welcome Back</h1>
-            <p>Here is today stats from the laboratroy!</p>
-        </div>
-        <div class="searchBox">
-            <input class="searchInput"type="text" name="" placeholder="Search">
-            <button class="searchButton" href="#">
-                <i class="material-icons">
-                    search
-                </i>
-            </button>
-        </div>
-        <div class="Profile">
-            <span class="material-icons">
-                account_circle
-                </span>
-            <p>Client</p>
-            <span class="material-icons">
-                expand_more
-                </span>
-        </div>
+            <div class="wlc"> 
+                <h1>Welcome Back {{ user.username }} !</h1>
+            </div>
+            <div class="Left">
+                <div class="search">
+                    <input type="text" class="searchTerm" placeholder="Search">
+                        <button type="submit" class="searchButton">
+                        <span class="material-icons">
+                            search
+                        </span>
+                        </button>
+                </div>
+                <ul class="DROPS">
+                    <li><a href="#"><span class="material-icons">notifications</span></a></li>
+                    <li><a href="#"><span class="material-icons">account_circle</span></a>
+                        <ul>
+                        <li><span class="material-icons">person</span>Profile</li>
+                        <li><span class="material-icons">settings</span>Settings</li>
+                        <li><span class="material-icons">help</span>Help</li>
+                        <li><span class="material-icons">call</span>Contact us</li>
+                        
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </header>
         <div class="Main">
-            <h1>MAIN CONTENT</h1>
+            <br>
+            <h1>Book Your Appointment NOW</h1>
         </div>
     </div>
-    <section>
-        <div>
-            <h1>@Brave Laboratory</h1>
-        </div>
-        <div class="Upper">
+    <nav>
+        <a class="logo" href="{% url 'client' %}">
+            <img alt="brave lab logo" src="{% static 'img/logo.png' %}">
+            <span class="nav-item">Brave Lab</span>
+        </a>
             <ul>
-                <li><span class="material-icons">layers</span>
-                    Home
-                </li>
-                <li>
-                    <a>
-                        <span class="material-icons">chat</span>
-                        Make New Appointment
-                    </a>
-                </li>
-                <li>
-                    <span class="material-icons">list_alt</span>
-                    Test Results
-                </li>
-                <li>
-                    <span class="material-icons">notes</span>
-                    Send Complaint
-                </li>
-                <li class="set">
-                    <span class="material-icons"> settings</span>
-                    Settings
-                </li>
+                <li><a><span class="material-icons X">layers</span> <span class="nav-item">Home</span></a></li>
+                <li><a><span class="material-icons X">chat</span><span class="nav-item">Messages</span></a></li>
+                <li><a><span class="material-icons X">list_alt</span><span class="nav-item">Book Appointment</span></a></li>
+                <li><a><span class="material-icons X">list</span><span class="nav-item">Results</span></a></li>
+                <li><a><span class="material-icons X">notes</span><span class="nav-item">Send Complaint</span></a></li>
+                <li class="end"><a href='{% url 'logout' %}'><span class="material-icons emoji">logout</span><span class="nav-item">Logout</span></a></li>
             </ul>
-        </div>
-        <div class="Downs">
-            <ul>
-                <li>Help</li>
-                <li>Contact us</li>
-                <li>
-                    <span class="material-icons">
-                        logout
-                        </span><a href="{% url 'logout' %}">Logout</a></li>
-            </ul>
-        </div>
+    </nav>
     </section>
-    
+
 {% endblock content %}
