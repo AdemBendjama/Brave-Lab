@@ -9,7 +9,7 @@ from django.db import IntegrityError
 
 
 try:
-    user = User.objects.create(username="client1",password="admin987",first_name='Ahmed',last_name='Amoukrane',email="ahmed.amoukrane@gmail.com")
+    user = User.objects.create_user(username="client1",password="admin987",first_name='Ahmed',last_name='Amoukrane',email="ahmed.amoukrane@gmail.com")
     group = Group.objects.get(name="client")
     group.user_set.add(user)
     Client.objects.create(user=user,phone_number='0712548256',gender='M',address='Constantine, khroub',policy= True)
@@ -17,7 +17,7 @@ try:
 except IntegrityError :
     print(f'failed to create Client')
 try:
-    user = User.objects.create(username="nurse1",password="admin987",first_name='Adam',last_name='Bendjamaa',email="adam.bendjamaa@gmail.com")
+    user = User.objects.create_user(username="nurse1",password="admin987",first_name='Adam',last_name='Bendjamaa',email="adam.bendjamaa@gmail.com")
     group = Group.objects.get(name="nurse")
     group.user_set.add(user)
     Nurse.objects.create(user=user,phone_number='0712548256',gender='M',address='Setif, el eulma')
@@ -25,7 +25,7 @@ try:
 except IntegrityError :
     print(f'failed to create Nurse')
 try:
-    user = User.objects.create(username="receptionist1",password="admin987",first_name='Farouk',last_name='Rahal',email="farouk.rahal@gmail.com")
+    user = User.objects.create_user(username="receptionist1",password="admin987",first_name='Farouk',last_name='Rahal',email="farouk.rahal@gmail.com")
     group = Group.objects.get(name="receptionist")
     group.user_set.add(user)
     Receptionist.objects.create(user=user,phone_number='0712548256',gender='M',address='Setif, setif')
@@ -33,7 +33,7 @@ try:
 except IntegrityError :
     print(f'failed to create Receptionist')
 try:
-    user = User.objects.create(username="auditor1",password="admin987",first_name='Rami',last_name='Mammari',email="rami.mammari@gmail.com")
+    user = User.objects.create_user(username="auditor1",password="admin987",first_name='Rami',last_name='Mammari',email="rami.mammari@gmail.com")
     group = Group.objects.get(name="auditor")
     group.user_set.add(user)
     Auditor.objects.create(user=user,phone_number='0712548256',gender='M',address='Batna, mahther')

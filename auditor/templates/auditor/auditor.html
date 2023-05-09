@@ -1,83 +1,14 @@
-{% extends 'main_home/base.html' %}
+{% extends 'main_home/actors_base.html' %}
 {% load static %}
     
-{% block css %}
-    
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" href="{% static 'css/auditor.css' %}" />
-    
-{% endblock css %}
 
-{% block header %}{% endblock header %}
-    
-{% block content %}
-    <div class="container">
-        <header>
-        <div class ="Welcome">
-            <h1> Welcome Back</h1>
-            <p>Here is today stats from the laboratroy!</p>
-        </div>
-        <div class="searchBox">
-            <input class="searchInput"type="text" name="" placeholder="Search">
-            <button class="searchButton" href="#">
-                <i class="material-icons">
-                    search
-                </i>
-            </button>
-        </div>
-        <div class="Profile">
-            <span class="material-icons">
-                account_circle
-                </span>
-            <p>Auditor</p>
-            <span class="material-icons">
-                expand_more
-                </span>
-        </div>
-        </header>
-        <div class="Main">
-            <h1>MAIN CONTENT</h1>
-        </div>
-    </div>
-    <section>
-        <div>
-            <h1>@Brave Laboratory</h1>
-        </div>
-        <div class="Upper">
-            <ul>
-                <li><span class="material-icons">layers</span>
-                    Overview
-                </li>
-                <li>
-                    <a>
-                        <span class="material-icons">chat</span>
-                        Messages
-                    </a>
-                </li>
-                <li>
-                    <span class="material-icons">list_alt</span>
-                    Test Results
-                </li>
-                <li>
-                    <span class="material-icons">notes</span>
-                    Generate Report
-                </li>
-                <li class="set">
-                    <span class="material-icons"> settings</span>
-                    Settings
-                </li>
-            </ul>
-        </div>
-        <div class="Downs">
-            <ul>
-                <li>Help</li>
-                <li>Contact us</li>
-                <li>
-                    <span class="material-icons">
-                        logout
-                    </span><a href="{% url 'logout' %}">Logout</a></li>
-                </ul>
-            </div>
-        </section>
-    
-{% endblock content %}
+{% block main %}{% endblock main %}
+
+{% block sidebar %}
+
+    <li><a><span class="material-icons X">layers</span> <span class="nav-item">Home</span></a></li>
+    <li><a><span class="material-icons X">chat</span><span class="nav-item">Messages</span></a></li>
+    <li><a><span class="material-icons X">list_alt</span><span class="nav-item">Test Results</span></a></li>
+    <li><a><span class="material-icons X">list</span><span class="nav-item">Generate Report</span></a></li>
+
+{% endblock sidebar %}

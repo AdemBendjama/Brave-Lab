@@ -1,0 +1,59 @@
+{% extends 'main_home/base.html' %}
+{% load static %}
+    
+{% block css %}
+    
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="{% static 'css/actors.css' %}" />
+    
+{% endblock css %}
+
+{% block header %}{% endblock header %}
+    
+{% block content %}
+
+    <div class="container">
+        <header>
+            <div class="wlc"> 
+                <h1>Welcome Back {{ user.username }} !</h1>
+            </div>
+            <div class="Left">
+                <div class="search">
+                    <input type="text" class="searchTerm" placeholder="Search">
+                        <button type="submit" class="searchButton">
+                        <span class="material-icons">
+                            search
+                        </span>
+                        </button>
+                </div>
+                <ul class="DROPS">
+                    <li><a href="#"><span class="material-icons">notifications</span></a></li>
+                    <li><a href="#"><span class="material-icons">account_circle</span></a>
+                        <ul>
+                        <li><span class="material-icons">person</span>Profile</li>
+                        <li><span class="material-icons">settings</span>Settings</li>
+                        <li><span class="material-icons">help</span>Help</li>
+                        <li><span class="material-icons">call</span>Contact us</li>
+                        
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <div class="Main">
+            {% block main %}{% endblock main %}
+        </div>
+    </div>
+    <nav>
+        <a class="logo" href="{% url 'client' %}">
+            <img alt="brave lab logo" src="{% static 'img/logo.png' %}">
+            <span class="nav-item">Brave Lab</span>
+        </a>
+            <ul>
+                {% block sidebar %}{% endblock sidebar %}
+                <li class="end"><a href='{% url 'logout' %}'><span class="material-icons emoji">logout</span><span class="nav-item">Logout</span></a></li>
+            </ul>
+    </nav>
+    </section>
+
+{% endblock content %}
