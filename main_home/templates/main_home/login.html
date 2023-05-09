@@ -17,6 +17,13 @@
     
 {% endblock css %}
 
+{% block header %}
+    <section class="header">
+        <nav>
+            <a href="{% url 'home' %}"><img alt="Brave Lab Logo" src="{% static 'img/download.png' %}"></a>
+        </nav>
+    {% endblock header %}
+
 
 {% block content %}
 

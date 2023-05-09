@@ -198,3 +198,7 @@ div .password-container .password input {
 }
 
 /************************************/
+/** Center Nav Logo **/
+nav {
+    justify-content: center !important;
+}
