@@ -9,11 +9,39 @@ from client.models import Client
 # Create your views here.
 
 def home(request):
+    # Accessing the home page requires log out
+    user = request.user
+    if user.is_authenticated : 
+        if user.is_superuser :
+            return redirect('/admin/')
+        elif is_client(user) :
+            return redirect('client')
+        elif is_nurse(user) :
+            return redirect('nurse')
+        elif is_receptionist(user) :
+            return redirect('receptionist')
+        elif is_auditor(user) :
+            return redirect('auditor')
+    
     return render(request,'main_home/home.html')
 
 
 def register(request):
+    # Accessing the register page requires log out
+    user = request.user
+    if user.is_authenticated : 
+        if user.is_superuser :
+            return redirect('/admin/')
+        elif is_client(user) :
+            return redirect('client')
+        elif is_nurse(user) :
+            return redirect('nurse')
+        elif is_receptionist(user) :
+            return redirect('receptionist')
+        elif is_auditor(user) :
+            return redirect('auditor')
     
+    # handling of a post request from register page
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -45,7 +73,21 @@ def register(request):
 
 
 def login_view(request):
+    # Accessing the register page requires log out
+    user = request.user
+    if user.is_authenticated : 
+        if user.is_superuser :
+            return redirect('/admin/')
+        elif is_client(user) :
+            return redirect('client')
+        elif is_nurse(user) :
+            return redirect('nurse')
+        elif is_receptionist(user) :
+            return redirect('receptionist')
+        elif is_auditor(user) :
+            return redirect('auditor')
     
+    # handling of a post request from register page
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -58,17 +100,13 @@ def login_view(request):
                 
                 if user.is_superuser :
                     return redirect('/admin/')
-                
-                if is_client(user) :
+                elif is_client(user) :
                     return redirect('client')
-                    
-                if is_nurse(user) :
+                elif is_nurse(user) :
                     return redirect('nurse')
-                
-                if is_receptionist(user) :
+                elif is_receptionist(user) :
                     return redirect('receptionist')
-                
-                if is_auditor(user) :
+                elif is_auditor(user) :
                     return redirect('auditor')
                 
     else:
