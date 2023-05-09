@@ -23,7 +23,7 @@
                 <li><a href="#"><span class="material-icons">notifications</span></a></li>
                 <li><a href="#"><img class="profile-pic" alt="profile_pic" src="{{ user.client.profile_pic.url }}"></img></a>
                     <ul>
-                    <li><span class="material-icons">person</span>Profile</li>
+                    <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <li><span class="material-icons">settings</span>Settings</li>
                     <li><span class="material-icons">help</span>Help</li>
                     <li><span class="material-icons">call</span>Contact us</li>

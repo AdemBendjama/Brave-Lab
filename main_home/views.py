@@ -1,10 +1,13 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
 from .forms import UserRegisterForm
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from client.models import Client
+from .forms import UserUpdateForm, ClientUpdateForm
+
 
 # Create your views here.
 
@@ -114,6 +117,29 @@ def login_view(request):
         
     return render(request, 'main_home/login.html', {'form': form})
 
+
+@login_required
+def profile_update(request):
+    
+    if request.method == 'POST':
+        
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        client_form = ClientUpdateForm(request.POST, request.FILES, instance=request.user.client)
+        
+        if user_form.is_valid() and client_form.is_valid():
+            user_form.save()
+            client_form.save()
+            return redirect('profile_update')
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        client_form = ClientUpdateForm(instance=request.user.client)
+        
+    context={
+        "user_form":user_form,
+        "client_form":client_form,
+    }
+        
+    return render(request, 'client/profile/profile.html', context)
 
 
 

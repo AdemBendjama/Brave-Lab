@@ -8,6 +8,11 @@ a {
     text-decoration: none;
 }
 
+.drop-down{
+    padding: 0 !important;
+}
+
+
 .container {
     background-color: rgb(255, 255, 255);
     text-align: center;

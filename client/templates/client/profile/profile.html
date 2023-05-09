@@ -1,0 +1,17 @@
+{% extends 'client/client.html' %}
+{% load static %}
+
+{% block main %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+            <fieldset>
+                <legend>
+                    {{ user_form.as_p }}
+                    {{ client_form.as_p }}
+                </legend>
+            </fieldset>
+        <button type='submit'>Update</button>
+    </form>
+    
+{% endblock main %}

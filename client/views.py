@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render ,redirect
 from django.contrib.auth.decorators import login_required , permission_required
 
 # Create your views here.
@@ -8,3 +8,4 @@ from django.contrib.auth.decorators import login_required , permission_required
 def client_home(request):
     
     return render(request,'client/client.html')
+
