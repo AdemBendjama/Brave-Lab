@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User, Group
+from PIL import Image
 
 
 phone_regex = RegexValidator(
@@ -18,6 +19,7 @@ class Client(models.Model):
     gender = models.CharField(max_length = 1 ,choices = GENDERS)
     address = models.CharField(max_length=50)
     policy = models.BooleanField(default = False)
+    profile_pic = models.ImageField(default="default.png", upload_to="profile_pics")
     
     
     class Meta():
@@ -25,4 +27,16 @@ class Client(models.Model):
         
     def __str__(self):
         return f'{self.user.username}'
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
+        img_url = self.profile_pic.path
+        img = Image.open(img_url)
+        
+        if img.height > 320 or img.width > 320 :
+            prefered_image_size = (320,320)
+            img.thumbnail(prefered_image_size)
+            img.save(img_url)
+    
     

@@ -12,7 +12,7 @@ try:
     user = User.objects.create_user(username="client1",password="admin987",first_name='Ahmed',last_name='Amoukrane',email="ahmed.amoukrane@gmail.com")
     group = Group.objects.get(name="client")
     group.user_set.add(user)
-    Client.objects.create(user=user,phone_number='0712548256',gender='M',address='Constantine, khroub',policy= True)
+    Client.objects.create(user=user,phone_number='0712548256',gender='M',address='Constantine, khroub',policy=True)
     print(f'Client {user.username} created successfully!')
 except IntegrityError :
     print(f'failed to create Client')
