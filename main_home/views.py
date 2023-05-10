@@ -6,8 +6,7 @@ from .forms import UserRegisterForm
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from client.models import Client
-from .forms import UserUpdateForm, ClientUpdateForm
-
+from .forms import UserUpdateForm, ClientUpdateForm,NurseUpdateForm,ReceptionistUpdateForm,AuditorUpdateForm
 
 # Create your views here.
 
@@ -121,25 +120,48 @@ def login_view(request):
 @login_required
 def profile_update(request):
     
+    user = request.user
+    
     if request.method == 'POST':
         
-        user_form = UserUpdateForm(request.POST, instance=request.user)
-        client_form = ClientUpdateForm(request.POST, request.FILES, instance=request.user.client)
+        user_form = UserUpdateForm(request.POST, instance=user)
         
-        if user_form.is_valid() and client_form.is_valid():
+        if is_client(user) :
+            actor_form = ClientUpdateForm(request.POST, request.FILES, instance=user.client)
+        elif is_nurse(user) :
+            actor_form = NurseUpdateForm(request.POST, request.FILES, instance=user.nurse)
+        elif is_receptionist(user) :
+            actor_form = ReceptionistUpdateForm(request.POST, request.FILES, instance=user.receptionist)
+        elif is_auditor(user) :
+            actor_form = AuditorUpdateForm(request.POST, request.FILES, instance=user.auditor)
+        
+        if user_form.is_valid() and actor_form.is_valid():
             user_form.save()
-            client_form.save()
+            actor_form.save()
             return redirect('profile_update')
+        
     else:
-        user_form = UserUpdateForm(instance=request.user)
-        client_form = ClientUpdateForm(instance=request.user.client)
+        user_form = UserUpdateForm(instance=user)
+        
+        if is_client(user) :
+            actor_form = ClientUpdateForm(instance=user.client)
+        elif is_nurse(user) :
+            actor_form = NurseUpdateForm(instance=user.nurse)
+        elif is_receptionist(user) :
+            actor_form = ReceptionistUpdateForm(instance=user.receptionist)
+        elif is_auditor(user) :
+            actor_form = AuditorUpdateForm(instance=user.auditor)
+
         
     context={
         "user_form":user_form,
-        "client_form":client_form,
+        "actor_form":actor_form,
     }
+    
+    group_name = user.groups.first().name
+    
         
-    return render(request, 'client/profile/profile.html', context)
+    return render(request, f'{group_name}/profile/profile.html', context)
 
 
 

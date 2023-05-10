@@ -3,6 +3,9 @@ from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from client.models import Client
+from nurse.models import Nurse
+from receptionist.models import Receptionist
+from auditor.models import Auditor
 
 phone_regex = RegexValidator(
     regex=r'^0[5-7][0-9]{8}$',
@@ -31,15 +34,35 @@ class UserRegisterForm(UserCreationForm):
                   'gender' , 'address' , 'password1' , 'password2', 'policy']
         
         
-class ClientUpdateForm(forms.ModelForm):
-    
-    class Meta:
-        model = Client
-        fields = ['phone_number', 'address', 'profile_pic']
         
 class UserUpdateForm(forms.ModelForm):
     
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']
+        
+class ClientUpdateForm(forms.ModelForm):
+    
+    class Meta:
+        model = Client
+        fields = ['phone_number', 'address', 'profile_pic']
+        
+class NurseUpdateForm(forms.ModelForm):
+    
+    class Meta:
+        model = Nurse
+        fields = ['phone_number', 'address', 'profile_pic']
+        
+class ReceptionistUpdateForm(forms.ModelForm):
+    
+    class Meta:
+        model = Receptionist
+        fields = ['phone_number', 'address', 'profile_pic']
+
+class AuditorUpdateForm(forms.ModelForm):
+    
+    class Meta:
+        model = Auditor
+        fields = ['phone_number', 'address', 'profile_pic']
+
 

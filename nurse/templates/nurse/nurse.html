@@ -1,39 +1,8 @@
 {% extends 'main_home/actors_base.html' %}
 {% load static %}
-    
 
 {% block main %}{% endblock main %}
-{% block header_actors %}
 
-    <header>
-        <div class="wlc"> 
-            <h1>Welcome Back {{ user.username }} !</h1>
-        </div>
-        <div class="Left">
-            <div class="search">
-                <input type="text" class="searchTerm" placeholder="Search">
-                    <button type="submit" class="searchButton">
-                    <span class="material-icons">
-                        search
-                    </span>
-                    </button>
-            </div>
-            <ul class="DROPS">
-                <li><a href="#"><span class="material-icons">notifications</span></a></li>
-                <li><a href="#"><img class="profile-pic" alt="profile_pic" src="{{ user.nurse.profile_pic.url }}"></img></a>
-                    <ul>
-                    <li><span class="material-icons">person</span>Profile</li>
-                    <li><span class="material-icons">settings</span>Settings</li>
-                    <li><span class="material-icons">help</span>Help</li>
-                    <li><span class="material-icons">call</span>Contact us</li>
-                    
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </header>
-
-{% endblock header_actors %}
 {% block sidebar %}
 
     <li><a><span class="material-icons X">layers</span> <span class="nav-item">Home</span></a></li>
