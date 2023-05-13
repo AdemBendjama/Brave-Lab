@@ -1,14 +1,43 @@
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import (
+    authenticate, login, update_session_auth_hash
+)
+from django.contrib.auth.forms import (
+    AuthenticationForm ,
+    PasswordChangeForm
+)
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render,redirect
-from .forms import UserRegisterForm
-from django.contrib import admin
 from django.contrib.auth.models import Group
+from django.shortcuts import render,redirect
 from client.models import Client
-from .forms import UserUpdateForm, ClientUpdateForm,NurseUpdateForm,ReceptionistUpdateForm,AuditorUpdateForm
+from .forms import (
+   UserRegisterForm, 
+   UserUpdateForm, 
+   ClientUpdateForm,
+   NurseUpdateForm,
+   ReceptionistUpdateForm,
+   AuditorUpdateForm,
+)
+from .utils import is_client, is_nurse, is_receptionist, is_auditor
 
 # Create your views here.
+
+@login_required
+def profile_settings(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('profile_settings')
+    else:
+        form = PasswordChangeForm(request.user)
+        
+    group_name = request.user.groups.first().name
+        
+    return render(request, f'{group_name}/profile/settings.html',{'form':form})
+
 
 def home(request):
     # Accessing the home page requires log out
@@ -163,37 +192,8 @@ def profile_update(request):
         
     return render(request, f'{group_name}/profile/profile.html', context)
 
-@login_required
-def profile_settings(request):
-    
-    user = request.user
-    
-    # if request.method == 'POST':
-        
-    # else :
-        
-        
-    
-    group_name = user.groups.first().name
-    
-        
-    return render(request, f'{group_name}/profile/settings.html')
 
 
 
 
-def is_client(user):
-    client_group = Group.objects.get(name='client')
-    return client_group in user.groups.all()
 
-def is_nurse(user):
-    nurse_group = Group.objects.get(name='nurse')
-    return nurse_group in user.groups.all()
-
-def is_receptionist(user):
-    receptionist_group = Group.objects.get(name='receptionist')
-    return receptionist_group in user.groups.all()
-
-def is_auditor(user):
-    auditor_group = Group.objects.get(name='auditor')
-    return auditor_group in user.groups.all()
