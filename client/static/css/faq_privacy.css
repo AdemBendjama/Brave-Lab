@@ -1,0 +1,38 @@
+*{
+    font-family: 'Poppins', sans-serif;
+    margin:0;
+    padding:0;
+}
+.Container{
+    margin: auto;
+    width:70%;
+    box-shadow: 12px 11px 43px -5px rgba(0,0,0,0.89);
+-webkit-box-shadow: 12px 11px 43px -5px rgba(0,0,0,0.89);
+-moz-box-shadow: 12px 11px 43px -5px rgba(0,0,0,0.89);
+border-radius: 25px;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+}
+.header{
+    text-align: center;
+    color: white;
+    background-color: #267ca6;
+    width:60%;
+    padding:2rem;
+    border-radius: 25px;
+    margin:3rem;
+}
+.Writing{
+    text-align: center;
+    width:90%;
+    padding:10px;
+}
+.Writing p{
+    margin:10px;
+}
+h5{
+    padding:2rem;
+    font-size:2rem;
+}
