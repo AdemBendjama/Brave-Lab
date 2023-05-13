@@ -34,9 +34,9 @@
                     <li><a href="#"><img class="profile-pic" alt="profile_pic" src="{{ user.client.profile_pic.url }}"></img></a>
                     <ul>
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
-                    <li><span class="material-icons">settings</span>Settings</li>
-                    <li><span class="material-icons">help</span>Help</li>
-                    <li><span class="material-icons">call</span>Contact us</li>
+                    <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
+                    <a href="{% url 'profile_help' %}" class="drop-down"><li><span class="material-icons">help</span>Help</li></a>
+                    <a href="{% url 'profile_contact' %}" class="drop-down"><li><span class="material-icons">call</span>Contact us</li></a>
                                         
                     {% elif user.groups.first.name == 'nurse' %}
                     
@@ -44,7 +44,7 @@
                     <li><a href="#"><img class="profile-pic" alt="profile_pic" src="{{ user.nurse.profile_pic.url }}"></img></a>
                     <ul>
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
-                    <li><span class="material-icons">settings</span>Settings</li>
+                    <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
                                         
                     {% elif user.groups.first.name == 'receptionist' %}
                     
@@ -52,7 +52,7 @@
                     <li><a href="#"><img class="profile-pic" alt="profile_pic" src="{{ user.receptionist.profile_pic.url }}"></img></a>
                     <ul>
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
-                    <li><span class="material-icons">settings</span>Settings</li>
+                    <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
                                         
                                     
                     {% elif user.groups.first.name == 'auditor' %}
@@ -61,7 +61,7 @@
                     <li><a href="#"><img class="profile-pic" alt="profile_pic" src="{{ user.auditor.profile_pic.url }}"></img></a>
                     <ul>
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
-                    <li><span class="material-icons">settings</span>Settings</li>
+                    <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
                     
                     {% endif %}
                             </ul>

@@ -1,10 +1,10 @@
 {% extends 'main_home/base.html' %}
 {% load static %}
 
-    
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/home.css' %}" />
     <link rel="stylesheet" href="{% static 'css/login_register.css' %}">
+    
     <style>
         body{
             background-image:url("{% static 'img/signupback.png' %}");
@@ -14,7 +14,6 @@
             height: auto !important;
         }
     </style>
-    
 {% endblock css %}
 
 {% block header %}
@@ -24,13 +23,11 @@
         </nav>
     {% endblock header %}
 
-
 {% block content %}
-
     </section>
 
     <div class="login-Container">
-        <form method = 'POST'>
+        <form method="POST">
             {% csrf_token %}
             
             <div class="email field">
@@ -41,7 +38,7 @@
             {% if form.errors %}
                 <div class="login-errors">
                     {% for error in form.non_field_errors %}
-                        {{error}}
+                        {{ error }}
                     {% endfor %}
                 </div>
             {% endif%}
@@ -51,21 +48,23 @@
                 {{ form.password }}
             </div>
 
-            
             <input class="login-button" type="submit" value="Login">
-            
-
         </form>
+
+        <p>
+            <a href="{% url 'password_reset' %}" class="links">Forgot Password?</a>
+        </p>
+<!--
         <div class="remember-me">
             <input type="Checkbox">
             <label>Remember Me</label>
         </div>
-
-
+-->
         <p class="account-redirect">
-            You Dont have an account?
-            <a href="{% url 'register' %}">Sign Up</a>
+            You Don't have an account?
+            <a href="{% url 'register' %}" class="links small">Sign Up</a>
         </p>
     </div>
-
 {% endblock content %}
+
+

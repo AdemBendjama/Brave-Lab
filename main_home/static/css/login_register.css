@@ -129,12 +129,12 @@ div .password-container .password input {
 .login-button {
     margin-top: 20px;
     font-size: 1.1rem !important;
-    font-weight: bold;
+    font-weight: 600;
     padding: 14px;
     width: 25%;
     color: rgb(0, 0, 0);
-    border: solid 1px #00a1c1;
-    background-color: #00a1c1;
+    border: solid 1px #00c6ee;
+    background-color: #00c6ee;
     transition: 0.2s;
 }
 
@@ -150,6 +150,11 @@ div .password-container .password input {
     font-size: 14px;
     text-align: center;
 }
+
+.password-button {
+    width: auto !important;
+}
+
 
 /************************************/
 
@@ -188,7 +193,7 @@ div .password-container .password input {
 
 /* Redirect to sign up page */
 .account-redirect {
-    font-size: 12px;
+    font-size: 0.9rem;
     display: flex;
     flex-direction: column;
     gap: 0.3em;
@@ -201,4 +206,43 @@ div .password-container .password input {
 /** Center Nav Logo **/
 nav {
     justify-content: center !important;
+}
+    
+/************************************/
+.password-complete-message {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: #333;
+    width: 90%;
+    text-align: center;
+}
+
+/************************************/
+.password-complete-container,
+.password-done-container{
+    width:550px !important;
+}
+.password-complete-message{
+    width:90%;
+}
+
+.password-confirm-error-message{
+    font-size: 1.2rem;
+}
+/************************************/
+.links{
+   font-size: 1.1rem; 
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+    font-weight: 600;
+}
+
+.links:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.links.small{
+    font-size: 0.9rem;
 }

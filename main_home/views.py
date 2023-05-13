@@ -163,6 +163,23 @@ def profile_update(request):
         
     return render(request, f'{group_name}/profile/profile.html', context)
 
+@login_required
+def profile_settings(request):
+    
+    user = request.user
+    
+    # if request.method == 'POST':
+        
+    # else :
+        
+        
+    
+    group_name = user.groups.first().name
+    
+        
+    return render(request, f'{group_name}/profile/settings.html')
+
+
 
 
 def is_client(user):
