@@ -7,6 +7,12 @@ from nurse.models import Nurse
 from receptionist.models import Receptionist
 from auditor.models import Auditor
 
+
+class HomeContactUsForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
+    content = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Message'}))
+
+
 phone_regex = RegexValidator(
     regex=r'^0[5-7][0-9]{8}$',
     message='Please enter a valid phone number starting with 05, 06 or 07 and has 10 digits in total'

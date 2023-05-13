@@ -30,14 +30,16 @@ def client_contact(request):
         if form.is_valid():
             
             content = form.cleaned_data["content"]
+            subject = f'{ request.user.first_name } { request.user.last_name } is Requesting Support';
             
             html = render_to_string('client/profile/contact_email_template.html',{
                 "user":request.user,
                 'content':content
             })
             
-            send_mail("Client Support",content ,EMAIL_HOST_USER,["bravelaboratory2023@gmail.com"],html_message=html)
+            send_mail(subject,content ,EMAIL_HOST_USER,["bravelaboratory2023@gmail.com"],html_message=html)
             return redirect('client')
+        
     else:
         form = ClientContactForm()
         

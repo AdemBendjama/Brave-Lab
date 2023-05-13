@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.shortcuts import render,redirect
+from brave_lab_project.settings import EMAIL_HOST_USER
 from client.models import Client
 from .forms import (
    UserRegisterForm, 
@@ -17,10 +18,15 @@ from .forms import (
    NurseUpdateForm,
    ReceptionistUpdateForm,
    AuditorUpdateForm,
+   HomeContactUsForm,
 )
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
 from .utils import is_client, is_nurse, is_receptionist, is_auditor
 
 # Create your views here.
+
+
 
 @login_required
 def profile_settings(request):
@@ -53,8 +59,33 @@ def home(request):
             return redirect('receptionist')
         elif is_auditor(user) :
             return redirect('auditor')
+        
+    if request.method == 'POST':
+        
+        form = HomeContactUsForm(request.POST)
+        
+        if form.is_valid():
+            
+            email = form.cleaned_data["email"]
+            content = form.cleaned_data["content"]
+            
+            html = render_to_string('main_home/contact_email_template.html',{
+                "email": email,
+                'content':content
+            })
+            
+            send_mail("Internet User Support",content ,EMAIL_HOST_USER,["bravelaboratory2023@gmail.com"],html_message=html)
+            return redirect('home')
+        
+    else:
+        form = HomeContactUsForm()
+        
+    context = {
+        'form':form,
+    }
     
-    return render(request,'main_home/home.html')
+    return render(request,'main_home/home.html',context)
+
 
 
 def register(request):
@@ -101,6 +132,7 @@ def register(request):
         form = UserRegisterForm()
     
     return render(request,'main_home/register.html', {'form':form})
+
 
 
 def login_view(request):
