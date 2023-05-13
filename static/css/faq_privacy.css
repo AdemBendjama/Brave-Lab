@@ -7,15 +7,22 @@
     margin: auto;
     width:70%;
     box-shadow: 12px 11px 43px -5px rgba(0,0,0,0.89);
--webkit-box-shadow: 12px 11px 43px -5px rgba(0,0,0,0.89);
--moz-box-shadow: 12px 11px 43px -5px rgba(0,0,0,0.89);
-border-radius: 25px;
-display: flex;
-align-items: center;
-justify-content: center;
-flex-direction: column;
+    -webkit-box-shadow: 12px 11px 43px -5px rgba(0,0,0,0.89);
+    -moz-box-shadow: 12px 11px 43px -5px rgba(0,0,0,0.89);
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
 }
-.header{
+
+.Container{
+    margin-bottom: 5%; 
+}
+
+
+.header.policy{
     text-align: center;
     color: white;
     background-color: #267ca6;
