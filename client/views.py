@@ -1,7 +1,7 @@
 from django.shortcuts import render ,redirect
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required , permission_required
-
+from django.template.loader import render_to_string
 from brave_lab_project.settings import EMAIL_HOST_USER
 from .forms import ClientContactForm
 
@@ -28,8 +28,15 @@ def client_contact(request):
         form = ClientContactForm(request.POST)
         
         if form.is_valid():
+            
             content = form.cleaned_data["content"]
-            send_mail("hello World",content ,EMAIL_HOST_USER,["bravelaboratory2023@gmail.com"])
+            
+            html = render_to_string('client/profile/contact_email_template.html',{
+                "user":request.user,
+                'content':content
+            })
+            
+            send_mail("Client Support",content ,EMAIL_HOST_USER,["bravelaboratory2023@gmail.com"],html_message=html)
             return redirect('client')
     else:
         form = ClientContactForm()
