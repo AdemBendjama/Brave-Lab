@@ -4,28 +4,34 @@
     padding: 0;
 }
 
-body {
-    background-color: #f3f3f3;
+a {
+    text-decoration: none;
 }
 
+.drop-down {
+    padding: 0 !important;
+}
+
+
 .container {
-    background-color: #f3f3f3;
+    background-color: rgb(255, 255, 255);
     text-align: center;
     float: right;
     width: 100%;
-    height: 90vh;
+    height: 100vh;
+    position: relative;
 }
 
 header {
-    margin: 1rem;
-    margin-left: 8rem;
-    width: 92%;
-    height: 11%;
+    width: 100%;
+    height: 9%;
     background-color: rgb(255, 255, 255);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 25px;
+    box-shadow: 4px 14px 41px -1px rgba(0, 0, 0, 0.86);
+    -webkit-box-shadow: 4px 14px 41px -1px rgba(0, 0, 0, 0.86);
+    -moz-box-shadow: 4px 14px 41px -1px rgba(0, 0, 0, 0.86);
     /* new css */
     position: fixed;
     /* add position fixed */
@@ -37,23 +43,22 @@ header {
     /* set right position to 0 */
     z-index: 1;
     /* set z-index to 1 to make sure it's on top of other elements */
+
 }
 
+/********** Adam Added ***********/
+header h1 {
+    font-weight: 600;
+}
 
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
 
 .wlc {
     margin-left: 300px;
-}
-
-.wlc h1 {
-    font-size: 1.5rem;
-}
-
-.wlc p {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
 }
 
 .Left {
@@ -87,8 +92,21 @@ header {
     list-style: none;
 }
 
+.DROPS li:hover ul {
+    transition: 0.5s;
+    display: block;
+    transition: 0.5s;
+}
+
 .DROPS li span {
     font-size: 40px;
+}
+
+.DROPS li a:hover {
+    color: #267ca6;
+    transition: 0.5s;
+    transform: scale(1.2);
+    cursor: pointer;
 }
 
 .search {
@@ -102,15 +120,15 @@ header {
 }
 
 .DROPS li ul {
-    top: 110px;
-    right: 19px;
+    top: 85px;
+    right: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
     display: none;
     background-color: #267ca6;
-    border-radius: 25px;
+    border-radius: 10px;
     height: auto;
     transition: 0.5s;
 }
@@ -125,20 +143,18 @@ header {
     gap: 5px;
     color: white;
     transition: 0.5s;
-
 }
 
 .DROPS li ul li:hover {
-    color: black;
+    transition: 0.5s;
+    background-color: rgb(255, 255, 255);
     cursor: pointer;
-    background-color: white;
-    transform: scale(0.9);
-    border-radius: 25px;
+    color: black;
 }
 
 .searchTerm {
-    width: 250px;
-    border: 1px solid rgb(0, 0, 0);
+    width: 300px;
+    border: 3px solid gainsboro;
     border-right: none;
     padding: 10px;
     height: 20px;
@@ -148,38 +164,44 @@ header {
 }
 
 .searchButton {
-    background-color: white;
     display: flex;
     align-items: center;
+    background: gainsboro;
     text-align: center;
     color: rgb(0, 0, 0);
     cursor: pointer;
     padding: 4px;
     font-size: 20px;
-    border: solid 1px rgb(0, 0, 0);
+    border: solid 3px gainsboro;
     border-radius: 0px 25px 25px 0px;
 }
 
 nav {
-    margin: 1rem;
-    position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
-    height: 98vh;
     background-color: #267ca6;
     width: 90px;
-    border-radius: 25px;
+    height: 100vh;
     overflow: hidden;
     transition: width 0.2s linear;
     box-shadow: 0 20px 35px rgb(0, 0, 0), 0.1;
+
+    /* new css */
+    position: fixed;
+    /* add position fixed */
+    left: 0;
+    /* set left position to 0 */
+    overflow-y: auto;
+    /* add overflow-y auto to allow the sidebar to scroll if needed */
+    z-index: 1;
+    /* set z-index to 1 to make sure it's on top of other elements */
 
 }
 
 .logo {
     position: absolute;
-    top: 8px;
-    left: 3px;
+    top: -8px;
     text-align: center;
     display: flex;
     transition: all 0.5s ease;
@@ -216,7 +238,7 @@ nav .material-icons {
     width: 70px;
     height: 40px;
     top: 14px;
-    font-size: 28px;
+    font-size: 20px;
     text-align: center;
 }
 
@@ -226,29 +248,30 @@ nav ul {
 
 .nav-item {
     position: relative;
-    top: 5px;
+    top: 12px;
     margin-left: 10px;
 }
 
 nav:hover {
-    width: 300px;
+    width: 280px;
     transition: all 0.5 ease;
 }
 
 nav ul li {
     transition: 0.5s;
-    margin: 3px;
-    width: auto;
 }
 
 .end {
     position: absolute;
     bottom: 10px;
-    width: 80%;
 }
 
 nav ul li a {
     padding: 20px 10px;
+}
+
+nav ul li {
+    transition: .5s;
 }
 
 nav ul li::after {
@@ -264,7 +287,7 @@ nav ul li::after {
 nav ul li:hover {
     cursor: pointer;
     background-color: white;
-    border-radius: 25px;
+    transform: scale(1.1);
 }
 
 nav ul li a:hover {
@@ -273,62 +296,7 @@ nav ul li a:hover {
 
 .Main {
     height: 89%;
-}
-
-/* adam css*/
-header {
-    /* new css */
-    position: fixed;
-    /* add position fixed */
-    top: 0;
-    /* set top position to 0 */
-    left: 0;
-    /* set left position to 0 */
-    right: 0;
-    /* set right position to 0 */
-    z-index: 1;
-    /* set z-index to 1 to make sure it's on top of other elements */
-}
-
-nav {
-    /* new css */
-    position: fixed;
-    /* add position fixed */
-    left: 0;
-    /* set left position to 0 */
-    overflow-y: auto;
-    /* add overflow-y auto to allow the sidebar to scroll if needed */
-    z-index: 1;
-    /* set z-index to 1 to make sure it's on top of other elements */
-
-}
-
-.Main {
     margin-top: 9%;
     /* add margin-top to the content to push it down below the header */
     margin-left: 90px;
-    display: flex;
-    justify-content: center;
-}
-
-.profile-pic {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
-
-header h1 {
-    font-weight: 600;
-}
-
-a {
-    text-decoration: none;
-}
-
-.DROPS li ul a:first-child li {
-    margin-top: -23px;
-}
-
-.DROPS li ul li {
-    margin-bottom: -23px;
 }

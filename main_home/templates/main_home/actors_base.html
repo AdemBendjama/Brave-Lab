@@ -16,7 +16,8 @@
         
         <header>
             <div class="wlc">
-                <h1>Welcome Back {{ user.username }} !</h1>
+                <h1>Welcome Back {{user.username}}</h1>
+                <p>get well soon  <span class="material-icons">diversity_1</span></p>
             </div>
             <div class="Left">
                 <div class="search">
@@ -31,8 +32,8 @@
                     {% if user.groups.first.name == 'client' %}
             
                     <li><a href="#"><span class="material-icons">notifications</span></a></li>
-                    <li><a href="#"><img class="profile-pic" alt="profile_pic" src="{{ user.client.profile_pic.url }}"></img></a>
-                    <ul>
+                    <li><a href="#" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.client.profile_pic.url }}"></img></a>
+                    <ul id="myElement">
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
                     <a href="{% url 'profile_help' %}" class="drop-down"><li><span class="material-icons">help</span>Help</li></a>
@@ -41,16 +42,16 @@
                     {% elif user.groups.first.name == 'nurse' %}
                     
                     <li><a href="#"><span class="material-icons">notifications</span></a></li>
-                    <li><a href="#"><img class="profile-pic" alt="profile_pic" src="{{ user.nurse.profile_pic.url }}"></img></a>
-                    <ul>
+                    <li><a href="#" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.nurse.profile_pic.url }}"></img></a>
+                    <ul id="myElement">
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
                                         
                     {% elif user.groups.first.name == 'receptionist' %}
                     
                     <li><a href="#"><span class="material-icons">notifications</span></a></li>
-                    <li><a href="#"><img class="profile-pic" alt="profile_pic" src="{{ user.receptionist.profile_pic.url }}"></img></a>
-                    <ul>
+                    <li><a href="#" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.receptionist.profile_pic.url }}"></img></a>
+                    <ul id="myElement">
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
                                         
@@ -58,8 +59,8 @@
                     {% elif user.groups.first.name == 'auditor' %}
                     
                     <li><a href="#"><span class="material-icons">notifications</span></a></li>
-                    <li><a href="#"><img class="profile-pic" alt="profile_pic" src="{{ user.auditor.profile_pic.url }}"></img></a>
-                    <ul>
+                    <li><a href="#" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.auditor.profile_pic.url }}"></img></a>
+                    <ul id="myElement">
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
                     
@@ -92,3 +93,16 @@
     </section>
 
 {% endblock content %}
+
+{% block scripts %}
+<script>
+    function showElement() {
+        var element = document.getElementById("myElement");
+        if (element.style.display === "none") {
+            element.style.display = "block";
+        } else {
+            element.style.display = "none";
+        }
+    }
+</script>
+{% endblock scripts %}
