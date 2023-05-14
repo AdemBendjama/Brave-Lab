@@ -1,0 +1,141 @@
+*{
+    font-family: 'Poppins', sans-serif;
+    margin:0;
+    padding:0;
+}
+.Container{
+margin: auto;
+width:70%;
+box-shadow: 12px 11px 43px -5px rgba(0,0,0,0.89);
+-webkit-box-shadow: 12px 11px 43px -5px rgba(0,0,0,0.89);
+-moz-box-shadow: 12px 11px 43px -5px rgba(0,0,0,0.89);
+border-radius: 25px;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+}
+.header{
+    text-align: center;
+    color: white;
+    background-color: #267ca6;
+    width:60%;
+    padding:2rem;
+    border-radius: 25px;
+    margin:3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.material-icons{
+    font-size: 40px;
+}
+form{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.left , .right{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.right{
+    float: right;
+    width:80%;
+    margin:20px
+}
+.left{
+    float: left;
+    height: 600px;
+    width:40%;
+    border-right: 2px solid gainsboro;
+    padding:3rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.left img{
+    width:200px;
+    height:200px;
+    border-radius: 50%;
+}
+.profile{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap:10px;
+    position: relative;
+    top:-60px;
+}
+.label-file {
+    cursor: pointer;
+    color: #00b1ca;
+    font-weight: bold;
+}
+.label-file:hover {
+    color: #25a5c4;
+}
+.input-file {
+    display: none;
+}
+input {
+	appearance: none;
+	border-radius: 0;
+    width:400px;
+    margin:10px
+}
+.input {
+	display: flex;
+	flex-direction: column-reverse;
+	position: relative;
+	padding-top: 1.5rem;
+	margin-top: 1.5rem;
+    width:400px;
+}
+.input-label {
+	color: #000000;
+	transition: .25s ease;
+    margin:1rem;
+    background-color: #267ca6;
+    color:white;
+    padding:5px;
+    padding-inline:15px;
+    border-radius: 25px;
+}
+.input-field {
+	border: 0;
+	background-color: transparent;
+	border-bottom: 2px solid #267ca6; 
+	font-size: 1.125rem;
+	padding: .25rem 0;
+}
+.last{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width:100%
+}
+.btn{
+    padding:15px;
+    padding-inline: 30px;
+    color:#267ca6;
+    background-color: white;
+    font-size: 20px;
+    border: 1px solid black;
+    margin-top:30px;
+    border-radius: 25px;
+    transition: 0.5s;
+}
+.adds{
+    margin:40px;
+}
+.btn:hover{
+    color:white;
+    background-color: #267ca6;
+    transform: scale(1.2);
+    transition: 0.5s;
+}
