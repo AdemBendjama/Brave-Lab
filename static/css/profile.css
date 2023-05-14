@@ -4,18 +4,7 @@
     padding: 0;
 }
 
-.Container {
-    margin: auto;
-    width: 70%;
-    box-shadow: 12px 11px 43px -5px rgba(0, 0, 0, 0.89);
-    -webkit-box-shadow: 12px 11px 43px -5px rgba(0, 0, 0, 0.89);
-    -moz-box-shadow: 12px 11px 43px -5px rgba(0, 0, 0, 0.89);
-    border-radius: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
+
 
 .header {
     text-align: center;
@@ -100,7 +89,7 @@ input {
     appearance: none;
     border-radius: 0;
     width: 400px;
-    margin: 10px
+
 }
 
 .input {
@@ -129,6 +118,13 @@ input {
     border-bottom: 2px solid #267ca6;
     font-size: 1.125rem;
     padding: .25rem 0;
+/*new adam */    
+    margin-bottom: 10px;
+}
+
+/*new adam*/
+.input-field:focus{
+    outline: none;
 }
 
 .last {

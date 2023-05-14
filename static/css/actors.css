@@ -309,12 +309,16 @@ nav {
     margin-left: 90px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    /* padding-top: 4%;
+    padding-bottom: 5%; */
 }
 
 .profile-pic {
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 header h1 {
@@ -331,4 +335,17 @@ a {
 
 .DROPS li ul li {
     margin-bottom: -23px;
+}
+
+.Container {
+    margin: auto;
+    width: 70%;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+/*new adam */
+    background-color: white;
+    /* margin-bottom: 5% ; */
 }
