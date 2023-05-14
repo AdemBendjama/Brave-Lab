@@ -22,6 +22,7 @@
                     <input type="file" name="profile_pic" accept="image/*" id="id_profile_pic" class="input-file"></p>
                 </div>
             </div>
+
             <div class="right">
                 <label for="id_username" class="input-label">Username</label>
                     <input type="text" name="username" value="{{ user_form.username.value }}" maxlength="150" required id="id_username" class="input-field">
@@ -36,57 +37,10 @@
                 <label class="input-label" for="id_address">Address</label>
                     <input type="text" name="address" value="{{ actor_form.address.value }}" maxlength="50" required id="id_address" class="input-field">
                     <button class="btn" type='submit'>Update</button>
-                    <div class="last">
-                        <p class="adds">for more informations<a> contact us </a></p>
-                    </div>
+                    
             </div>            
 
         </form>
     </div>
     
 {% endblock main %}
-
-{% comment %} {% extends 'client/client.html' %}
-{% load static %}
-
-{% block css_2 %}
-    <link rel="stylesheet" href="{% static 'css/form.css' %}" />
-{% endblock css_2 %}
-
-{% block main %}
-    <div class="Container">
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="left">
-                <div class="header">
-                    <h1>Profile</h1>
-                </div>
-                <div class="profile">
-                    {% if user.client.profile_pic %}
-                        <img src="{{ user.client.profile_pic.url }}" />
-                    {% endif %}
-                    {{ actor_form.profile_pic }}
-                    <label for="{{ actor_form.profile_pic.id_for_label }}" class="label-file">Update Profile Picture</label>
-                </div>
-            </div>
-            <div class="right">
-                {{ user_form.username.label_tag }}
-                {{ user_form.username }}
-                {{ user_form.email.label_tag }}
-                {{ user_form.email }}
-                {{ user_form.first_name.label_tag }}
-                {{ user_form.first_name }}
-                {{ user_form.last_name.label_tag }}
-                {{ user_form.last_name }}
-                {{ actor_form.phone_number.label_tag }}
-                {{ actor_form.phone_number }}
-                {{ actor_form.address.label_tag }}
-                {{ actor_form.address }}
-                <button class="btn" type="submit">Update</button>
-                <div class="last">
-                    <p class="adds">for more informations<a> contact us </a></p>
-                </div>
-            </div>
-        </form>
-    </div>
-{% endblock main %} {% endcomment %}

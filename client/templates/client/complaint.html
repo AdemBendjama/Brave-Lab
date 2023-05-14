@@ -1,25 +1,10 @@
 {% extends 'client/client.html' %}
 {% load static %}
 {% block main %}
-<div class="container my-5">
+<div class="Container">
   <h1>Submit a Complaint</h1>
   <form method="POST">
     {% csrf_token %}
-    {% comment %} <div class="form-group">
-      <label for="topic">Topic</label>
-      <select class="form-control" id="topic" name="topic" required>
-        <option value="" selected disabled>Select a topic</option>
-        <option value="Billing">Billing</option>
-        <option value="Customer Service">Customer Service</option>
-        <option value="Facilities">Facilities</option>
-        <option value="Quality of Service">Quality of Service</option>
-        <option value="Other">Other</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="description">Description</label>
-      <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
-    </div> {% endcomment %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>

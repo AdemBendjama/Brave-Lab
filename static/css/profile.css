@@ -19,10 +19,6 @@
     justify-content: center;
 }
 
-.material-icons {
-    font-size: 40px;
-}
-
 form {
     display: flex;
     align-items: center;
@@ -49,10 +45,10 @@ form {
     width: 40%;
     border-right: 2px solid gainsboro;
     padding: 3rem;
+    gap: 6rem;
     display: flex;
-    align-items: center;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
 }
 
 .left img {
@@ -75,6 +71,8 @@ form {
     cursor: pointer;
     color: #00b1ca;
     font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 10%;
 }
 
 .label-file:hover {
@@ -126,13 +124,7 @@ input {
 .input-field:focus{
     outline: none;
 }
-
-.last {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%
-}
+/* */
 
 .btn {
     padding: 15px;
@@ -155,4 +147,16 @@ input {
     background-color: #267ca6;
     transform: scale(1.2);
     transition: 0.5s;
+}
+
+/*new*/
+img {
+    object-fit: cover;
+}
+
+form{
+    margin-bottom: 2%;
+}
+button:hover{
+    cursor: pointer;
 }
