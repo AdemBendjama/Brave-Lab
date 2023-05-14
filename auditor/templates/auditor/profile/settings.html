@@ -1,6 +1,36 @@
-{% extends 'client/client.html' %}
+{% extends 'auditor/auditor.html' %}
 {% load static %}
 
-{% block main %}
+{% block css_2 %}
+    {% comment %} <link rel="stylesheet" href="{% static 'css/settings.css' %}" /> {% endcomment %}
+{% endblock css_2 %}
 
+{% block main %}
+    <div class="Container">
+        <div class="settings-section">
+            <h2>Change Password</h2>
+            <form method="POST" >
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group{% if field.errors %} has-error{% endif %}">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <div class="help-block">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
 {% endblock main %}
