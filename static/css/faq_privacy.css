@@ -5,7 +5,7 @@
 }
 
 .Container {
-    /*margin: auto;*/
+    margin: auto;
     width: 70%;
     border-radius: 25px;
     display: flex;
