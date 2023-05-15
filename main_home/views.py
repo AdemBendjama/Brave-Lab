@@ -119,12 +119,14 @@ def register(request):
             gender = data.get("gender")
             address = data.get("address")
             policy = data.get("policy")
+            date_of_birth = data.get("date_of_birth")
             # add him with any additionel information into the client table
             Client.objects.create(user = user,
                             phone_number = phone_number,
                             gender = gender,
                             address = address,
-                            policy = policy)
+                            policy = policy,
+                            date_of_birth = date_of_birth)
             
             return redirect('login')
             

@@ -17,7 +17,7 @@
             {{ form.username }}
         </div>
         
-        {% if form.errors %}
+        {% if form.username.errors %}
                 <div class="login-errors">
                     {% for error in form.username.errors %}
                         {{ error }} 
@@ -30,7 +30,7 @@
             {{ form.email }}
         </div>
 
-        {% if form.errors %}
+        {% if form.email.errors %}
             <div class="login-errors">
                 {% for error in form.email.errors %}
                     {{ error }} 
@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        {% if form.errors %}
+        {% if form.first_name.errors or form.last_name.errors %}
             <div class="login-errors">
                 {% for error in form.first_name.errors %}
                     {{ error }} 
@@ -65,7 +65,7 @@
             {{ form.phone_number }}
         </div>
 
-        {% if form.errors %}
+        {% if form.phone_number.errors %}
             <div class="login-errors">
                 {% for error in form.phone_number.errors %}
                     {{ error }} 
@@ -78,7 +78,7 @@
             {{ form.gender }}
         </div>
 
-        {% if form.errors %}
+        {% if form.gender.errors %}
             <div class="login-errors">
                 {% for error in form.gender.errors %}
                     {{ error }} 
@@ -91,9 +91,22 @@
             {{ form.address }}
         </div>
 
-        {% if form.errors %}
+        {% if form.address.errors %}
             <div class="login-errors">
                 {% for error in form.address.errors %}
+                    {{ error }} 
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="address field">
+            {{ form.date_of_birth.label_tag }}
+            {{ form.date_of_birth }}
+        </div>
+
+        {% if form.date_of_birth.errors %}
+            <div class="login-errors">
+                {% for error in form.date_of_birth.errors %}
                     {{ error }} 
                 {% endfor %}
             </div>
@@ -111,7 +124,7 @@
             </div>
         </div>
 
-        {% if form.errors %}
+        {% if form.password1.errors or form.password2.errors %}
             <div class="login-errors">
                 {% for error in form.password1.errors %}
                     {{ error }} 

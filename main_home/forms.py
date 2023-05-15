@@ -1,3 +1,4 @@
+from datetime import date
 from django import forms
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
@@ -24,6 +25,7 @@ class UserRegisterForm(UserCreationForm):
     gender = forms.ChoiceField(choices=((None, 'Choose Here :'),('M', 'Male'), ('F', 'Female')))
     address = forms.CharField(max_length=50)
     policy = forms.BooleanField()
+    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     
     phone_number.widget.attrs.update({"placeholder":"+213 0000000000"})
     address.widget.attrs.update({"placeholder":"Setif, El Eulma"})
@@ -37,8 +39,15 @@ class UserRegisterForm(UserCreationForm):
             'last_name': forms.TextInput(attrs={'placeholder': 'Doe'}),
         }
         fields = ['username','email','first_name', 'last_name' , 'phone_number',
-                  'gender' , 'address' , 'password1' , 'password2', 'policy']
+                  'gender' , 'address' , 'date_of_birth', 'password1' , 'password2', 'policy']
         
+    def clean_date_of_birth(self):
+        date_of_birth = self.cleaned_data.get('date_of_birth')
+        today = date.today()
+        age = today.year - date_of_birth.year - ((today.month, today.day) < (date_of_birth.month, date_of_birth.day))
+        if age < 14:
+            raise forms.ValidationError("You must be 14 years old or older to register.")
+        return date_of_birth
         
         
 class UserUpdateForm(forms.ModelForm):
