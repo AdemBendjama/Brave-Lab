@@ -12,6 +12,27 @@ from django.utils import timezone
 
 # Create your models here.
 
+class Complaint(models.Model):
+    TOPIC_CHOICES = [
+        ('Billing', 'Billing'),
+        ('Customer Service', 'Customer Service'),
+        ('Facilities', 'Facilities'),
+        ('Quality of Service', 'Quality of Service'),
+        ('Other', 'Other'),
+    ]
+
+    date = models.DateTimeField(auto_now_add=True)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    topic = models.CharField(max_length=20, choices=TOPIC_CHOICES)
+    description = models.TextField()
+
+    def __str__(self):
+        return f"Complaint #{self.id}"
+
+    class Meta:
+        db_table = 'complaint'
+        
+
 class Laboratory(models.Model):
     name = models.CharField(max_length=45, primary_key=True)
     location = models.CharField(max_length=45)
@@ -85,7 +106,7 @@ class BloodBank(models.Model):
     
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     blood_type = models.CharField(max_length=3, choices=BLOOD_TYPES)
-    submission_date = models.DateTimeField(default = timezone.now)
+    submission_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.client.username} - {self.blood_type}"
@@ -112,8 +133,7 @@ class Appointment(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     receptionist = models.ForeignKey(Receptionist, on_delete=models.CASCADE)
     tests_requested = models.ManyToManyField(Test) 
-    date = models.DateField(default = timezone.now,
-                            validators=[validate_date_not_past],)
+    date = models.DateField(validators=[validate_date_not_past],)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES)
     payment_status = models.BooleanField(default=False)
@@ -137,7 +157,7 @@ class AnalysisRequest(models.Model):
     
     appointment = models.ForeignKey('Appointment', on_delete=models.CASCADE)
     nurse = models.ForeignKey(Nurse, on_delete=models.CASCADE)
-    creation_time = models.DateTimeField(default = timezone.now)
+    creation_time = models.DateTimeField(auto_now_add=True)
     start_time = models.DateTimeField(null=True, blank=True)
     finish_time = models.DateTimeField(null=True, blank=True)
     accepted = models.CharField(max_length=45, null=True, blank=True)
@@ -151,7 +171,7 @@ class AnalysisRequest(models.Model):
     
 class TestResult(models.Model):
     request = models.ForeignKey(AnalysisRequest, on_delete=models.CASCADE)
-    creation_time = models.DateTimeField(default = timezone.now)
+    creation_time = models.DateTimeField(auto_now_add=True)
     tests = models.ManyToManyField(Test)
     blood_sample = models.ForeignKey(BloodBank, on_delete=models.CASCADE)
     duration = models.DurationField(null=True, blank=True)
@@ -165,7 +185,7 @@ class TestResult(models.Model):
         
 class Report(models.Model):
     test_result = models.ForeignKey(TestResult, on_delete=models.CASCADE)
-    date = models.DateTimeField(default = timezone.now)
+    creation_time = models.DateTimeField(auto_now_add=True)
     description = models.CharField(max_length=1000, null=True, blank=True)
     
     class Meta:
@@ -182,7 +202,7 @@ class Invoice(models.Model):
         (ON_RECEIVE, 'On-Receive'),
     ]
     
-    date = models.DateTimeField(default = timezone.now)
+    creation_time = models.DateTimeField(auto_now_add=True)
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES)
