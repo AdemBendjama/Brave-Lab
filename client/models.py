@@ -20,7 +20,8 @@ class Client(models.Model):
     address = models.CharField(max_length=50)
     policy = models.BooleanField(default = False)
     profile_pic = models.ImageField(default="default.png", upload_to="profile_pics")
-    
+    date_of_birth = models.DateField(default='2003-03-08')
+    tests_made = models.PositiveIntegerField(default=0)
     
     class Meta():
         db_table = 'auth_client'

@@ -73,7 +73,8 @@ nav img {
 .textbox p {
     color: rgb(25, 57, 99);
     margin: 10px 0 40px;
-    font-size: 15px;
+    /*edited*/
+    font-size: 1.2rem;
     font-style: italic;
 }
 

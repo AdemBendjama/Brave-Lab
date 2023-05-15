@@ -18,7 +18,7 @@ class Receptionist(models.Model):
     gender = models.CharField(max_length = 1 ,choices = GENDERS)
     address = models.CharField(max_length=50)
     profile_pic = models.ImageField(default="default.png", upload_to="profile_pics")
-    
+    date_of_birth = models.DateField(default='2003-03-08')
     
     class Meta():
         db_table = 'auth_receptionist'
