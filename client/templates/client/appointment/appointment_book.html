@@ -1,8 +1,208 @@
 {% extends 'client/client.html' %}
 {% load static %}
 
-{% block main %}
+{% block css_3 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
 
+    form{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        font-size:22px;
+    }
+
+    button{
+        width:60px;
+        height:60px;
+        font-size:22px;
+    }
+
+
+    {% comment %} Multiple Choice Drop Down {% endcomment %}
+
+    .select-multiple-container{
+        max-width:320px;
+        width:100%;
+        background-color:white;
+        margin:80px auto 30px;
+        border-radius: 8px;
+    }
+
+    .select-btn{
+        display: flex;
+        height: 50px;
+        align-items: center ;
+        justify-content:space-between;
+        padding : 0 16px;
+        cursor: pointer;
+        border-radius: 8px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+
+    .select-btn .btn-text{
+        font-size:17px;
+        font-weight:400;
+        color:#333;
+    }
+
+    .select-btn .arrow-dwn{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        height : 21px;
+        width: 21px;
+        border-radius:50%;
+        font-size:14px;
+        transition:0.3s; 
+    }
+
+    .select-btn.open .arrow-dwn{
+        transform:rotate(-180deg);
+    }
+
+    .list-items {
+        margin-top: 15px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        display:none;
+    }
+
+    .select-btn.open ~ .list-items{
+        display:block;
+    }
+    
+    .list-items .item {
+        display: flex;
+        align-items: center;
+        list-style: none;
+        height:50px;
+        cursor:pointer;
+        transition: 0.3s;
+        padding: 0 15px;
+        border-radius: 8px;
+    }
+    
+    .list-items .item:hover{
+        background-color: #e7edfe;
+    }
+    
+    .item .item-text{
+        font-size: 16px;
+        font-weight: 400 ;
+        color:#333;
+    }
+    
+    .item .checkbox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 16px;
+        width: 16px;
+        border-radius: 4px;
+        margin-right: 12px;
+        border: 1.5px solid #c0c0c0;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .item.checked .checkbox{
+        background-color:#4070f4;     
+        border-color:#4070f4;     
+    }
+    
+    .checkbox .check-icon{
+        color:#fff; 
+        font-size: 11px;
+        transform: scale(0);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .item.checked .check-icon{
+        transform:scale(1.2); 
+    }
+
+    {% comment %} end {% endcomment %}
+
+</style>
+{% endblock css_3 %}
+
+
+{% block main %}
+<div class='Container'>
     <h1>Book Appointment</h1>
 
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="select-multiple-container">
+        <div class="select-btn">
+            <span class="btn-text"> Select Tests</span>
+            <span class="arrow-dwn">
+                <i class="fa-solid fa-chevron-down"></i>
+            </span>
+        </div>
+
+        <ul class="list-items">
+            <li class="item">
+                <span class="checkbox">
+                    <i class="fa-solid fa-check check-icon"></i>
+                </span>
+                <span class="item-text">Blood Count Test</span>
+            </li>
+        </ul>
+
+    </div>
+    
+
+    <label for="date">Choose Date:</label>
+    <input type="date" name="date" id="date">
+
+    <label for="description">Additional Information:</label>
+    <textarea name="description" id="description" rows="4" cols="50"></textarea>
+
+    <div class="file-upload">
+        <input type="file" name="files" id="files" multiple accept="image/*">
+        <label for="files" class="file-upload-label">Upload Images</label>
+    </div>
+
+    <button type="submit">Book</button>
+</form>
+</div>
+
+
+
 {% endblock main %}
+
+
+{% block scripts %}
+
+<script>
+    const selectBtn = document.querySelector(".select-btn"),
+      items = document.querySelectorAll(".item");
+
+      
+    selectBtn.addEventListener("click",() => {
+        selectBtn.classList.toggle("open")
+    })
+
+    
+    items.forEach(item =>{
+        item.addEventListener("click", ()=>{
+            item.classList.toggle("checked");
+
+            let checked = document.querySelectorAll(".checked"),
+                btnText = document.querySelector(".btn-text"); 
+
+            if(checked && checked.length > 0 ){
+                btnText.innerText = ` ${checked.length} Selected` ;
+            }else{
+                btnText.innerText = ` Select Tests` ; 
+            }
+        });
+    })
+</script>
+
+{% endblock scripts %}

@@ -121,7 +121,13 @@ def validate_date_not_past(date):
         # Don't allow more than 50 appointments per day
         raise ValidationError("Sorry, no more appointments available on this day. Max is 50 per day.")
     
+class MedicalDocument(models.Model):
     
+    image = models.ImageField(upload_to='medical_documents/')
+ 
+    class Meta:
+        db_table = 'medical_document'
+           
 class Appointment(models.Model):
     PRE_PAY = 'PP'
     ON_RECEIVE = 'OR'
@@ -145,6 +151,8 @@ class Appointment(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     tests_requested = models.ManyToManyField(Test) 
     date = models.DateField(validators=[validate_date_not_past],)
+    description = models.CharField(max_length=1000)
+    documents = models.ManyToManyField(MedicalDocument)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES)
     payment_status = models.BooleanField(default=False)

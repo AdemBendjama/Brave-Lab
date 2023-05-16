@@ -360,3 +360,15 @@ nav a{
 .end {
     width: 97%;
 }
+
+header{
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.Container{
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+nav{
+    box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+}
