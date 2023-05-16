@@ -42,6 +42,7 @@ class Laboratory(models.Model):
 
     class Meta:
         db_table = 'laboratory'
+        verbose_name_plural = 'Laboratories'
         
     def __str__(self):
         return self.name
@@ -49,13 +50,14 @@ class Laboratory(models.Model):
 class ComponentInformation(models.Model):
     name = models.CharField(max_length=50, unique=True)
     unit = models.CharField(max_length=45, null=True, blank=True)
-    lm_range = models.FloatField(null=True, blank=True)
-    hm_range = models.FloatField(null=True, blank=True)
-    lf_range = models.FloatField(null=True, blank=True)
-    hf_range = models.FloatField(null=True, blank=True)
+    low_male_range = models.FloatField(null=True, blank=True)
+    high_male_range = models.FloatField(null=True, blank=True)
+    low_female_range = models.FloatField(null=True, blank=True)
+    high_female_range = models.FloatField(null=True, blank=True)
     
     class Meta:
             db_table = 'component_info'
+            verbose_name_plural = 'Component Info'
     
     def __str__(self):
         return self.name
@@ -67,6 +69,7 @@ class Component(models.Model):
     class Meta:
         db_table = 'component'
         
+        
     def __str__(self):
         return f'{self.info.name} value:{self.value}'
 
@@ -76,6 +79,7 @@ class TestOffered(models.Model):
 
     class Meta:
         db_table = 'test_offered'
+        verbose_name_plural = 'Offered Tests'
         
     def __str__(self):
         return self.name
@@ -89,6 +93,7 @@ class Test(models.Model):
 
     class Meta:
             db_table = 'test'
+            verbose_name_plural = 'Tests Preformed'
             
     def __str__(self):
         return self.test_offered.name
