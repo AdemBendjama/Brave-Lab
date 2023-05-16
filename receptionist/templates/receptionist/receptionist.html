@@ -1,16 +1,20 @@
 {% extends 'main_home/actors_base.html' %}
 {% load static %}
 
-{% block main %}{% endblock main %}
+{% block main %}
+
+    <h1>Homepage - List of Invoices</h1>
+
+{% endblock main %}
 
 
 {% block sidebar %}
 
     <li><a href={% url 'receptionist' %}><span class="material-icons X">layers</span> <span class="nav-item">Home</span></a></li>
-    <li><a><span class="material-icons X">chat</span><span class="nav-item">Messages</span></a></li>
-    <li><a><span class="material-icons X">list_alt</span><span class="nav-item">Appointment List</span></a></li>
-    <li><a><span class="material-icons X">list</span><span class="nav-item">Complaint list</span></a></li>
-    <li><a><span class="material-icons X">notes</span><span class="nav-item">Create Client</span></a></li>
+    <li><a href={% url 'appointment_list' %}><span class="material-icons X">list_alt</span><span class="nav-item">Appointment List</span></a></li>
+    <li><a href={% url 'complaint_list' %}><span class="material-icons X">list</span><span class="nav-item">Complaint list</span></a></li>
+    <li><a href={% url 'client_add' %}><span class="material-icons X">person_add</span><span class="nav-item">Create Client</span></a></li>
+    <li><a href={% url 'blood_add' %}><span class="material-icons X">opacity</span><span class="nav-item">Add Blood Sample</span></a></li>
 
 {% endblock sidebar %}
 

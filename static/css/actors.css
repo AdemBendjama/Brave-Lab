@@ -353,9 +353,10 @@ a {
     /* margin-bottom: 5% ; */
 }
 
-nav a {
-    margin-bottom: 0.7rem;
+nav a{
+    height: 50px;
 }
+
 .end {
     width: 97%;
 }

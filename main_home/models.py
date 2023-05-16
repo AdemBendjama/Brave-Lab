@@ -83,7 +83,7 @@ class TestOffered(models.Model):
 class Test(models.Model):
     test_offered = models.ForeignKey(TestOffered,on_delete=models.CASCADE)
     components = models.ManyToManyField(Component)
-    positive = models.BooleanField(default=False)
+    value = models.CharField(max_length=100)
     description = models.CharField(max_length=500, null=True, blank=True)
     confirmed = models.BooleanField(default=False)
 

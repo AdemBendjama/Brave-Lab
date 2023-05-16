@@ -1,13 +1,17 @@
 {% extends 'main_home/actors_base.html' %}
 {% load static %}
 
-{% block main %}{% endblock main %}
+{% block main %}
+
+    <h1>Homepage - Arrived Client Lobby</h1>
+
+{% endblock main %}
 
 {% block sidebar %}
 
     <li><a  href={% url 'nurse' %}><span class="material-icons X">layers</span> <span class="nav-item">Home</span></a></li>
-    <li><a><span class="material-icons X">chat</span><span class="nav-item">Messages</span></a></li>
-    <li><a><span class="material-icons X">list_alt</span><span class="nav-item">Requests List</span></a></li>
-    <li><a><span class="material-icons X">list</span><span class="nav-item">Generate Result</span></a></li>
+    <li><a href={% url 'message_chat' %}><span class="material-icons X">chat</span><span class="nav-item">Messages</span></a></li>
+    <li><a href={% url 'request_list' %}><span class="material-icons X">list_alt</span><span class="nav-item">Requests List</span></a></li>
+    {% comment %} <li><a><span class="material-icons X">list</span><span class="nav-item">Generate Result</span></a></li> {% endcomment %}
 
 {% endblock sidebar %}

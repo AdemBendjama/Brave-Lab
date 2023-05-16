@@ -7,12 +7,73 @@ from .forms import ClientContactForm, ComplaintForm
 
 # Create your views here.
 
+################################################################
+
+# Home
 
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def client_home(request):
     
     return render(request,'client/client.html')
+
+################################################################
+
+# Appointment
+
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def appointment_book(request):
+    
+    return render(request,'client/appointment/appointment_book.html')
+
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def appointment_confirm(request):
+    
+    return render(request,'client/appointment/appointment_confirm.html')
+
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def appointment_detail(request):
+    
+    return render(request,'client/appointment/appointment_detail.html')
+
+################################################################
+
+# Request
+
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def request_list(request):
+    
+    return render(request,'client/request/request_list.html')
+
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def request_detail(request):
+    
+    return render(request,'client/request/request_detail.html')
+
+################################################################
+
+# Result
+
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def result_list(request):
+    
+    return render(request,'client/result/result_list.html')
+
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def result_detail(request):
+    
+    return render(request,'client/result/result_detail.html')
+
+################################################################
+
+# Profile
 
 @login_required
 @permission_required('client.view_client', raise_exception=True)
@@ -55,6 +116,9 @@ def client_policy(request):
     
     return render(request,'client/profile/policy.html')
 
+################################################################
+
+# Complaint
 
 @login_required
 @permission_required('client.view_client', raise_exception=True)
@@ -70,7 +134,7 @@ def create_complaint(request):
             topic = form.cleaned_data["topic"]
             subject = f'{ request.user.first_name } { request.user.last_name } Customer Complaint';
             
-            html = render_to_string('client/complaint_email_template.html',{
+            html = render_to_string('client/complaint/complaint_email_template.html',{
                 "user":request.user,
                 "topic":topic,
                 'content':content,
@@ -86,5 +150,5 @@ def create_complaint(request):
     context = {
         'form': form
     }
-    return render(request, 'client/complaint.html', context)
+    return render(request, 'client/complaint/complaint.html', context)
     
