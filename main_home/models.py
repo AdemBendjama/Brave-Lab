@@ -24,7 +24,7 @@ class Complaint(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     topic = models.CharField(max_length=20, choices=TOPIC_CHOICES)
-    description = models.TextField()
+    description = models.CharField(max_length=1000)
 
     def __str__(self):
         return f"Complaint #{self.id}"
@@ -85,6 +85,7 @@ class Test(models.Model):
     components = models.ManyToManyField(Component)
     positive = models.BooleanField(default=False)
     description = models.CharField(max_length=500, null=True, blank=True)
+    confirmed = models.BooleanField(default=False)
 
     class Meta:
             db_table = 'test'
@@ -129,45 +130,88 @@ class Appointment(models.Model):
         (ON_RECEIVE, 'On-Receive'),
     ]
     
+    UPCOMING = 'Upcoming'
+    TOMORROW = 'Tommorow'
+    TODAY = 'Today'
+    OVERDUE = 'Overdue'
+    STATUS_CHOICES = [
+        (UPCOMING, 'Upcoming'),
+        (TOMORROW, 'Tommorow'),
+        (TODAY, 'Today'),
+        (OVERDUE, 'Overdue'),
+    ]
+    
     
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    receptionist = models.ForeignKey(Receptionist, on_delete=models.CASCADE)
     tests_requested = models.ManyToManyField(Test) 
     date = models.DateField(validators=[validate_date_not_past],)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES)
     payment_status = models.BooleanField(default=False)
+    attended = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'appointment'
         
     def __str__(self):
         return f"Appointment #{self.id}"
+    
+    @property
+    def status(self):
+        today = timezone.now().date()
+        
+        if self.date > today:
+            return self.UPCOMING
+        elif self.date == today:
+            return self.TODAY
+        elif self.date == today + timezone.timedelta(days=1):
+            return self.TOMORROW
+        else:
+            return self.OVERDUE
      
 class AnalysisRequest(models.Model):
     PENDING = 'pending'
     WORKING_ON = 'working-on'
     FINISHED = 'finished'
     
-    STATE_CHOICES = [
+    STATUS_CHOICES = [
         (PENDING, 'Pending'),
         (WORKING_ON, 'Working On'),
         (FINISHED, 'Finished'),
     ]
     
-    appointment = models.ForeignKey('Appointment', on_delete=models.CASCADE)
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
     nurse = models.ForeignKey(Nurse, on_delete=models.CASCADE)
     creation_time = models.DateTimeField(auto_now_add=True)
     start_time = models.DateTimeField(null=True, blank=True)
     finish_time = models.DateTimeField(null=True, blank=True)
-    accepted = models.CharField(max_length=45, null=True, blank=True)
-    state =  models.CharField(max_length=45, choices=STATE_CHOICES, default=PENDING)
+    accepted = models.BooleanField(default=False)
+    finished = models.BooleanField(default=False)
+    status =  models.CharField(max_length=45, choices=STATUS_CHOICES, default=PENDING)
+    
+    def duration(self):
+        if self.finish_time:
+            duration = self.finish_time - self.start_time
+        else:
+            duration = timezone.now() - self.start_time
+        return duration
+    
+    def save(self, *args, **kwargs):
+        if self.accepted and not self.start_time:
+            self.start_time = timezone.now()
+            self.status = self.WORKING_ON
+        if self.finished and not self.finish_time:
+            self.finish_time = timezone.now()
+            self.status = self.FINISHED
+        super().save(*args, **kwargs)
     
     class Meta:
         db_table = 'analysis_request'
         
     def __str__(self):
         return f"{self.appointment.client.user.username} - Analysis Requested #{self.id}"
+    
+    
     
 class TestResult(models.Model):
     request = models.ForeignKey(AnalysisRequest, on_delete=models.CASCADE)
@@ -207,7 +251,6 @@ class Invoice(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES)
     payment_status = models.BooleanField(default=False)
-    receptionist = models.ForeignKey(Receptionist, on_delete=models.CASCADE)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     laboratory = models.ForeignKey(Laboratory, on_delete=models.CASCADE)
 
