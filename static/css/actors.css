@@ -373,9 +373,7 @@ nav{
     box-shadow: 0 5px 10px rgba(0,0,0,0.4);
 }
 
-#profile-preview{
-    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-}
-.profile-pic#profile-preview{
+
+.profile-pic{
     box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
