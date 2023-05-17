@@ -32,7 +32,7 @@
                     {% if user.groups.first.name == 'client' %}
             
                     <li><a href="#"><span class="material-icons">notifications</span></a></li>
-                    <li><a onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.client.profile_pic.url }}"></img></a>
+                    <li><a onclick="showElement()"><img class="profile-pic" id="profile-preview" alt="profile_pic" src="{{ user.client.profile_pic.url }}"></img></a>
                     <ul id="myElement">
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
@@ -42,7 +42,7 @@
                     {% elif user.groups.first.name == 'nurse' %}
                     
                     <li><a href="#"><span class="material-icons">notifications</span></a></li>
-                    <li><a onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.nurse.profile_pic.url }}"></img></a>
+                    <li><a onclick="showElement()"><img class="profile-pic" id="profile-preview"  alt="profile_pic" src="{{ user.nurse.profile_pic.url }}"></img></a>
                     <ul id="myElement">
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
@@ -50,7 +50,7 @@
                     {% elif user.groups.first.name == 'receptionist' %}
                     
                     <li><a href="#"><span class="material-icons">notifications</span></a></li>
-                    <li><a onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.receptionist.profile_pic.url }}"></img></a>
+                    <li><a onclick="showElement()"><img class="profile-pic" id="profile-preview" alt="profile_pic" src="{{ user.receptionist.profile_pic.url }}"></img></a>
                     <ul id="myElement">
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
@@ -59,7 +59,7 @@
                     {% elif user.groups.first.name == 'auditor' %}
                     
                     <li><a href="#"><span class="material-icons">notifications</span></a></li>
-                    <li><a onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.auditor.profile_pic.url }}"></img></a>
+                    <li><a onclick="showElement()"><img class="profile-pic" id="profile-preview" alt="profile_pic" src="{{ user.auditor.profile_pic.url }}"></img></a>
                     <ul id="myElement">
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>

@@ -1,8 +1,72 @@
 {% extends 'receptionist/receptionist.html' %}
 {% load static %}
+{% block css_3 %}
+<style>
 
+    .Container{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:1rem;
+        font-size:22px;
+    }
+    form{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:1rem;
+        font-size:22px;
+    }
+
+    form button{
+        width:auto;
+        height:60px;
+        font-size:22px;
+    }
+
+
+</style>
+{% endblock css_3 %}
 {% block main %}
+<div class="Container">
+    <h1>Appointment List</h1>
 
-    <h1>List of Booked Appointments</h1>
+    <h2>Today's Appointments</h2>
+    {% for appointment in appointments_today %}
+        <div>
+            <h3>{{ appointment.client }}</h3>
+            <p>Date: Today</p>
+            <!-- Display other appointment details -->
+            <a href="{% url 'appointment_detail' appointment.id %}">View Details</a>
+        </div>
+    {% empty %}
+        <p>No appointments today.</p>
+    {% endfor %}
 
+    <h2>Tomorrow's Appointments</h2>
+    {% for appointment in appointments_tomorrow %}
+        <div>
+            <h3>{{ appointment.client }}</h3>
+            <p>Date: Tomorrow</p>
+            <!-- Display other appointment details -->
+            <a href="{% url 'appointment_detail' appointment.id %}">View Details</a>
+        </div>
+    {% empty %}
+        <p>No appointments tomorrow.</p>
+    {% endfor %}
+
+    <h2>Upcoming Appointments</h2>
+    {% for appointment in appointments_upcoming %}
+        <div>
+            <h3>{{ appointment.client }}</h3>
+            <p>Date: {{ appointment.date }}</p>
+            <!-- Display other appointment details -->
+            <a href="{% url 'appointment_detail' appointment.id %}">View Details</a>
+        </div>
+    {% empty %}
+        <p>No upcoming appointments.</p>
+    {% endfor %}
+</div>
 {% endblock main %}

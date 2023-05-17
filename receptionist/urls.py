@@ -11,8 +11,10 @@ urlpatterns = [
     path("add/client_add",views.client_add,name="client_add"),
     
     path("appointment/appointment_list",views.appointment_list,name="appointment_list"),
-    path("appointment/appointment_detail",views.appointment_detail,name="appointment_detail"),
+    path("appointment/appointment_detail/<int:appointment_id>/",views.appointment_detail,name="appointment_detail"),
     path("appointment/appointment_confirm",views.appointment_confirm,name="appointment_confirm"),
+    path('appointment/appointment_detail/<int:appointment_id>/mark_arrived', views.mark_arrived, name='mark_arrived'),
+    path('appointment/appointment_detail/<int:appointment_id>/cancel_arrived', views.cancel_arrived, name='cancel_arrived'),
     
     path("complaint/complaint_list",views.complaint_list,name="complaint_list"),
     path("complaint/complaint_detail",views.complaint_detail,name="complaint_detail"),

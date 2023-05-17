@@ -18,67 +18,9 @@
                 </div>
                 <div class="profile">
                     <img id="profile-preview" src="{{ user.client.profile_pic.url }}" alt="Profile Picture">
-                    <label for="id_profile_pic" class="label-file">Update Profile Picture</label>
-                    <input type="file" name="profile_pic" accept="image/*" id="id_profile_pic" class="input-file"></p>
-                </div>
-            </div>
+                    
 
-            <div class="right">
-                
-                <label for="id_username" class="input-label">Username</label>
-                    <input readonly type="text" name="username" value="{{ user_form.username.value }}"  maxlength="150" required id="id_username" class="input-field">
-                
-                <label for="id_email" class="input-label">Email</label>
-                    <input type="email" name="email" value="{{ user_form.email.value }}" maxlength="254" id="id_email" class="input-field">
-                {% if actor_form.email.errors %}
-                    <div class="error">
-                        {% for error in actor_form.email.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
-                <label class="input-label" for="id_first_name">First name</label>
-                    <input type="text" name="first_name" value="{{ user_form.first_name.value }}" maxlength="150" id="id_first_name" class="input-field">
-                {% if actor_form.first_name.errors %}
-                    <div class="error">
-                        {% for error in actor_form.first_name.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                
-                <label  class="input-label" for="id_last_name">Last name</label>
-                    <input type="text" name="last_name" value="{{ user_form.last_name.value }}" maxlength="150" id="id_last_name" class="input-field">
-                {% if actor_form.last_name.errors %}
-                    <div class="error">
-                        {% for error in actor_form.last_name.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
-                <label class="input-label" for="id_phone_number">Phone number</label>
-                    <input type="text" name="phone_number" value="{{ actor_form.phone_number.value }}" maxlength="10" required id="id_phone_number" class="input-field">
-                {% if actor_form.phone_number.errors %}
-                    <div class="error">
-                        {% for error in actor_form.phone_number.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                
-                <label class="input-label" for="id_address">Address</label>
-                <input type="text" name="address" value="{{ actor_form.address.value }}" maxlength="50" required id="id_address" class="input-field">
-                {% if actor_form.address.errors %}
-                    <div class="error">
-                        {% for error in actor_form.address.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                
-                <button class="btn" type='submit'>Update</button>
+                {% include 'main_home/profile_base.html' %}
                     
             </div>            
 
@@ -89,32 +31,6 @@
 
 {% block scripts_2 %}
 
-<script>
+{% include 'main_home/profile_base_scripts.html' %}
 
-    // Get the file input element
-    const fileInput = document.getElementById('id_profile_pic');
-    
-    // Get the profile preview image element
-    const profilePreview = document.getElementById('profile-preview');
-    
-    // Add an event listener for file input change
-    fileInput.addEventListener('change', function() {
-        // Get the selected file
-        const file = fileInput.files[0];
-    
-        // Create a FileReader object
-        const reader = new FileReader();
-    
-        // Define the callback function for when the file is loaded
-        reader.onload = function(e) {
-            // Set the source of the profile preview image to the loaded file data
-            profilePreview.src = e.target.result;
-        };
-    
-        // Read the selected file as a data URL
-        reader.readAsDataURL(file);
-    });
-
-</script>
-    
 {% endblock scripts_2 %}

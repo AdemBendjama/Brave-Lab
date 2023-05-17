@@ -162,7 +162,7 @@ class Appointment(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES,default="OR")
     payment_status = models.BooleanField(default=False)
-    attended = models.BooleanField(default=False)
+    arrived = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'appointment'

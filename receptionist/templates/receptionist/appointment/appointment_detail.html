@@ -1,8 +1,57 @@
 {% extends 'receptionist/receptionist.html' %}
 {% load static %}
+{% block css_3 %}
+<style>
 
+    .Container{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:1rem;
+        font-size:22px;
+    }
+    form{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:1rem;
+        font-size:22px;
+    }
+
+    button{
+        width:auto;
+        height:60px;
+        font-size:22px;
+    }
+
+
+</style>
+{% endblock css_3 %}
 {% block main %}
 
-    <h1>Appointment #ID Details</h1>
-
+<div class="Container">
+    <h1>Appointment Details</h1>
+    
+    <h2>{{ appointment.client }}</h2>
+    <p>Date: {{ appointment.date }}</p>
+    <p>Description: {{ appointment.description }}</p>
+    <p>Status: {{ appointment.status }}</p>
+    <!-- Other appointment details -->
+    
+    {% if not appointment.arrived %}
+        <form action="{% url 'mark_arrived' appointment.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Mark as Arrived</button>
+        </form>
+    {% else %}
+        <p>Client has arrived</p>
+        <form method="POST" action="{% url 'cancel_arrived' appointment.id %}">
+            {% csrf_token %}
+            <button type="submit">Cancel Arrival</button>
+        </form>        
+    {% endif %}
+        
+</div>
 {% endblock main %}
