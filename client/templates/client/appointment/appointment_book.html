@@ -134,10 +134,10 @@
 <div class='Container'>
     <h1>Book Appointment</h1>
 
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" action="appointment_confirm" enctype="multipart/form-data">
     {% csrf_token %}
 
-    <div class="select-multiple-container">
+    {% comment %} <div class="select-multiple-container">
         <div class="select-btn">
             <span class="btn-text"> Select Tests</span>
             <span class="arrow-dwn">
@@ -152,21 +152,25 @@
                 </span>
                 <span class="item-text">Blood Count Test</span>
             </li>
+            <li class="item">
+                <span class="checkbox">
+                    <i class="fa-solid fa-check check-icon"></i>
+                </span>
+                <span class="item-text">Vitamin D Test</span>
+            </li>
+            <li class="item">
+                <span class="checkbox">
+                    <i class="fa-solid fa-check check-icon"></i>
+                </span>
+                <span class="item-text">Ebola Test</span>
+            </li>
         </ul>
 
-    </div>
+    </div> {% endcomment %}
+
+    {{ form.as_div}}
+
     
-
-    <label for="date">Choose Date:</label>
-    <input type="date" name="date" id="date">
-
-    <label for="description">Additional Information:</label>
-    <textarea name="description" id="description" rows="4" cols="50"></textarea>
-
-    <div class="file-upload">
-        <input type="file" name="files" id="files" multiple accept="image/*">
-        <label for="files" class="file-upload-label">Upload Images</label>
-    </div>
 
     <button type="submit">Book</button>
 </form>

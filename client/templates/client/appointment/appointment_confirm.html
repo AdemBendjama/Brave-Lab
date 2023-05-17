@@ -1,8 +1,69 @@
 {% extends 'client/client.html' %}
 {% load static %}
+{% block css_3 %}
+<style>
+
+    form{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:1rem;
+        font-size:22px;
+    }
+
+    button{
+        width:auto;
+        height:60px;
+        font-size:22px;
+    }
+
+
+</style>
+{% endblock css_3 %}
 
 {% block main %}
+<div class='Container'>
+    <h1>Book Appointment</h1>
 
-    <h1>Appointment Confirmation page</h1>
+        <h3>Client</h3>
+        <p>{{data.client.user.first_name}}  {{data.client.user.last_name}}</p>
+        <h3>Date</h3>
+        <p>{{data.date}}</p>
+        <h3>description</h3>
+        <p>{{data.description}}</p>
+        {% for test in data.tests_requested %}
+            <h3>Test {{ forloop.counter }}</h3>
+            <p>{{test.name}}</p>
+        {% endfor %}
+        <h3>Total Price</h3>
+        <p>{{data.total_price}}</p>
+        <h3>Document</h3>
+        <img src="/media/{{data.document}}" width='60' height="60">
 
+        <form method="POST">
+            {% csrf_token %}
+
+            <h2>Choose your Payment Method</h2>
+            <select name="payment_option">
+                <option value="PP">Pre-pay</option>
+                <option value="OR" selected>On-Receive</option>
+            </select>
+
+
+            <input type="hidden" name="data.client" value="{{ data.client.id }}">
+            <input type="hidden" name="data.date" value="{{ data.date }}">
+            <input type="hidden" name="data.description" value="{{ data.description }}">
+            <input type="hidden" name="data.document" value="{{ data.document }}">
+            <input type="hidden" name="data.test_count" value="{{ data.tests_requested.count }}">
+            {% for test in data.tests_requested %}
+                <input type="hidden" name="data.tests_requested{{forloop.counter}}" value="{{ test.id }}">
+            {% endfor %}
+            <input type="hidden" name="data.total_price" value="{{ data.total_price }}">
+
+
+            <button type="submit">Confirm</button>
+        </form>
+
+</div>
 {% endblock main %}

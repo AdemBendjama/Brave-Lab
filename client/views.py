@@ -1,9 +1,13 @@
+from datetime import datetime
+from decimal import Decimal
 from django.shortcuts import render ,redirect
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required , permission_required
 from django.template.loader import render_to_string
 from brave_lab_project.settings import EMAIL_HOST_USER
-from .forms import ClientContactForm, ComplaintForm
+from main_home.models import Appointment, MedicalDocument, TestOffered
+from .forms import  AppointmentForm, AppointmentPaymentForm, ClientContactForm, ComplaintForm
+from django.core.files.storage import default_storage
 
 # Create your views here.
 
@@ -24,14 +28,93 @@ def client_home(request):
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def appointment_book(request):
-    
-    return render(request,'client/appointment/appointment_book.html')
+        
+    form = AppointmentForm()   
+         
+    return render(request,'client/appointment/appointment_book.html',{'form':form})
 
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def appointment_confirm(request):
     
-    return render(request,'client/appointment/appointment_confirm.html')
+    if request.method == 'POST':
+        
+        if request.POST.get("date") :
+            
+            form = AppointmentForm(request.POST,request.FILES)
+            
+            if form.is_valid():
+                
+                date = form.cleaned_data['date']
+                date = date.strftime("%Y-%m-%d")
+                description = form.cleaned_data['description']
+                tests_requested = form.cleaned_data['tests_requested']
+                
+                document_file = request.FILES['document']
+                document = default_storage.save('medical_documents/' + document_file.name, document_file)
+                
+                total_price = 0
+                for test in tests_requested:
+                    total_price+=test.price
+                
+                data = {
+                    'date':date,
+                    'description':description,
+                    'document':document,
+                    'tests_requested':tests_requested,
+                    'total_price':total_price,
+                }
+                
+                print(f'{type(date)} _ {description} _ {tests_requested} _ {total_price} _ {document} ')
+                
+            else:
+                return render(request,'client/appointment/appointment_book.html',{'form':form})
+            
+        elif request.POST.get("payment_option") :
+            
+            form = AppointmentPaymentForm(request.POST)
+            
+            if form.is_valid:
+                client = request.user.client
+                payment_option = request.POST.get('payment_option')
+                
+                tests_requested=[]
+                test_count = int(request.POST.get("data.test_count"))
+                for i in range(1,test_count+1):
+                    test_id = int(request.POST.get(f"data.tests_requested{i}"))
+                    test = TestOffered.objects.get(id=test_id)
+                    tests_requested.append(test)
+                    
+                date = datetime.strptime(request.POST.get("data.date"), "%Y-%m-%d").date()
+                description = request.POST.get('data.description')
+                document = request.POST.get('data.document')
+                total_price = Decimal(request.POST.get('data.total_price'))
+                
+                appointment = Appointment()
+                appointment.client = client
+                appointment.date = date
+                appointment.description = description
+                appointment.document = document
+                appointment.total_price = total_price
+                appointment.payment_option = payment_option
+                appointment.save()
+
+                # Add the tests_requested to the appointment
+                appointment.tests_requested.add(*tests_requested)
+                
+                
+                return redirect('client')
+            else:
+                redirect('client_appointment_book')
+                
+    else:
+        return redirect('client_appointment_book')
+
+    context ={
+        'data':data,
+    }
+
+    return render(request,'client/appointment/appointment_confirm.html',context)
 
 @login_required
 @permission_required('client.view_client', raise_exception=True)

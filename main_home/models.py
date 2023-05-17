@@ -6,6 +6,11 @@ from nurse.models import Nurse
 from receptionist.models import Receptionist
 from django.utils import timezone
 
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+from django.core.files.storage import default_storage
+import os
+
 
 # Get the current time in Algeria timezone
 
@@ -119,7 +124,7 @@ class BloodBank(models.Model):
  
  
 def validate_date_not_past(date):
-    if date < timezone.now:
+    if date < timezone.now().date():
         # dont allow dates from the past
         raise ValidationError('The date cannot be in the past.')
     elif Appointment.objects.filter(date=date).count() >= 50:
@@ -128,7 +133,7 @@ def validate_date_not_past(date):
     
 class MedicalDocument(models.Model):
     
-    image = models.ImageField(upload_to='medical_documents/')
+    image = models.ImageField(upload_to='medical_documents')
  
     class Meta:
         db_table = 'medical_document'
@@ -154,12 +159,12 @@ class Appointment(models.Model):
     
     
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    tests_requested = models.ManyToManyField(Test) 
-    date = models.DateField(validators=[validate_date_not_past],)
-    description = models.CharField(max_length=1000)
-    documents = models.ManyToManyField(MedicalDocument)
+    tests_requested = models.ManyToManyField(TestOffered) 
+    date = models.DateField(validators=[validate_date_not_past])
+    description = models.CharField(max_length=1000,blank=True)
+    document = models.ImageField(null=True,upload_to='medical_documents')
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES)
+    payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES,default="OR")
     payment_status = models.BooleanField(default=False)
     attended = models.BooleanField(default=False)
 
@@ -272,3 +277,39 @@ class Invoice(models.Model):
         
     def __str__(self):
         return f"Invoice #{self.id}"
+
+
+
+
+
+
+def get_all_document_paths():
+    # Retrieve all document paths from the Appointment table
+    all_documents = Appointment.objects.exclude(document='').values_list('document', flat=True)
+    return set(all_documents)
+
+
+def delete_unused_images():
+    # Get all document paths from the database
+    all_documents = get_all_document_paths()
+
+    # Get the path of the directory where the images are stored
+    image_directory = 'medical_documents/'
+
+    # Get a list of all files in the image directory
+    all_files = default_storage.listdir(image_directory)[1]
+
+    # Loop through each file in the directory
+    for file_name in all_files:
+        file_path = os.path.join(image_directory, file_name)
+
+        # Check if the file path does not exist in the database documents
+        if file_path not in all_documents:
+            # Delete the file
+            default_storage.delete(file_path)
+
+
+@receiver(post_save, sender=Appointment)
+@receiver(post_delete, sender=Appointment)
+def handle_appointment_change(sender, instance, **kwargs):
+    delete_unused_images()
