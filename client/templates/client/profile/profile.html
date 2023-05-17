@@ -3,7 +3,12 @@
 
 {% block css_2 %}
     <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+
 {% endblock css_2 %}
+
+{% block css_3 %}
+
+{% endblock css_3 %}
 
 {% block main %}
 
@@ -20,7 +25,7 @@
                     <img id="profile-preview" src="{{ user.client.profile_pic.url }}" alt="Profile Picture">
                     
 
-                {% include 'main_home/profile_base.html' %}
+                    {% include 'main_home/profile_base.html' %}
                     
             </div>            
 

@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required , permission_required
 from django.template.loader import render_to_string
 from brave_lab_project.settings import EMAIL_HOST_USER
-from main_home.models import Appointment, MedicalDocument, TestOffered
+from main_home.models import Appointment, Complaint, MedicalDocument, TestOffered
 from .forms import  AppointmentForm, AppointmentPaymentForm, ClientContactForm, ComplaintForm
 from django.core.files.storage import default_storage
 from django.utils import timezone
@@ -258,6 +258,9 @@ def create_complaint(request):
                 "topic":topic,
                 'content':content,
             })
+            
+            complaint = Complaint(client = request.user.client , description = content , topic = topic)
+            complaint.save()
             
             send_mail(subject,content ,EMAIL_HOST_USER,["bravelaboratory2023@gmail.com"],html_message=html)
             

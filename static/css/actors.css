@@ -346,11 +346,12 @@ a {
     border-radius: 25px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
     flex-direction: column;
     /*new adam */
     background-color: white;
     /* margin-bottom: 5% ; */
+    padding: 2rem;
 }
 
 nav a{

@@ -22,8 +22,8 @@ class Complaint(models.Model):
         ('Other', 'Other'),
     ]
 
-    date = models.DateTimeField(auto_now_add=True)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
     topic = models.CharField(max_length=20, choices=TOPIC_CHOICES)
     description = models.CharField(max_length=1000)
 

@@ -1,12 +1,16 @@
 from django import forms
 
-from main_home.models import Appointment, MedicalDocument 
+from main_home.models import Appointment, Complaint, MedicalDocument 
 
 TOPIC_CHOICES = [ ('Billing', 'Billing'),    ('Customer Service', 'Customer Service'),    ('Facilities', 'Facilities'),    ('Quality of Service', 'Quality of Service'),    ('Other', 'Other'),]
 
-class ComplaintForm(forms.Form):
-    topic = forms.ChoiceField(choices=TOPIC_CHOICES, required=True)
-    description = forms.CharField(widget=forms.Textarea(),required=True)
+class ComplaintForm(forms.ModelForm):
+    topic = forms.ChoiceField(choices=TOPIC_CHOICES)
+    description = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}))
+    
+    class Meta:
+        model = Complaint
+        fields = ['topic','description']
 
 class AppointmentForm(forms.ModelForm):
     

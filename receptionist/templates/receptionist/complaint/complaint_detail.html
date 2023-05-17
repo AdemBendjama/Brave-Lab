@@ -2,7 +2,15 @@
 {% load static %}
 
 {% block main %}
+<div class="Container">
+    <h1>Complaint Detail</h1>
 
-    <h1>Customer Complaint #ID Details</h1>
-
+    <h2>{{ complaint }}</h2>
+    <p>Email : {{ complaint.client.user.email }}</p>
+    <p>Date : {{ complaint.date }}</p>
+    <p>Client : {{ complaint.client.user.first_name }}{{ complaint.client.user.last_name }}</p>
+    <p>Topic : {{ complaint.topic }}</p>
+    <p>Description : {{ complaint.description }}</p>
+    <!-- Display other complaint details -->
+</div>
 {% endblock main %}

@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render , redirect
 from django.contrib.auth.decorators import login_required,permission_required
 from django.views.decorators.http import require_POST
 
-from main_home.models import Appointment
+from main_home.models import Appointment, Complaint
 
 # Create your views here.
 
@@ -108,13 +108,20 @@ def appointment_confirm(request):
 @login_required
 @permission_required('receptionist.view_receptionist', raise_exception=True)
 def complaint_list(request):
+    complaints = Complaint.objects.all()
+    context = {
+        'complaints': complaints
+    }
     
-    return render(request,'receptionist/complaint/complaint_list.html')
+    return render(request,'receptionist/complaint/complaint_list.html',context)
 
 @login_required
 @permission_required('receptionist.view_receptionist', raise_exception=True)
-def complaint_detail(request):
-    
-    return render(request,'receptionist/complaint/complaint_detail.html')
+def complaint_detail(request,complaint_id):
+    complaint = get_object_or_404(Complaint, id=complaint_id)
+    context = {
+        'complaint': complaint
+    }
+    return render(request,'receptionist/complaint/complaint_detail.html',context)
 
 ################################################################

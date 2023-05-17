@@ -2,7 +2,17 @@
 {% load static %}
 
 {% block main %}
+<div class="Container">
+    <h1>Complaint List</h1>
 
-    <h1>List of Customer Complaints</h1>
-
+    {% if complaints %}
+        <ul>
+            {% for complaint in complaints %}
+                <li><a href="{% url 'complaint_detail' complaint.id %}">{{ complaint }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No complaints found.</p>
+    {% endif %}
+</div>
 {% endblock main %}
