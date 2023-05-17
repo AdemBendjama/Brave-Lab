@@ -31,6 +31,7 @@
     <h3>Payment Option: {{ appointment.get_payment_option_display }}</h3>
     <p>Payment Status: {{ appointment.payment_status }}</p>
 
+    <h3>Status</h3>
     {% if appointment.cancelled %}
         <p>Appointment Has Been Cancelled</p>
     {% elif time_difference >= 3 %}
@@ -39,7 +40,7 @@
             <button type="submit">Cancel Appointment</button>
         </form>
     {% else %}
-        <p>Cannot cancel appointment. Less than 3 days remaining</p>
+        <p>Appointment cannot be cancelled, need to canceled 3 days prior</p>
     {% endif %}
 
 </div>

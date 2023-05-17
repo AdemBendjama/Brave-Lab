@@ -1,48 +1,58 @@
 {% extends 'receptionist/receptionist.html' %}
 {% load static %}
 {% block css_3 %}
-
     {% include 'main_home/page_css_dev.html' %}
-
 {% endblock css_3 %}
 {% block main %}
 <div class="Container">
     <h1>Appointment List</h1>
 
     <h2>Today's Appointments</h2>
-    {% for appointment in appointments_today %}
-        <div>
-            <h3>{{ appointment.client }}</h3>
-            <p>Date: Today</p>
-            <!-- Display other appointment details -->
-            <a href="{% url 'appointment_detail' appointment.id %}">View Details</a>
-        </div>
-    {% empty %}
+    {% if appointments_today %}
+        <ul>
+            {% for appointment in appointments_today %}
+                <li>
+                    <h3>{{ appointment.client.user.first_name  }} {{appointment.client.user.last_name}}</h3>
+                    <p>Date: Today</p>
+                    <!-- Display other appointment details -->
+                    <a href="{% url 'appointment_detail' appointment.id %}">View Details</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
         <p>No appointments today.</p>
-    {% endfor %}
+    {% endif %}
 
     <h2>Tomorrow's Appointments</h2>
-    {% for appointment in appointments_tomorrow %}
-        <div>
-            <h3>{{ appointment.client }}</h3>
-            <p>Date: Tomorrow</p>
-            <!-- Display other appointment details -->
-            <a href="{% url 'appointment_detail' appointment.id %}">View Details</a>
-        </div>
-    {% empty %}
+    {% if appointments_tomorrow %}
+        <ul>
+            {% for appointment in appointments_tomorrow %}
+                <li>
+                    <h3>{{ appointment.client.user.first_name  }} {{appointment.client.user.last_name}}</h3>
+                    <p>Date: Tomorrow</p>
+                    <!-- Display other appointment details -->
+                    <a href="{% url 'appointment_detail' appointment.id %}">View Details</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
         <p>No appointments tomorrow.</p>
-    {% endfor %}
+    {% endif %}
 
     <h2>Upcoming Appointments</h2>
-    {% for appointment in appointments_upcoming %}
-        <div>
-            <h3>{{ appointment.client }}</h3>
-            <p>Date: {{ appointment.date }}</p>
-            <!-- Display other appointment details -->
-            <a href="{% url 'appointment_detail' appointment.id %}">View Details</a>
-        </div>
-    {% empty %}
+    {% if appointments_upcoming %}
+        <ul>
+            {% for appointment in appointments_upcoming %}
+                <li>
+                    <h3>{{ appointment.client.user.first_name  }} {{appointment.client.user.last_name}}</h3>
+                    <p>Date: {{ appointment.date }}</p>
+                    <!-- Display other appointment details -->
+                    <a href="{% url 'appointment_detail' appointment.id %}">View Details</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
         <p>No upcoming appointments.</p>
-    {% endfor %}
+    {% endif %}
 </div>
 {% endblock main %}

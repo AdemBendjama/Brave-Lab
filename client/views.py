@@ -21,7 +21,7 @@ from django.contrib import messages
 @permission_required('client.view_client', raise_exception=True)
 def client_home(request):
     # Retrieve the list of booked appointments for the current client
-    appointments = Appointment.objects.filter(client=request.user.client)
+    appointments = Appointment.objects.filter(client=request.user.client).order_by('date')
     canceled_appointments = appointments.filter(cancelled=True)
     active_appointments = appointments.exclude(cancelled=True)
     
