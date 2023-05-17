@@ -52,7 +52,7 @@ def appointment_confirm(request):
                 
                 document_file = request.FILES['document']
                 document = default_storage.save('medical_documents/' + document_file.name, document_file)
-                
+                1
                 total_price = 0
                 for test in tests_requested:
                     total_price+=test.price

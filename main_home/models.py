@@ -6,10 +6,6 @@ from nurse.models import Nurse
 from receptionist.models import Receptionist
 from django.utils import timezone
 
-from django.db.models.signals import post_save, post_delete
-from django.dispatch import receiver
-from django.core.files.storage import default_storage
-import os
 
 
 # Get the current time in Algeria timezone
@@ -280,36 +276,3 @@ class Invoice(models.Model):
 
 
 
-
-
-
-def get_all_document_paths():
-    # Retrieve all document paths from the Appointment table
-    all_documents = Appointment.objects.exclude(document='').values_list('document', flat=True)
-    return set(all_documents)
-
-
-def delete_unused_images():
-    # Get all document paths from the database
-    all_documents = get_all_document_paths()
-
-    # Get the path of the directory where the images are stored
-    image_directory = 'medical_documents/'
-
-    # Get a list of all files in the image directory
-    all_files = default_storage.listdir(image_directory)[1]
-
-    # Loop through each file in the directory
-    for file_name in all_files:
-        file_path = os.path.join(image_directory, file_name)
-
-        # Check if the file path does not exist in the database documents
-        if file_path not in all_documents:
-            # Delete the file
-            default_storage.delete(file_path)
-
-
-@receiver(post_save, sender=Appointment)
-@receiver(post_delete, sender=Appointment)
-def handle_appointment_change(sender, instance, **kwargs):
-    delete_unused_images()
