@@ -1,38 +1,18 @@
 {% extends 'client/client.html' %}
 {% load static %}
 
-{% block css_3 %}
-<style>
-
-    .Container{
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        justify-content:center;
-        gap:1rem;
-        font-size:22px;
-    }
-    form{
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        justify-content:center;
-        gap:1rem;
-        font-size:22px;
-    }
-
-    form button{
-        width:auto;
-        height:60px;
-        font-size:22px;
-    }
-
-
-</style>
-{% endblock css_3 %}
 {% block main %}
 <div class="Container">
     <h1>Appointment Details</h1>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
 
     <h3>Client: {{ appointment.client.user.first_name }} {{ appointment.client.user.last_name }}</h3>
     <p>Date: {{ appointment.date }}</p>
@@ -50,7 +30,18 @@
 
     <h3>Payment Option: {{ appointment.get_payment_option_display }}</h3>
     <p>Payment Status: {{ appointment.payment_status }}</p>
-    <p>Attended: {{ appointment.attended }}</p>
+
+    {% if appointment.cancelled %}
+        <p>Appointment Has Been Cancelled</p>
+    {% elif time_difference >= 3 %}
+        <form action="{% url 'client_cancel_appointment' appointment.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Cancel Appointment</button>
+        </form>
+    {% else %}
+        <p>Cannot cancel appointment. Less than 3 days remaining</p>
+    {% endif %}
+
 </div>
 
 {% endblock main %}

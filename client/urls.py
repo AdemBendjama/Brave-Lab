@@ -13,6 +13,7 @@ urlpatterns = [
     path("appointment/appointment_book",views.appointment_book,name="client_appointment_book"),
     path("appointment/appointment_confirm",views.appointment_confirm,name="client_appointment_confirm"),
     path("appointment/appointment_detail/<int:appointment_id>",views.appointment_detail,name="client_appointment_detail"),
+    path("appointment/appointment_detail/<int:appointment_id>/cancel_appointment",views.cancel_appointment,name="client_cancel_appointment"),
     
     path("request/request_list",views.request_list,name="client_request_list"),
     path("request/request_detail",views.request_detail,name="client_request_detail"),

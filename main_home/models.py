@@ -163,6 +163,7 @@ class Appointment(models.Model):
     payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES,default="OR")
     payment_status = models.BooleanField(default=False)
     arrived = models.BooleanField(default=False)
+    cancelled = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'appointment'

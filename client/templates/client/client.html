@@ -1,21 +1,46 @@
 {% extends 'main_home/actors_base.html' %}
 {% load static %}
-    
+
+{% block css_3 %}
+
+{% include 'main_home/page_css_dev.html' %}
+
+{% endblock css_3 %}
 
 {% block main %}
 
     <div class="Container">
-        <h1>Homepage - list of current Booked Appointments</h1>
-        {% for appointment in appointments %}
-            <div class="appointment-item">
-                <h2>{{ appointment.client.user.first_name }} {{ appointment.client.user.last_name }} - {{ appointment.date }}</h2>
-                <p>Description: {{ appointment.description }}</p>
-                <!-- Add other details you want to display -->
-                <a href="{% url 'client_appointment_detail' appointment.id %}">View Details</a>
-            </div>
-        {% empty %}
-            <p>No appointments found.</p>
-        {% endfor %}
+        <h2>Active Appointments</h2>
+{% if active_appointments %}
+  <ul>
+    {% for appointment in active_appointments %}
+      <li>
+        <strong>Appointment ID:</strong> {{ appointment.id }}<br>
+        <strong>Date:</strong> {{ appointment.date }}<br>
+        <!-- Add any other relevant appointment information -->
+        <a href="{% url 'client_appointment_detail' appointment.id %}">View Details</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No active appointments available.</p>
+{% endif %}
+
+<h2>Canceled Appointments</h2>
+{% if canceled_appointments %}
+  <ul>
+    {% for appointment in canceled_appointments %}
+      <li>
+        <strong>Appointment ID:</strong> {{ appointment.id }}<br>
+        <strong>Date:</strong> {{ appointment.date }}<br>
+        <!-- Add any other relevant appointment information -->
+        <a href="{% url 'client_appointment_detail' appointment.id %}">View Details</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No canceled appointments available.</p>
+{% endif %}
     </div>
 
 {% endblock main %}

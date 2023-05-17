@@ -47,7 +47,7 @@ def client_add(request):
 @permission_required('receptionist.view_receptionist', raise_exception=True)
 def appointment_list(request):
     
-    appointments = Appointment.objects.all()
+    appointments = Appointment.objects.exclude(cancelled=True)
     appointments_today = []
     appointments_tomorrow = []
     appointments_upcoming = []

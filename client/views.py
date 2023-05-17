@@ -8,7 +8,9 @@ from brave_lab_project.settings import EMAIL_HOST_USER
 from main_home.models import Appointment, MedicalDocument, TestOffered
 from .forms import  AppointmentForm, AppointmentPaymentForm, ClientContactForm, ComplaintForm
 from django.core.files.storage import default_storage
-
+from django.utils import timezone
+from datetime import timedelta
+from django.contrib import messages
 # Create your views here.
 
 ################################################################
@@ -20,9 +22,12 @@ from django.core.files.storage import default_storage
 def client_home(request):
     # Retrieve the list of booked appointments for the current client
     appointments = Appointment.objects.filter(client=request.user.client)
-
+    canceled_appointments = appointments.filter(cancelled=True)
+    active_appointments = appointments.exclude(cancelled=True)
+    
     context = {
-        'appointments': appointments
+        'active_appointments': active_appointments,
+        'canceled_appointments': canceled_appointments,
     }
     return render(request,'client/client.html',context)
 
@@ -126,12 +131,32 @@ def appointment_confirm(request):
 def appointment_detail(request, appointment_id):
     # Retrieve the appointment based on the provided ID
     appointment = get_object_or_404(Appointment, id=appointment_id)
-
+    time_difference = appointment.date - timezone.now().date()
     context = {
-        'appointment': appointment
+        'appointment': appointment,
+        'time_difference': time_difference.days,
     }
     
     return render(request,'client/appointment/appointment_detail.html',context)
+
+
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def cancel_appointment(request, appointment_id):
+    if request.method == 'POST':
+        appointment = get_object_or_404(Appointment, id=appointment_id)
+        time_difference = appointment.date - timezone.now().date()
+        if time_difference >= timedelta(days=3):
+            # Cancel appointment logic here
+            appointment.cancelled = True
+            appointment.save()
+            messages.success(request, "Appointment successfully cancelled.")
+        else:
+            messages.error(request, "Cannot cancel appointment. Less than 3 days remaining.")
+    else:
+        messages.error(request, "Invalid request.")
+    
+    return redirect('client_appointment_detail', appointment_id=appointment_id)
 
 ################################################################
 
