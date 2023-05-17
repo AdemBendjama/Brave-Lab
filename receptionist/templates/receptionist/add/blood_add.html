@@ -2,7 +2,14 @@
 {% load static %}
 
 {% block main %}
+<div class="Container">
+    <h1>Add Blood Type</h1>
 
-    <h1>Add Blood Sample of Client</h1>
-
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button type="submit" name="add">Add</button>
+        <button type="submit" name="update">Update</button>
+    </form>
+</div>
 {% endblock main %}

@@ -4,6 +4,7 @@ from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from client.models import Client
+from main_home.models import BloodBank
 from nurse.models import Nurse
 from receptionist.models import Receptionist
 from auditor.models import Auditor
@@ -18,10 +19,23 @@ phone_regex = RegexValidator(
     regex=r'^0[5-7][0-9]{8}$',
     message='Please enter a valid phone number starting with 05, 06 or 07 and has 10 digits in total'
 )
+
+class BloodTypeForm(forms.ModelForm):
+    client = forms.ModelChoiceField(queryset=Client.objects.all(), widget=forms.Select)
+    blood_type = forms.ChoiceField(choices=BloodBank.BLOOD_TYPES, widget=forms.Select)
+
+    class Meta:
+        model = BloodBank
+        fields = ['client', 'blood_type']
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['client'].empty_label = None
+        self.fields['client'].initial = Client.objects.first()
                              
 class UserRegisterForm(UserCreationForm):
     
-    phone_number = forms.CharField(validators=[phone_regex])
+    phone_number = forms.CharField(max_length=10,validators=[phone_regex])
     gender = forms.ChoiceField(choices=((None, 'Choose Here :'),('M', 'Male'), ('F', 'Female')))
     address = forms.CharField(max_length=50)
     policy = forms.BooleanField()

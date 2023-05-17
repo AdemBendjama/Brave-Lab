@@ -2,7 +2,13 @@
 {% load static %}
 
 {% block main %}
+<div class="Container">
+    <h1>Create Client</h1>
 
-    <h1>Client Creation Page</h1>
-
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button type="submit">Create</button>
+    </form>
+</div>
 {% endblock main %}

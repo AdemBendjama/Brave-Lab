@@ -111,12 +111,12 @@ class BloodBank(models.Model):
         ('O-', 'O-')
     ]
     
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    client = models.OneToOneField(Client, on_delete=models.CASCADE)
     blood_type = models.CharField(max_length=3, choices=BLOOD_TYPES)
-    submission_date = models.DateTimeField(auto_now_add=True)
+    submission_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.client.username} - {self.blood_type}"
+        return f"{self.client.user.username} - {self.blood_type}"
  
  
 def validate_date_not_past(date):
