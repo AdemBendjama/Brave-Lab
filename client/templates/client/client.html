@@ -4,7 +4,19 @@
 
 {% block main %}
 
-    <h1>Homepage - list of current Booked Appointments</h1>
+    <div class="Container">
+        <h1>Homepage - list of current Booked Appointments</h1>
+        {% for appointment in appointments %}
+            <div class="appointment-item">
+                <h2>{{ appointment.client.user.first_name }} {{ appointment.client.user.last_name }} - {{ appointment.date }}</h2>
+                <p>Description: {{ appointment.description }}</p>
+                <!-- Add other details you want to display -->
+                <a href="{% url 'client_appointment_detail' appointment.id %}">View Details</a>
+            </div>
+        {% empty %}
+            <p>No appointments found.</p>
+        {% endfor %}
+    </div>
 
 {% endblock main %}
 

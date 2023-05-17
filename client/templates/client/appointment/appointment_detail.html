@@ -2,7 +2,26 @@
 {% load static %}
 
 {% block main %}
+<div class="Container">
+    <h1>Appointment Details</h1>
 
-    <h1>Appointment details page</h1>
+    <h3>Client: {{ appointment.client.user.first_name }} {{ appointment.client.user.last_name }}</h3>
+    <p>Date: {{ appointment.date }}</p>
+    <p>Description: {{ appointment.description }}</p>
+    <p>Total Price: {{ appointment.total_price }}</p>
+
+    <h3>Tests Requested:</h3>
+    <ul>
+        {% for test in appointment.tests_requested.all %}
+            <li>{{ test.name }}</li>
+        {% empty %}
+            <li>No tests requested.</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Payment Option: {{ appointment.get_payment_option_display }}</h3>
+    <p>Payment Status: {{ appointment.payment_status }}</p>
+    <p>Attended: {{ appointment.attended }}</p>
+</div>
 
 {% endblock main %}

@@ -1,6 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-from django.shortcuts import render ,redirect
+from django.shortcuts import get_object_or_404, render ,redirect
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required , permission_required
 from django.template.loader import render_to_string
@@ -18,8 +18,13 @@ from django.core.files.storage import default_storage
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def client_home(request):
-    
-    return render(request,'client/client.html')
+    # Retrieve the list of booked appointments for the current client
+    appointments = Appointment.objects.filter(client=request.user.client)
+
+    context = {
+        'appointments': appointments
+    }
+    return render(request,'client/client.html',context)
 
 ################################################################
 
@@ -118,9 +123,15 @@ def appointment_confirm(request):
 
 @login_required
 @permission_required('client.view_client', raise_exception=True)
-def appointment_detail(request):
+def appointment_detail(request, appointment_id):
+    # Retrieve the appointment based on the provided ID
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+
+    context = {
+        'appointment': appointment
+    }
     
-    return render(request,'client/appointment/appointment_detail.html')
+    return render(request,'client/appointment/appointment_detail.html',context)
 
 ################################################################
 
