@@ -10,6 +10,14 @@
 <div class="Container">
 		
     <h1>Homepage - Arrived Client Lobby</h1>
+    {% for client in clients %}
+    <div>
+        <h3>Appointment #{{ client.id }}</h3>
+        <p>{{ client.client.user.first_name }} {{ client.client.user.last_name }}</p>
+        <!-- Display other relevant appointment details -->
+        <a href="{% url 'lobby_detail' client.id %}">View Details</a>
+    </div>
+{% endfor %}
     
 </div>
 

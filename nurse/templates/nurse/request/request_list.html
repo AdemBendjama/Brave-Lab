@@ -4,7 +4,36 @@
 {% block main %}
 <div class="Container">
 		
-    <h1>List of Requests</h1>
+    
+    <h1>Analysis Requests</h1>
+
+    <h2>Pending Requests</h2>
+    {% for request in analysis_requests %}
+        {% if request.status == 'pending' %}
+            <p>{{ request.appointment.client.user.username }} - Requested: {{ request.creation_time }}</p>
+        {% endif %}
+    {% empty %}
+        <p>No pending requests.</p>
+    {% endfor %}
+
+    <h2>Working-On Requests</h2>
+    {% for request in analysis_requests %}
+        {% if request.status == 'working-on' %}
+            <p>{{ request.appointment.client.user.username }} - Started: {{ request.start_time }}</p>
+        {% endif %}
+    {% empty %}
+        <p>No requests in progress.</p>
+    {% endfor %}
+
+    <h2>Finished Requests</h2>
+    {% for request in analysis_requests %}
+        {% if request.status == 'finished' %}
+            <p>{{ request.appointment.client.user.username }} - Finished: {{ request.finish_time }}</p>
+        {% endif %}
+    {% empty %}
+        <p>No finished requests.</p>
+    {% endfor %}
+    
 </div>
 
 {% endblock main %}
