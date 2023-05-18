@@ -3,6 +3,19 @@
 
 {% block main %}
 
+<div class="Container">
     <h1>Appointment Confirmation page 'Client Arrived/Payed'</h1>
+    {% if appointment.payment.payed_appointment_fee %}
+        <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Confirm</button>
+        <button><a href="{% url 'appointment_detail' appointment.id %}">Cancel</a></button>
+        </form>
+    {% else %}
+        <p>Client Already Payed Appointment Fee</p>
+    {% endif %}
+
+</div>   
 
 {% endblock main %}

@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required , permission_required
 from django.template.loader import render_to_string
 from brave_lab_project.settings import EMAIL_HOST_USER
-from main_home.models import Appointment, Complaint, MedicalDocument, TestOffered
+from main_home.models import Appointment, Complaint, MedicalDocument, Payment, TestOffered
 from .forms import  AppointmentForm, AppointmentPaymentForm, ClientContactForm, ComplaintForm
 from django.core.files.storage import default_storage
 from django.utils import timezone
@@ -112,6 +112,9 @@ def appointment_confirm(request):
                 # Add the tests_requested to the appointment
                 appointment.tests_requested.add(*tests_requested)
                 
+                # 
+                payment = Payment(appointment=appointment)
+                payment.save()
                 
                 return redirect('client')
             else:

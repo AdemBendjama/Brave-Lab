@@ -183,7 +183,26 @@ class Appointment(models.Model):
             return self.TOMORROW
         else:
             return self.OVERDUE
-     
+   
+   
+class Payment(models.Model):
+    appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE)
+    appointment_fee = models.DecimalField(max_digits=10, decimal_places=2,default=200.00)
+    tests_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    nurse_tests_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    payed_appointment_fee = models.BooleanField(default=False)
+    payed_tests_fee = models.BooleanField(default=False)
+    payed_nurse_tests_fee = models.BooleanField(default=False)
+    total_amount_payed = models.DecimalField(max_digits=10, decimal_places=2,default=0.00)
+
+    def __str__(self):
+        return f"Payment for {self.appointment}"
+    
+    def save(self, *args, **kwargs):
+        if self.tests_fee == 0.00:
+            self.tests_fee = self.appointment.total_price
+        super().save(*args, **kwargs)
+      
 class AnalysisRequest(models.Model):
     PENDING = 'pending'
     WORKING_ON = 'working-on'

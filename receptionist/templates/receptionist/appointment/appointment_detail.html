@@ -9,20 +9,38 @@
     <h2>{{ appointment.client }}</h2>
     <p>Date: {{ appointment.date }}</p>
     <p>Description: {{ appointment.description }}</p>
-    <p>Status: {{ appointment.status }}</p>
+    <p>Payment Option: 
+        {% if appointment.payment_option == "PP" %}
+        Pre-Pay 
+        {% elif appointment.payment_option == "OR" %}
+        On Recieve
+        {% endif %}
+    </p>
+    <p>Appointment Fee Status: 
+        {% if appointment.arrived %}
+            Payed 
+            {% else %}
+            UnPayed
+            {% endif %}
+        </p>
+    <p>Tests Fee Status: 
+        {% if appointment.payment_status %}
+        Payed Current Fees
+        {% else %}
+        UnPayed
+        {% endif %}
+    </p>
+    <p>Total Payments: {{ appointment.payment.total_amount_payed }}</p>
     <!-- Other appointment details -->
     
     {% if not appointment.arrived %}
-        <form action="{% url 'mark_arrived' appointment.id %}" method="post">
+        <form action="{% url 'appointment_confirm' appointment.id %}" method="post">
             {% csrf_token %}
             <button type="submit">Mark as Arrived</button>
         </form>
     {% else %}
         <p>Client has arrived</p>
-        <form method="POST" action="{% url 'cancel_arrived' appointment.id %}">
-            {% csrf_token %}
-            <button type="submit">Cancel Arrival</button>
-        </form>        
+
     {% endif %}
         
 </div>

@@ -6,6 +6,7 @@ from client.models import Client
 from main_home.forms import BloodTypeForm, UserRegisterForm
 
 from main_home.models import Appointment, BloodBank, Complaint
+from receptionist.forms import ConfirmationForm
 
 # Create your views here.
 
@@ -111,25 +112,46 @@ def appointment_detail(request,appointment_id):
     
     return render(request,'receptionist/appointment/appointment_detail.html',context)
 
-@require_POST
-def mark_arrived(request, appointment_id):
-    appointment = get_object_or_404(Appointment, id=appointment_id)
-    appointment.arrived = True
-    appointment.save()
-    return redirect('appointment_detail', appointment_id=appointment_id)
-
-@require_POST
-def cancel_arrived(request, appointment_id):
-    appointment = get_object_or_404(Appointment, id=appointment_id)
-    appointment.arrived = False
-    appointment.save()
-    return redirect('appointment_detail', appointment_id=appointment_id)
 
 @login_required
 @permission_required('receptionist.view_receptionist', raise_exception=True)
-def appointment_confirm(request):
+def appointment_confirm(request, appointment_id):
     
-    return render(request,'receptionist/appointment/appointment_confirm.html')
+    appointment = Appointment.objects.get(id=appointment_id)
+    payment = appointment.payment
+    tests_fee = payment.tests_fee
+    appointment_fee = payment.appointment_fee
+    
+    if request.method == 'POST':
+        form = ConfirmationForm(request.POST, tests_fee=tests_fee, appointment_fee=appointment_fee)
+        if form.is_valid():
+            appointment_fee_paid = form.cleaned_data["appointment_fee_paid"]
+            tests_fee_paid = form.cleaned_data["tests_fee_paid"]
+            
+            if appointment_fee_paid:
+                payment.total_amount_payed+=appointment_fee
+                payment.payed_appointment_fee = True   
+                
+            if tests_fee_paid:
+                payment.total_amount_payed+=tests_fee
+                payment.payed_tests_fee = True   
+                
+            appointment.arrived = True
+            
+            payment.save()
+            appointment.save()
+            
+            return redirect("appointment_detail",appointment_id=appointment_id)
+                
+    else:
+        form = ConfirmationForm(tests_fee=tests_fee, appointment_fee=appointment_fee)
+
+    context={
+        'form': form, 
+        'appointment': appointment
+    }
+    
+    return render(request,'receptionist/appointment/appointment_confirm.html',context)
 
 ################################################################
 
