@@ -1,16 +1,26 @@
 {% extends 'main_home/actors_base.html' %}
 {% load static %}
+{% block css_3 %}
+
+{% include 'main_home/page_css_dev.html' %}
+
+{% endblock css_3 %}
 
 {% block main %}
-
+<div class="Container">
+		
     <h1>Homepage - Arrived Client Lobby</h1>
+    
+</div>
 
 {% endblock main %}
+
+
 
 {% block sidebar %}
 
     <li><a  href={% url 'nurse' %}><span class="material-icons X">layers</span> <span class="nav-item">Home</span></a></li>
-    <li><a href={% url 'message_chat' %}><span class="material-icons X">chat</span><span class="nav-item">Messages</span></a></li>
+    <li><a href={% url 'nurse_message_chat' %}><span class="material-icons X">chat</span><span class="nav-item">Messages</span></a></li>
     <li><a href={% url 'request_list' %}><span class="material-icons X">list_alt</span><span class="nav-item">Requests List</span></a></li>
     {% comment %} <li><a><span class="material-icons X">list</span><span class="nav-item">Generate Result</span></a></li> {% endcomment %}
 

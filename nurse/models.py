@@ -37,3 +37,4 @@ class Nurse(models.Model):
             prefered_image_size = (320,320)
             img.thumbnail(prefered_image_size)
             img.save(img_url)
+            

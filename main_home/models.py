@@ -164,6 +164,7 @@ class Appointment(models.Model):
     payment_status = models.BooleanField(default=False)
     arrived = models.BooleanField(default=False)
     cancelled = models.BooleanField(default=False)
+    performed = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'appointment'
@@ -202,7 +203,17 @@ class Payment(models.Model):
         if self.tests_fee == 0.00:
             self.tests_fee = self.appointment.total_price
         super().save(*args, **kwargs)
-      
+   
+class Lobby(models.Model):
+    nurse = models.OneToOneField(Nurse, on_delete=models.CASCADE)
+    clients = models.ManyToManyField(Appointment, blank=True)
+    
+    class Meta:
+        verbose_name_plural = 'Lobbies'
+        
+    def __str__(self):
+        return f"Lobby: {self.nurse}"
+       
 class AnalysisRequest(models.Model):
     PENDING = 'pending'
     WORKING_ON = 'working-on'

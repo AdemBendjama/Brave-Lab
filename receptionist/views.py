@@ -6,6 +6,7 @@ from client.models import Client
 from main_home.forms import BloodTypeForm, UserRegisterForm
 
 from main_home.models import Appointment, BloodBank, Complaint
+from nurse.models import Nurse
 from receptionist.forms import ConfirmationForm
 
 # Create your views here.
@@ -140,6 +141,7 @@ def appointment_confirm(request, appointment_id):
             
             payment.save()
             appointment.save()
+            
             
             return redirect("appointment_detail",appointment_id=appointment_id)
                 
