@@ -5,10 +5,10 @@ from django.views.decorators.http import require_POST
 from client.models import Client
 from main_home.forms import BloodTypeForm, UserRegisterForm
 
-from main_home.models import Appointment, BloodBank, Complaint
+from main_home.models import Appointment, BloodBank, Complaint, Lobby
 from nurse.models import Nurse
 from receptionist.forms import ConfirmationForm
-
+from django.db.models import Count, Q
 # Create your views here.
 
 ################################################################
@@ -126,6 +126,16 @@ def appointment_confirm(request, appointment_id):
     if request.method == 'POST':
         form = ConfirmationForm(request.POST, tests_fee=tests_fee, appointment_fee=appointment_fee)
         if form.is_valid():
+            #
+            nurse = Nurse.objects.annotate(
+                analysis_requests_count=Count('analysisrequest', filter=Q(analysisrequest__status__in=['pending', 'working-on']))
+            ).order_by('analysis_requests_count').first()
+
+            if nurse:
+                lobby, _ = Lobby.objects.get_or_create(nurse=nurse)
+                lobby.clients.add(appointment)
+                
+                
             appointment_fee_paid = form.cleaned_data["appointment_fee_paid"]
             tests_fee_paid = form.cleaned_data["tests_fee_paid"]
             
@@ -141,6 +151,7 @@ def appointment_confirm(request, appointment_id):
             
             payment.save()
             appointment.save()
+            
             
             
             return redirect("appointment_detail",appointment_id=appointment_id)
