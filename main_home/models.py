@@ -235,11 +235,17 @@ class AnalysisRequest(models.Model):
     status =  models.CharField(max_length=45, choices=STATUS_CHOICES, default=PENDING)
     
     def duration(self):
-        if self.finish_time:
-            duration = self.finish_time - self.start_time
-        else:
-            duration = timezone.now() - self.start_time
-        return duration
+        if self.start_time :
+            if self.finish_time:
+                duration = self.finish_time - self.start_time
+            else:
+                duration = timezone.now() - self.start_time
+            return duration
+        
+        return 0 
+    
+    def all_tests_confirmed(self):
+        return self.test_set.filter(confirmed=False).count() == 0
     
     def save(self, *args, **kwargs):
         if self.accepted and not self.start_time:

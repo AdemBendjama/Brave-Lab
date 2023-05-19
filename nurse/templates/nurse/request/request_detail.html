@@ -4,7 +4,48 @@
 {% block main %}
 <div class="Container">
 		
-    <h1>Request #ID Details</h1>
-</div>
+    <h1>Analysis Request Detail</h1>
 
+    <h2>Request ID: {{ analysis_request.id }}</h2>
+    
+    <p>Date of Creation: {{ analysis_request.creation_time }}</p>
+    <p>Client: {{ analysis_request.appointment.client.user.first_name }} {{ analysis_request.appointment.client.user.last_name }}</p>
+    <p>Blood Type: {{ analysis_request.appointment.client.bloodbank.blood_type }}</p>
+    <!-- Display other client information as needed -->
+    
+    <p>Duration: {{ analysis_request.duration }}</p>
+    
+    <h3>Requested Tests</h3>
+    <ul>
+        {% for test in analysis_request.appointment.tests.all %}
+        <li>{{ test }}</li>
+        {% endfor %}
+    </ul>
+    
+    {% if analysis_request.appointment.document %}
+        <p>Document: 
+        </p>    
+        <a href="{{ analysis_request.appointment.document.url }}" target="_blank">
+            <img src="{{ analysis_request.appointment.document.url }}" width="200" height="200">
+        </a>
+    {% else %}
+        <p>No document provided.</p>
+    {% endif %}
+    
+    <p>Status: {{ analysis_request.get_status_display }}</p>
+    
+    {% if not analysis_request.start_time %}
+        <form method="POST" action="{% url 'start_analysis' analysis_request.id %}">
+            {% csrf_token %}
+            <button type="submit">Start</button>
+        </form>
+    {% endif %} 
+    
+    {% comment %} {% if analysis_request.all_tests_confirmed %}
+        <a href="{% url 'update_tests' analysis_request.id %}">Update Tests</a>
+    {% endif %} {% endcomment %}
+    
+    {% comment %} <a href="{% url 'request_test_list' analysis_request.id %}">View Tests</a> {% endcomment %}
+    
+</div>
 {% endblock main %}
