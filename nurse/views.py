@@ -1,6 +1,7 @@
+from unittest import TestResult
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required , permission_required
-from main_home.models import AnalysisRequest, Appointment, Lobby
+from main_home.models import AnalysisRequest, Appointment, Lobby, Test
 from django.utils import timezone
 
 from nurse.models import Nurse
@@ -39,7 +40,13 @@ def lobby_detail(request, appointment_id):
         appointment.save()
         lobby.clients.remove(appointment)
         
-        AnalysisRequest.objects.create(nurse=nurse, appointment=appointment)
+        analysis_request = AnalysisRequest.objects.create(nurse=nurse, appointment=appointment)
+        
+        # Get the tests_requested from the appointment and create Test objects for each one
+        tests_requested = appointment.tests_requested.all()
+        for test_offered in tests_requested:
+            test = Test.objects.create(test_offered=test_offered)
+            analysis_request.tests.add(test)
         
         return redirect('lobby_detail', appointment_id=appointment.id)
 
@@ -92,6 +99,30 @@ def start_analysis(request, analysis_request_id):
         return redirect('request_detail', analysis_request_id=analysis_request.id)
 
     return redirect('request_list')
+
+@login_required
+@permission_required('nurse.view_nurse', raise_exception=True)
+def finish_analysis(request, analysis_request_id):
+    analysis_request = get_object_or_404(AnalysisRequest, id=analysis_request_id)
+    
+    if request.method == 'POST':
+        if analysis_request.all_tests_confirmed():
+            # Mark analysis request as finished
+            analysis_request.finished = True
+            analysis_request.finish_time = timezone.now()
+            analysis_request.status = AnalysisRequest.FINISHED
+            analysis_request.save()
+            
+            # Create TestResult object
+            test_result = TestResult.objects.create(
+                request=analysis_request,
+                duration=analysis_request.duration()
+            )
+            
+            return redirect('request_detail', analysis_request.id)
+    
+    # If the request is not a POST request or tests are not confirmed, redirect back to request detail page
+    return redirect('request_detail', analysis_request.id)
 
 
 ################################################################

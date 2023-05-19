@@ -227,6 +227,7 @@ class AnalysisRequest(models.Model):
     
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
     nurse = models.ForeignKey(Nurse, on_delete=models.CASCADE)
+    tests = models.ManyToManyField(Test)
     creation_time = models.DateTimeField(auto_now_add=True)
     start_time = models.DateTimeField(null=True, blank=True)
     finish_time = models.DateTimeField(null=True, blank=True)
@@ -245,7 +246,7 @@ class AnalysisRequest(models.Model):
         return 0 
     
     def all_tests_confirmed(self):
-        return self.test_set.filter(confirmed=False).count() == 0
+        return self.tests.filter(confirmed=False).count() == 0
     
     def save(self, *args, **kwargs):
         if self.accepted and not self.start_time:
@@ -267,8 +268,6 @@ class AnalysisRequest(models.Model):
 class TestResult(models.Model):
     request = models.ForeignKey(AnalysisRequest, on_delete=models.CASCADE)
     creation_time = models.DateTimeField(auto_now_add=True)
-    tests = models.ManyToManyField(Test)
-    blood_sample = models.ForeignKey(BloodBank, on_delete=models.CASCADE)
     duration = models.DurationField(null=True, blank=True)
     approved = models.BooleanField(default=False)
 

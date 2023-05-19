@@ -9,6 +9,7 @@
     <h2>{{ appointment }}</h2>
     
     <p>Date: {{ appointment.date }}</p>
+    <p>Client: {{ appointment.client.user.first_name }} {{ appointment.client.user.last_name }}</p>
     <p>Description: {{ appointment.description }}</p>
     <!-- Display other appointment details as needed -->
     <p>Document:</p>

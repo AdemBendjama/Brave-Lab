@@ -41,9 +41,12 @@
         </form>
     {% endif %} 
     
-    {% comment %} {% if analysis_request.all_tests_confirmed %}
-        <a href="{% url 'update_tests' analysis_request.id %}">Update Tests</a>
-    {% endif %} {% endcomment %}
+    {% if analysis_request.all_tests_confirmed %}
+    <form method="POST" action="{% url 'finish_analysis' analysis_request.id %}">
+        {% csrf_token %}
+        <button type="submit">Mark Request as Finished</button>
+    </form>
+    {% endif %}
     
     {% comment %} <a href="{% url 'request_test_list' analysis_request.id %}">View Tests</a> {% endcomment %}
     

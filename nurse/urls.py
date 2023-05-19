@@ -10,8 +10,9 @@ urlpatterns = [
     
     path("request/request_list",views.request_list,name="request_list"),
     path("request/request_detail/<int:analysis_request_id>",views.request_detail,name="request_detail"),
-     path('request/request_detail/<int:analysis_request_id>/start-analysis', views.start_analysis, name='start_analysis'),
-
+    path('request/request_detail/<int:analysis_request_id>/start-analysis', views.start_analysis, name='start_analysis'),
+    path('request/request_detail/<int:analysis_request_id>/finish-analysis', views.finish_analysis, name='finish_analysis'),
+    
     
     path("request/test/request_test_add",views.request_test_add,name="request_test_add"),
     path("request/test/request_test_detail",views.request_test_detail,name="request_test_detail"),
