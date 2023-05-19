@@ -4,7 +4,16 @@
 {% block main %}
 <div class="Container">
 		
-    <h1>List of Tests for Request #ID</h1>
+    <h1>Tests for Analysis Request #{{ analysis_request.id }}</h1>
+    <ul>
+        {% for test in tests %}
+            <li>
+                <strong>{{ test.test_offered.name }}</strong> - {% if test.confirmed %}Confirmed{% else %}Not Confirmed{% endif %}
+                <a href="{% url 'request_test_add' analysis_request_id=analysis_request.id test_id=test.id %}">Add Components</a>
+            </li>
+        {% endfor %}
+    </ul>
+
 </div>
 
 {% endblock main %}

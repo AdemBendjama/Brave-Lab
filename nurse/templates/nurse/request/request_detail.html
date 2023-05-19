@@ -48,7 +48,7 @@
     </form>
     {% endif %}
     
-    {% comment %} <a href="{% url 'request_test_list' analysis_request.id %}">View Tests</a> {% endcomment %}
+    <a href="{% url 'request_test_list' analysis_request_id=analysis_request.id %}">View Tests</a>
     
 </div>
 {% endblock main %}

@@ -137,9 +137,15 @@ def request_test_add(request):
 
 @login_required
 @permission_required('nurse.view_nurse', raise_exception=True)
-def request_test_list(request):
+def request_test_list(request, analysis_request_id):
+    analysis_request = get_object_or_404(AnalysisRequest, id=analysis_request_id)
+    tests = analysis_request.tests.all()
+    context = {
+        'analysis_request': analysis_request,
+        'tests': tests
+    }
     
-    return render(request,'nurse/request/test/request_test_list.html')
+    return render(request,'nurse/request/test/request_test_list.html', context)
 
 @login_required
 @permission_required('nurse.view_nurse', raise_exception=True)
@@ -156,3 +162,23 @@ def request_test_detail(request):
 def message_chat(request):
     
     return render(request,'nurse/message/message_chat.html')
+
+
+################################################################
+
+
+# Result
+
+
+@login_required
+@permission_required('nurse.view_nurse', raise_exception=True)
+def result_list(request):
+    
+    return render(request,'nurse/result/result_list.html')
+
+@login_required
+@permission_required('nurse.view_nurse', raise_exception=True)
+def result_detail(request, result_id):
+    
+    return render(request,'nurse/result/result_detail.html')
+
