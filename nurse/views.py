@@ -1,8 +1,9 @@
 from unittest import TestResult
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required , permission_required
-from main_home.models import AnalysisRequest, Appointment, Lobby, Test
+from main_home.models import AnalysisRequest, Appointment, Lobby, Payment, Test
 from django.utils import timezone
+from nurse.forms import AddTestForm
 
 from nurse.models import Nurse
 
@@ -131,9 +132,44 @@ def finish_analysis(request, analysis_request_id):
 
 @login_required
 @permission_required('nurse.view_nurse', raise_exception=True)
-def request_test_add(request):
+def request_test_add(request, analysis_request_id):
     
-    return render(request,'nurse/request/test/request_test_add.html')
+    analysis_request = AnalysisRequest.objects.get(id=analysis_request_id)
+    appointment = analysis_request.appointment
+    
+    if request.method == 'POST':
+        form = AddTestForm(appointment, request.POST)
+        if form.is_valid():
+            test_offered = form.cleaned_data['test_offered']
+            test = Test.objects.create(test_offered=test_offered)
+            analysis_request.tests.add(test)
+            
+            # Update payment status and fees
+            payment = Payment.objects.get(appointment=analysis_request.appointment)
+            payment.payed_nurse_tests_fee = False
+            payment.nurse_tests_fee += test_offered.price
+            payment.save()
+            
+            appointment.total_price += test_offered.price
+            appointment.payment_status = False
+            appointment.save()
+            
+            return redirect('request_test_list', analysis_request_id=analysis_request_id)
+    else:
+        form = AddTestForm(appointment)
+        
+    context = {
+        'form': form, 
+        'analysis_request': analysis_request
+    }
+        
+    return render(request,'nurse/request/test/request_test_add.html', context)
+
+@login_required
+@permission_required('nurse.view_nurse', raise_exception=True)
+def request_test_add_component(request):
+    
+    return render(request,'nurse/request/test/request_test_add_component.html')
 
 @login_required
 @permission_required('nurse.view_nurse', raise_exception=True)

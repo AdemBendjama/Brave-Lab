@@ -9,10 +9,12 @@
         {% for test in tests %}
             <li>
                 <strong>{{ test.test_offered.name }}</strong> - {% if test.confirmed %}Confirmed{% else %}Not Confirmed{% endif %}
-                <a href="{% url 'request_test_add' analysis_request_id=analysis_request.id test_id=test.id %}">Add Components</a>
+                <a href="{% url 'request_test_add_component' analysis_request_id=analysis_request.id test_id=test.id %}">Add Components</a>
             </li>
         {% endfor %}
     </ul>
+    <a href="{% url 'request_detail' analysis_request_id=analysis_request.id %}" class="btn btn-primary">Back to Analysis Request Detail</a>
+    <a href="{% url 'request_test_add' analysis_request_id=analysis_request.id %}" class="btn btn-primary">Add Test</a>
 
 </div>
 
