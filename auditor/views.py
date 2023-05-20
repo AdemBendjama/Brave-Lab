@@ -138,15 +138,17 @@ def report_add(request):
     if request.method == 'POST':
         form = ReportForm(request.POST)
         if form.is_valid():
-            form.save()
-            # report =  Report.objects.get(test_result=)
-            # appointment = report.request.appointment
-            # laboratory = Laboratory.objects.get(name="Brave Laboratory")
+            report = form.save()
+            laboratory = Laboratory.objects.get(name="Brave Laboratory")
             
-            # # add invoice creation here
-            # Invoice(report=report,total_price=appointment.total_price,payment_status=appointment.payment_status,
-            #         client=appointment.client,laboratory= laboratory)
-            # laboratory.calculate_monthly_revenue()
+            invoice = Invoice.objects.create(
+                report=report,
+                total_price=report.test_result.request.appointment.total_price,
+                payment_status=report.test_result.request.appointment.payment_status,
+                client=report.test_result.request.appointment.client,
+                laboratory=laboratory
+            )
+            
             return redirect("report_list")
     else:
         form = ReportForm()
