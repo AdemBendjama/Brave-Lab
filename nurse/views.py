@@ -1,9 +1,9 @@
-from unittest import TestResult
+
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required , permission_required
-from main_home.models import AnalysisRequest, Appointment, Lobby, Payment, Test
+from main_home.models import AnalysisRequest, Appointment, Lobby, Payment, Test , TestResult
 from django.utils import timezone
-from nurse.forms import AddTestForm
+from nurse.forms import AddComponentForm, AddTestForm, TestFinalizeForm
 
 from nurse.models import Nurse
 
@@ -87,7 +87,7 @@ def request_detail(request, analysis_request_id):
 
 
 @login_required
-@permission_required('nurse.change_analysisrequest', raise_exception=True)
+@permission_required('nurse.view_nurse', raise_exception=True)
 def start_analysis(request, analysis_request_id):
     analysis_request = get_object_or_404(AnalysisRequest, id=analysis_request_id)
 
@@ -117,7 +117,7 @@ def finish_analysis(request, analysis_request_id):
             # Create TestResult object
             test_result = TestResult.objects.create(
                 request=analysis_request,
-                duration=analysis_request.duration()
+                duration=analysis_request.duration_unformated()
             )
             
             return redirect('request_detail', analysis_request.id)
@@ -167,9 +167,27 @@ def request_test_add(request, analysis_request_id):
 
 @login_required
 @permission_required('nurse.view_nurse', raise_exception=True)
-def request_test_add_component(request):
-    
-    return render(request,'nurse/request/test/request_test_add_component.html')
+def request_test_add_component(request, analysis_request_id, test_id):
+    analysis_request = AnalysisRequest.objects.get(id=analysis_request_id)
+    test = Test.objects.get(id=test_id)
+
+    if request.method == 'POST':
+        form = AddComponentForm(request.POST, test=test)
+        if form.is_valid():
+            component = form.cleaned_data['component']
+            test.components.create(info=component)
+            return redirect('request_test_add_component', analysis_request_id=analysis_request_id, test_id=test_id)
+    else:
+        form = AddComponentForm(test=test)
+
+    context = {
+        'form': form,
+        'analysis_request': analysis_request,
+        'test': test
+    }
+
+
+    return render(request,'nurse/request/test/request_test_add_component.html', context)
 
 @login_required
 @permission_required('nurse.view_nurse', raise_exception=True)
@@ -185,9 +203,40 @@ def request_test_list(request, analysis_request_id):
 
 @login_required
 @permission_required('nurse.view_nurse', raise_exception=True)
-def request_test_detail(request):
+def request_test_detail(request, analysis_request_id, test_id):
+    analysis_request = AnalysisRequest.objects.get(id=analysis_request_id)
+    test = Test.objects.get(id=test_id)
+
+    context = {
+        'analysis_request': analysis_request,
+        'test': test
+    }
     
-    return render(request,'nurse/request/test/request_test_detail.html')
+    return render(request,'nurse/request/test/request_test_detail.html', context)
+
+@login_required
+@permission_required('nurse.view_nurse', raise_exception=True)
+def request_test_finalize(request, analysis_request_id, test_id):
+    test = get_object_or_404(Test, id=test_id)
+
+    if request.method == 'POST':
+        form = TestFinalizeForm(request.POST, instance=test)
+        if form.is_valid():
+            form.save()  # Save the form data
+            test.confirmed = True  # Mark the test as confirmed
+            test.save()
+            return redirect('request_test_detail', analysis_request_id=analysis_request_id, test_id=test_id)
+    else:
+        form = TestFinalizeForm(instance=test)
+
+    context = {
+        'form': form,
+        'analysis_request_id': analysis_request_id,
+        'test': test,
+    }
+
+
+    return render(request,'nurse/request/test/request_test_finalize.html', context)
 
 ################################################################
 

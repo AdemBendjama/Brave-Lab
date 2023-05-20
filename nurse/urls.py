@@ -17,7 +17,8 @@ urlpatterns = [
     path("requests/<int:analysis_request_id>/tests/",views.request_test_list,name="request_test_list"),
     path("requests/<int:analysis_request_id>/tests/add/",views.request_test_add,name="request_test_add"),
     path("requests/<int:analysis_request_id>/tests/<int:test_id>/add/components",views.request_test_add_component,name="request_test_add_component"),
-    path("requests/tests/<int:test_id>/detail/",views.request_test_detail,name="request_test_detail"),
+    path("requests/<int:analysis_request_id>/tests/<int:test_id>/detail/",views.request_test_detail,name="request_test_detail"),
+    path("requests/<int:analysis_request_id>/tests/<int:test_id>/finalize/",views.request_test_finalize,name="request_test_finalize"),
     
     path("results/",views.result_list,name="result_list"),
     path("results/<int:result_id>/detail/",views.result_detail,name="result_detail"),

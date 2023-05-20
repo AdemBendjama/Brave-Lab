@@ -1,0 +1,18 @@
+{% extends 'nurse/nurse.html' %}
+{% load static %}
+
+{% block main %}
+<div class="Container">
+    <h1>Finalize Test</h1>
+    <h3>Test: {{ test.test_offered.name }}</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    <a href="{% url 'request_test_detail' analysis_request_id=analysis_request_id test_id=test.id %}">Back to Test Detail</a>
+</div>
+
+
+{% endblock main %}
+

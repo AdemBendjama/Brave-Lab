@@ -18,6 +18,8 @@
         {{ form.as_p }}
         <button type="submit">Add</button>
     </form>
+    <a href="{% url 'request_test_list' analysis_request_id=analysis_request.id %}" >Back to Test List</a>
+
 </div>
 
 {% endblock main %}

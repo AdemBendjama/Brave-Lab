@@ -1,4 +1,4 @@
-from datetime import timezone
+from datetime import timedelta, timezone
 from django.db import models
 from django.forms import ValidationError
 from client.models import Client
@@ -65,7 +65,7 @@ class ComponentInformation(models.Model):
     
 class Component(models.Model):
     info = models.ForeignKey(ComponentInformation, on_delete=models.CASCADE)
-    value = models.FloatField()
+    value = models.FloatField(null=True,blank=True)
 
     class Meta:
         db_table = 'component'
@@ -225,7 +225,7 @@ class AnalysisRequest(models.Model):
         (FINISHED, 'Finished'),
     ]
     
-    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+    appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE)
     nurse = models.ForeignKey(Nurse, on_delete=models.CASCADE)
     tests = models.ManyToManyField(Test)
     creation_time = models.DateTimeField(auto_now_add=True)
@@ -235,7 +235,7 @@ class AnalysisRequest(models.Model):
     finished = models.BooleanField(default=False)
     status =  models.CharField(max_length=45, choices=STATUS_CHOICES, default=PENDING)
     
-    def duration(self):
+    def duration_unformated(self):
         if self.start_time :
             if self.finish_time:
                 duration = self.finish_time - self.start_time
@@ -244,6 +244,21 @@ class AnalysisRequest(models.Model):
             return duration
         
         return 0 
+    
+    def duration(self):
+        if self.start_time:
+            if self.finish_time:
+                duration = self.finish_time - self.start_time
+            else:
+                duration = timezone.now() - self.start_time
+
+            # Convert the duration to hours and minutes
+            hours = duration // timedelta(hours=1)
+            minutes = (duration % timedelta(hours=1)) // timedelta(minutes=1)
+
+            return f"{hours} hours {minutes} minutes"
+
+        return "0 hours 0 minutes"
     
     def all_tests_confirmed(self):
         return self.tests.filter(confirmed=False).count() == 0
@@ -261,12 +276,12 @@ class AnalysisRequest(models.Model):
         db_table = 'analysis_request'
         
     def __str__(self):
-        return f"{self.appointment.client.user.username} - Analysis Requested #{self.id}"
+        return f"{self.appointment.client.user.first_name} {self.appointment.client.user.last_name} - Analysis Requested #{self.id}"
     
     
     
 class TestResult(models.Model):
-    request = models.ForeignKey(AnalysisRequest, on_delete=models.CASCADE)
+    request = models.OneToOneField(AnalysisRequest, on_delete=models.CASCADE)
     creation_time = models.DateTimeField(auto_now_add=True)
     duration = models.DurationField(null=True, blank=True)
     approved = models.BooleanField(default=False)
@@ -278,7 +293,7 @@ class TestResult(models.Model):
         return f"Test Result #{self.id}"
         
 class Report(models.Model):
-    test_result = models.ForeignKey(TestResult, on_delete=models.CASCADE)
+    test_result = models.OneToOneField(TestResult, on_delete=models.CASCADE)
     creation_time = models.DateTimeField(auto_now_add=True)
     description = models.CharField(max_length=1000, null=True, blank=True)
     
@@ -296,8 +311,8 @@ class Invoice(models.Model):
         (ON_RECEIVE, 'On-Receive'),
     ]
     
+    report = models.OneToOneField(Report, on_delete=models.CASCADE)
     creation_time = models.DateTimeField(auto_now_add=True)
-    report = models.ForeignKey(Report, on_delete=models.CASCADE)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES)
     payment_status = models.BooleanField(default=False)

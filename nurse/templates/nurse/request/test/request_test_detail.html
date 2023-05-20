@@ -4,7 +4,28 @@
 {% block main %}
 <div class="Container">
 		
-    <h1>Fill In Test Results for Test #ID of Request #ID</h1>
+    <h1>Test Detail</h1>
+    <h2>Test: {{ test.test_offered.name }}</h2>
+    <p><strong>Status:</strong> {% if test.confirmed %}Confirmed{% else %}Not Confirmed{% endif %}</p>
+    <p><strong>Value: </strong>{{ test.value }}</p>
+    <p><strong>Description: </strong>{{ test.description }}</p>
+    
+    <h3>Components:</h3>
+    <ul>
+        {% for component in test.components.all %}
+            <li>{{ component.info.name }} - Value: {{ component.value }}</li>
+        {% endfor %}
+    </ul>
+    
+    {% if not test.confirmed %}
+    <a href="{% url 'request_test_add_component' analysis_request_id=analysis_request.id test_id=test.id %}" >Add Component</a>
+    <a href="{% url 'request_test_finalize' analysis_request_id=analysis_request.id test_id=test.id %}" >Finalize Test</a>
+    {% else %}
+    <p>Test Is Finalized !</p>
+    {% endif %}
+    <a href="{% url 'request_test_list' analysis_request_id=analysis_request.id %}" >Back to Test List</a>
+
+
 </div>
 
 {% endblock main %}

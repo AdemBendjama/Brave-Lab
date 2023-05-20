@@ -4,7 +4,15 @@
 {% block main %}
 <div class="Container">
 		
-    <h1>Add components to Test to Request #ID</h1>
+    <h1>Add Component to Test</h1>
+    <p><strong>Test:</strong> {{ test.test_offered.name }}</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" >Add Component</button>
+    </form>
+    <a href="{% url 'request_test_list' analysis_request_id=analysis_request.id %}" >Back to Test List</a>
+
 </div>
 
 {% endblock main %}

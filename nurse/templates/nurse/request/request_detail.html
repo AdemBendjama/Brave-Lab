@@ -39,16 +39,17 @@
             {% csrf_token %}
             <button type="submit">Start</button>
         </form>
+    {% else %}
+        <a href="{% url 'request_test_list' analysis_request_id=analysis_request.id %}">View Tests</a>
     {% endif %} 
     
-    {% if analysis_request.all_tests_confirmed %}
+    {% if analysis_request.all_tests_confirmed and not analysis_request.status == "finished" %}
     <form method="POST" action="{% url 'finish_analysis' analysis_request.id %}">
         {% csrf_token %}
         <button type="submit">Mark Request as Finished</button>
     </form>
     {% endif %}
     
-    <a href="{% url 'request_test_list' analysis_request_id=analysis_request.id %}">View Tests</a>
     
 </div>
 {% endblock main %}
