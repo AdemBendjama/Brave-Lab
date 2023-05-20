@@ -5,7 +5,7 @@ from django.views.decorators.http import require_POST
 from client.models import Client
 from main_home.forms import BloodTypeForm, UserRegisterForm
 
-from main_home.models import Appointment, BloodBank, Complaint, Lobby
+from main_home.models import Appointment, BloodBank, Complaint, Invoice, Lobby, Payment
 from nurse.models import Nurse
 from receptionist.forms import ConfirmationForm
 from django.db.models import Count, Q
@@ -18,15 +18,49 @@ from django.db.models import Count, Q
 @login_required
 @permission_required('receptionist.view_receptionist', raise_exception=True)
 def receptionist_home(request):
+    invoices = Invoice.objects.all()
     
-    return render(request,'receptionist/receptionist.html')
+    context ={
+        'invoices':invoices
+    }
+    return render(request,'receptionist/receptionist.html', context)
 
 @login_required
 @permission_required('receptionist.view_receptionist', raise_exception=True)
-def invoice_detail(request):
+def invoice_detail(request, invoice_id):
+    invoice = Invoice.objects.get(id=invoice_id)
+    payment = invoice.report.test_result.request.appointment.payment 
+    unpaid = invoice.total_price - payment.total_amount_payed
+    context ={
+        'invoice':invoice,
+        'payment':payment,
+        'unpaid':unpaid
+    }
     
-    return render(request,'receptionist/invoice/invoice_detail.html')
+    return render(request,'receptionist/invoice/invoice_detail.html', context)
 
+def confirm_payment(request, invoice_id):
+    invoice = get_object_or_404(Invoice, id=invoice_id)
+
+    if request.method == 'POST':
+        appointment=invoice.report.test_result.request.appointment
+        
+        # Update the payment status of the invoice
+        invoice.payment_status = True
+        invoice.save()
+
+        # Update the payment model with the amount paid
+        payment = Payment.objects.get(appointment=appointment)
+        payment.payed_nurse_tests_fee = True
+        payment.total_amount_payed += (invoice.total_price-payment.total_amount_payed)
+        payment.save()
+        
+        appointment.payment_status = True
+        appointment.save()
+
+        # Redirect to the invoice detail page
+
+    return redirect('invoice_detail', invoice_id=invoice_id)
 ################################################################
 
 # Creation Views (Client,Blood Samples)

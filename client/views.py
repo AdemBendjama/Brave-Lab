@@ -121,6 +121,7 @@ def client_appointment_confirm(request):
                 payment.save()
                 
                 appointment.total_price += Decimal(str(payment.appointment_fee))
+                appointment.save()
                 
                 return redirect('client')
             else:

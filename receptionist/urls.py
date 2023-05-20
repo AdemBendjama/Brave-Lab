@@ -5,7 +5,8 @@ from main_home import views as home_views
 
 urlpatterns = [
     path("",views.receptionist_home,name="receptionist"),
-    path("invoice/detail/",views.invoice_detail,name="invoice_detail"),
+    path("invoice/<int:invoice_id>/",views.invoice_detail,name="invoice_detail"),
+    path('invoice/<int:invoice_id>/confirm_payment/', views.confirm_payment, name='confirm_payment'),
     
     path("add/blood/",views.blood_add,name="blood_add"),
     path("add/client/",views.client_add,name="client_add"),

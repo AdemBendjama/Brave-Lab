@@ -8,6 +8,19 @@
 {% block main %}
 <div class="Container">
     <h1>Homepage - List of Invoices</h1>
+    <ul>
+        {% for invoice in invoices %}
+          <li><h2><a href="{% url 'invoice_detail' invoice.id %}">Invoice #{{ invoice.id }}</a></h2></li>
+          <ul>
+            <li>Creation Time: {{ invoice.creation_time }}</li>
+            <li>Total Price: {{ invoice.total_price }}</li>
+            <li>Payment Status: {% if invoice.payment_status %}Paid{% else %}Unpaid{% endif %}</li>
+            <!-- Add more details as needed -->
+          </ul>
+        {% endfor %}
+    </ul>
+
+    
 </div>
 {% endblock main %}
 
