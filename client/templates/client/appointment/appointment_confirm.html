@@ -17,8 +17,13 @@
         {% endfor %}
         <h3>Total Price</h3>
         <p>{{data.total_price}}</p>
+        <small style="font-size:12px;">note: Excluding the Appointment Visit Fees</small>
         <h3>Document</h3>
-        <img src="/media/{{data.document}}" width='200' height="200">
+        {% if data.document is not None %}
+            <img src="/media/{{data.document}}" width='200' height="200">
+        {% else %}
+            <p>No Document provided.</p>
+        {% endif %}
 
         <form method="POST">
             {% csrf_token %}

@@ -12,7 +12,7 @@
         {% for field in form %}
           {% if 'test_' in field.html_name %}
             <h3>{{ field.label }}</h3>
-            <input type="text" name="{{ field.html_name }}" value="{{ field.value }}" />
+            <input type="text" name="{{ field.html_name }}" value="{{ field.value }}" hidden />
           {% endif %}
           
           {% if 'component_' in field.html_name %}

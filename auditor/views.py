@@ -1,9 +1,9 @@
-from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required , permission_required
 from auditor.forms import UpdateTestsForm
 
-from main_home.models import AnalysisRequest, Component, Test, TestResult
+from main_home.models import AnalysisRequest, Component, Invoice, Laboratory, Report, Test, TestResult
+from auditor.forms import ReportForm
 
 # Create your views here.
 
@@ -115,17 +115,43 @@ def result_update(request, test_result_id):
 @login_required
 @permission_required('auditor.view_auditor', raise_exception=True)
 def report_list(request):
-    
-    return render(request,'auditor/report/report_list.html')
+    reports = Report.objects.all()
+
+    context = {
+        'reports': reports,
+    }
+    return render(request,'auditor/report/report_list.html', context)
 
 @login_required
 @permission_required('auditor.view_auditor', raise_exception=True)
-def report_detail(request):
-    
-    return render(request,'auditor/report/report_detail.html')
+def report_detail(request, report_id):
+    report = get_object_or_404(Report, id=report_id)
+
+    context = {
+        'report': report,
+    }
+    return render(request,'auditor/report/report_detail.html', context)
 
 @login_required
 @permission_required('auditor.view_auditor', raise_exception=True)
 def report_add(request):
-    
-    return render(request,'auditor/report/report_add.html')
+    if request.method == 'POST':
+        form = ReportForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # report =  Report.objects.get(test_result=)
+            # appointment = report.request.appointment
+            # laboratory = Laboratory.objects.get(name="Brave Laboratory")
+            
+            # # add invoice creation here
+            # Invoice(report=report,total_price=appointment.total_price,payment_status=appointment.payment_status,
+            #         client=appointment.client,laboratory= laboratory)
+            # laboratory.calculate_monthly_revenue()
+            return redirect("report_list")
+    else:
+        form = ReportForm()
+
+    context = {
+        'form': form,
+    }
+    return render(request,'auditor/report/report_add.html', context)

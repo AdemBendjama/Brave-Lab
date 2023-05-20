@@ -5,6 +5,7 @@ from client.models import Client
 from nurse.models import Nurse
 from receptionist.models import Receptionist
 from django.utils import timezone
+from django.db.models import Sum
 
 
 
@@ -34,19 +35,48 @@ class Complaint(models.Model):
         db_table = 'complaint'
         
 
+
 class Laboratory(models.Model):
     name = models.CharField(max_length=45, primary_key=True)
     location = models.CharField(max_length=45)
     description = models.CharField(max_length=45)
-    monthly_revenue = models.FloatField()
-    tests_made = models.FloatField()
 
     class Meta:
         db_table = 'laboratory'
         verbose_name_plural = 'Laboratories'
-        
+
+    @property
+    def tests_made(self):
+        return Test.objects.filter().count()
+    
+    def calculate_monthly_revenue(self):
+        current_month = timezone.now().month
+        current_year = timezone.now().year
+        invoices = Invoice.objects.filter(laboratory=self, creation_time__month=current_month, creation_time__year=current_year)
+        total_revenue = invoices.aggregate(total=Sum('total_price'))['total']
+        monthly_revenue, _ = MonthlyRevenue.objects.get_or_create(laboratory=self, month=current_month, year=current_year)
+        monthly_revenue.revenue = total_revenue or 0
+        monthly_revenue.save()
+
+    def get_average_monthly_revenue(self):
+        total_revenue = MonthlyRevenue.objects.filter(laboratory=self).aggregate(total=Sum('revenue'))['total']
+        months_count = MonthlyRevenue.objects.filter(laboratory=self).count()
+        return total_revenue / months_count if months_count else 0
+
     def __str__(self):
         return self.name
+    
+class MonthlyRevenue(models.Model):
+    laboratory = models.ForeignKey(Laboratory, on_delete=models.CASCADE)
+    month = models.IntegerField()
+    year = models.IntegerField()
+    revenue = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        db_table = 'monthly_revenue'
+
+    def __str__(self):
+        return f"{self.laboratory} - {self.month}/{self.year}"
         
 class ComponentInformation(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -88,7 +118,7 @@ class TestOffered(models.Model):
 class Test(models.Model):
     test_offered = models.ForeignKey(TestOffered,on_delete=models.CASCADE)
     components = models.ManyToManyField(Component)
-    value = models.CharField(max_length=100)
+    value = models.CharField(max_length=100,blank=True,null=True)
     description = models.CharField(max_length=500, null=True, blank=True)
     confirmed = models.BooleanField(default=False)
 
@@ -158,7 +188,7 @@ class Appointment(models.Model):
     tests_requested = models.ManyToManyField(TestOffered) 
     date = models.DateField(validators=[validate_date_not_past])
     description = models.CharField(max_length=1000,blank=True)
-    document = models.ImageField(null=True,upload_to='medical_documents')
+    document = models.ImageField(null=True,blank=True,upload_to='medical_documents')
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES,default="OR")
     payment_status = models.BooleanField(default=False)
@@ -312,9 +342,8 @@ class Invoice(models.Model):
     ]
     
     report = models.OneToOneField(Report, on_delete=models.CASCADE)
-    creation_time = models.DateTimeField(auto_now_add=True)
+    creation_time = models.DateField(auto_now_add=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES)
     payment_status = models.BooleanField(default=False)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     laboratory = models.ForeignKey(Laboratory, on_delete=models.CASCADE)

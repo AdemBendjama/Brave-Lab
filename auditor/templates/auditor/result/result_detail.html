@@ -13,7 +13,6 @@
     {% for test in test_result.request.tests.all %}
       <li>
         <h4>{{ test.test_offered.name }}</h4>
-        <p>Value: {{ test.value }}</p>
         <p>Description: {{ test.description }}</p>
         <p>Components:</p>
         <ul>

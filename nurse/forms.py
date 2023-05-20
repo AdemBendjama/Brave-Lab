@@ -1,6 +1,6 @@
 # forms.py
 from django import forms
-from main_home.models import ComponentInformation, Test, TestOffered
+from main_home.models import ComponentInformation, Report, Test, TestOffered, TestResult
 
 class AddTestForm(forms.Form):
     test_offered = forms.ModelChoiceField(queryset=TestOffered.objects.none(), empty_label=None)
@@ -53,3 +53,5 @@ class TestFinalizeForm(forms.ModelForm):
                 component.save()
 
         return test
+    
+    

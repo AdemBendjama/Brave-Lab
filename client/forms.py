@@ -21,6 +21,11 @@ class AppointmentForm(forms.ModelForm):
         model = Appointment
         fields = ['date', "tests_requested",'description', 'document']
         
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['document'].required = False
+
+        
 class AppointmentPaymentForm(forms.ModelForm):
     
     PAYMENT_CHOICES = [

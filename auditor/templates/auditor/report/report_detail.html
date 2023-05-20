@@ -3,6 +3,10 @@
 
 {% block main %}
 <div class="Container">
-    <h1>Report #ID Details</h1>
+    <h1>Report Detail</h1>
+    <h2>Report #{{ report.id }}</h2>
+    <p>Test Result: <a href="{% url 'test_result_detail' report.test_result.id %}">{{ report.test_result }}</a></p>
+    <p>Description: {{ report.description }}</p>
+  </div>
 </div>
 {% endblock main %}

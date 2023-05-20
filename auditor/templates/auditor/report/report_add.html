@@ -4,5 +4,14 @@
 {% block main %}
 <div class="Container">
     <h1>Generate Report</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.test_result.label }}: {{ form.test_result }}
+        <br>
+        {{ form.description.label }}: {{ form.description }}
+        <br>
+        <button type="submit">Create Report</button>
+    </form>
+    
 </div>
 {% endblock main %}

@@ -3,6 +3,16 @@
 
 {% block main %}
 <div class="Container">
-    <h1>List Of Reports</h1>
+    <h1>Reports</h1>
+
+    <ul>
+        {% for report in reports %}
+        <li>
+            <h3><a href="{% url 'report_detail' report.id %}">Report #{{ report.id }}</a></h3>
+            <p>Test Result: {{ report.test_result }}</p>
+            <p>Description: {{ report.description }}</p>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock main %}

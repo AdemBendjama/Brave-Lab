@@ -17,15 +17,11 @@ body {
 }
 
 header {
-    margin: 1rem;
-    margin-left: 8rem;
-    width: 92%;
     height: 11%;
     background-color: rgb(255, 255, 255);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 25px;
     /* new css */
     position: fixed;
     /* add position fixed */
@@ -166,7 +162,8 @@ nav {
     top: 0;
     bottom: 0;
     left: 0;
-    height: 98vh;
+    height: 85vh;
+    margin-top: 130px;
     background-color: #267ca6;
     width: 90px;
     border-radius: 25px;
@@ -221,7 +218,7 @@ nav .material-icons {
 }
 
 nav ul {
-    margin-top: 200px;
+    margin-top: 160px;
 }
 
 .nav-item {

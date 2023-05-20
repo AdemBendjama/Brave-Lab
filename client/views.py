@@ -45,7 +45,7 @@ def appointment_book(request):
 
 @login_required
 @permission_required('client.view_client', raise_exception=True)
-def appointment_confirm(request):
+def client_appointment_confirm(request):
     
     if request.method == 'POST':
         
@@ -60,9 +60,12 @@ def appointment_confirm(request):
                 description = form.cleaned_data['description']
                 tests_requested = form.cleaned_data['tests_requested']
                 
-                document_file = request.FILES['document']
-                document = default_storage.save('medical_documents/' + document_file.name, document_file)
-                1
+                if 'document' in request.FILES :
+                    document_file = request.FILES['document']
+                    document = default_storage.save('medical_documents/' + document_file.name, document_file)
+                else :
+                    document = None
+                
                 total_price = 0
                 for test in tests_requested:
                     total_price+=test.price
@@ -104,7 +107,8 @@ def appointment_confirm(request):
                 appointment.client = client
                 appointment.date = date
                 appointment.description = description
-                appointment.document = document
+                if document is None :
+                    appointment.document = document
                 appointment.total_price = total_price
                 appointment.payment_option = payment_option
                 appointment.save()
@@ -115,6 +119,8 @@ def appointment_confirm(request):
                 # 
                 payment = Payment(appointment=appointment)
                 payment.save()
+                
+                appointment.total_price += Decimal(str(payment.appointment_fee))
                 
                 return redirect('client')
             else:
