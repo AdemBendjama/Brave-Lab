@@ -3,6 +3,29 @@
 
 {% block main %}
 
-    <h1>List Of Test Results</h1>
+<div class="Container">
+    <h1>Test Results</h1>
+        
+    <h2>Unapproved Test Results</h2>
+    {% if unapproved_results %}
+    <ul>
+        {% for result in unapproved_results %}
+            <li><a href="{% url 'test_result_detail' result.id %}">{{ result }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p>No unapproved test results found.</p>
+    {% endif %}
 
+    <h2>Approved Test Results</h2>
+    {% if approved_results %}
+        <ul>
+            {% for result in approved_results %}
+                <li><a href="{% url 'test_result_detail' result.id %}">{{ result }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No approved test results found.</p>
+    {% endif %}
+</div>
 {% endblock main %}

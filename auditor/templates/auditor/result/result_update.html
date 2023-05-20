@@ -1,0 +1,30 @@
+{% extends 'auditor/auditor.html' %}
+{% load static %}
+
+{% block main %}
+<div class="Container">
+  <h1>Update Test Results</h1>
+  <h2>{{ test_result }}</h2>
+  <h3>{{ test_result.request }}</h3>
+  {% if not test_result.approved %}
+    <form method="POST" action="{% url 'result_update' test_result.id %}">
+        {% csrf_token %}
+        {% for field in form %}
+          {% if 'test_' in field.html_name %}
+            <h3>{{ field.label }}</h3>
+            <input type="text" name="{{ field.html_name }}" value="{{ field.value }}" />
+          {% endif %}
+          
+          {% if 'component_' in field.html_name %}
+            <p>{{ field.label }}</p>
+            {{field}}
+          {% endif %}
+        {% endfor %}
+        
+        <button type="submit">Update</button>
+    </form>
+  {% else %}
+    <p><strong>Can't Update Already Approved !</strong></p>
+  {% endif %}
+</div>
+{% endblock main %}

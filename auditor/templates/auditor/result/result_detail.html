@@ -2,7 +2,38 @@
 {% load static %}
 
 {% block main %}
+<div class="Container">
+  <h1>Test Result Details</h1>
+  <h2>{{ test_result }}</h2>
+  <h3>{{ test_result.request }}</h3>
+  <p>Nurse: {{ test_result.request.nurse.user.first_name }} {{ test_result.request.nurse.user.last_name }}</p>
+  
+  <h3>Tests:</h3>
+  <ul>
+    {% for test in test_result.request.tests.all %}
+      <li>
+        <h4>{{ test.test_offered.name }}</h4>
+        <p>Value: {{ test.value }}</p>
+        <p>Description: {{ test.description }}</p>
+        <p>Components:</p>
+        <ul>
+          {% for component in test.components.all %}
+            <li>{{ component.info.name }} - Value: {{ component.value }}</li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
 
-    <h1>Test Result #ID Update and Approve</h1>
-
+  
+  {% if not test_result.approved %}
+  <a href="{% url 'result_update' test_result.id %}">Modify Tests</a>
+    <form method="POST" action="{% url 'approve_result' test_result.id %}">
+        {% csrf_token %}
+        <button type="submit" name="approve" >Approve Result</button>
+    </form>
+  {% else %}
+    <p><strong>Approved !</strong></p>
+  {% endif %}
+</div>
 {% endblock main %}
