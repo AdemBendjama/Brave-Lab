@@ -116,16 +116,13 @@ header {
 
 .DROPS li ul {
     top: 110px;
-    right: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    right: 55px;
     position: absolute;
     display: none;
     background-color: #267ca6;
     border-radius: 25px;
     height: auto;
-    width:150px;
+    width:250px;
     transition: 0.5s;
 }
 
