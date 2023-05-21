@@ -31,6 +31,23 @@ header {
     /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15); */
 }
 
+.Main {
+    display: flex;
+    justify-content: center;
+    margin-top: 140px;
+    margin-left: 300px;
+    width: calc(100% - 300px);
+    padding-top: 1.5%;  
+    padding-bottom: 1.5%;  
+}
+.Container {
+    font-size: 22px;
+    width: calc(100% - 100px);
+    border-radius: 20px;
+    background-color: white;
+    padding-top:30px ;
+    padding-bottom:50px ;
+}
 
 
 .wlc {
@@ -240,16 +257,7 @@ nav ul li a:hover {
 
 
 
-.Main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 140px;
-    margin-left: 300px;
-    width: calc(100% - 300px);
-    height: calc(100% - 140px);
-  
-}
+
 
 .profile-pic {
     width: 50px;
@@ -274,19 +282,6 @@ a {
 
 .DROPS li ul li {
     margin-bottom: -23px;
-}
-
-.Container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    font-size: 22px;
-    width: calc(100% - 60px);
-    height: calc(100% - 60px);
-    border-radius: 20px;
-    background-color: white;
 }
 
 nav a{
