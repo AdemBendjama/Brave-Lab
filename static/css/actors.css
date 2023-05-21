@@ -9,7 +9,6 @@ body {
 }
 
 .container {
-    background-color: #f3f3f3;
     text-align: center;
     float: right;
     width: 100%;
@@ -164,7 +163,7 @@ nav {
     left: 0;
     height: 85vh;
     margin-top: 140px;
-    background-color: #267ca6;
+    background-color: #00748c;
     width: 90px;
     border-radius: 25px;
     overflow: hidden;
