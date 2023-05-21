@@ -3,6 +3,21 @@
 
 {% block main %}
 <div class="Container">
-    <h1>Result #ID Details</h1>
+    <h1>Test Results - Invoice #{{ invoice.id }}</h1>
+    <p>Date: {{invoice.creation_time}}</p>
+    <p>Approved: {% if test_result.approved %}Yes{% else %}No{% endif %}</p>
+    <p>Duration: {{ test_result.duration }}</p>
+    
+    <h3>Tests:</h3>
+    {% for test in test_request.tests.all %}
+    <h3>{{ test.test_offered.name }}</h3>
+    <p>Description :{{ test.description }}</p>
+        {% for component in test.components.all %}
+        <p>{{ component.info.name }} : {{ component.value }} {{ component.info.unit }}
+        {% endfor %}
+    {% endfor %}
+    
+    
+    
 </div>
 {% endblock main %}

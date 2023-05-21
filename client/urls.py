@@ -18,6 +18,6 @@ urlpatterns = [
     path("request/list",views.request_list,name="client_request_list"),
     path("request/detail",views.request_detail,name="client_request_detail"),
     
-    path("result/list",views.result_list,name="client_result_list"),
-    path("result/detail",views.result_detail,name="client_result_detail"),
+    path("results/",views.result_list,name="client_result_list"),
+    path("result/<int:invoice_id>",views.result_detail,name="client_result_detail"),
 ]

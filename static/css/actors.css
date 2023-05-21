@@ -337,7 +337,7 @@ a {
 }
 
 .Container {
-    margin-top: auto;
+    margin: auto;
     width: 85%;
     border-radius: 25px;
     display: flex;

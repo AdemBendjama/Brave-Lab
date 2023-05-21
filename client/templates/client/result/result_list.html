@@ -3,6 +3,16 @@
 
 {% block main %}
 <div class="Container">
-    <h1>List Of Finished Analysis Results</h1>
+        <h1>List of Test Results</h1>
+        <ul>
+          {% for invoice in invoices %}
+            <li><a href="{% url 'client_result_detail' invoice.id%}">Invoice #{{ invoice.id }}</a></li>
+            <li>Date: {{ invoice.creation_time }}</li>
+            <li>Total Price: {{ invoice.total_price }}</li>
+            <br>
+          {% empty %}
+            <li>No test results found.</li>
+          {% endfor %}
+        </ul>
 </div>
 {% endblock main %}

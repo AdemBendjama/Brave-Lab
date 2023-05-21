@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required , permission_required
 from django.template.loader import render_to_string
 from brave_lab_project.settings import EMAIL_HOST_USER
-from main_home.models import Appointment, Complaint, MedicalDocument, Payment, TestOffered
+from main_home.models import Appointment, Complaint, Invoice, MedicalDocument, Payment, TestOffered
 from .forms import  AppointmentForm, AppointmentPaymentForm, ClientContactForm, ComplaintForm
 from django.core.files.storage import default_storage
 from django.utils import timezone
@@ -182,6 +182,7 @@ def request_list(request):
 @permission_required('client.view_client', raise_exception=True)
 def request_detail(request):
     
+    
     return render(request,'client/request/request_detail.html')
 
 ################################################################
@@ -191,14 +192,32 @@ def request_detail(request):
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def result_list(request):
+    invoices = Invoice.objects.filter(client=request.user.client, payment_status=True).all()
+    print(invoices)
     
-    return render(request,'client/result/result_list.html')
+    context = {
+        'invoices':invoices
+    }
+    
+    return render(request,'client/result/result_list.html', context)
 
 @login_required
 @permission_required('client.view_client', raise_exception=True)
-def result_detail(request):
+def result_detail(request, invoice_id):
     
-    return render(request,'client/result/result_detail.html')
+    invoice = Invoice.objects.get(id=invoice_id)
+    test_result = invoice.report.test_result
+    test_request = test_result.request
+    appointment = test_request.appointment
+    
+    context = {
+        "invoice":invoice,
+        "test_result":test_result,
+        "test_request":test_request,
+        "appointment":appointment
+    }
+    
+    return render(request,'client/result/result_detail.html' , context )
 
 ################################################################
 
