@@ -163,7 +163,7 @@ nav {
     bottom: 0;
     left: 0;
     height: 85vh;
-    margin-top: 130px;
+    margin-top: 140px;
     background-color: #267ca6;
     width: 90px;
     border-radius: 25px;
@@ -338,8 +338,8 @@ a {
 }
 
 .Container {
-    margin: auto;
-    width: 70%;
+    margin-top: auto;
+    width: 85%;
     border-radius: 25px;
     display: flex;
     align-items: center;
@@ -359,19 +359,8 @@ nav a{
     width: 97%;
 }
 
-header{
-    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-}
 
 .Container{
     box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
 
-nav{
-    box-shadow: 0 5px 10px rgba(0,0,0,0.4);
-}
-
-
-.profile-pic{
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-}

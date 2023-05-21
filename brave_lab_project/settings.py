@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'nurse.apps.NurseConfig',
     'receptionist.apps.ReceptionistConfig',
     'auditor.apps.AuditorConfig',
-    'crispy_bootstrap4',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
