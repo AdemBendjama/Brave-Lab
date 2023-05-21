@@ -15,14 +15,14 @@ body {
     height: 90vh;
 }
 
-header {  
+header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1;
-    width: calc(100vw - 300px);
-    height: 140px;
+    width: calc(100% - 300px);
+    height: 110px;
     background-color: rgb(255, 255, 255);
     display: flex;
     align-items: center;
@@ -37,21 +37,22 @@ header {
     margin-top: 140px;
     margin-left: 300px;
     width: calc(100% - 300px);
-    padding-top: 1.5%;  
-    padding-bottom: 1.5%;  
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
 }
+
 .Container {
     font-size: 22px;
     width: calc(100% - 100px);
     border-radius: 20px;
     background-color: white;
-    padding-top:30px ;
-    padding-bottom:50px ;
+    padding-top: 30px;
+    padding-bottom: 50px;
 }
 
 
 .wlc {
-    margin-left: 300px;
+    margin-left: 100px;
 }
 
 .wlc h1 {
@@ -72,7 +73,7 @@ header {
     align-items: center;
     flex-direction: row;
     justify-content: space-between;
-    gap: 30px;
+    gap: 350px;
 }
 
 .DROPS {
@@ -80,6 +81,8 @@ header {
     align-items: center;
     justify-content: center;
     flex-direction: row;
+    margin-right: 100px;
+    gap: 150px;
 }
 
 .DROPS a {
@@ -89,6 +92,7 @@ header {
     text-decoration: none;
     color: black;
     padding: 1px;
+    
 }
 
 .DROPS li {
@@ -112,7 +116,7 @@ header {
 
 .DROPS li ul {
     top: 110px;
-    right: 19px;
+    right: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -121,6 +125,7 @@ header {
     background-color: #267ca6;
     border-radius: 25px;
     height: auto;
+    width:150px;
     transition: 0.5s;
 }
 
@@ -284,7 +289,7 @@ a {
     margin-bottom: -23px;
 }
 
-nav a{
+nav a {
     height: 50px;
 }
 
@@ -293,3 +298,112 @@ nav a{
 }
 
 
+
+/* Search Bar */
+
+.search-bar button {
+    border: none;
+    background: none;
+    color: #8b8ba7;
+}
+
+/* styling of whole input container */
+.search-bar {
+    --timing: 0.3s;
+    --width-of-input: 240px;
+    --height-of-input: 60px;
+    --border-height: 2px;
+    --input-bg: #fff;
+    --border-color: #2f2ee9;
+    --border-radius: 30px;
+    --after-border-radius: 1px;
+    position: relative;
+    width: var(--width-of-input);
+    height: var(--height-of-input);
+    display: flex;
+    align-items: center;
+    padding-inline: 0.8em;
+    border-radius: var(--border-radius);
+    transition: border-radius 0.5s ease;
+    background: var(--input-bg, #fff);
+    background-color: #f6f6f6;
+}
+
+/* styling of Input */
+.search-bar-input {
+    font-size: 1.2rem;
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+    padding-inline: 0.5em;
+    padding-block: 0.7em;
+    border: none;
+}
+
+/* styling of animated border */
+.search-bar:before {
+    content: "";
+    position: absolute;
+    background: var(--border-color);
+    transform: scaleX(0);
+    transform-origin: center;
+    width: 100%;
+    height: var(--border-height);
+    left: 0;
+    bottom: 0;
+    border-radius: 1px;
+    transition: transform var(--timing) ease;
+}
+
+/* Hover on Input */
+.search-bar:focus-within {
+    border-radius: var(--after-border-radius);
+}
+
+.search-bar-input:focus {
+    outline: none;
+}
+
+/* here is code of animated border */
+.search-bar:focus-within:before {
+    transform: scale(1);
+}
+
+/* styling of close button */
+/* == you can click the close button to remove text == */
+.reset {
+    border: none;
+    background: none;
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* close button shown when typing */
+.search-bar-input:not(:placeholder-shown)~.reset {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* sizing svg icons */
+.search-bar .search-icon {
+    margin-top: 3px;
+    margin-right: 10px;
+}
+
+
+
+.profile-pic-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    
+}
+.profile-pic-container i{
+    cursor: pointer !important;
+}
+.profile-pic-container span{
+    font-size: 18px !important;
+    font-weight: 500;
+    cursor: pointer;
+}
