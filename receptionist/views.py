@@ -9,6 +9,7 @@ from main_home.models import Appointment, BloodBank, Complaint, Invoice, Lobby, 
 from nurse.models import Nurse
 from receptionist.forms import ConfirmationForm
 from django.db.models import Count, Q
+from django.contrib.auth.models import Group
 # Create your views here.
 
 ################################################################
@@ -94,7 +95,25 @@ def client_add(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            # add him to the client group
+            group = Group.objects.get(name="client")
+            group.user_set.add(user)
+            # extract form data
+            data = form.cleaned_data
+            phone_number = data.get("phone_number")
+            gender = data.get("gender")
+            address = data.get("address")
+            policy = data.get("policy")
+            date_of_birth = data.get("date_of_birth")
+            # add him with any additionel information into the client table
+            Client.objects.create(user = user,
+                            phone_number = phone_number,
+                            gender = gender,
+                            address = address,
+                            policy = policy,
+                            date_of_birth = date_of_birth)
+            
             return redirect('receptionist')
     else:
         form = UserRegisterForm()
@@ -179,7 +198,10 @@ def appointment_confirm(request, appointment_id):
                 
             if tests_fee_paid:
                 payment.total_amount_payed+=tests_fee
-                payment.payed_tests_fee = True   
+                payment.payed_tests_fee = True
+                
+            if appointment_fee_paid and tests_fee_paid:
+                appointment.payment_status = True   
                 
             appointment.arrived = True
             

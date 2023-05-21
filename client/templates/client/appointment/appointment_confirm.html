@@ -24,6 +24,7 @@
         {% else %}
             <p>No Document provided.</p>
         {% endif %}
+        
 
         <form method="POST">
             {% csrf_token %}
@@ -38,7 +39,9 @@
             <input type="hidden" name="data.client" value="{{ data.client.id }}">
             <input type="hidden" name="data.date" value="{{ data.date }}">
             <input type="hidden" name="data.description" value="{{ data.description }}">
-            <input type="hidden" name="data.document" value="{{ data.document }}">
+            {% if data.document is not None %}
+                <input type="hidden" name="data.document" value="{{ data.document }}">
+            {% endif %}
             <input type="hidden" name="data.test_count" value="{{ data.tests_requested.count }}">
             {% for test in data.tests_requested %}
                 <input type="hidden" name="data.tests_requested{{forloop.counter}}" value="{{ test.id }}">

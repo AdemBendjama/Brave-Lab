@@ -26,7 +26,7 @@ class TestFinalizeForm(forms.ModelForm):
     
     class Meta:
         model = Test
-        fields = ['value', 'description']
+        fields = ['description']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

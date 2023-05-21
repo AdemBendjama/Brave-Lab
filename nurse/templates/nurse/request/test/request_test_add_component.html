@@ -11,7 +11,7 @@
         {{ form }}
         <button type="submit" >Add Component</button>
     </form>
-    <a href="{% url 'request_test_list' analysis_request_id=analysis_request.id %}" >Back to Test List</a>
+    <a href="{% url 'request_test_detail' analysis_request_id=analysis_request.id  test_id=test.id %}" >Go Back</a>
 
 </div>
 

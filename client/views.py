@@ -100,14 +100,19 @@ def client_appointment_confirm(request):
                     
                 date = datetime.strptime(request.POST.get("data.date"), "%Y-%m-%d").date()
                 description = request.POST.get('data.description')
-                document = request.POST.get('data.document')
+                if "data.document" in request.POST:
+                    document = request.POST.get('data.document')
+                    doc_was_provided=True
+                else:
+                    doc_was_provided=False
+                    
                 total_price = Decimal(request.POST.get('data.total_price'))
                 
                 appointment = Appointment()
                 appointment.client = client
                 appointment.date = date
                 appointment.description = description
-                if document is None :
+                if doc_was_provided :
                     appointment.document = document
                 appointment.total_price = total_price
                 appointment.payment_option = payment_option

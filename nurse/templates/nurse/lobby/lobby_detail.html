@@ -14,9 +14,13 @@
     <!-- Display other appointment details as needed -->
     <p>Document:</p>
     {% if appointment.document %}
-        <img src="{{ appointment.document.url }}" alt="Document" width="200" height='160'>
+        <p>Document: 
+        </p>    
+        <a href="{{ appointment.document.url }}" target="_blank">
+            <img src="{{ appointment.document.url }}" width="200" >
+        </a>
     {% else %}
-        <p>No document available.</p>
+        <p>No document provided.</p>
     {% endif %}
     {% if not appointment.performed %}
       <form method="POST" action="{% url 'lobby_detail' appointment.id %}">

@@ -10,16 +10,22 @@
             <li>
                 <strong>{{ test.test_offered.name }}</strong> - {% if test.confirmed %}Confirmed{% else %}Not Confirmed{% endif %}
                 <a href="{% url 'request_test_detail' analysis_request_id=analysis_request.id test_id=test.id %}">View Details</a>
-                {% if not test.confirmed %}
-                <a href="{% url 'request_test_add_component' analysis_request_id=analysis_request.id test_id=test.id %}">Add Components</a>
-                {% endif %}
             </li>
         {% endfor %}
     </ul>
+    {% if analysis_request.all_tests_confirmed and not analysis_request.status == "finished" %}
+    <p>All Tests Are Confirmed !</p>
+    <a href="{% url 'request_detail' analysis_request_id=analysis_request.id %}"> Go Back to Mark As Finished
+    </a>
+    {% else %}
     <a href="{% url 'request_detail' analysis_request_id=analysis_request.id %}" >Back to Analysis Request Detail</a>
+    {% endif %}
+    
     {% if not analysis_request.status == "finished" %}
     <a href="{% url 'request_test_add' analysis_request_id=analysis_request.id %}" >Add Test</a>
     {% endif %}
+
+    
 
 </div>
 
