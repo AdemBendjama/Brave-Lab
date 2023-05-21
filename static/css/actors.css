@@ -164,30 +164,13 @@ nav {
 }
 
 .logo {
-    position: absolute;
-    top: 8px;
-    left: 3px;
-    text-align: center;
     display: flex;
     transition: all 0.5s ease;
-    margin: 10px 0 0 10px;
+    height: 100px;
+    margin-left: 35px;
+    margin-top: 15px;
 }
 
-.logo:hover {
-    display: flex;
-}
-
-.logo img {
-    width: 45px;
-    height: 45px;
-}
-
-.logo span {
-    font-weight: bold;
-    padding-left: 15px;
-    font-size: 18px;
-    text-transform: uppercase;
-}
 
 nav a {
     position: relative;
