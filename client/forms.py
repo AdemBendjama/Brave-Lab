@@ -15,7 +15,7 @@ class ComplaintForm(forms.ModelForm):
 class AppointmentForm(forms.ModelForm):
     
     date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
-    description = forms.CharField(widget=forms.Textarea(attrs={'rows': 3}))
+    description = forms.CharField(widget=forms.Textarea(attrs={'rows': 3}),required=False)
     
     class Meta:
         model = Appointment
