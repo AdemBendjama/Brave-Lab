@@ -12,6 +12,9 @@
     position: relative;
 }
 
+.serv p{
+    font-size: 18px;
+}
 nav {
     display: flex;
     padding: 2% 6%;
