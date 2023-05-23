@@ -19,16 +19,3 @@ class Invoice(models.Model):
     def __str__(self):
         return f"Invoice #{self.id}"
 
-
-class Laboratory(models.Model):
-        name = models.CharField(max_length=45, primary_key=True)
-        location = models.CharField(max_length=45)
-        description = models.CharField(max_length=45)
-        tests_made = models.FloatField()
-    
-        class Meta:
-            db_table = 'laboratory'
-            verbose_name_plural = 'Laboratories'
-    
-        def __str__(self):
-            return self.name
