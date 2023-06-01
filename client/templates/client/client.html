@@ -1,16 +1,70 @@
 {% extends 'main_home/actors_base.html' %}
 {% load static %}
+{% block css_2 %}
 
-{% block css_3 %}
+<link rel="stylesheet" href="{% static 'css/ap_list.css' %}">
 
-{% include 'main_home/page_css_dev.html' %}
-
-{% endblock css_3 %}
+{% endblock css_2 %}
 
 {% block main %}
-
     <div class="Container">
+        <div class="header ">
+            <div class="Search">
+                    <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
+                    <input placeholder="Search" type="search" class="input">
+            </div>
+            <div class="nurse">
+                <button class="list-button filter">Filter<span class="material-icons">expand_more</span></button>
+            <button class="list-button">Sort</button>
+            </div>
+            
+        </div>
+
+        
         <h2>Active Appointments</h2>
+        {% if active_appointments %}
+        <div>
+          <ul class="lists">
+              {% for appointment in active_appointments %}
+                <li class="app1">
+                    <span><strong>Appointment #{{ appointment.id }}</strong></span>
+                    <span><strong>{{ appointment.date }}</strong></span>
+                    <div class="buttons">
+                        <button class="list-button"><a class="list-links" href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
+                    </div>
+                </li>
+              {% endfor %}
+                
+            </ul>
+          </div>
+        {% else %}
+            <p>No active appointments available.</p>
+        {% endif %}
+        
+        <h2>Canceled Appointments</h2>
+      {% if canceled_appointments %}
+      <div>
+        <ul class="lists">
+            {% for appointment in canceled_appointments %}
+              <li class="app1">
+                  <span><strong>Appointment #{{ appointment.id }}</strong></span>
+                  <span><strong>{{ appointment.date }}</strong></span>
+                  <div class="buttons">
+                      <button class="list-button"><a class="list-links" href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
+                  </div>
+              </li>
+            {% endfor %}
+              
+          </ul>
+      </div>
+      {% else %}
+          <p>No canceled appointments available.</p>
+      {% endif %}
+    
+    </div>
+
+      {% comment %} 
+      <h2>Active Appointments</h2>
 {% if active_appointments %}
   <ul>
     {% for appointment in active_appointments %}
@@ -41,6 +95,7 @@
 {% else %}
   <p>No canceled appointments available.</p>
 {% endif %}
+ {% endcomment %}
     </div>
 
 {% endblock main %}
