@@ -1,18 +1,33 @@
 {% extends 'receptionist/receptionist.html' %}
 {% load static %}
+{% block css_2 %}
 
+<link rel="stylesheet" href="{% static 'css/ap_list.css' %}">
+
+{% endblock css_2 %}
 {% block main %}
 <div class="Container">
     <h1>Complaint List</h1>
-
     {% if complaints %}
         <ul>
             {% for complaint in complaints %}
-                <li><a href="{% url 'complaint_detail' complaint.id %}">{{ complaint }}</a></li>
+                <li class="app1">
+                    <span><strong>Complaint #{{ complaint.id }}</strong></span>
+                    <span><strong>{{ complaint.date }}</strong></span>
+                    <div class="buttons">
+                        <button class="list-button"><a class="list-links" href="{% url 'complaint_detail' complaint.id %}">View Details</a></button>
+                    </div>
+                </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>No complaints found.</p>
+        <div>
+            <ul class="lists">
+                <li class="app1 empty">
+                    <span><strong>No Complaints Found</strong></span>
+                </li>
+            </ul>
+        </div>
     {% endif %}
 </div>
 {% endblock main %}
