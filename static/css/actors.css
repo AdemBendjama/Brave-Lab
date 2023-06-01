@@ -39,9 +39,9 @@ header {
 .Main {
     display: flex;
     justify-content: center;
-    margin-top: 15vh;
-    margin-left: 18vw;
-    width: calc(100% - 18vw);
+    margin-top: 10vh;
+    margin-left: 14vw;
+    width: calc(100% - 12vw);
     padding-top: 1.5%;
     padding-bottom: 1.5%;
 }
