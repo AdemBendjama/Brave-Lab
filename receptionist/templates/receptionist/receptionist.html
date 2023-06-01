@@ -1,21 +1,39 @@
 {% extends 'main_home/actors_base.html' %}
 {% load static %}
+
+{% block css_2 %}
+
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+
+{% endblock css_2 %}
+
 {% block main %}
 <div class="Container">
     <h1>Homepage - List of Invoices</h1>
     <ul>
+    {% if invoices %}
         {% for invoice in invoices %}
-          <li><h2><a href="{% url 'invoice_detail' invoice.id %}">Invoice #{{ invoice.id }}</a></h2></li>
-          <ul>
-            <li>Creation Time: {{ invoice.creation_time }}</li>
-            <li>Total Price: {{ invoice.total_price }}</li>
-            <li>Payment Status: {% if invoice.payment_status %}Paid{% else %}Unpaid{% endif %}</li>
-            <!-- Add more details as needed -->
-          </ul>
+        <li class="app1">
+          <span><strong>Invoice #{{ invoice.id }}</strong></span>
+          <span><strong>{{ invoice.creation_time }}</strong></span>
+          <span><strong>Total Price: {{ invoice.total_price }}</strong></span>
+          <span><strong>{% if invoice.payment_status %}Paid{% else %}Unpaid{% endif %}</strong></span>
+          <div class="buttons">
+              <button class="list-button"><a class="list-links" href="{% url 'invoice_detail' invoice.id %}">View Details</a></button>
+          </div>
+        </li>
         {% endfor %}
+        {% else %}
+        <div>
+            <ul class="lists">
+                <li class="app1 empty">
+                    <span><strong>No Invoices Found</strong></span>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
     </ul>
 
-    
 </div>
 {% endblock main %}
 

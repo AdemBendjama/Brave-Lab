@@ -4,15 +4,27 @@
 {% block main %}
 <div class="Container">
         <h1>List of Test Results</h1>
+        {% if invoices %}
         <ul>
           {% for invoice in invoices %}
-            <li><a href="{% url 'client_result_detail' invoice.id%}">Invoice #{{ invoice.id }}</a></li>
-            <li>Date: {{ invoice.creation_time }}</li>
-            <li>Total Price: {{ invoice.total_price }}</li>
-            <br>
-          {% empty %}
-            <li>No test results found.</li>
+          <li class="app1">
+            <span><strong>Invoice #{{ invoice.id }}</strong></span>
+            <span><strong>{{ invoice.creation_time }}</strong></span>
+            <span><strong>Total Price: {{ invoice.total_price }}</strong></span>
+            <div class="buttons">
+                <button class="list-button"><a class="list-links" href="{% url 'client_result_detail' invoice.id  %}">View Details</a></button>
+            </div>
+          </li>
           {% endfor %}
         </ul>
+        {% else %}
+          <div>
+              <ul class="lists">
+                  <li class="app1 empty">
+                      <span><strong>No Unapproved Test Results Found</strong></span>
+                  </li>
+              </ul>
+          </div>
+        {% endif %}
 </div>
 {% endblock main %}

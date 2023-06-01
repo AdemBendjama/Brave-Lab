@@ -1,17 +1,24 @@
 {% extends 'auditor/auditor.html' %}
 {% load static %}
+{% block css_2 %}
 
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+
+{% endblock css_2 %}
 {% block main %}
 <div class="Container">
     <h1>Reports</h1>
 
     <ul>
+        
         {% for report in reports %}
-        <li>
-            <h3><a href="{% url 'report_detail' report.id %}">Report #{{ report.id }}</a></h3>
-            <p>Test Result: {{ report.test_result }}</p>
-            <p>Description: {{ report.description }}</p>
-        </li>
+            <li class="app1">
+                <span><strong>Report #{{ report.id }}</strong></span>
+                <span><strong>{{ report.test_result }}</strong></span>
+                <div class="buttons">
+                    <button class="list-button"><a class="list-links" href="{% url 'report_detail' report.id  %}">View Details</a></button>
+                </div>
+            </li>
         {% endfor %}
     </ul>
 </div>

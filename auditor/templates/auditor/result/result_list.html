@@ -1,6 +1,10 @@
 {% extends 'auditor/auditor.html' %}
 {% load static %}
+{% block css_2 %}
 
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+
+{% endblock css_2 %}
 {% block main %}
 
 <div class="Container">
@@ -10,22 +14,46 @@
     {% if unapproved_results %}
     <ul>
         {% for result in unapproved_results %}
-            <li><a href="{% url 'test_result_detail' result.id %}">{{ result }}</a></li>
+        <li class="app1">
+            <span><strong>Test Result #{{ result.id }}</strong></span>
+            <span><strong>{{ result.request.date }}</strong></span>
+            <div class="buttons">
+                <button class="list-button"><a class="list-links" href="{% url 'test_result_detail' result.id  %}">View Details</a></button>
+            </div>
+        </li>
         {% endfor %}
     </ul>
     {% else %}
-        <p>No unapproved test results found.</p>
+        <div>
+            <ul class="lists">
+                <li class="app1 empty">
+                    <span><strong>No Unapproved Test Results Found</strong></span>
+                </li>
+            </ul>
+        </div>
     {% endif %}
 
     <h2>Approved Test Results</h2>
     {% if approved_results %}
         <ul>
             {% for result in approved_results %}
-                <li><a href="{% url 'test_result_detail' result.id %}">{{ result }}</a></li>
+                <li class="app1">
+                    <span><strong>Test Result #{{ result.id }}</strong></span>
+                    <span><strong>{{ result.date }}</strong></span>
+                    <div class="buttons">
+                        <button class="list-button"><a class="list-links" href="{% url 'test_result_detail' result.id  %}">View Details</a></button>
+                    </div>
+                </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>No approved test results found.</p>
+        <div>
+            <ul class="lists">
+                <li class="app1 empty">
+                    <span><strong>No Approved Test Results Found</strong></span>
+                </li>
+            </ul>
+        </div>
     {% endif %}
 </div>
 {% endblock main %}
