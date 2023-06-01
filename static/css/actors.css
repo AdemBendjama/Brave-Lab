@@ -21,8 +21,8 @@ header {
     left: 0;
     right: 0;
     z-index: 1;
-    width: calc(100% - 300px);
-    height: 140px;
+    width: 82vw;
+    height: 15vh;
     background-color: rgb(255, 255, 255);
     display: flex;
     align-items: center;
@@ -68,12 +68,10 @@ header {
 
 .Left {
     float: right;
-    margin: 40px;
     display: flex;
     align-items: center;
     flex-direction: row;
     justify-content: space-between;
-    gap: 200px;
 }
 
 .DROPS {
@@ -82,7 +80,7 @@ header {
     justify-content: center;
     flex-direction: row;
     margin-right: 100px;
-    gap: 150px;
+    gap: 50px;
 }
 
 .DROPS a {
@@ -178,44 +176,48 @@ nav {
     top: 0;
     bottom: 0;
     background-color: #00748c;
-    width: 300px;
+    width: 18vw;
     overflow: hidden;
 }
 
 .logo {
     display: flex;
     transition: all 0.5s ease;
-    height: 100px;
-    margin-left: 35px;
-    margin-top: 15px;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+.logo img{
+    width: 140px;
+    height: 80px;
 }
 
 
 nav a {
     position: relative;
     color: gainsboro;
-    font-size: 18px;
+    font-size: 14px;
     display: table;
-    width: 300px;
-    padding: 10px;
+    padding-left: 20px;
+    padding-right: 30px;
 }
 
 nav .material-icons {
     position: relative;
-    width: 70px;
-    height: 40px;
     top: 14px;
-    font-size: 28px !important;
-    text-align: center;
+    font-size: 22px !important;
 }
 
 nav ul {
-    margin-top: 160px;
+    margin-top: 30%;
+    padding-left: 10px;
+    padding-right: 10px;
+
 }
 
 .nav-item {
     position: relative;
-    top: 5px;
+    top: 8px;
     margin-left: 10px;
 }
 
@@ -227,15 +229,12 @@ nav ul li {
 }
 
 .end {
-    position: absolute;
-    bottom: 10px;
-    /*remove*/
-    /* width: 80%; */
+    position: fixed;
+    bottom: 0;
+    width: 15vw;
+    margin-bottom: 10px;
 }
 
-nav ul li a {
-    padding: 20px 10px;
-}
 
 nav ul li::after {
     content: '';
@@ -244,7 +243,6 @@ nav ul li::after {
     left: 0;
     width: 5px;
     height: 100%;
-    background-color: rgb(0, 0, 0);
 }
 
 nav ul li:hover {
@@ -253,7 +251,7 @@ nav ul li:hover {
     border-radius: 25px;
 }
 
-nav ul li a:hover {
+nav ul li:hover a {
     color: black;
 }
 
@@ -288,10 +286,6 @@ a {
 
 nav a {
     height: 50px;
-}
-
-.end {
-    width: 97%;
 }
 
 
