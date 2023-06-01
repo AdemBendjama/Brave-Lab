@@ -5,8 +5,12 @@
 }
 
 body {
-    background-color: #F5F5F5;
+    background-color: #abe9ef51;
 }
+
+ul {
+    list-style-type: none;
+  }
 
 .container {
     text-align: center;
@@ -28,21 +32,22 @@ header {
     align-items: center;
     justify-content: space-between;
     margin-left: auto;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
     /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15); */
 }
 
 .Main {
     display: flex;
     justify-content: center;
-    margin-top: 140px;
-    margin-left: 300px;
-    width: calc(100% - 300px);
+    margin-top: 15vh;
+    margin-left: 18vw;
+    width: calc(100% - 18vw);
     padding-top: 1.5%;
     padding-bottom: 1.5%;
 }
 
 .Container {
-    font-size: 22px;
+    font-size: 16px;
     width: calc(100% - 100px);
     border-radius: 20px;
     background-color: white;
@@ -56,13 +61,14 @@ header {
 }
 
 .wlc h1 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 .wlc p {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 0.8rem;
     gap: 10px;
 }
 
@@ -72,6 +78,7 @@ header {
     align-items: center;
     flex-direction: row;
     justify-content: space-between;
+    gap: 20px;
 }
 
 .DROPS {
@@ -79,13 +86,13 @@ header {
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    margin-right: 100px;
-    gap: 50px;
+    margin-right: 3vw;
+    gap: 30px;
 }
 
 .DROPS a {
-    width: 40px;
-    height: 40px;
+    width: auto;
+    height: auto;
     padding: 50px;
     text-decoration: none;
     color: black;
@@ -98,29 +105,28 @@ header {
     list-style: none;
 }
 
-.DROPS li span {
-    font-size: 40px;
-}
-
-.search {
-    width: 100%;
-    position: relative;
+.DROPS .profile-header {
+    width: auto;
+    background-color: #F6F6F6;
+    border-radius: 30px;
+    height: 30px;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.search span {
-    font-size: 30px;
+.DROPS li .notifications {
+    font-size: 35px;
 }
 
 .DROPS li ul {
-    top: 110px;
-    right: 55px;
+    top: 15vh;
+    right: 50px;
     position: absolute;
     display: none;
     background-color: #267ca6;
     border-radius: 25px;
     height: auto;
-    width:250px;
     transition: 0.5s;
 }
 
@@ -129,12 +135,16 @@ header {
     padding: 20px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     flex-direction: row;
     gap: 5px;
     color: white;
     transition: 0.5s;
 
+
+}
+.DROPS li ul li span {
+    padding-left: 7px;
 }
 
 .DROPS li ul li:hover {
@@ -145,37 +155,34 @@ header {
     border-radius: 25px;
 }
 
-.searchTerm {
-    width: 250px;
-    border: 1px solid rgb(0, 0, 0);
-    border-right: none;
-    padding: 10px;
-    height: 20px;
-    border-radius: 25px 0 0 25px;
-    outline: none;
-    color: #267ca6;
+.nav-header{
+    position: fixed;
+    left: 0;
+    z-index: 1;
+    top: 0;
+    bottom: 85vh;
+    background-color: #4BB3FD  ;
+    width: 18vw;
+    overflow: hidden;
+    box-shadow: 0px 4px 4px rgb(255, 255, 255);
 }
 
-.searchButton {
-    background-color: white;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: rgb(0, 0, 0);
-    cursor: pointer;
-    padding: 4px;
-    font-size: 20px;
-    border: solid 1px rgb(0, 0, 0);
-    border-radius: 0px 25px 25px 0px;
+.nav-header a{
+    position: relative;
+    color: white;
+    font-size: 14px;
+    padding-left: 20px;
+    width: 15vw;
 }
 
 nav {
     position: fixed;
     left: 0;
     z-index: 1;
-    top: 0;
+    top: 15vh;
     bottom: 0;
-    background-color: #00748c;
+    /*#00748c*/
+    background-color: #494D55;
     width: 18vw;
     overflow: hidden;
 }
@@ -183,23 +190,30 @@ nav {
 .logo {
     display: flex;
     transition: all 0.5s ease;
-    margin-left: 30px;
-    margin-top: 20px;
+    margin-top: 5vh;
+    padding-right: 0 !important;
+    width: 100%;
+    gap: 8px;
+}
+
+.logo span{
+    font-size: 1.1rem;
+    padding-top: 3px;
 }
 
 .logo img{
-    width: 140px;
-    height: 80px;
+    height: 32px;
 }
 
 
 nav a {
     position: relative;
-    color: gainsboro;
+    color: white;
     font-size: 14px;
     display: table;
     padding-left: 20px;
     padding-right: 30px;
+    width: 15vw;
 }
 
 nav .material-icons {
@@ -223,9 +237,10 @@ nav ul {
 
 
 nav ul li {
-    transition: 0.5s;
+    transition: 0.4s;
     margin: 3px;
     width: auto;
+    margin-bottom: 10px;
 }
 
 .end {
@@ -248,7 +263,7 @@ nav ul li::after {
 nav ul li:hover {
     cursor: pointer;
     background-color: white;
-    border-radius: 25px;
+    border-radius: 20px;
 }
 
 nav ul li:hover a {
@@ -260,8 +275,8 @@ nav ul li:hover a {
 
 
 .profile-pic {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     cursor: pointer;
     object-fit: cover;
@@ -291,18 +306,29 @@ nav a {
 
 
 /* Search Bar */
+.search {
+    width: 100%;
+    position: relative;
+    display: flex;
+    cursor: pointer;
+}
+
+.search span {
+    font-size: 24px;
+}
 
 .search-bar button {
     border: none;
     background: none;
     color: #8b8ba7;
+    
 }
 
 /* styling of whole input container */
 .search-bar {
     --timing: 0.3s;
-    --width-of-input: 260px;
-    --height-of-input: 60px;
+    --width-of-input: 240px;
+    --height-of-input: 45px;
     --border-height: 2px;
     --input-bg: #fff;
     --border-color: #2f2ee9;
@@ -322,7 +348,7 @@ nav a {
 
 /* styling of Input */
 .search-bar-input {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     background-color: transparent;
     width: 100%;
     height: 100%;
@@ -394,7 +420,7 @@ nav a {
     cursor: pointer !important;
 }
 .profile-pic-container span{
-    font-size: 18px !important;
+    font-size: 16px !important;
     font-weight: 500;
     cursor: pointer;
 }

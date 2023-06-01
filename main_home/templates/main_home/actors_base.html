@@ -39,8 +39,8 @@
                 <ul class="DROPS">
                     {% if user.groups.first.name == 'client' %}
             
-                    <li><a href="#"><span class="material-icons">notifications</span></a></li>
-                    <li><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.client.profile_pic.url }}"></img><span>{{user.username}}</span><i class="fa-solid fa-chevron-down"></i></a>
+                    <li><a href="#"><span class="material-icons notifications">notifications</span></a></li>
+                    <li class="profile-header"><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.client.profile_pic.url }}"></img><span>{{user.username}}</span><i class="fa-solid fa-chevron-down"></i></a>
                     <ul id="myElement">
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
@@ -49,16 +49,16 @@
                                         
                     {% elif user.groups.first.name == 'nurse' %}
                     
-                    <li><a href="#"><span class="material-icons">notifications</span></a></li>
-                    <li><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.nurse.profile_pic.url }}"></img><span>{{user.username}}</span><i class="fa-solid fa-chevron-down"></i></a>
+                    <li><a href="#"><span class="material-icons notifications">notifications</span></a></li>
+                    <li class="profile-header"><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.nurse.profile_pic.url }}"></img><span>{{user.username}}</span><i class="fa-solid fa-chevron-down"></i></a>
                     <ul id="myElement">
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
                                         
                     {% elif user.groups.first.name == 'receptionist' %}
                     
-                    <li><a href="#"><span class="material-icons">notifications</span></a></li>
-                    <li><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.receptionist.profile_pic.url }}"></img><span>{{user.username}}</span><i class="fa-solid fa-chevron-down"></i></a>
+                    <li><a href="#"><span class="material-icons notifications">notifications</span></a></li>
+                    <li class="profile-header"><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.receptionist.profile_pic.url }}"></img><span>{{user.username}}</span><i class="fa-solid fa-chevron-down"></i></a>
                     <ul id="myElement">
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
@@ -66,8 +66,8 @@
                                     
                     {% elif user.groups.first.name == 'auditor' %}
                     
-                    <li><a href="#"><span class="material-icons">notifications</span></a></li>
-                    <li><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.auditor.profile_pic.url }}"></img><span>{{user.username}}</span><i class="fa-solid fa-chevron-down"></i></a>
+                    <li><a href="#"><span class="material-icons notifications">notifications</span></a></li>
+                    <li class="profile-header"><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.auditor.profile_pic.url }}"></img><span>{{user.username}}</span><i class="fa-solid fa-chevron-down"></i></a>
                     <ul id="myElement">
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
@@ -83,10 +83,13 @@
             {% block main %}{% endblock main %}
         </div>
     </div>
-    <nav>
+    <div class="nav-header">
         <a class="logo" href="{% url user.groups.first.name %}">
-            <img alt="brave lab logo" src="{% static 'img/download.png' %}">
+            <img alt='logo' src="{% static 'img/logo.png' %}">
+            <span><strong>Brave Laboratory</strong></span>
         </a>
+    </div>
+    <nav>
         <ul>
             {% block sidebar %}{% endblock sidebar %}
             <li class="end">
