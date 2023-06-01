@@ -3,6 +3,7 @@
 {% block css_2 %}
 
 <link rel="stylesheet" href="{% static 'css/list.css' %}">
+<link rel="stylesheet" href="{% static 'css/lists/ap_list.css' %}">
 
 {% endblock css_2 %}
 
@@ -40,8 +41,15 @@
                     <span><strong>Appointment #{{ appointment.id }}</strong></span>
                     <span><strong>{{ appointment.date }}</strong></span>
                     <div class="buttons">
+                      {% if appointment.cancelable >= 3 %}
+                        <button class="list-button cancel-button">Cancel</button>
+                      {% endif %}
                         <button class="list-button"><a class="list-links" href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
                     </div>
+                    <form class="cancel-form" action="{% url 'client_cancel_appointment' appointment.id %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit">Cancel Appointment</button>
+                    </form>
                 </li>
               {% endfor %}
                 
@@ -158,3 +166,14 @@
 
 {% endblock sidebar %}
 
+
+{% block scripts_2 %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('.cancel-button').click(function() {
+      $(this).closest('.app1').find('.cancel-form').submit();
+    });
+  });
+</script>
+{% endblock scripts_2 %}

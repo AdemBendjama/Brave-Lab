@@ -44,13 +44,10 @@
     <h3>Status</h3>
     {% if appointment.cancelled %}
         <p>Appointment Has Been Cancelled</p>
-    {% elif time_difference >= 3 %}
-        <form action="{% url 'client_cancel_appointment' appointment.id %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Cancel Appointment</button>
-        </form>
-    {% else %}
-        <p>Appointment cannot be cancelled, need to canceled 3 days prior</p>
+    {% elif appointment.status == appointment.OVERDUE %}
+        <p>Appointment Is Overdue</p>
+    {% else%}
+        <p>Appointment Is Pending</p>
     {% endif %}
 
 </div>

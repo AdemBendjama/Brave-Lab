@@ -203,6 +203,11 @@ class Appointment(models.Model):
         return f"Appointment #{self.id}"
     
     @property
+    def cancelable(self):
+        time_difference = self.date - timezone.now().date()
+        return time_difference.days
+        
+    @property
     def status(self):
         today = timezone.now().date()
         

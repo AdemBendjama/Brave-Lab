@@ -428,3 +428,8 @@ nav a {
     font-weight: 500;
     cursor: pointer;
 }
+
+.cancel-form {
+    display: none;
+}
+  
