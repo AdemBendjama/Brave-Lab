@@ -13,7 +13,7 @@
 }
 
 .serv p{
-    font-size: 18px;
+    font-size: 16px;
 }
 nav {
     display: flex;
@@ -23,7 +23,7 @@ nav {
 }
 
 nav img {
-    width: 200px;
+    width: 180px;
 }
 
 .nav-links {
@@ -41,7 +41,7 @@ nav img {
 .nav-links ul li a {
     color: rgb(0, 0, 0);
     text-decoration: none;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 .nav-links ul li::after {
@@ -70,11 +70,11 @@ nav img {
 
 .textbox h1 {
     color: rgb(0, 0, 0);
-    font-size: 80px;
+    font-size: 55px;
 }
 
 .textbox p {
-    color: rgb(25, 57, 99);
+    color: rgb(0, 0, 0);
     margin: 10px 0 40px;
     /*edited*/
     font-size: 1.2rem;
@@ -112,16 +112,19 @@ nav img {
 }
 
 .services h1 {
-    font-size: 50px;
+    font-size: 35px;
     font-weight: 600;
 }
 
 .services p {
-    color: #777;
-    font-size: 20px;
+    color: #373737;
+    font-size: 18px;
     font-weight: 300;
     line-height: 22px;
     padding: 10px;
+}
+.services1{
+    margin-bottom: 20px !important;
 }
 
 .services1,
@@ -138,17 +141,17 @@ nav img {
 }
 
 .serv img {
-    width: 500px;
-    height: 400px;
+    width: 400px;
+    height: 300px;
 }
 
 .serv h3 {
-    font-size: 40px;
+    font-size: 30px;
 }
 
 .serv {
-    height: 700px;
-    width: 700px;
+    height: 600px;
+    width: 600px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -194,7 +197,7 @@ nav img {
 
 .footer-distributed h3 {
     color: #ffffff;
-    font: normal 36px 'Roboto', cursive;
+    font: normal 30px 'Roboto', cursive;
     margin: 0 0 10px;
 }
 
@@ -256,7 +259,7 @@ nav img {
 }
 
 .footer-left img {
-    width: 250px;
+    width: 180px;
     margin-bottom: 50px;
 }
 

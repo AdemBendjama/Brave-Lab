@@ -12,7 +12,7 @@ body {
 
 /* Container login page */
 .login-Container {
-    margin: 3rem auto;
+    margin: 1rem auto;
     width: 500px;
     background-color: white;
     border-radius: 20px;
@@ -30,7 +30,7 @@ body {
 /************************************/
 /* Container sign up page */
 .signup-Container {
-    margin: 3rem auto;
+    margin: 1rem auto;
     width: 600px;
     background-color: white;
     border-radius: 20px;
@@ -60,7 +60,7 @@ form {
 
 /* form content*/
 form label {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: bold;
 }
 
@@ -128,7 +128,7 @@ div .password-container .password input {
 /* Login Button */
 .login-button {
     margin-top: 20px;
-    font-size: 1.1rem !important;
+    font-size: 1rem !important;
     font-weight: 600;
     padding: 14px;
     width: 25%;
@@ -231,7 +231,7 @@ nav {
 }
 /************************************/
 .links{
-   font-size: 1.1rem; 
+   font-size: 1rem; 
     color: #007bff;
     text-decoration: none;
     background-color: transparent;
