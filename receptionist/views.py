@@ -150,6 +150,7 @@ def appointment_list(request):
         'appointments_tomorrow': appointments_tomorrow,
         'appointments_upcoming': appointments_upcoming,
     }
+    
 
     
     return render(request,'receptionist/appointment/appointment_list.html',context)

@@ -20,14 +20,25 @@ from django.contrib import messages
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def client_home(request):
-    # Retrieve the list of booked appointments for the current client
+    # 
     appointments = Appointment.objects.filter(client=request.user.client).order_by('date')
-    canceled_appointments = appointments.filter(cancelled=True)
-    active_appointments = appointments.exclude(cancelled=True)
-    
+
+    active_appointments = []
+    canceled_appointments = []
+    overdue_appointments = []
+
+    for appointment in appointments:
+        if appointment.cancelled:
+            canceled_appointments.append(appointment)
+        elif appointment.status == appointment.OVERDUE:
+            overdue_appointments.append(appointment)
+        else:
+            active_appointments.append(appointment)
+
     context = {
         'active_appointments': active_appointments,
         'canceled_appointments': canceled_appointments,
+        'overdue_appointments': overdue_appointments,
     }
     return render(request,'client/client.html',context)
 

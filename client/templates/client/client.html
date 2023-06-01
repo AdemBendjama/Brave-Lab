@@ -38,10 +38,16 @@
             </ul>
           </div>
         {% else %}
-            <p>No active appointments available.</p>
+        <div>
+          <ul class="lists">
+              <li class="app1 empty">
+                  <span><strong>No Active Appointments Found</strong></span>
+              </li>
+          </ul>
+        </div>         
         {% endif %}
         
-        <h2>Canceled Appointments</h2>
+      <h2>Canceled Appointments</h2>
       {% if canceled_appointments %}
       <div>
         <ul class="lists">
@@ -58,7 +64,39 @@
           </ul>
       </div>
       {% else %}
-          <p>No canceled appointments available.</p>
+      <div>
+        <ul class="lists">
+            <li class="app1 empty">
+                <span><strong>No Canceled Appointments Found</strong></span>
+            </li>
+        </ul>
+      </div>
+      {% endif %}
+
+      <h2>Overdue Appointments</h2>
+      {% if overdue_appointments %}
+      <div>
+        <ul class="lists">
+            {% for appointment in overdue_appointments %}
+              <li class="app1">
+                  <span><strong>Appointment #{{ appointment.id }}</strong></span>
+                  <span><strong>{{ appointment.date }}</strong></span>
+                  <div class="buttons">
+                      <button class="list-button"><a class="list-links" href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
+                  </div>
+              </li>
+            {% endfor %}
+              
+          </ul>
+        </div>
+      {% else %}
+      <div>
+        <ul class="lists">
+            <li class="app1 empty">
+                <span><strong>No Overdue Appointments Found</strong></span>
+            </li>
+        </ul>
+      </div>
       {% endif %}
     
     </div>
