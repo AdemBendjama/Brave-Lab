@@ -25,8 +25,8 @@ header {
     left: 0;
     right: 0;
     z-index: 1;
-    width: 82vw;
-    height: 15vh;
+    width: 84vw;
+    height: 11vh;
     background-color: rgb(255, 255, 255);
     display: flex;
     align-items: center;
@@ -78,7 +78,7 @@ header {
     align-items: center;
     flex-direction: row;
     justify-content: space-between;
-    gap: 20px;
+    gap: 40px;
 }
 
 .DROPS {
@@ -86,8 +86,8 @@ header {
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    margin-right: 3vw;
-    gap: 30px;
+    margin-right: 1.5vw;
+    gap: 50px;
 }
 
 .DROPS a {
@@ -107,25 +107,25 @@ header {
 
 .DROPS .profile-header {
     width: auto;
-    background-color: #F6F6F6;
+ 
     border-radius: 30px;
-    height: 30px;
+    height: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .DROPS li .notifications {
-    font-size: 35px;
+    font-size: 25px;
 }
 
 .DROPS li ul {
-    top: 15vh;
-    right: 50px;
+    top: 11.4vh;
+    right: 20px;
     position: absolute;
     display: none;
     background-color: #267ca6;
-    border-radius: 25px;
+    border-radius: 10px;
     height: auto;
     transition: 0.5s;
 }
@@ -148,11 +148,11 @@ header {
 }
 
 .DROPS li ul li:hover {
-    color: black;
+    color: white;
     cursor: pointer;
-    background-color: white;
+    background-color: black;
     transform: scale(0.9);
-    border-radius: 25px;
+    border-radius: 15px;
 }
 
 .nav-header{
@@ -160,9 +160,9 @@ header {
     left: 0;
     z-index: 1;
     top: 0;
-    bottom: 85vh;
-    background-color: #4BB3FD  ;
-    width: 18vw;
+    bottom: 89vh;
+    background-color: #00748c  ;
+    width: 16vw;
     overflow: hidden;
     box-shadow: 0px 4px 4px rgb(255, 255, 255);
 }
@@ -171,7 +171,7 @@ header {
     position: relative;
     color: white;
     font-size: 14px;
-    padding-left: 20px;
+    padding-left: 18px;
     width: 15vw;
 }
 
@@ -179,25 +179,25 @@ nav {
     position: fixed;
     left: 0;
     z-index: 1;
-    top: 15vh;
+    top: 11.2vh;
     bottom: 0;
     /*#00748c*/
-    background-color: #494D55;
-    width: 18vw;
+    background-color: #00748c;
+    width: 16vw;
     overflow: hidden;
 }
 
 .logo {
     display: flex;
     transition: all 0.5s ease;
-    margin-top: 5vh;
+    margin-top: 3.5vh;
     padding-right: 0 !important;
     width: 100%;
     gap: 8px;
 }
 
 .logo span{
-    font-size: 1.1rem;
+    font-size: 1rem;
     padding-top: 3px;
 }
 
@@ -223,9 +223,8 @@ nav .material-icons {
 }
 
 nav ul {
-    margin-top: 30%;
-    padding-left: 10px;
-    padding-right: 10px;
+    margin-top: 40%;
+    padding-right: 5px;
 
 }
 
@@ -262,12 +261,12 @@ nav ul li::after {
 
 nav ul li:hover {
     cursor: pointer;
-    background-color: white;
+    background-color: black;
     border-radius: 20px;
 }
 
 nav ul li:hover a {
-    color: black;
+    color: white;
 }
 
 
@@ -275,8 +274,8 @@ nav ul li:hover a {
 
 
 .profile-pic {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     cursor: pointer;
     object-fit: cover;
@@ -413,7 +412,7 @@ nav a {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
     
 }
 .profile-pic-container i{
