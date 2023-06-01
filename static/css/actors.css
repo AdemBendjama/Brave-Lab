@@ -81,6 +81,7 @@ header {
     flex-direction: row;
     justify-content: space-between;
     gap: 40px;
+    margin-right: 15px;
 }
 
 .DROPS {
@@ -109,12 +110,12 @@ header {
 
 .DROPS .profile-header {
     width: auto;
- 
     border-radius: 30px;
     height: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .DROPS li .notifications {
@@ -277,8 +278,8 @@ nav ul li:hover a {
 
 
 .profile-pic {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     cursor: pointer;
     object-fit: cover;
@@ -316,7 +317,7 @@ nav a {
 }
 
 .search span {
-    font-size: 24px;
+    font-size: 26px;
 }
 
 .search-bar button {
@@ -330,10 +331,10 @@ nav a {
 .search-bar {
     --timing: 0.3s;
     --width-of-input: 240px;
-    --height-of-input: 45px;
+    --height-of-input: 50px;
     --border-height: 2px;
     --input-bg: #fff;
-    --border-color: #2f2ee9;
+    --border-color: #00748c;
     --border-radius: 30px;
     --after-border-radius: 1px;
     position: relative;
@@ -345,7 +346,7 @@ nav a {
     border-radius: var(--border-radius);
     transition: border-radius 0.5s ease;
     background: var(--input-bg, #fff);
-    background-color: #f6f6f6;
+    background-color: #f3f3f4;
 }
 
 /* styling of Input */
@@ -406,7 +407,8 @@ nav a {
 /* sizing svg icons */
 .search-bar .search-icon {
     margin-top: 3px;
-    margin-right: 10px;
+    margin-right: 6px;
+    margin-left: 10px;
 }
 
 

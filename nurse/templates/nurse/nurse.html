@@ -1,23 +1,33 @@
 {% extends 'main_home/actors_base.html' %}
 {% load static %}
-{% block css_3 %}
+{% block css_2 %}
 
-{% include 'main_home/page_css_dev.html' %}
+<link rel="stylesheet" href="{% static 'css/ap_list.css' %}">
 
-{% endblock css_3 %}
-
+{% endblock css_2 %}
 {% block main %}
 <div class="Container">
 		
-    <h1>Homepage - Arrived Client Lobby</h1>
-    {% for client in clients %}
-    <div>
-        <h3>Appointment #{{ client.id }}</h3>
-        <p>{{ client.client.user.first_name }} {{ client.client.user.last_name }}</p>
-        <!-- Display other relevant appointment details -->
-        <a href="{% url 'lobby_detail' client.id %}">View Details</a>
-    </div>
-    {% endfor %}
+    <h1>Client Lobby</h1>
+    {% if clients %}
+        {% for client in clients %}
+            <li class="app1">
+                <span><strong>Appointment #{{ client.id }}</strong></span>
+                <span><strong>{{ client.client.user.first_name }} {{ client.client.user.last_name }}</strong></span>
+                <div class="buttons">
+                    <button class="list-button"><a class="list-links" href="{% url 'lobby_detail' client.id %}">View Details</a></button>
+                </div>
+            </li>
+        {% endfor %}
+    {% else %}
+        <div>
+            <ul class="lists">
+                <li class="app1 empty">
+                    <span><strong>No Clients Waiting in the Lobby</strong></span>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
      
     
 </div>

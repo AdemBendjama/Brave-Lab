@@ -19,3 +19,17 @@ class Invoice(models.Model):
     def __str__(self):
         return f"Invoice #{self.id}"
 
+        <li class="app1">
+            <span><strong>Lipid Panel</strong></span>
+            <span><strong>Not Confirmed</strong></span>
+            <div class="buttons">
+            <button class="list-button"><a class="list-links" href="{% url 'request_test_detail' analysis_request_id=analysis_request.id test_id=test.id %}">View Details</a></button>
+            </div>
+        </li> 
+        <li class="app1">
+            <span><strong>Hemoglobin A1C (HbA1c)</strong></span>
+            <span><strong>Not Confirmed</strong></span>
+            <div class="buttons">
+            <button class="list-button"><a class="list-links" href="{% url 'request_test_detail' analysis_request_id=analysis_request.id test_id=test.id %}">View Details</a></button>
+            </div>
+        </li> 

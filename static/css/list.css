@@ -28,9 +28,9 @@
 .input:focus,
 .input:hover {
     outline: none;
-    border-color: #267ba6;
+    border-color: #00748c;
     background-color: #fff;
-    box-shadow: 0 0 0 2px #267ba659;
+    box-shadow: 0 0 0 2px #00748c59;
 }
 
 .icon {
@@ -54,15 +54,15 @@
 }
 
 .list-button:hover {
-    background-color: #267ba6;
+    background-color: #00748c;
     color: hsl(0, 0%, 100%);
     cursor: pointer;
 }
 
 .list-button:active {
-    background-color: #267ba6;
+    background-color: #00748c;
     color: hsl(0, 0%, 100%);
-    box-shadow: #267ba6;
+    box-shadow: #00748c;
     transition: 100ms;
 }
 

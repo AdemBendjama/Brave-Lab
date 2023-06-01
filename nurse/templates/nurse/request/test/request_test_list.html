@@ -1,16 +1,30 @@
 {% extends 'nurse/nurse.html' %}
 {% load static %}
+{% block css_2 %}
+
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+<link rel="stylesheet" href="{% static 'css/test_list.css' %}">
+
+{% endblock css_2 %}
 
 {% block main %}
 <div class="Container">
 		
     <h1>Tests for Analysis Request #{{ analysis_request.id }}</h1>
+
     <ul>
         {% for test in tests %}
-            <li>
+            <li class="app1">
+                <span><strong>{{ test.test_offered.name }}</strong></span>
+                <span><strong>{% if test.confirmed %}Confirmed{% else %}Not Confirmed{% endif %}</strong></span>
+                <div class="buttons">
+                <button class="list-button"><a class="list-links" href="{% url 'request_test_detail' analysis_request_id=analysis_request.id test_id=test.id %}">View Details</a></button>
+                </div>
+            </li> 
+            {% comment %} <li>
                 <strong>{{ test.test_offered.name }}</strong> - {% if test.confirmed %}Confirmed{% else %}Not Confirmed{% endif %}
                 <a href="{% url 'request_test_detail' analysis_request_id=analysis_request.id test_id=test.id %}">View Details</a>
-            </li>
+            </li> {% endcomment %}
         {% endfor %}
     </ul>
     {% if analysis_request.all_tests_confirmed and not analysis_request.status == "finished" %}
