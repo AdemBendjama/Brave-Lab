@@ -1,0 +1,3 @@
+*.pyc merge=binary
+*.sqlite3 merge=binary
+

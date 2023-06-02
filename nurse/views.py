@@ -1,10 +1,14 @@
 
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required , permission_required
 from auditor.models import Auditor
 from main_home.models import AnalysisRequest, Appointment, ChatRoom, Lobby, Message, Payment, Test , TestResult
 from django.utils import timezone
 from nurse.forms import AddComponentForm, AddTestForm, TestFinalizeForm
+
+from django.core.serializers import serialize
+from django.utils import formats
 
 from nurse.models import Nurse
 
@@ -248,11 +252,11 @@ def request_test_finalize(request, analysis_request_id, test_id):
 def message_chat(request):
     messages = Message.objects.filter(sender=request.user) | Message.objects.filter(receiver=request.user)
     messages = messages.order_by('timestamp')
-    print(request.user.nurse)
     room = ChatRoom.objects.get(nurse=request.user.nurse)
     room_id = room.id
     context={
         'room_id':room_id,
+        'room':room,
         'messages':messages,
     }
     
@@ -271,8 +275,33 @@ def nurse_send(request):
     message = Message.objects.create(sender=sender, receiver=receiver, room_id=room_id, content=message)
     
     print(f'message created :{message}')
-    return redirect('nurse_message_chat')
+    return HttpResponse('Message sent successfully')
 
+@login_required
+@permission_required('nurse.view_nurse', raise_exception=True)
+def getMessages(request):
+    messages = Message.objects.filter(sender=request.user) | Message.objects.filter(receiver=request.user)
+    messages = messages.order_by('timestamp')
+    room = ChatRoom.objects.get(nurse=request.user.nurse)
+    nurse_id = request.user.id
+    room_id = room.id
+
+    def serialize_timestamp(timestamp):
+        return formats.date_format(timestamp, "F j, Y, P")
+
+    serialized_messages = []
+    for message in messages:
+        serialized_message = {
+            'id': message.id,
+            'sender_id': message.sender_id,
+            'receiver_id': message.receiver_id,
+            'room_id': message.room_id,
+            'content': message.content,
+            'timestamp': serialize_timestamp(message.timestamp),
+        }
+        serialized_messages.append(serialized_message)
+        
+    return JsonResponse({"messages":serialized_messages,"nurse_id":nurse_id})
     
 
 
