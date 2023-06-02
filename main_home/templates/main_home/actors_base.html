@@ -2,68 +2,80 @@
 {% load static %}
     
 {% block css %}
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/actors.css' %}" />
+    
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="{% static 'css/actors.css' %}" />
+   
+
+    
 {% endblock css %}
 
 {% block header %}{% endblock header %}
     
 {% block content %}
+
     <div class="container">
+        
         <header>
             <div class="wlc">
                 <h1>Welcome Back {{user.username}}</h1>
             </div>
             <div class="Left">
+                
                 <ul class="DROPS">
                     {% if user.groups.first.name == 'client' %}
-                        <li class="profile-header"><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.client.profile_pic.url }}"></img><i class="fa-solid fa-chevron-down"></i></a>
-                            <ul id="myElement">
-                                <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
-                                <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
-                                <a href="{% url 'profile_help' %}" class="drop-down"><li><span class="material-icons">help</span>Help</li></a>
-                                <a href="{% url 'profile_contact' %}" class="drop-down"><li><span class="material-icons">call</span>Contact us</li></a>
-                            </ul>
-                        </li>
+            
+                    {% comment %} <li><a href="#"><span class="material-icons notifications">notifications</span></a></li> {% endcomment %}
+                    <li class="profile-header"><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.client.profile_pic.url }}"></img><i class="fa-solid fa-chevron-down"></i></a>
+                    <ul id="myElement">
+                    <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
+                    <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
+                    <a href="{% url 'profile_help' %}" class="drop-down"><li><span class="material-icons">help</span>Help</li></a>
+                    <a href="{% url 'profile_contact' %}" class="drop-down"><li><span class="material-icons">call</span>Contact us</li></a>
+                                        
                     {% elif user.groups.first.name == 'nurse' %}
-                        <li class="profile-header"><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.nurse.profile_pic.url }}"></img><i class="fa-solid fa-chevron-down"></i></a>
-                            <ul id="myElement">
-                                <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
-                                <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
-                            </ul>
-                        </li>
+                    
+                    {% comment %} <li><a href="#"><span class="material-icons notifications">notifications</span></a></li> {% endcomment %}
+                    <li class="profile-header"><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.nurse.profile_pic.url }}"></img><i class="fa-solid fa-chevron-down"></i></a>
+                    <ul id="myElement">
+                    <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
+                    <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
+                                        
                     {% elif user.groups.first.name == 'receptionist' %}
-                        <li class="profile-header"><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.receptionist.profile_pic.url }}"></img><i class="fa-solid fa-chevron-down"></i></a>
-                            <ul id="myElement">
-                                <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
-                                <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
-                            </ul>
-                        </li>
+                    
+                    {% comment %} <li><a href="#"><span class="material-icons notifications">notifications</span></a></li> {% endcomment %}
+                    <li class="profile-header"><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.receptionist.profile_pic.url }}"></img><i class="fa-solid fa-chevron-down"></i></a>
+                    <ul id="myElement">
+                    <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
+                    <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
+                                        
+                                    
                     {% elif user.groups.first.name == 'auditor' %}
-                        <li class="profile-header"><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.auditor.profile_pic.url }}"></img><i class="fa-solid fa-chevron-down"></i></a>
-                            <ul id="myElement">
-                                <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
-                                <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
+                    
+                    {% comment %} <li><a href="#"><span class="material-icons notifications">notifications</span></a></li> {% endcomment %}
+                    <li class="profile-header"><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.auditor.profile_pic.url }}"></img><i class="fa-solid fa-chevron-down"></i></a>
+                    <ul id="myElement">
+                    <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
+                    <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
+                    
+                    {% endif %}
                             </ul>
                         </li>
-                    {% endif %}
-                </ul>
-            </div>
+                    </ul>
+                </div>
         </header>
         
         <div class="Main">
             {% block main %}{% endblock main %}
         </div>
     </div>
-    
     <div class="nav-header">
         <a class="logo" href="{% url user.groups.first.name %}">
             <img alt='logo' src="{% static 'img/logo.png' %}">
             <span><strong>Brave Laboratory</strong></span>
         </a>
     </div>
-    
     <nav>
         <ul>
             {% block sidebar %}{% endblock sidebar %}
@@ -75,20 +87,14 @@
             </li>
         </ul>
     </nav>
-</section>
+    </section>
+
+ 
 
 {% endblock content %}
 
 {% block scripts %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('.nav-header ul li').click(function() {
-            $('.nav-header ul li').removeClass('active');
-            $(this).addClass('active');
-        });
-    });
-    
     function showElement() {
         var element = document.getElementById("myElement");
         if (element.style.display === "block") {
@@ -98,4 +104,5 @@
         }
     }
 </script>
+
 {% endblock scripts %}

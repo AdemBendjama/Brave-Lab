@@ -213,7 +213,6 @@ nav {
 nav a {
     position: relative;
     color: white;
-
     display: table;
     padding-left: 20px;
     padding-right: 30px;
@@ -249,7 +248,8 @@ nav ul li {
 .end {
     position: fixed;
     bottom: 0;
-    width: 15vw;
+    transition: 0.4s;
+    width: auto;
     margin-bottom: 10px;
 }
 
@@ -272,11 +272,6 @@ nav ul li:hover {
 
 nav ul li:hover a {
     color: black;
-}
-
-.nav-link.active {
-    background-color: white;
-    border-radius: 30px 0px 0px 30px;
 }
   
 
