@@ -24,20 +24,3 @@
 {% endblock sidebar %}
 
 
-<script>
-    // Get all the <li> elements
-const navItems = document.querySelectorAll('nav ul li');
-
-// Add click event listener to each <li> element
-navItems.forEach((item) => {
-item.addEventListener('click', () => {
-// Remove the 'active' class from all <li> elements
-navItems.forEach((navItem) => {
-  navItem.classList.remove('active');
-});
-
-// Add the 'active' class to the clicked <li> element
-item.classList.add('active');
-});
-});
-  </script>
