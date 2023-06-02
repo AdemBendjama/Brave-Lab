@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: #abe9ef51;
+    background-color: white;
 }
 
 ul {
@@ -52,7 +52,6 @@ header {
     margin: 0 20px;
     border-radius: 20px;
     background-color: white;
-
     padding-left: 20px;
     padding-right: 20px;
 }
@@ -174,7 +173,7 @@ header {
 .nav-header a{
     position: relative;
     color: white;
-    font-size: 14px;
+
     padding-left: 18px;
     width: 15vw;
 }
@@ -213,11 +212,12 @@ nav {
 nav a {
     position: relative;
     color: white;
-    font-size: 14px;
+
     display: table;
     padding-left: 20px;
     padding-right: 30px;
     width: 15vw;
+ 
 }
 
 nav .material-icons {
@@ -228,7 +228,7 @@ nav .material-icons {
 
 nav ul {
     margin-top: 40%;
-    padding-right: 5px;
+
 
 }
 
@@ -241,7 +241,7 @@ nav ul {
 
 nav ul li {
     transition: 0.4s;
-    margin: 3px;
+    
     width: auto;
     margin-bottom: 10px;
 }
@@ -265,12 +265,12 @@ nav ul li::after {
 
 nav ul li:hover {
     cursor: pointer;
-    background-color: black;
-    border-radius: 20px;
+    background-color: white;
+    border-radius: 30px 0px 0px 30px;
 }
 
 nav ul li:hover a {
-    color: white;
+    color: black;
 }
 
 
