@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Complaint, Laboratory, ComponentInformation, Component, Lobby, Payment, TestOffered, Test, BloodBank, MedicalDocument, Appointment, AnalysisRequest, TestResult, Report, Invoice
+from .models import ChatRoom, Complaint, Laboratory, ComponentInformation, Component, Lobby, Message, Payment, TestOffered, Test, BloodBank, MedicalDocument, Appointment, AnalysisRequest, TestResult, Report, Invoice
 
 # register your models here.
 admin.site.register(Complaint)
@@ -17,3 +17,5 @@ admin.site.register(Report)
 admin.site.register(Invoice)
 admin.site.register(Payment)
 admin.site.register(Lobby)
+admin.site.register(ChatRoom)
+admin.site.register(Message)

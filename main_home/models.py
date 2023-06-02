@@ -1,11 +1,13 @@
 from datetime import timedelta, timezone
 from django.db import models
 from django.forms import ValidationError
+from auditor.models import Auditor
 from client.models import Client
 from nurse.models import Nurse
 from receptionist.models import Receptionist
 from django.utils import timezone
 from django.db.models import Sum
+from django.contrib.auth.models import User
 
 
 
@@ -14,6 +16,26 @@ from django.db.models import Sum
 
 # Create your models here.
 
+class ChatRoom(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    nurse = models.OneToOneField(Nurse, on_delete=models.CASCADE)
+    auditor = models.ForeignKey(Auditor, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class Message(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
+    room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"From: {self.sender.username} | To: {self.receiver.username}"
+    
+    
 class Complaint(models.Model):
     TOPIC_CHOICES = [
         ('Billing', 'Billing'),

@@ -1,7 +1,8 @@
 
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required , permission_required
-from main_home.models import AnalysisRequest, Appointment, Lobby, Payment, Test , TestResult
+from auditor.models import Auditor
+from main_home.models import AnalysisRequest, Appointment, ChatRoom, Lobby, Message, Payment, Test , TestResult
 from django.utils import timezone
 from nurse.forms import AddComponentForm, AddTestForm, TestFinalizeForm
 
@@ -245,8 +246,35 @@ def request_test_finalize(request, analysis_request_id, test_id):
 @login_required
 @permission_required('nurse.view_nurse', raise_exception=True)
 def message_chat(request):
+    messages = Message.objects.filter(sender=request.user) | Message.objects.filter(receiver=request.user)
+    messages = messages.order_by('timestamp')
+    print(request.user.nurse)
+    room = ChatRoom.objects.get(nurse=request.user.nurse)
+    room_id = room.id
+    context={
+        'room_id':room_id,
+        'messages':messages,
+    }
     
-    return render(request,'nurse/message/message_chat.html')
+    return render(request,'nurse/message/message_chat.html',context)
+
+@login_required
+@permission_required('nurse.view_nurse', raise_exception=True)
+def nurse_send(request):
+    room_id = request.POST.get('room_id')
+    message = request.POST.get('message')
+    
+    sender = request.user  # Current nurse
+    receiver = Auditor.objects.first().user  # First auditor in the database
+    
+    # Create and save the message with the sender, receiver, and other fields
+    message = Message.objects.create(sender=sender, receiver=receiver, room_id=room_id, content=message)
+    
+    print(f'message created :{message}')
+    return redirect('nurse_message_chat')
+
+    
+
 
 
 ################################################################

@@ -5,7 +5,9 @@ from . import views
 urlpatterns = [
     path("",views.auditor_home,name="auditor"),
     
-    path("message/message_chat/",views.message_chat,name="message_chat"),
+    path("message/chat_rooms/",views.chat_rooms,name="chat_rooms"),
+    path("message/message_chat/<int:room_id>",views.message_chat,name="message_chat"),
+    path("message/chat/auditor/send",views.auditor_send,name="auditor_send"),
 
     path("results/",views.result_list,name="test_result_list"),
     path("results/<int:test_result_id>/detail",views.result_detail,name="test_result_detail"),

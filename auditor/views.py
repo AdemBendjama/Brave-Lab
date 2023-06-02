@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required , permission_required
 from auditor.forms import UpdateTestsForm
+from auditor.models import Auditor
 
-from main_home.models import AnalysisRequest, Component, Invoice, Laboratory, Report, Test, TestResult
+from main_home.models import AnalysisRequest, ChatRoom, Component, Invoice, Laboratory, Message, Report, Test, TestResult
 from auditor.forms import ReportForm
 
 # Create your views here.
@@ -24,10 +25,46 @@ def auditor_home(request):
 
 @login_required
 @permission_required('auditor.view_auditor', raise_exception=True)
-def message_chat(request):
+def chat_rooms(request):
+    chat_rooms = ChatRoom.objects.all()
     
-    return render(request,'auditor/message/message_chat.html')
+    context = {
+        'chat_rooms': chat_rooms
+    }
+    
+    return render(request,'auditor/message/chat_rooms.html', context)
 
+@login_required
+@permission_required('auditor.view_auditor', raise_exception=True)
+def message_chat(request,room_id):
+    room = ChatRoom.objects.get(id=room_id)
+    
+    messages = Message.objects.filter(room=room)
+    messages = messages.order_by('timestamp')
+    
+    context={
+        'room_id':room_id,
+        'room':room,
+        'messages':messages,
+    }
+    
+    return render(request,'auditor/message/message_chat.html',context)
+
+
+@login_required
+@permission_required('auditor.view_auditor', raise_exception=True)
+def auditor_send(request):
+    room_id = request.POST.get('room_id')
+    room = ChatRoom.objects.get(id=room_id)
+    message = request.POST.get('message')
+    
+    sender = request.user  # Current auditor
+    receiver = room.nurse.user # the nurse from the room
+    
+    # Create and save the message with the sender, receiver, and other fields
+    message = Message.objects.create(sender=sender, receiver=receiver, room_id=room_id, content=message)
+    
+    return redirect('message_chat', room_id=room_id)
 ################################################################
 
 # Results

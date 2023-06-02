@@ -7,6 +7,7 @@ urlpatterns = [
     path("lobby/<int:appointment_id>/detail/",views.lobby_detail,name="lobby_detail"),
    
     path("message/chat/",views.message_chat,name="nurse_message_chat"),
+    path("message/chat/nurse/send",views.nurse_send,name="nurse_send"),
     
     path("requests/",views.request_list,name="request_list"),
     path("requests/<int:analysis_request_id>/detail/",views.request_detail,name="request_detail"),
