@@ -20,4 +20,24 @@
     <li><a href={% url 'report_add' %}><span class="material-icons X">description</span><span class="nav-item">Generate Report</span></a></li>
     <li><a href={% url 'report_list' %}><span class="material-icons X">list</span><span class="nav-item">Review Reports</span></a></li>
 
+
 {% endblock sidebar %}
+
+
+<script>
+    // Get all the <li> elements
+const navItems = document.querySelectorAll('nav ul li');
+
+// Add click event listener to each <li> element
+navItems.forEach((item) => {
+item.addEventListener('click', () => {
+// Remove the 'active' class from all <li> elements
+navItems.forEach((navItem) => {
+  navItem.classList.remove('active');
+});
+
+// Add the 'active' class to the clicked <li> element
+item.classList.add('active');
+});
+});
+  </script>
