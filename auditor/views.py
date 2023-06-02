@@ -1,3 +1,4 @@
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required , permission_required
 from auditor.forms import UpdateTestsForm
@@ -6,6 +7,8 @@ from auditor.models import Auditor
 from main_home.models import AnalysisRequest, ChatRoom, Component, Invoice, Laboratory, Message, Report, Test, TestResult
 from auditor.forms import ReportForm
 
+from django.core.serializers import serialize
+from django.utils import formats
 # Create your views here.
 
 ################################################################
@@ -64,7 +67,35 @@ def auditor_send(request):
     # Create and save the message with the sender, receiver, and other fields
     message = Message.objects.create(sender=sender, receiver=receiver, room_id=room_id, content=message)
     
-    return redirect('message_chat', room_id=room_id)
+    return HttpResponse('Message sent successfully')
+
+@login_required
+@permission_required('auditor.view_auditor', raise_exception=True)
+def getMessages(request):
+    room_id = request.GET.get('room_id')
+    room = ChatRoom.objects.get(id=room_id)
+    nurse = room.nurse
+    messages = Message.objects.filter(sender=nurse.user) | Message.objects.filter(receiver=nurse.user)
+    messages = messages.order_by('timestamp')
+    auditor_id = request.user.id    
+
+    def serialize_timestamp(timestamp):
+        return formats.date_format(timestamp, "F j, Y, P")
+
+    serialized_messages = []
+    for message in messages:
+        serialized_message = {
+            'id': message.id,
+            'sender_id': message.sender_id,
+            'receiver_id': message.receiver_id,
+            'room_id': message.room_id,
+            'content': message.content,
+            'timestamp': serialize_timestamp(message.timestamp),
+        }
+        serialized_messages.append(serialized_message)
+        
+    return JsonResponse({"messages":serialized_messages,"auditor_id":auditor_id})
+
 ################################################################
 
 # Results

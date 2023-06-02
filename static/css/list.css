@@ -16,7 +16,7 @@
     border: 2px solid transparent;
     border-radius: 8px;
     outline: none;
-    background-color: #f3f3f4;
+    background-color: #E4E6EB;
     color: #0d0c22;
     transition: .3s ease;
 }
@@ -82,7 +82,7 @@
 
 .app1 {
     margin: 1rem;
-    background-color: #f3f3f4;
+    background-color: #E4E6EB;
     border-radius: 25px;
     padding: 1rem;
     display: flex;
