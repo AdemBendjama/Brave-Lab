@@ -32,7 +32,7 @@
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
                     <a href="{% url 'profile_help' %}" class="drop-down"><li><span class="material-icons">help</span>Help</li></a>
-                    <a href="{% url 'profile_contact' %}" class="drop-down"><li><span class="material-icons">call</span>Contact us</li></a>
+                    <a href="{% url 'profile_contact' %}" class="drop-down"><li><span class="material-icons">call</span>Contact</li></a>
                                         
                     {% elif user.groups.first.name == 'nurse' %}
                     
