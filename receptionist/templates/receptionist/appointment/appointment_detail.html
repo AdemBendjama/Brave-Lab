@@ -9,23 +9,17 @@
     <h2>{{ appointment.client }}</h2>
     <p>Date: {{ appointment.date }}</p>
     <p>Description: {{ appointment.description }}</p>
-    <p>Payment Option: 
-        {% if appointment.payment_option == "PP" %}
-        Pre-Pay 
-        {% elif appointment.payment_option == "OR" %}
-        On Recieve
-        {% endif %}
-    </p>
+    <p>Tests Price: {{ appointment.payment.tests_fee }}</p>
     <p>Appointment Fee Status: 
-        {% if appointment.arrived %}
+        {% if appointment.payment.payed_appointment_fee %}
             Payed 
             {% else %}
             UnPayed
             {% endif %}
         </p>
     <p>Tests Fee Status: 
-        {% if appointment.payment_status %}
-        Payed Current Fees
+        {% if appointment.payment.tests_fee and appointment.payment.payed_nurse_tests_fee %}
+        Payed
         {% else %}
         UnPayed
         {% endif %}
@@ -40,7 +34,6 @@
         </form>
     {% else %}
         <p>Client has arrived</p>
-
     {% endif %}
         
 </div>

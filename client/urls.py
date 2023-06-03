@@ -20,4 +20,5 @@ urlpatterns = [
     
     path("results/",views.result_list,name="client_result_list"),
     path("results/<int:invoice_id>",views.result_detail,name="client_result_detail"),
+    path("results/<int:invoice_id>/online_pay/confirm",views.online_pay,name="online_pay"),
 ]

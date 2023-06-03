@@ -135,7 +135,7 @@ def client_appointment_confirm(request):
                 payment = Payment(appointment=appointment)
                 payment.save()
                 
-                payment.tests_fee += appointment.total_price
+                payment.tests_fee = appointment.total_price
                 
                 if payed == "payed" :
                     payment.total_amount_payed += payment.appointment_fee
@@ -214,10 +214,11 @@ def request_detail(request):
 @permission_required('client.view_client', raise_exception=True)
 def result_list(request):
     invoices = Invoice.objects.filter(client=request.user.client, payment_status=True).all()
-    print(invoices)
-    
+    unpaid_invoices = Invoice.objects.filter(client=request.user.client, payment_status=False).all()
+
     context = {
-        'invoices':invoices
+        'invoices': invoices,
+        'unpaid_invoices': unpaid_invoices
     }
     
     return render(request,'client/result/result_list.html', context)
@@ -239,6 +240,43 @@ def result_detail(request, invoice_id):
     }
     
     return render(request,'client/result/result_detail.html' , context )
+
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def online_pay(request, invoice_id):
+    
+    invoice = Invoice.objects.get(id=invoice_id)
+    test_result = invoice.report.test_result
+    test_request = test_result.request
+    appointment = test_request.appointment
+    
+    if request.method == "POST":
+        appointment=invoice.report.test_result.request.appointment
+        
+        # Update the payment status of the invoice
+        invoice.payment_status = True
+        invoice.save()
+
+        # Update the payment model with the amount paid
+        payment = appointment.payment
+        payment.payed_nurse_tests_fee = True
+        payment.payed_tests_fee = True
+        payment.total_amount_payed += invoice.total_price
+        payment.save()
+        
+        appointment.payment_status = True
+        appointment.save()
+        
+        return redirect("client_result_list")
+    
+    context = {
+        "invoice":invoice,
+        "test_result":test_result,
+        "test_request":test_request,
+        "appointment":appointment
+    }
+    
+    return render(request,'client/result/online_pay.html' , context )
 
 ################################################################
 

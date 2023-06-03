@@ -101,5 +101,31 @@
             </ul>
         </div>
     {% endif %}
+
+
+    <h2>Paid Appointments</h2>
+    {% if paid_appointments %}
+        <ul class="lists">
+            {% for appointment in paid_appointments %}
+                <li class="app1">
+                    <span><strong>Appointment #{{ appointment.id }}</strong></span>
+                    <span><strong>{{ appointment.date }}</strong></span>
+                    <div class="buttons">
+                        <button class="list-button"><a class="list-links" href="{% url 'appointment_detail' appointment.id %}">View Details</a></button>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div>
+            <ul class="lists">
+                <li class="app1 empty">
+                    <span><strong>No Paid Appointments</strong></span>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+
+
 </div>
 {% endblock main %}

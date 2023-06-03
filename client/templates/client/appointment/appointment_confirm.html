@@ -15,8 +15,10 @@
             <h3>Test {{ forloop.counter }}</h3>
             <p>{{test.name}}</p>
         {% endfor %}
+        <h3>Price of Selected Tests: </h3>
+        <p>{{ data.total_price }}$ USD</p>
         <h3>Price of Appointment Booking</h3>
-        <p>10.00$ USD</p>
+        <p>5.00$ USD</p>
         <small style="font-size:12px;">note: Excluding the Appointment Visit Fees</small>
         <h3>Document</h3>
         {% if data.document is not None %}
@@ -74,7 +76,7 @@
             return actions.order.create({
                 purchase_units: [{
                     amount: {
-                        value: '10.00' 
+                        value: '5.00' 
                     }
                 }]
             });
@@ -84,7 +86,7 @@
             return actions.order.capture().then(function(details) {
                 // Handle the successful transaction
                 console.log(details);
-                alert("Transaction Complete! $10.00 USD Paid");
+                alert("Transaction Complete! $5.00 USD Paid");
                 markAsPaid();
                 clickButton();
             });

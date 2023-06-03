@@ -42,7 +42,7 @@
                     <span><strong>Appointment #{{ appointment.id }}</strong></span>
                     <span><strong>{{ appointment.date }}</strong></span>
                     <div class="buttons">
-                      {% if appointment.cancelable >= 3 %}
+                      {% if appointment.cancelable >= 3 and not appointment.payment.payed_appointment_fee%}
                         <button class="list-button cancel-button">Cancel</button>
                       {% endif %}
                         <button class="list-button"><a class="list-links" href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>

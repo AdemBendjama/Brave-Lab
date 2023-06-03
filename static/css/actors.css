@@ -445,3 +445,9 @@ nav a {
     display: none;
 }
   
+
+/* Paypal Button */
+#paypal-button-container{
+    width: 250px;
+    margin-left: 410px;
+}

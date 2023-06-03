@@ -14,8 +14,6 @@
     <!-- Display other appointment details as needed -->
     <p>Document:</p>
     {% if appointment.document %}
-        <p>Document: 
-        </p>    
         <a href="{{ appointment.document.url }}" target="_blank">
             <img src="{{ appointment.document.url }}" width="200" >
         </a>

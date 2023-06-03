@@ -238,7 +238,7 @@ class Appointment(models.Model):
    
 class Payment(models.Model):
     appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE)
-    appointment_fee = models.DecimalField(max_digits=10, decimal_places=2,default=10.00)
+    appointment_fee = models.DecimalField(max_digits=10, decimal_places=2,default=5.00)
     tests_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     nurse_tests_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     payed_appointment_fee = models.BooleanField(default=False)

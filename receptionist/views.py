@@ -53,7 +53,8 @@ def confirm_payment(request, invoice_id):
         # Update the payment model with the amount paid
         payment = Payment.objects.get(appointment=appointment)
         payment.payed_nurse_tests_fee = True
-        payment.total_amount_payed += (invoice.total_price-payment.total_amount_payed)
+        payment.payed_tests_fee = True
+        payment.total_amount_payed += invoice.total_price
         payment.save()
         
         appointment.payment_status = True
@@ -136,9 +137,12 @@ def appointment_list(request):
     appointments_today = []
     appointments_tomorrow = []
     appointments_upcoming = []
+    paid_appointments = []
 
     for appointment in appointments:
-        if appointment.status == appointment.TODAY:
+        if appointment.payment.payed_appointment_fee and appointment.arrived:
+            paid_appointments.append(appointment)
+        elif appointment.status == appointment.TODAY:
             appointments_today.append(appointment)
         elif appointment.status == appointment.TOMORROW:
             appointments_tomorrow.append(appointment)
@@ -149,6 +153,7 @@ def appointment_list(request):
         'appointments_today': appointments_today,
         'appointments_tomorrow': appointments_tomorrow,
         'appointments_upcoming': appointments_upcoming,
+        'paid_appointments': paid_appointments,
     }
     
 
@@ -174,13 +179,13 @@ def appointment_confirm(request, appointment_id):
     
     appointment = Appointment.objects.get(id=appointment_id)
     payment = appointment.payment
-    tests_fee = payment.tests_fee
     appointment_fee = payment.appointment_fee
     
     if request.method == 'POST':
-        form = ConfirmationForm(request.POST, tests_fee=tests_fee, appointment_fee=appointment_fee)
+        form = ConfirmationForm(request.POST, appointment_fee=appointment_fee)
         if form.is_valid():
             #
+            payed = request.POST.get("payed")
             nurse = Nurse.objects.annotate(
                 analysis_requests_count=Count('analysisrequest', filter=Q(analysisrequest__status__in=['pending', 'working-on']))
             ).order_by('analysis_requests_count').first()
@@ -191,18 +196,11 @@ def appointment_confirm(request, appointment_id):
                 
                 
             appointment_fee_paid = form.cleaned_data["appointment_fee_paid"]
-            tests_fee_paid = form.cleaned_data["tests_fee_paid"]
             
-            if appointment_fee_paid:
+            if appointment_fee_paid and payed != "payed":
+                print("appointment payed through form")
                 payment.total_amount_payed+=appointment_fee
                 payment.payed_appointment_fee = True   
-                
-            if tests_fee_paid:
-                payment.total_amount_payed+=tests_fee
-                payment.payed_tests_fee = True
-                
-            if appointment_fee_paid and tests_fee_paid:
-                appointment.payment_status = True   
                 
             appointment.arrived = True
             
@@ -214,7 +212,7 @@ def appointment_confirm(request, appointment_id):
             return redirect("appointment_detail",appointment_id=appointment_id)
                 
     else:
-        form = ConfirmationForm(tests_fee=tests_fee, appointment_fee=appointment_fee)
+        form = ConfirmationForm(appointment_fee=appointment_fee)
 
     context={
         'form': form, 
