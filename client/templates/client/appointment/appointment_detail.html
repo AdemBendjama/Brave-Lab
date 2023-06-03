@@ -17,7 +17,8 @@
     <h3>Client: {{ appointment.client.user.first_name }} {{ appointment.client.user.last_name }}</h3>
     <p>Date: {{ appointment.date }}</p>
     <p>Description: {{ appointment.description }}</p>
-    <p>Total Price: {{ appointment.total_price }}</p>
+    <p>Total Tests Price: {{ appointment.total_price }}</p>
+    <p>Appointment Fee: {%if appointment.payment.payed_appointment_fee %}Payed{%else%}Unpayed{%endif%}</p>
 
     <h3>Tests Requested:</h3>
     <ul>
@@ -38,7 +39,6 @@
         <p>No document provided.</p>
     {% endif %}
 
-    <h3>Payment Option: {{ appointment.get_payment_option_display }}</h3>
     <p>Payment Status: {{ appointment.payment_status }}</p>
 
     <h3>Status</h3>

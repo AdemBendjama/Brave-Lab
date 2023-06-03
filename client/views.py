@@ -94,13 +94,13 @@ def client_appointment_confirm(request):
             else:
                 return render(request,'client/appointment/appointment_book.html',{'form':form})
             
-        elif request.POST.get("payment_option") :
+        elif request.POST.get("payed") :
             
             form = AppointmentPaymentForm(request.POST)
             
             if form.is_valid:
                 client = request.user.client
-                payment_option = request.POST.get('payment_option')
+                payed = request.POST.get('payed')
                 
                 tests_requested=[]
                 test_count = int(request.POST.get("data.test_count"))
@@ -126,7 +126,6 @@ def client_appointment_confirm(request):
                 if doc_was_provided :
                     appointment.document = document
                 appointment.total_price = total_price
-                appointment.payment_option = payment_option
                 appointment.save()
 
                 # Add the tests_requested to the appointment
@@ -136,7 +135,13 @@ def client_appointment_confirm(request):
                 payment = Payment(appointment=appointment)
                 payment.save()
                 
-                appointment.total_price += Decimal(str(payment.appointment_fee))
+                payment.tests_fee += appointment.total_price
+                
+                if payed == "payed" :
+                    payment.total_amount_payed += payment.appointment_fee
+                    payment.payed_appointment_fee = True
+                
+                payment.save()
                 appointment.save()
                 
                 return redirect('client')

@@ -187,12 +187,6 @@ class MedicalDocument(models.Model):
         db_table = 'medical_document'
            
 class Appointment(models.Model):
-    PRE_PAY = 'PP'
-    ON_RECEIVE = 'OR'
-    PAYMENT_CHOICES = [
-        (PRE_PAY, 'Pre-Pay'),
-        (ON_RECEIVE, 'On-Receive'),
-    ]
     
     UPCOMING = 'Upcoming'
     TOMORROW = 'Tommorow'
@@ -212,7 +206,6 @@ class Appointment(models.Model):
     description = models.CharField(max_length=1000,blank=True)
     document = models.ImageField(null=True,blank=True,upload_to='medical_documents')
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_option = models.CharField(max_length=2, choices=PAYMENT_CHOICES,default="OR")
     payment_status = models.BooleanField(default=False)
     arrived = models.BooleanField(default=False)
     cancelled = models.BooleanField(default=False)
@@ -245,7 +238,7 @@ class Appointment(models.Model):
    
 class Payment(models.Model):
     appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE)
-    appointment_fee = models.DecimalField(max_digits=10, decimal_places=2,default=20.00)
+    appointment_fee = models.DecimalField(max_digits=10, decimal_places=2,default=10.00)
     tests_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     nurse_tests_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     payed_appointment_fee = models.BooleanField(default=False)

@@ -15,10 +15,8 @@
             <h3>Test {{ forloop.counter }}</h3>
             <p>{{test.name}}</p>
         {% endfor %}
-        <h3>Total Price of current tests</h3>
-        <p>{{data.total_price}}$ USD</p>
         <h3>Price of Appointment Booking</h3>
-        <p>20.00$ USD</p>
+        <p>10.00$ USD</p>
         <small style="font-size:12px;">note: Excluding the Appointment Visit Fees</small>
         <h3>Document</h3>
         {% if data.document is not None %}
@@ -31,13 +29,6 @@
         <form method="POST">
             {% csrf_token %}
 
-            <h2>Choose your Payment Method</h2>
-            <select name="payment_option">
-                <option value="PP">Pre-pay</option>
-                <option value="OR" selected>On-Receive</option>
-            </select>
-
-
             <input type="hidden" name="data.client" value="{{ data.client.id }}">
             <input type="hidden" name="data.date" value="{{ data.date }}">
             <input type="hidden" name="data.description" value="{{ data.description }}">
@@ -49,10 +40,11 @@
                 <input type="hidden" name="data.tests_requested{{forloop.counter}}" value="{{ test.id }}">
             {% endfor %}
             <input type="hidden" name="data.total_price" value="{{ data.total_price }}">
+            <input type="hidden" name="payed" id="payedInput" value="unpayed">
 
             <div id="paypal-button-container"></div>
 
-            <button type="submit">Book Without Payment</button>
+            <button type="submit" id="bookButton">Book Without Payment</button>
         </form>
 
 </div>
@@ -65,6 +57,16 @@
 
 <script src="https://www.paypal.com/sdk/js?client-id=AedI_3BVqb2iK2jXTYxxmcbKWHvdipYhZQYFPxfaq-6_XxiKvnjuSd6cyriyOOrybkLx8E8sEAYi5cFy&components=buttons&currency=USD&disable-funding=credit,card"></script>
 <script>
+    function clickButton() {
+        var bookButton = document.getElementById('bookButton');
+        bookButton.click();
+    }
+    
+    function markAsPaid() {
+        var payedInput = document.getElementById('payedInput');
+        payedInput.value = 'payed';
+    }
+
     paypal.Buttons({
 
         // Set up the transaction
@@ -83,7 +85,8 @@
                 // Handle the successful transaction
                 console.log(details);
                 alert("Transaction Complete! $10.00 USD Paid");
-                // You can perform additional actions here, such as showing a success message or redirecting to a success page
+                markAsPaid();
+                clickButton();
             });
         },
     
@@ -94,8 +97,8 @@
         },
         
         style: {
-            color: 'blue',
-            shape: 'rect',
+            color: 'gold',
+            shape: 'pill',
         },
         locale: 'en_US',
     }).render('#paypal-button-container');
