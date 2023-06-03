@@ -3,9 +3,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("",views.auditor_home,name="auditor"),
+    path("home/",views.auditor_home,name="auditor"),
     
-    path("message/chat_rooms/",views.chat_rooms,name="chat_rooms"),
+    path("message/chat/",views.chat_rooms,name="chat_rooms"),
     path("message/chat/<int:room_id>",views.message_chat,name="message_chat"),
     path("message/chat/auditor/send",views.auditor_send,name="auditor_send"),
     path("message/chat/getMessages/",views.getMessages,name="getMessages"),
@@ -17,5 +17,5 @@ urlpatterns = [
     
     path("reports/",views.report_list,name="report_list"),
     path("reports/<int:report_id>/detail/",views.report_detail,name="report_detail"),
-    path("reports/add/",views.report_add,name="report_add"),
+    path("report/add/",views.report_add,name="report_add"),
 ]
