@@ -88,7 +88,6 @@ header {
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    margin-right: 1.5vw;
     gap: 50px;
 }
 
@@ -122,27 +121,26 @@ header {
 }
 
 .DROPS li ul {
-    top: 11.4vh;
-    right: 20px;
+    top: 9vh;
+    right: 30px;
     position: absolute;
     display: none;
     background-color: #00748c;
     border-radius: 10px;
     height: auto;
     transition: 0.5s;
+    border: 2px solid #00748c50;
 }
 
 .DROPS li ul li {
     font-size: 15px;
-    padding: 20px;
+    padding: 14px 14px 14px 8px;
     display: flex;
-    align-items: center;
     justify-content: left;
     flex-direction: row;
     gap: 5px;
     color: white;
-    transition: 0.5s;
-
+    transition: 0.5s;;
 
 }
 .DROPS li ul li span {
@@ -153,8 +151,6 @@ header {
     color: black;
     cursor: pointer;
     background-color: white;
-    transform: scale(0.9);
-    border-radius: 15px;
 }
 
 
@@ -295,11 +291,18 @@ a {
 }
 
 .DROPS li ul a:first-child li {
-    margin-top: -23px;
+    margin-top: -24px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+
 }
 
 .DROPS li ul li {
-    margin-bottom: -23px;
+    margin-bottom: -24px;
+}
+.DROPS li ul a:last-child li {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 nav a {
@@ -346,7 +349,7 @@ nav a {
     border-radius: var(--border-radius);
     transition: border-radius 0.5s ease;
     background: var(--input-bg, #fff);
-    background-color: #f3f3f4;
+    background-color: #E4E6EB;
 }
 
 /* styling of Input */

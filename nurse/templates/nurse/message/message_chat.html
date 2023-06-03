@@ -11,8 +11,33 @@
 
        <div class="chat-container">
 
-        gi
+            <div class="user-profile">
+                <div class="profile-image">
+                    <img src="{{ room.auditor.profile_pic.url }}" alt="User Profile Image">
+                </div>
+                <div class="profile-username">
+                    {{ room.auditor.user.username }}
+                </div>
+            </div>
+
+            <div class="chat-box">
+                <div class="chat-messages" id="chat-messages">
+                    <ul class="message-list" id="message-list">
+                    </ul>
+                </div>
+        
+                
+                <form id="post-form" class="chat-input">
+                    {% csrf_token %}
+                    <input type="hidden" name="room_id" id="room_id" value="{{ room_id }}"/>
+                    
+                    <textarea class="message-input" name="message" id="message" placeholder="Type your message..."></textarea>
+                    <button type="submit" class="send-button">Send</button>
+                    
+                </form>
+            </div>
         </div>
+
     </div>
       
 
