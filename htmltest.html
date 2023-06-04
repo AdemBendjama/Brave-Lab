@@ -3,8 +3,8 @@
 
 {% block main %}
 <style>
-    .container {
-        width: 500px;
+    .progress-bar {
+        width: 600px;
         margin: 0 auto;
     }
 
@@ -15,6 +15,8 @@
     ol.progress-meter {
         padding-bottom: 9.5px;
         list-style-type: none;
+        display: flex;
+        justify-content: space-between;
     }
 
     ol.progress-meter li {
@@ -22,78 +24,136 @@
         text-align: center;
         text-indent: -19px;
         height: 36px;
-        width: 24.99%;
+        width: 98px;
         font-size: 12px;
-        border-bottom-width: 4px;
+        border-bottom-width: 5px;
         border-bottom-style: solid;
+        border-radius: 5px;
     }
 
     ol.progress-meter li:before {
         position: relative;
         float: left;
         text-indent: 0;
-        left: -webkit-calc(50% - 9.5px);
-        left: -moz-calc(50% - 9.5px);
-        left: -ms-calc(50% - 9.5px);
-        left: -o-calc(50% - 9.5px);
-        left: calc(50% - 9.5px);
+        left: -webkit-calc(100% - 9.5px);
+        left: -moz-calc(100% - 9.5px);
+        left: -ms-calc(100% - 9.5px);
+        left: -o-calc(100% - 9.5px);
+        left: calc(100% - 9.5px);
     }
 
-    ol.progress-meter li.done {
+    ol.progress-meter li.finished {
         font-size: 12px;
     }
 
-    ol.progress-meter li.done:before {
+    ol.progress-meter li.finished:before {
         content: "\2713";
         height: 19px;
         width: 19px;
-        line-height: 21.85px;
+        line-height: 19px;
         bottom: -28.175px;
         border: none;
         border-radius: 19px;
     }
 
-    ol.progress-meter li.todo {
+    ol.progress-meter li.finished {
+        color: black;
+        border-bottom-color: yellowgreen;
+    }
+
+    ol.progress-meter li.finished:before {
+        color: white;
+        background-color: yellowgreen;
+    }
+
+    ol.progress-meter li.pending {
         font-size: 12px;
     }
 
-    ol.progress-meter li.todo:before {
+    ol.progress-meter li.pending:before {
         content: "\2B24";
         font-size: 17.1px;
         bottom: -26.95px;
         line-height: 18.05px;
     }
 
-    ol.progress-meter li.done {
-        color: black;
-        border-bottom-color: yellowgreen;
-    }
-
-    ol.progress-meter li.done:before {
-        color: white;
-        background-color: yellowgreen;
-    }
-
-    ol.progress-meter li.todo {
+    ol.progress-meter li.pending {
         color: silver;
         border-bottom-color: silver;
     }
 
-    ol.progress-meter li.todo:before {
+    ol.progress-meter li.pending:before {
         color: silver;
     }
 </style>
 <div class="Container">
     <h1>List Of Pending Analysis Requests</h1>
 
+    <h2>In Progres:<h2>
+            <h2>Finished:<h2>
+                    {% for appointment in appointments %}
+                    <h3><a href="{% url 'client_appointment_detail' appointment.id %}">{{appointment}}</a></h3>
+                    {% if appointment.status != Appointment.OVERDUE %}
+                    <div class="progress-bar">
+                        <ol class="progress-meter">
+                            <li class="progress-point finished">Booked</li>
+                            {% if appointment.arrived %}
+                            <li class="progress-point finished">Arrived</li>
+                            {% else %}
+                            <li class="progress-point pending">Arrived</li>
+                            {% endif %}
+                            {% if appointment.performed %}
+                            <li class="progress-point finished">Performed</li>
+                            {% else %}
+                            <li class="progress-point pending">Performed</li>
+                            {% endif %}
 
-    <div class="container">
-        <ol class="progress-meter">
-            <li class="progress-point done">05:20 mins</li>
-            <li class="progress-point done">05:10 mins</li>
-            <li class="progress-point done">Link</li>
-            <li class="progress-point todo">Connect</li>
-        </ol>
-    </div>
+                            {% if appointment.analysisrequest and appointment.performed %}
+
+
+                            {% if appointment.analysisrequest.status == "working-on" %}
+                            <li class="progress-point finished">Working-on</li>
+                            <li class="progress-point pending">Finished</li>
+                            {% endif %}
+
+                            {% if appointment.analysisrequest.status == "finished" %}
+                            <li class="progress-point finished">Working-on</li>
+                            <li class="progress-point finished">Finished</li>
+                            {% endif %}
+
+
+                            {% if appointment.analysisrequest.testresult %}
+
+                            {% if appointment.analysisrequest.testresult.approved %}
+                            <li class="progress-point finished">Approved</li>
+                            {% else %}
+                            <li class="progress-point working">Unapproved</li>
+                            <li class="progress-point pending">Unfinished</li>
+                            {% endif %}
+
+                            {% if appointment.analysisrequest.testresult.report.invoice %}
+                            <li class="progress-point finished">Finished</li>
+                            {% elif appointment.analysisrequest.testresult.approved %}
+                            <li class="progress-point working">Finished</li>
+                            {% endif %}
+
+                            {% else %}
+                            <li class="progress-point pending">Unapproved</li>
+                            <li class="progress-point pending">Unfinished</li>
+                            {% endif %}
+
+                            {% else %}
+                            <li class="progress-point pending">Working-on</li>
+                            <li class="progress-point pending">Finished</li>
+                            <li class="progress-point pending">Approved</li>
+                            <li class="progress-point pending">Finalized</li>
+                            {% endif %}
+
+                        </ol>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+
+
 </div>
 {% endblock main %}
