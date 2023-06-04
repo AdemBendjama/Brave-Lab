@@ -345,7 +345,7 @@ class TestResult(models.Model):
 class Report(models.Model):
     test_result = models.OneToOneField(TestResult, on_delete=models.CASCADE)
     creation_time = models.DateTimeField(auto_now_add=True)
-    description = models.CharField(max_length=1000, null=True, blank=True)
+    description = models.CharField(max_length=100000, null=True, blank=True)
     
     class Meta:
         db_table = 'report'

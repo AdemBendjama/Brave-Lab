@@ -253,14 +253,13 @@ def result_detail(request, invoice_id):
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def pdf_client_invoice(request, invoice_id):
-    template = get_template('pdf/invoice1.html')
+    template = get_template('pdf/invoice.html')
     
     invoice = Invoice.objects.get(id=invoice_id)
     test_result = invoice.report.test_result
     test_request = test_result.request
     tests = test_request.tests.all()
     appointment = test_request.appointment
-    static_root = "/home/adam/Documents/Python-Django Development/Brave-Lab/static/"
     context = {
         "invoice":invoice,
         "test_result":test_result,
@@ -290,31 +289,39 @@ def pdf_client_invoice(request, invoice_id):
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def pdf_client_results(request, invoice_id):
-    template = get_template('pdf/invoice1.html')
+    template = get_template('pdf/test_results.html')
+    
+    invoice = Invoice.objects.get(id=invoice_id)
+    test_result = invoice.report.test_result
+    test_request = test_result.request
+    tests = test_request.tests.all()
+    appointment = test_request.appointment
     context = {
-        "invoice_id": 123,
-        "customer_name": "John Cooper",
-        "amount": 1399.99,
-        "today": "Today",
+        "invoice":invoice,
+        "test_result":test_result,
+        "test_request":test_request,
+        "tests":tests,
+        "appointment":appointment,
+        "gender":appointment.client.gender,
+        "STATIC_ROOT":settings.MEDIA_ROOT,
     }
+    
     html = template.render(context)
-    pdf = render_to_pdf('pdf/invoice1.html', context)
+    pdf = render_to_pdf('pdf/test_results.html', context)
     
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
-        filename = "Invoice_%s.pdf" % ("12341231")
+        filename = "Invoice_%s.pdf" % (invoice.id)
         content = "inline; filename='%s'" % (filename)
         download = request.GET.get("download")
-        print(download)
+        
         if download:
-            print("hello")
             content = "attachment; filename='%s'" % (filename)
-            
+        
         response['Content-Disposition'] = content
         return response
     
     return HttpResponse("Not found")
-    
     
 @login_required
 @permission_required('client.view_client', raise_exception=True)

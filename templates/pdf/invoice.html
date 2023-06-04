@@ -44,6 +44,20 @@
             color: #00748c;
         }
 
+        .header-container {
+            margin: 5px 0 10px 0;
+        }
+
+        .heading-main{
+            font-size:2em;
+            padding-top:10px;
+            color: #00748c;
+        }
+
+        .heading-main .header-text{
+            padding-right:500px !important;
+        }
+
         .logo-container {
             margin: 5px 0 10px 0;
         }
@@ -69,10 +83,10 @@
 
         .line-items-container th {
             text-align: left;
-            color: #999;
+            color: #00748c;
             border-bottom: 2px solid #ddd;
             padding: 1px 0 0px 0;
-            font-size: 0.75em;
+            font-size: 1em;
             text-transform: uppercase;
         }
 
@@ -113,10 +127,11 @@
 
         .payment-info {
             width: 38%;
+            font-size:1.5em;
         }
 
         .footer {
-            margin-top: 40px;
+            margin-top: 30px;
         }
 
         .footer-thanks {
@@ -135,12 +150,11 @@
             float: right;
             margin-top: 5px;
             font-size: 0.75em;
-            color: #ccc;
         }
 
         .footer-info span {
             padding: 0 5px;
-            color: black;
+            color: #00748c;
         }
 
         .footer-info span:last-child {
@@ -159,6 +173,10 @@
             height: 60px;
             width: 120px;
         }
+
+        .paid{
+            width:200px;
+        }
     </style>
 </head>
 <body>
@@ -170,9 +188,17 @@
             <span class="pages"></span>
         </div>
 
-        <div class="logo-container">
-            <img class="logo" alt="Brave Lab Logo" src="{{STATIC_ROOT}}/pdf/logo_pdf.png">
-        </div>
+        <table class="header-container">
+            <tr>
+                <td class="heading-td">
+                    <h1 class="heading-main">Invoice</h1>
+                </td>
+                <td class="logo-td">
+                    <img class="logo" alt="Brave Lab Logo" src="{{STATIC_ROOT}}/pdf/logo_pdf.png">
+                </td>
+            </tr>
+            
+        </table>
 
         <table class="invoice-info-container">
             <tr>
@@ -240,7 +266,7 @@
                 <tr>
                     <th>Payment Info</th>
                     <th class="due">Date</th>
-                    <th>Total Paid</th>
+                    <th class="paid">Total Paid</th>
                 </tr>
             </thead>
             <tbody>

@@ -9,7 +9,7 @@
         <form method="post" >
         {% csrf_token %}
         <div class="form-row">
-            {{ form.appointment_fee_paid.errors }}
+            
             <label for="{{ form.appointment_fee_paid.id_for_label }}">
             {% if not appointment.payment.payed_appointment_fee %}
                 {% if form.appointment_fee_paid.label %}
@@ -19,6 +19,7 @@
                 {% endif %}
             </label>
                 {{ form.appointment_fee_paid }}
+                {{ form.appointment_fee_paid.errors }}
             {% else %}
                 <p>Appointment Fee has already been paid.</p>
                 <input type="hidden" name="{{form.appointment_fee_paid.html_name}}" value="True">
