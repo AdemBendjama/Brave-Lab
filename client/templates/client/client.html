@@ -38,6 +38,7 @@
         <div>
           <ul class="lists">
               {% for appointment in active_appointments %}
+              {%if not appointment.performed %}
                 <li class="app1">
                     <span><strong>Appointment #{{ appointment.id }}</strong></span>
                     <span><strong>{{ appointment.date }}</strong></span>
@@ -52,6 +53,7 @@
                       <button type="submit">Cancel Appointment</button>
                     </form>
                 </li>
+                {%endif%}
               {% endfor %}
                 
             </ul>

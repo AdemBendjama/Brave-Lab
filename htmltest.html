@@ -1,47 +1,99 @@
-{% extends 'receptionist/receptionist.html' %}
+{% extends 'client/client.html' %}
 {% load static %}
 
-{% block css_3 %}
-<link rel="stylesheet" href="{% static 'css/pdf.css' %}">
-
-{% endblock css_3 %}
-
 {% block main %}
+<style>
+    .container {
+        width: 500px;
+        margin: 0 auto;
+    }
+
+    .progress-meter {
+        padding: 0;
+    }
+
+    ol.progress-meter {
+        padding-bottom: 9.5px;
+        list-style-type: none;
+    }
+
+    ol.progress-meter li {
+        display: inline-block;
+        text-align: center;
+        text-indent: -19px;
+        height: 36px;
+        width: 24.99%;
+        font-size: 12px;
+        border-bottom-width: 4px;
+        border-bottom-style: solid;
+    }
+
+    ol.progress-meter li:before {
+        position: relative;
+        float: left;
+        text-indent: 0;
+        left: -webkit-calc(50% - 9.5px);
+        left: -moz-calc(50% - 9.5px);
+        left: -ms-calc(50% - 9.5px);
+        left: -o-calc(50% - 9.5px);
+        left: calc(50% - 9.5px);
+    }
+
+    ol.progress-meter li.done {
+        font-size: 12px;
+    }
+
+    ol.progress-meter li.done:before {
+        content: "\2713";
+        height: 19px;
+        width: 19px;
+        line-height: 21.85px;
+        bottom: -28.175px;
+        border: none;
+        border-radius: 19px;
+    }
+
+    ol.progress-meter li.todo {
+        font-size: 12px;
+    }
+
+    ol.progress-meter li.todo:before {
+        content: "\2B24";
+        font-size: 17.1px;
+        bottom: -26.95px;
+        line-height: 18.05px;
+    }
+
+    ol.progress-meter li.done {
+        color: black;
+        border-bottom-color: yellowgreen;
+    }
+
+    ol.progress-meter li.done:before {
+        color: white;
+        background-color: yellowgreen;
+    }
+
+    ol.progress-meter li.todo {
+        color: silver;
+        border-bottom-color: silver;
+    }
+
+    ol.progress-meter li.todo:before {
+        color: silver;
+    }
+</style>
 <div class="Container">
-    <h1>Invoice #{{ invoice.id }} Details</h1>
+    <h1>List Of Pending Analysis Requests</h1>
 
-    <ul>
-        <li>Creation Time: {{ invoice.creation_time }}</li>
-        <li>Total Price: {{ invoice.total_price }}</li>
-        <li>Payment Status: {% if invoice.payment_status %}Paid{% else %}Unpaid{% endif %}</li>
-        {% if not invoice.payment_status %}
-        <li>Ammount Unpaid: {{ invoice.total_price }}</li>
-        {% endif %}
-        <li>Client: {{ invoice.client.user.first_name }} {{ invoice.client.user.last_name }}</li>
-        <li>Laboratory: {{ invoice.laboratory }}</li>
-        <!-- Add more details as needed -->
-    </ul>
 
-    {% if not invoice.payment_status %}
-    <form action="{% url 'confirm_payment' invoice.id %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">Confirm Payment</button>
-    </form>
-    {% else %}
-    <p>Invoice Fully Payed</p>
-    {% endif %}
-    <h3>Invoice:</h3>
-    <div class="button-container">
-        <a href="{% url 'pdf_client_invoice' invoice.id %}?download=true" class="download-button">Download PDF</a>
-        <a href="{% url 'pdf_client_invoice' invoice.id %}" target="_blank" class="view-button">View PDF</a>
+    <div class="container">
+        <ol class="progress-meter">
+            <li class="progress-point done">05:20 mins</li>
+            <li class="progress-point done">05:10 mins</li>
+            <li class="progress-point done">Link</li>
+            <li class="progress-point todo">Connect</li>
+        </ol>
     </div>
-
-    <h3>Test Results:</h3>
-    <div class="button-container">
-        <a href="{% url 'pdf_client_results' invoice.id %}?download=true" class="download-button">Download PDF</a>
-        <a href="{% url 'pdf_client_results' invoice.id %}" target="_blank" class="view-button">View PDF</a>
-    </div>
-
-    <a href="{% url 'receptionist' %}">Back to Invoice List</a>
 </div>
 {% endblock main %}

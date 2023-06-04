@@ -198,8 +198,12 @@ def cancel_appointment(request, appointment_id):
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def request_list(request):
+    appointments = Appointment.objects.filter(cancelled=False)
     
-    return render(request,'client/request/request_list.html')
+    context = {
+        'appointments': appointments
+    }
+    return render(request,'client/request/request_list.html',context)
 
 @login_required
 @permission_required('client.view_client', raise_exception=True)
