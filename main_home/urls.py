@@ -36,4 +36,8 @@ urlpatterns = [
          ), 
          name='password_reset_complete'),
     
+    
+   path("results/<int:invoice_id>/pdf_client_invoice", views.pdf_client_invoice, name="pdf_client_invoice"),
+   path("results/<int:invoice_id>/pdf_client_results", views.pdf_client_results, name="pdf_client_results"),
+
 ]

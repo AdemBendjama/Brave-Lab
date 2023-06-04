@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import (
     authenticate, login, update_session_auth_hash
 )
@@ -6,11 +7,12 @@ from django.contrib.auth.forms import (
     PasswordChangeForm
 )
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,  permission_required
 from django.contrib.auth.models import Group
 from django.shortcuts import render,redirect
 from brave_lab_project.settings import EMAIL_HOST_USER
 from client.models import Client
+from main_home.models import Invoice
 from .forms import (
    UserRegisterForm, 
    UserUpdateForm, 
@@ -23,6 +25,13 @@ from .forms import (
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from .utils import is_client, is_nurse, is_receptionist, is_auditor
+
+
+
+from django.template.loader import get_template
+from django.http import HttpResponse
+
+from main_home.utils import render_to_pdf
 
 # Create your views here.
 
@@ -229,5 +238,77 @@ def profile_update(request):
 
 
 
+
+
+@login_required
+def pdf_client_invoice(request, invoice_id):
+    template = get_template('pdf/invoice.html')
+    
+    invoice = Invoice.objects.get(id=invoice_id)
+    test_result = invoice.report.test_result
+    test_request = test_result.request
+    tests = test_request.tests.all()
+    appointment = test_request.appointment
+    context = {
+        "invoice":invoice,
+        "test_result":test_result,
+        "test_request":test_request,
+        "tests":tests,
+        "appointment":appointment,
+        "STATIC_ROOT":settings.MEDIA_ROOT,
+    }
+    
+    html = template.render(context)
+    pdf = render_to_pdf('pdf/invoice.html', context)
+    
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "Invoice_%s.pdf" % (invoice.id)
+        content = "inline; filename='%s'" % (filename)
+        download = request.GET.get("download")
+        
+        if download:
+            content = "attachment; filename='%s'" % (filename)
+        
+        response['Content-Disposition'] = content
+        return response
+    
+    return HttpResponse("Not found")
+    
+@login_required
+def pdf_client_results(request, invoice_id):
+    template = get_template('pdf/test_results.html')
+    
+    invoice = Invoice.objects.get(id=invoice_id)
+    test_result = invoice.report.test_result
+    test_request = test_result.request
+    tests = test_request.tests.all()
+    appointment = test_request.appointment
+    context = {
+        "invoice":invoice,
+        "test_result":test_result,
+        "test_request":test_request,
+        "tests":tests,
+        "appointment":appointment,
+        "gender":appointment.client.gender,
+        "STATIC_ROOT":settings.MEDIA_ROOT,
+    }
+    
+    html = template.render(context)
+    pdf = render_to_pdf('pdf/test_results.html', context)
+    
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "Invoice_%s.pdf" % (invoice.id)
+        content = "inline; filename='%s'" % (filename)
+        download = request.GET.get("download")
+        
+        if download:
+            content = "attachment; filename='%s'" % (filename)
+        
+        response['Content-Disposition'] = content
+        return response
+    
+    return HttpResponse("Not found")
 
 

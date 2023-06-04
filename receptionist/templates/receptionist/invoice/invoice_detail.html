@@ -1,20 +1,25 @@
 {% extends 'receptionist/receptionist.html' %}
 {% load static %}
 
+{% block css_3 %}
+<link rel="stylesheet" href="{% static 'css/pdf.css' %}">
+
+{% endblock css_3 %}
+
 {% block main %}
 <div class="Container">
     <h1>Invoice #{{ invoice.id }} Details</h1>
 
     <ul>
-    <li>Creation Time: {{ invoice.creation_time }}</li>
-    <li>Total Price: {{ invoice.total_price }}</li>
-    <li>Payment Status: {% if invoice.payment_status %}Paid{% else %}Unpaid{% endif %}</li>
-    {% if unpaid != 0 %}
-    <li>Ammount Unpaid: {{ unpaid }}</li>
-    {% endif %}
-    <li>Client: {{ invoice.client.user.first_name }} {{ invoice.client.user.last_name }}</li>
-    <li>Laboratory: {{ invoice.laboratory }}</li>
-    <!-- Add more details as needed -->
+        <li>Creation Time: {{ invoice.creation_time }}</li>
+        <li>Total Price: {{ invoice.total_price }}</li>
+        <li>Payment Status: {% if invoice.payment_status %}Paid{% else %}Unpaid{% endif %}</li>
+        {% if not invoice.payment_status %}
+        <li>Ammount Unpaid: {{ invoice.total_price }}</li>
+        {% endif %}
+        <li>Client: {{ invoice.client.user.first_name }} {{ invoice.client.user.last_name }}</li>
+        <li>Laboratory: {{ invoice.laboratory }}</li>
+        <!-- Add more details as needed -->
     </ul>
 
     {% if not invoice.payment_status %}
@@ -23,7 +28,21 @@
         <button type="submit">Confirm Payment</button>
     </form>
     {% else %}
-        <p>Invoice Fully Payed</p>
+    <p>Invoice Fully Payed</p>
+    {% endif %}
+
+    {%if invoice.payment_status %}
+        <h3>Invoice:</h3>
+        <div class="button-container">
+            <a href="{% url 'pdf_client_invoice' invoice.id %}?download=true" class="download-button">Download PDF</a>
+            <a href="{% url 'pdf_client_invoice' invoice.id %}" target="_blank" class="view-button">View PDF</a>
+        </div>
+
+        <h3>Test Results:</h3>
+        <div class="button-container">
+            <a href="{% url 'pdf_client_results' invoice.id %}?download=true" class="download-button">Download PDF</a>
+            <a href="{% url 'pdf_client_results' invoice.id %}" target="_blank" class="view-button">View PDF</a>
+        </div>
     {% endif %}
 
     <a href="{% url 'receptionist' %}">Back to Invoice List</a>

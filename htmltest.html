@@ -1,36 +1,47 @@
-{% extends 'client/client.html' %}
+{% extends 'receptionist/receptionist.html' %}
 {% load static %}
 
+{% block css_3 %}
+<link rel="stylesheet" href="{% static 'css/pdf.css' %}">
+
+{% endblock css_3 %}
+
 {% block main %}
-{% if invoice.payment_status %}
 <div class="Container">
-    <h1>Test Results - Invoice #{{ invoice.id }}</h1>
-    <p>Date: {{invoice.creation_time}}</p>
-    <p>Approved: {% if test_result.approved %}Yes{% else %}No{% endif %}</p>
-    <p>Duration: {{ test_result.duration }}</p>
-    <p>Total Price: {{ invoice.total_price }}</p>
+    <h1>Invoice #{{ invoice.id }} Details</h1>
 
-    <h3>Tests:</h3>
-    {% for test in test_request.tests.all %}
-    <h3>{{ test.test_offered.name }}</h3>
-    <p>Description :{{ test.description }}</p>
-    {% for component in test.components.all %}
-    <p>{{ component.info.name }} : {{ component.value }} {{ component.info.unit }}
-        {% endfor %}
-        {% endfor %}
+    <ul>
+        <li>Creation Time: {{ invoice.creation_time }}</li>
+        <li>Total Price: {{ invoice.total_price }}</li>
+        <li>Payment Status: {% if invoice.payment_status %}Paid{% else %}Unpaid{% endif %}</li>
+        {% if not invoice.payment_status %}
+        <li>Ammount Unpaid: {{ invoice.total_price }}</li>
+        {% endif %}
+        <li>Client: {{ invoice.client.user.first_name }} {{ invoice.client.user.last_name }}</li>
+        <li>Laboratory: {{ invoice.laboratory }}</li>
+        <!-- Add more details as needed -->
+    </ul>
 
-
+    {% if not invoice.payment_status %}
+    <form action="{% url 'confirm_payment' invoice.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">Confirm Payment</button>
+    </form>
+    {% else %}
+    <p>Invoice Fully Payed</p>
+    {% endif %}
     <h3>Invoice:</h3>
-    <a href="{% url 'pdf_client_invoice' invoice.id%}?download=true"><button>Download PDF</button></a>
-    <a href="{% url 'pdf_client_invoice' invoice.id%}" target="_blank"><button>View PDF</button></a>
+    <div class="button-container">
+        <a href="{% url 'pdf_client_invoice' invoice.id %}?download=true" class="download-button">Download PDF</a>
+        <a href="{% url 'pdf_client_invoice' invoice.id %}" target="_blank" class="view-button">View PDF</a>
+    </div>
+
     <h3>Test Results:</h3>
-    <a href="{% url 'pdf_client_results' invoice.id%}?download=true"><button>Download PDF</button></a>
-    <a href="{% url 'pdf_client_results' invoice.id %}" target="_blank"><button>View PDF</button></a>
+    <div class="button-container">
+        <a href="{% url 'pdf_client_results' invoice.id %}?download=true" class="download-button">Download PDF</a>
+        <a href="{% url 'pdf_client_results' invoice.id %}" target="_blank" class="view-button">View PDF</a>
+    </div>
 
-
-
+    <a href="{% url 'receptionist' %}">Back to Invoice List</a>
 </div>
-{% else %}
-<h1>404 Not Found</h1>
-{% endif %}
 {% endblock main %}

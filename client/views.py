@@ -13,11 +13,6 @@ from django.utils import timezone
 from datetime import timedelta
 from django.contrib import messages
 
-from django.template.loader import get_template
-from django.http import HttpResponse
-from django.views.generic import View
-
-from main_home.utils import render_to_pdf
 # Create your views here.
 
 ################################################################
@@ -250,78 +245,6 @@ def result_detail(request, invoice_id):
 
 
 
-@login_required
-@permission_required('client.view_client', raise_exception=True)
-def pdf_client_invoice(request, invoice_id):
-    template = get_template('pdf/invoice.html')
-    
-    invoice = Invoice.objects.get(id=invoice_id)
-    test_result = invoice.report.test_result
-    test_request = test_result.request
-    tests = test_request.tests.all()
-    appointment = test_request.appointment
-    context = {
-        "invoice":invoice,
-        "test_result":test_result,
-        "test_request":test_request,
-        "tests":tests,
-        "appointment":appointment,
-        "STATIC_ROOT":settings.MEDIA_ROOT,
-    }
-    
-    html = template.render(context)
-    pdf = render_to_pdf('pdf/invoice.html', context)
-    
-    if pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        filename = "Invoice_%s.pdf" % (invoice.id)
-        content = "inline; filename='%s'" % (filename)
-        download = request.GET.get("download")
-        
-        if download:
-            content = "attachment; filename='%s'" % (filename)
-        
-        response['Content-Disposition'] = content
-        return response
-    
-    return HttpResponse("Not found")
-    
-@login_required
-@permission_required('client.view_client', raise_exception=True)
-def pdf_client_results(request, invoice_id):
-    template = get_template('pdf/test_results.html')
-    
-    invoice = Invoice.objects.get(id=invoice_id)
-    test_result = invoice.report.test_result
-    test_request = test_result.request
-    tests = test_request.tests.all()
-    appointment = test_request.appointment
-    context = {
-        "invoice":invoice,
-        "test_result":test_result,
-        "test_request":test_request,
-        "tests":tests,
-        "appointment":appointment,
-        "gender":appointment.client.gender,
-        "STATIC_ROOT":settings.MEDIA_ROOT,
-    }
-    
-    html = template.render(context)
-    pdf = render_to_pdf('pdf/test_results.html', context)
-    
-    if pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        filename = "Invoice_%s.pdf" % (invoice.id)
-        content = "inline; filename='%s'" % (filename)
-        download = request.GET.get("download")
-        
-        if download:
-            content = "attachment; filename='%s'" % (filename)
-        
-        response['Content-Disposition'] = content
-        return response
-    
-    return HttpResponse("Not found")
     
 @login_required
 @permission_required('client.view_client', raise_exception=True)
