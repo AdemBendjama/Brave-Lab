@@ -2,23 +2,83 @@
 {% load static %}
 
 {% block main %}
-<div class="Container">
-    <h1>Test Results - Invoice #{{ invoice.id }}</h1>
-    <p>Date: {{invoice.creation_time}}</p>
-    <p>Approved: {% if test_result.approved %}Yes{% else %}No{% endif %}</p>
-    <p>Duration: {{ test_result.duration }}</p>
-    <p>Total Price: {{ invoice.total_price }}</p>
-    
-    <h3>Tests:</h3>
-    {% for test in test_request.tests.all %}
-    <h3>{{ test.test_offered.name }}</h3>
-    <p>Description :{{ test.description }}</p>
-        {% for component in test.components.all %}
-        <p>{{ component.info.name }} : {{ component.value }} {{ component.info.unit }}
-        {% endfor %}
-    {% endfor %}
-    
-    
-    
-</div>
+<style>
+
+    h1,
+    h3 {
+        font-size: 24px;
+        margin-top: 0;
+    }
+
+    p {
+        margin: 0;
+        margin-bottom: 10px;
+    }
+
+    .test {
+        margin-bottom: 20px;
+    }
+
+    .button-container {
+        margin: 10px 0;
+    }
+
+    .download-button,
+    .view-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #17c1c1;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-right: 10px;
+        font-weight: bold;
+    }
+
+    .view-button {
+        background-color: #00748c;
+    }
+
+    .download-button:hover,
+    .view-button:hover {
+        background-color: #00AC00;
+    }
+</style>
+
+    {% if invoice.payment_status %}
+        <div class="container">
+            <h1>Test Results - Invoice #{{ invoice.id }}</h1>
+            <p>Date: {{ invoice.creation_time }}</p>
+            <p>Approved: {% if test_result.approved %}Yes{% else %}No{% endif %}</p>
+            <p>Duration: {{ test_result.duration }}</p>
+            <p>Total Price: {{ invoice.total_price }}</p>
+
+            <h3>Tests:</h3>
+            {% for test in test_request.tests.all %}
+                <div class="test">
+                    <h3>{{ test.test_offered.name }}</h3>
+                    <p>Description: {{ test.description }}</p>
+                    {% for component in test.components.all %}
+                        <p>{{ component.info.name }}: {{ component.value }} {{ component.info.unit }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <h3>Invoice:</h3>
+            <div class="button-container">
+                <a href="{% url 'pdf_client_invoice' invoice.id %}?download=true" class="download-button">Download PDF</a>
+                <a href="{% url 'pdf_client_invoice' invoice.id %}" target="_blank" class="view-button">View PDF</a>
+            </div>
+
+            <h3>Test Results:</h3>
+            <div class="button-container">
+                <a href="{% url 'pdf_client_results' invoice.id %}?download=true" class="download-button">Download PDF</a>
+                <a href="{% url 'pdf_client_results' invoice.id %}" target="_blank" class="view-button">View PDF</a>
+            </div>
+        </div>
+    {% else %}
+        <h1>404 Not Found</h1>
+    {% endif %}
 {% endblock main %}
+
+

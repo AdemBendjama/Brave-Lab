@@ -1,43 +1,36 @@
-class Invoice(models.Model):
-    PRE_PAY = 'PP'
-    ON_RECEIVE = 'OR'
-    PAYMENT_CHOICES = [
-        (PRE_PAY, 'Pre-Pay'),
-        (ON_RECEIVE, 'On-Receive'),
-    ]
-    
-    report = models.OneToOneField(Report, on_delete=models.CASCADE)
-    creation_time = models.DateField(auto_now_add=True)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_status = models.BooleanField(default=False)
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    laboratory = models.ForeignKey(Laboratory, on_delete=models.CASCADE)
+{% extends 'client/client.html' %}
+{% load static %}
 
-    class Meta:
-        db_table = 'invoice'
-        
-    def __str__(self):
-        return f"Invoice #{self.id}"
+{% block main %}
+{% if invoice.payment_status %}
+<div class="Container">
+    <h1>Test Results - Invoice #{{ invoice.id }}</h1>
+    <p>Date: {{invoice.creation_time}}</p>
+    <p>Approved: {% if test_result.approved %}Yes{% else %}No{% endif %}</p>
+    <p>Duration: {{ test_result.duration }}</p>
+    <p>Total Price: {{ invoice.total_price }}</p>
 
-        <li class="app1">
-            <span><strong>Lipid Panel</strong></span>
-            <span><strong>Not Confirmed</strong></span>
-            <div class="buttons">
-            <button class="list-button"><a class="list-links" href="{% url 'request_test_detail' analysis_request_id=analysis_request.id test_id=test.id %}">View Details</a></button>
-            </div>
-        </li> 
-        <li class="app1">
-            <span><strong>Hemoglobin A1C (HbA1c)</strong></span>
-            <span><strong>Not Confirmed</strong></span>
-            <div class="buttons">
-            <button class="list-button"><a class="list-links" href="{% url 'request_test_detail' analysis_request_id=analysis_request.id test_id=test.id %}">View Details</a></button>
-            </div>
-        </li> 
+    <h3>Tests:</h3>
+    {% for test in test_request.tests.all %}
+    <h3>{{ test.test_offered.name }}</h3>
+    <p>Description :{{ test.description }}</p>
+    {% for component in test.components.all %}
+    <p>{{ component.info.name }} : {{ component.value }} {{ component.info.unit }}
+        {% endfor %}
+        {% endfor %}
 
 
-       <li class="message-sender">
-        <div class="message-content">Hello How are You</div>
-        <div class="message-timestamp">June 2, 2023, 1:22 p.m.</div>
-        </li>
+    <h3>Invoice:</h3>
+    <a href="{% url 'pdf_client_invoice' invoice.id%}?download=true"><button>Download PDF</button></a>
+    <a href="{% url 'pdf_client_invoice' invoice.id%}" target="_blank"><button>View PDF</button></a>
+    <h3>Test Results:</h3>
+    <a href="{% url 'pdf_client_results' invoice.id%}?download=true"><button>Download PDF</button></a>
+    <a href="{% url 'pdf_client_results' invoice.id %}" target="_blank"><button>View PDF</button></a>
 
-        
+
+
+</div>
+{% else %}
+<h1>404 Not Found</h1>
+{% endif %}
+{% endblock main %}

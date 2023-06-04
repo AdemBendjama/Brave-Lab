@@ -1,5 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
+from django.conf import settings
 from django.shortcuts import get_object_or_404, render ,redirect
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required , permission_required
@@ -11,6 +12,12 @@ from django.core.files.storage import default_storage
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib import messages
+
+from django.template.loader import get_template
+from django.http import HttpResponse
+from django.views.generic import View
+
+from main_home.utils import render_to_pdf
 # Create your views here.
 
 ################################################################
@@ -241,6 +248,74 @@ def result_detail(request, invoice_id):
     
     return render(request,'client/result/result_detail.html' , context )
 
+
+
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def pdf_client_invoice(request, invoice_id):
+    template = get_template('pdf/invoice1.html')
+    
+    invoice = Invoice.objects.get(id=invoice_id)
+    test_result = invoice.report.test_result
+    test_request = test_result.request
+    tests = test_request.tests.all()
+    appointment = test_request.appointment
+    static_root = "/home/adam/Documents/Python-Django Development/Brave-Lab/static/"
+    context = {
+        "invoice":invoice,
+        "test_result":test_result,
+        "test_request":test_request,
+        "tests":tests,
+        "appointment":appointment,
+        "STATIC_ROOT":settings.MEDIA_ROOT,
+    }
+    
+    html = template.render(context)
+    pdf = render_to_pdf('pdf/invoice.html', context)
+    
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "Invoice_%s.pdf" % (invoice.id)
+        content = "inline; filename='%s'" % (filename)
+        download = request.GET.get("download")
+        
+        if download:
+            content = "attachment; filename='%s'" % (filename)
+        
+        response['Content-Disposition'] = content
+        return response
+    
+    return HttpResponse("Not found")
+    
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def pdf_client_results(request, invoice_id):
+    template = get_template('pdf/invoice1.html')
+    context = {
+        "invoice_id": 123,
+        "customer_name": "John Cooper",
+        "amount": 1399.99,
+        "today": "Today",
+    }
+    html = template.render(context)
+    pdf = render_to_pdf('pdf/invoice1.html', context)
+    
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "Invoice_%s.pdf" % ("12341231")
+        content = "inline; filename='%s'" % (filename)
+        download = request.GET.get("download")
+        print(download)
+        if download:
+            print("hello")
+            content = "attachment; filename='%s'" % (filename)
+            
+        response['Content-Disposition'] = content
+        return response
+    
+    return HttpResponse("Not found")
+    
+    
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def online_pay(request, invoice_id):
