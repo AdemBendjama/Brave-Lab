@@ -29,6 +29,8 @@
   <a href="{% url 'result_update' test_result.id %}">Modify Tests</a>
     <form method="POST" action="{% url 'approve_result' test_result.id %}">
         {% csrf_token %}
+        <label for="report-desc">Notes and Remarks :</label>
+        <textarea id="report-desc" name="report-desc" required></textarea>
         <button type="submit" name="approve" >Approve Result</button>
     </form>
   {% else %}

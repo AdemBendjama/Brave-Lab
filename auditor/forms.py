@@ -2,7 +2,10 @@
 from django import forms
 
 from main_home.models import Report, TestResult
+from nurse.models import Nurse
 
+class NurseForm(forms.Form):
+    nurse = forms.ModelChoiceField(queryset=Nurse.objects.all(), empty_label=None)
 
 class UpdateTestsForm(forms.Form):
     def __init__(self, *args, **kwargs):
@@ -27,18 +30,3 @@ class UpdateTestsForm(forms.Form):
                     required=False
                 )
                 
-                
-class ReportForm(forms.ModelForm):
-    test_result = forms.ModelChoiceField(
-        queryset=TestResult.objects.filter(approved=True, report__isnull=True),
-        empty_label='Select a test result',
-        label='Test Result'
-    )
-    description = forms.CharField(
-        widget=forms.Textarea(attrs={'rows': 3}),
-        label='Description'
-    )
-
-    class Meta:
-        model = Report
-        fields = ['test_result', 'description']

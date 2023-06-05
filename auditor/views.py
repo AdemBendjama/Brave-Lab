@@ -1,14 +1,17 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required , permission_required
-from auditor.forms import UpdateTestsForm
+from auditor.forms import NurseForm, UpdateTestsForm
 from auditor.models import Auditor
+from django.contrib.auth.models import User
 
 from main_home.models import AnalysisRequest, ChatRoom, Component, Invoice, Laboratory, Message, Report, Test, TestResult
-from auditor.forms import ReportForm
+
 
 from django.core.serializers import serialize
 from django.utils import formats
+
+from nurse.models import Nurse
 # Create your views here.
 
 ################################################################
@@ -96,6 +99,62 @@ def getMessages(request):
         
     return JsonResponse({"messages":serialized_messages,"auditor_id":auditor_id})
 
+
+################################################################
+
+# Analysis Requests
+
+@login_required
+@permission_required('auditor.view_auditor', raise_exception=True)
+def request_list(request):
+    analysis_requests = AnalysisRequest.objects.select_related('appointment__client').all()
+    pending_requests = analysis_requests.filter(status=AnalysisRequest.PENDING)
+    working_on_requests = analysis_requests.filter(status=AnalysisRequest.WORKING_ON)
+    finished_requests = analysis_requests.filter(status=AnalysisRequest.FINISHED)
+    
+    context = {
+        'pending_requests': pending_requests,
+        'working_on_requests': working_on_requests,
+        'finished_requests': finished_requests,
+    }
+    return render(request,'auditor/request/request_list.html', context)
+
+@login_required
+@permission_required('auditor.view_auditor', raise_exception=True)
+def request_detail(request, analysis_request_id):
+    analysis_request = get_object_or_404(AnalysisRequest, id=analysis_request_id)
+    form = NurseForm()
+    context = {
+        'analysis_request': analysis_request,
+        "form":form,
+    }
+    
+    return render(request,'auditor/request/request_detail.html', context)
+
+
+@login_required
+@permission_required('auditor.view_auditor', raise_exception=True)
+def change_nurse(request, analysis_request_id):
+    
+    if request.method == "POST":
+        
+        form = NurseForm(request.POST)
+        
+        if form.is_valid():
+            nurse = form.cleaned_data['nurse']
+            user = User.objects.get(username=nurse)
+            nurse = Nurse.objects.get(user = user)
+            analysis_request = AnalysisRequest.objects.get(id = analysis_request_id)
+            analysis_request.nurse = nurse
+            analysis_request.save()
+            
+            # nurse = Nurse.objects.get(id=nurse_id)
+            print(analysis_request.nurse)
+    
+    
+    return redirect('auditor_request_detail',analysis_request_id=analysis_request_id)
+
+
 ################################################################
 
 # Results
@@ -116,8 +175,7 @@ def result_list(request):
 @permission_required('auditor.view_auditor', raise_exception=True)
 def result_detail(request , test_result_id):
     test_result = get_object_or_404(TestResult, id=test_result_id)
-    
-        
+  
     context = {
         'test_result': test_result,
     }
@@ -135,6 +193,18 @@ def approve_result(request, test_result_id):
         # Update the approval status of the test result
         test_result.approved = True
         test_result.save()
+        
+        description = request.POST.get("report-desc")
+        report = Report.objects.create(test_result=test_result,description=description)
+        laboratory = Laboratory.objects.get(name="Brave Laboratory")
+        
+        invoice = Invoice.objects.create(
+            report=report,
+            total_price=report.test_result.request.appointment.total_price,
+            payment_status=report.test_result.request.appointment.payment_status,
+            client=report.test_result.request.appointment.client,
+            laboratory=laboratory
+        )
         
 
     return redirect('test_result_detail', test_result_id=test_result_id)
@@ -199,29 +269,3 @@ def report_detail(request, report_id):
         'report': report,
     }
     return render(request,'auditor/report/report_detail.html', context)
-
-@login_required
-@permission_required('auditor.view_auditor', raise_exception=True)
-def report_add(request):
-    if request.method == 'POST':
-        form = ReportForm(request.POST)
-        if form.is_valid():
-            report = form.save()
-            laboratory = Laboratory.objects.get(name="Brave Laboratory")
-            
-            invoice = Invoice.objects.create(
-                report=report,
-                total_price=report.test_result.request.appointment.total_price,
-                payment_status=report.test_result.request.appointment.payment_status,
-                client=report.test_result.request.appointment.client,
-                laboratory=laboratory
-            )
-            
-            return redirect("report_list")
-    else:
-        form = ReportForm()
-
-    context = {
-        'form': form,
-    }
-    return render(request,'auditor/report/report_add.html', context)
