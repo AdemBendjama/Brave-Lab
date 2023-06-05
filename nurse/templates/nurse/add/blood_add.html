@@ -1,0 +1,31 @@
+{% extends 'nurse/nurse.html' %}
+{% load static %}
+
+{% block main %}
+  <div class="Container">
+    <h1>Add Blood Sample</h1>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_div}}
+      <button type="submit" name="add">Add</button>
+    </form>
+  </div>
+{% endblock %}
+
+{% block scripts_3 %}
+  <script src="{% static 'js/resources/sweetalert2.all.min.js'%}"></script>
+
+  {% if messages %}
+    {% for message in messages %}
+      <script>
+        Swal.fire({
+          title: 'Success !',
+          text: '{{ message }}',
+          icon: 'success',
+          confirmButtonText: 'Confirm'
+        })
+      </script>
+    {% endfor %}
+  {% endif %}
+{% endblock %}

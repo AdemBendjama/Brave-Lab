@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required , permission_required
 from auditor.models import Auditor
+from main_home.forms import BloodSampleForm
 from main_home.models import AnalysisRequest, Appointment, ChatRoom, Lobby, Message, Payment, Test , TestResult
 from django.utils import timezone
 from nurse.forms import AddComponentForm, AddTestForm, TestFinalizeForm
@@ -11,6 +12,8 @@ from django.core.serializers import serialize
 from django.utils import formats
 
 from nurse.models import Nurse
+
+from django.contrib import messages
 
 # Create your views here.
 
@@ -324,3 +327,21 @@ def result_detail(request, result_id):
     
     return render(request,'nurse/result/result_detail.html')
 
+
+@login_required
+@permission_required('nurse.view_nurse', raise_exception=True)
+def blood_add(request):
+    if request.method == 'POST':
+        form = BloodSampleForm(request.POST)
+        if form.is_valid():
+            blood_sample = form.save() 
+            messages.success(request, 'Blood sample added successfully!')
+            return redirect('blood_add')  
+    else:
+        form = BloodSampleForm()
+
+    context = {
+        'form': form
+    }
+
+    return render(request,'nurse/add/blood_add.html',context)

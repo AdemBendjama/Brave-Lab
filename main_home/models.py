@@ -150,8 +150,25 @@ class Test(models.Model):
             
     def __str__(self):
         return self.test_offered.name
-        
+    
 class BloodBank(models.Model):
+    MAX_SAMPLE_CAPACITY_CHOICES = [
+        (400, '400'),
+        (300, '300'),
+        (200, '200')
+    ]
+
+    capacity = models.IntegerField(choices=MAX_SAMPLE_CAPACITY_CHOICES)
+
+    def __str__(self):
+        return f"Blood Bank - Capacity: {self.capacity} samples"
+
+    def is_full(self):
+        sample_count = self.blood_samples.count()
+        return sample_count >= self.capacity
+
+    
+class BloodSample(models.Model):
     BLOOD_TYPES = [
         ('A+', 'A+'),
         ('A-', 'A-'),
@@ -163,12 +180,16 @@ class BloodBank(models.Model):
         ('O-', 'O-')
     ]
     
-    client = models.OneToOneField(Client, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     blood_type = models.CharField(max_length=3, choices=BLOOD_TYPES)
+    quantity = models.FloatField()
+    unit = models.CharField(max_length=2, default="mL")
     submission_date = models.DateTimeField(auto_now=True)
+    blood_bank = models.ForeignKey(BloodBank, related_name='blood_samples', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.client.user.username} - {self.blood_type}"
+        return f"Blood Sample #{self.id} - {self.client.user.username} - Type: {self.blood_type}"
+
  
  
 def validate_date_not_past(date):

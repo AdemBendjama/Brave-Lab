@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render , redirect
 from django.contrib.auth.decorators import login_required,permission_required
 from django.views.decorators.http import require_POST
 from client.models import Client
-from main_home.forms import BloodTypeForm, UserRegisterForm
+from main_home.forms import UserRegisterForm
 
 from main_home.models import Appointment, BloodBank, Complaint, Invoice, Lobby, Payment
 from nurse.models import Nurse
@@ -65,29 +65,6 @@ def confirm_payment(request, invoice_id):
     return redirect('invoice_detail', invoice_id=invoice_id)
 ################################################################
 
-# Creation Views (Client,Blood Samples)
-
-@login_required
-@permission_required('receptionist.view_receptionist', raise_exception=True)
-def blood_add(request):
-    if request.method == 'POST' and 'add' in request.POST:
-        form = BloodTypeForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('receptionist')
-    elif request.method == 'POST' and 'update' in request.POST:
-        bloodbank = BloodBank.objects.get(client = request.POST.get("client"))
-        bloodbank.blood_type = request.POST.get("blood_type")
-        bloodbank.save()
-        return redirect('receptionist')
-    
-    else:
-        form = BloodTypeForm()
-    
-    context = {
-        'form': form
-    }
-    return render(request,'receptionist/add/blood_add.html',context)
 
 @login_required
 @permission_required('receptionist.view_receptionist', raise_exception=True)

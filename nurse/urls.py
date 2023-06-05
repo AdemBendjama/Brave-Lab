@@ -25,4 +25,7 @@ urlpatterns = [
     path("results/",views.result_list,name="result_list"),
     path("results/<int:result_id>/detail/",views.result_detail,name="result_detail"),
     
+    path("blood/add/",views.blood_add,name="blood_add"),
+    
 ]
+
