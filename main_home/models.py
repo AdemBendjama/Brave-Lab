@@ -16,6 +16,32 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+class Evaluation(models.Model):
+    GENDER_CHOICES = [
+        (0.0, 'Male'),
+        (1.0, 'Female')
+    ]
+    
+    SMOKING_CHOICES = [
+        (0.0, 'Never'),
+        (1.0, 'No Info'),
+        (2.0, 'Former'),
+        (3.0, 'Not Current'),
+        (4.0, 'Ever'),
+        (5.0, 'Current')
+    ]
+
+    gender = models.FloatField(choices=GENDER_CHOICES)
+    age = models.FloatField()
+    hypertension = models.FloatField(choices=[(0.0, 'No'), (1.0, 'Yes')])
+    heart_disease = models.FloatField(choices=[(0.0, 'No'), (1.0, 'Yes')])
+    smoking_history = models.FloatField(choices=SMOKING_CHOICES)
+    bmi = models.FloatField()
+
+    def __str__(self):
+        return f"Evaluation #{self.id}"
+    
+
 class ChatRoom(models.Model):
     name = models.CharField(max_length=100, unique=True)
     nurse = models.OneToOneField(Nurse, on_delete=models.CASCADE)
@@ -299,6 +325,7 @@ class AnalysisRequest(models.Model):
     appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE)
     nurse = models.ForeignKey(Nurse, on_delete=models.CASCADE)
     tests = models.ManyToManyField(Test)
+    evaluation = models.OneToOneField(Evaluation, on_delete=models.CASCADE , null = True)
     creation_time = models.DateTimeField(auto_now_add=True)
     start_time = models.DateTimeField(null=True, blank=True)
     finish_time = models.DateTimeField(null=True, blank=True)
@@ -394,6 +421,8 @@ class Invoice(models.Model):
         
     def __str__(self):
         return f"Invoice #{self.id}"
+
+
 
 
 

@@ -20,14 +20,20 @@
     {% else %}
         <p>No document provided.</p>
     {% endif %}
+
     {% if not appointment.performed %}
+        <button type="submit" ><a href="{% url 'evaluation' appointment.id %}">Start Evaluation</a></button>
+    {% else %}
+      <p>Appointment already preformed.</p>
+    {% endif %}
+    {% comment %} {% if not appointment.performed %}
       <form method="POST" action="{% url 'lobby_detail' appointment.id %}">
         {% csrf_token %}
         <button type="submit" name="preformed">Preformed</button>
       </form>
     {% else %}
       <p>Appointment already preformed.</p>
-    {% endif %}
+    {% endif %} {% endcomment %}
     
 </div>
 {% endblock main %}

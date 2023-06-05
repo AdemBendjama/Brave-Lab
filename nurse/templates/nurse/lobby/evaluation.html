@@ -1,0 +1,66 @@
+{% extends 'nurse/nurse.html' %}
+{% load static %}
+
+{% block main %}
+  <div class="Container">
+    <h1>Evaluation</h1>
+
+    {% if not appointment.performed %}
+      <form method="POST">
+        {% csrf_token %}
+        <div>
+          <label for="id_gender">Gender:</label>
+          <select name="gender" required id="id_gender">
+            <option value="" selected>---------</option>
+            <option value="0.0">Male</option>
+            <option value="1.0">Female</option>
+          </select>
+        </div>
+        <div>
+          <label for="id_age">Age:</label>
+          <input type="number" name="age" step="any" required id="id_age" />
+        </div>
+        <div>
+          <label for="id_height">Height(m):</label>
+          <input type="number" name="height" step="any" required id="id_height"/>
+        </div>
+        <div>
+          <label for="id_weight">Weight(Kg):</label>
+          <input type="number" name="weight" step="any" required id="id_weight" />
+        </div>
+        <div>
+          <label for="id_hypertension">High Blood Pressure:</label>
+          <select name="hypertension" required id="id_hypertension">
+            <option value="" selected>---------</option>
+            <option value="0.0">No</option>
+            <option value="1.0">Yes</option>
+          </select>
+        </div>
+        <div>
+          <label for="id_heart_disease">Heart disease:</label>
+          <select name="heart_disease" required id="id_heart_disease">
+            <option value="" selected>---------</option>
+            <option value="0.0">No</option>
+            <option value="1.0">Yes</option>
+          </select>
+        </div>
+        <div>
+          <label for="id_smoking_history">Smoking history:</label>
+          <select name="smoking_history" required id="id_smoking_history">
+            <option value="" selected>---------</option>
+            <option value="0.0">Never</option>
+            <option value="1.0">No Info</option>
+            <option value="2.0">Former</option>
+            <option value="3.0">Not Current</option>
+            <option value="4.0">Ever</option>
+            <option value="5.0">Current</option>
+          </select>
+        </div>
+
+        <button type="submit" name="preformed">Preformed</button>
+      </form>
+    {% else %}
+      <p>Appointment already preformed.</p>
+    {% endif %}
+  </div>
+{% endblock %}

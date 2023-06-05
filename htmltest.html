@@ -1,66 +1,70 @@
-{% extends 'main_home/actors_base.html' %}
+{% extends 'nurse/nurse.html' %}
 {% load static %}
-
-{% block css_2 %}
-
-<link rel="stylesheet" href="{% static 'css/list.css' %}">
-
-{% endblock css_2 %}
 
 {% block main %}
 <div class="Container">
-    <h1>Homepage - List of Reports</h1>
-    <ul>
-        {% if reports %}
-        <ul>
-            {% for report in reports %}
-            <li class="app1">
-                <span><strong>Report #{{ report.id }}</strong></span>
-                <span><strong>{{ report.test_result }}</strong></span>
-                <div class="buttons">
-                    <button class="list-button"><a class="list-links" href="{% url 'report_detail' report.id  %}">View
-                            Details</a></button>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <div>
-            <ul class="lists">
-                <li class="app1 empty">
-                    <span><strong>No Reports Found</strong></span>
-                </li>
-            </ul>
-        </div>
-        {% endif %}
-    </ul>
+
+    <h1>Evaluation</h1>
+
+    {% if not appointment.performed %}
+    <form method="POST">
+        {% csrf_token %}
+        <label for="id_gender">Gender:</label>
+        <select name="gender" required id="id_gender">
+            <option value="" selected>---------</option>
+            <option value="0.0">Male</option>
+            <option value="1.0">Female</option>
+        </select>
+</div>
+<div>
+    <label for="id_age">Age:</label>
+    <input type="number" name="age" step="any" required id="id_age">
+</div>
+<div>
+    <label for="id_hypertension">Hypertension:</label>
+    <select name="hypertension" required id="id_hypertension">
+        <option value="" selected>---------</option>
+        <option value="0.0">No</option>
+        <option value="1.0">Yes</option>
+    </select>
+</div>
+<div>
+    <label for="id_heart_disease">Heart disease:</label>
+    <select name="heart_disease" required id="id_heart_disease">
+        <option value="" selected>---------</option>
+        <option value="0.0">No</option>
+        <option value="1.0">Yes</option>
+    </select>
+</div>
+<div>
+    <label for="id_smoking_history">Smoking history:</label>
+    <select name="smoking_history" required id="id_smoking_history">
+        <option value="" selected>---------</option>
+        <option value="0.0">Never</option>
+        <option value="1.0">No Info</option>
+        <option value="2.0">Former</option>
+        <option value="3.0">Not Current</option>
+        <option value="4.0">Ever</option>
+        <option value="5.0">Current</option>
+    </select>
+</div>
+<div>
+    <label for="id_bmi">Bmi:</label>
+    <input type="number" name="bmi" step="any" required id="id_bmi">
+</div>
+<div>
+    <label for="id_hba1c_level">Hba1c level:</label>
+    <input type="number" name="hba1c_level" step="any" required id="id_hba1c_level">
+</div>
+<div>
+    <label for="id_blood_glucose_level">Blood glucose level:</label>
+    <input type="number" name="blood_glucose_level" step="any" required id="id_blood_glucose_level">
+</div>
+<button type="submit" name="preformed">Preformed</button>
+</form>
+{% else %}
+<p>Appointment already preformed.</p>
+{% endif %}
 
 </div>
 {% endblock main %}
-
-
-{% block sidebar %}
-
-    <li><a href={% url 'receptionist' %}><span class="material-icons X">layers</span> <span class="nav-item">Home</span></a></li>
-    <li><a href={% url 'appointment_list' %}><span class="material-icons X">list_alt</span><span class="nav-item">Appointment List</span></a></li>
-    <li><a href={% url 'complaint_list' %}><span class="material-icons X">list</span><span class="nav-item">Complaint list</span></a></li>
-    <li><a href={% url 'client_add' %}><span class="material-icons X">person_add</span><span class="nav-item">Create Client</span></a></li>
-
-{% endblock sidebar %}
-
-{% block scripts_2 %}
-<script>
-    var path = window.location.pathname;
-    var links = document.querySelectorAll('nav ul li a');
-  
-    links.forEach(function(link) {
-      var href = link.getAttribute('href');
-  
-      // Check if the current path starts with the href
-      if (path.startsWith(href)) {
-          // Add the "active" class to the parent <li> element
-          link.parentElement.classList.add('active');
-      }
-    });
-</script>
-{% endblock scripts_2 %}

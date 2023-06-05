@@ -1,6 +1,14 @@
 # forms.py
 from django import forms
-from main_home.models import ComponentInformation, Report, Test, TestOffered, TestResult
+from main_home.models import ComponentInformation, Evaluation, Report, Test, TestOffered, TestResult
+
+
+
+class EvaluationForm(forms.ModelForm):
+    class Meta:
+        model = Evaluation
+        fields = ['gender', 'age', 'hypertension', 'heart_disease', 'smoking_history']
+
 
 class AddTestForm(forms.Form):
     test_offered = forms.ModelChoiceField(queryset=TestOffered.objects.none(), empty_label=None)

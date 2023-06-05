@@ -4,9 +4,9 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required , permission_required
 from auditor.models import Auditor
 from main_home.forms import BloodSampleForm
-from main_home.models import AnalysisRequest, Appointment, ChatRoom, Lobby, Message, Payment, Test , TestResult
+from main_home.models import AnalysisRequest, Appointment, ChatRoom, Evaluation, Lobby, Message, Payment, Test , TestResult
 from django.utils import timezone
-from nurse.forms import AddComponentForm, AddTestForm, TestFinalizeForm
+from nurse.forms import AddComponentForm, AddTestForm, EvaluationForm, TestFinalizeForm
 
 from django.core.serializers import serialize
 from django.utils import formats
@@ -40,30 +40,68 @@ def nurse_home(request):
 @permission_required('nurse.view_nurse', raise_exception=True)
 def lobby_detail(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
-    nurse = request.user.nurse
-    lobby = nurse.lobby
-    clients = lobby.clients.all()
-
-    if request.method == 'POST' and 'preformed' in request.POST:
-        appointment.performed = True
-        appointment.save()
-        lobby.clients.remove(appointment)
-        
-        analysis_request = AnalysisRequest.objects.create(nurse=nurse, appointment=appointment)
-        
-        # Get the tests_requested from the appointment and create Test objects for each one
-        tests_requested = appointment.tests_requested.all()
-        for test_offered in tests_requested:
-            test = Test.objects.create(test_offered=test_offered)
-            analysis_request.tests.add(test)
-        
-        return redirect('lobby_detail', appointment_id=appointment.id)
 
     context = {
         'appointment': appointment
     }
     
     return render(request,'nurse/lobby/lobby_detail.html', context)
+
+@login_required
+@permission_required('nurse.view_nurse', raise_exception=True)
+def evaluation(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    nurse = request.user.nurse
+    lobby = nurse.lobby
+
+    if request.method == 'POST' and 'preformed' in request.POST:
+        
+        # Validate Evaluation Form
+        
+        form = EvaluationForm(request.POST)
+        
+        if form.is_valid():
+            gender = request.POST.get('gender')
+            age = request.POST.get('age')
+            height = request.POST.get('height')
+            weight = request.POST.get('weight')
+            hypertension = request.POST.get('hypertension')
+            heart_disease = request.POST.get('heart_disease')
+            smoking_history = request.POST.get('smoking_history')
+            bmi = (float(weight)) / (float(height) * float(height))
+            evaluation = Evaluation(gender=gender,age=age,bmi=bmi,
+                                          heart_disease=heart_disease,hypertension=hypertension,
+                                          smoking_history=smoking_history)
+            evaluation.save()
+            
+            
+            messages.success(request,"Patient Information Saved Successfully !")
+        
+            # Mark Appointment as performed
+            appointment.performed = True
+            appointment.save()
+            lobby.clients.remove(appointment)
+            
+            # Create the Analysis Request
+            analysis_request = AnalysisRequest.objects.create(nurse=nurse, appointment=appointment , evaluation=evaluation)
+            
+            # Get the tests_requested from the appointment and create Test objects for each one
+            tests_requested = appointment.tests_requested.all()
+            for test_offered in tests_requested:
+                test = Test.objects.create(test_offered=test_offered)
+                analysis_request.tests.add(test)
+            
+            return redirect('lobby_detail', appointment_id=appointment.id)
+        
+    else : 
+        form = EvaluationForm()
+    
+    context = {
+        'appointment': appointment,
+        'form':form,
+    }
+    
+    return render(request,'nurse/lobby/evaluation.html', context)
 
 ################################################################
 
