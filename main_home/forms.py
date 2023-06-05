@@ -23,9 +23,25 @@ phone_regex = RegexValidator(
 
 
 class BloodSampleForm(forms.ModelForm):
+    quantity = forms.DecimalField(label='Quantity (mL)')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['blood_bank'].choices = self.get_available_blood_banks()
+
+    def get_available_blood_banks(self):
+        available_blood_banks = [
+            (blood_bank.pk, str(blood_bank)) for blood_bank in BloodBank.objects.all() if not blood_bank.is_full()
+        ]
+        return [('', '---------')] + available_blood_banks
+
+
     class Meta:
         model = BloodSample
         fields = ['client', 'blood_type', 'quantity', 'blood_bank']
+        widgets = {
+            'quantity': forms.NumberInput(attrs={'step': 'any'}),
+        }
 
                              
 class UserRegisterForm(UserCreationForm):
