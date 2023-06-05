@@ -1,0 +1,12 @@
+{% extends 'receptionist/receptionist.html' %}
+{% load static %}
+
+{% block main %}
+<div class="Container">
+    <h1>Report Detail</h1>
+    <h2>Report #{{ report.id }}</h2>
+    <p>Invoice: <a href="{% url 'invoice_detail' report.id report.invoice.id %}">{{ report.invoice }}</a></p>
+    <p>Description: {{ report.description }}</p>
+  </div>
+</div>
+{% endblock main %}

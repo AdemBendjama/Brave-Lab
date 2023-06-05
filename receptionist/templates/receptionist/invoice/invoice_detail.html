@@ -45,6 +45,6 @@
         </div>
     {% endif %}
 
-    <a href="{% url 'receptionist' %}">Back to Invoice List</a>
+    <a href="{% url 'receptionist_report_detail' invoice.report.id %}">Back to Report</a>
 </div>
 {% endblock main %}

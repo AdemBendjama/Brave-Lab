@@ -4,9 +4,10 @@ from . import views
 from main_home import views as home_views
 
 urlpatterns = [
-    path("home/invoice/",views.receptionist_home,name="receptionist"),
-    path("home/invoice/<int:invoice_id>/",views.invoice_detail,name="invoice_detail"),
-    path('home/invoice/<int:invoice_id>/confirm_payment/', views.confirm_payment, name='confirm_payment'),
+    path("home/report/",views.receptionist_home,name="receptionist"),
+    path("home/report/<int:report_id>/detail/",views.receptionist_report_detail,name="receptionist_report_detail"),
+    path("home/report/<int:report_id>/invoice/<int:invoice_id>/",views.invoice_detail,name="invoice_detail"),
+    path('home/report/<int:report_id>/invoice/<int:invoice_id>/confirm_payment/', views.confirm_payment, name='confirm_payment'),
     
     
     path("client/add/",views.client_add,name="client_add"),

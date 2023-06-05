@@ -1,159 +1,66 @@
-{% extends 'client/client.html' %}
+{% extends 'main_home/actors_base.html' %}
 {% load static %}
 
+{% block css_2 %}
+
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+
+{% endblock css_2 %}
+
 {% block main %}
-<style>
-    .progress-bar {
-        width: 600px;
-        margin: 0 auto;
-    }
-
-    .progress-meter {
-        padding: 0;
-    }
-
-    ol.progress-meter {
-        padding-bottom: 9.5px;
-        list-style-type: none;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    ol.progress-meter li {
-        display: inline-block;
-        text-align: center;
-        text-indent: -19px;
-        height: 36px;
-        width: 98px;
-        font-size: 12px;
-        border-bottom-width: 5px;
-        border-bottom-style: solid;
-        border-radius: 5px;
-    }
-
-    ol.progress-meter li:before {
-        position: relative;
-        float: left;
-        text-indent: 0;
-        left: -webkit-calc(100% - 9.5px);
-        left: -moz-calc(100% - 9.5px);
-        left: -ms-calc(100% - 9.5px);
-        left: -o-calc(100% - 9.5px);
-        left: calc(100% - 9.5px);
-    }
-
-    ol.progress-meter li.finished {
-        font-size: 12px;
-    }
-
-    ol.progress-meter li.finished:before {
-        content: "\2713";
-        height: 19px;
-        width: 19px;
-        line-height: 19px;
-        bottom: -28.175px;
-        border: none;
-        border-radius: 19px;
-    }
-
-    ol.progress-meter li.finished {
-        color: black;
-        border-bottom-color: yellowgreen;
-    }
-
-    ol.progress-meter li.finished:before {
-        color: white;
-        background-color: yellowgreen;
-    }
-
-    ol.progress-meter li.pending {
-        font-size: 12px;
-    }
-
-    ol.progress-meter li.pending:before {
-        content: "\2B24";
-        font-size: 17.1px;
-        bottom: -26.95px;
-        line-height: 18.05px;
-    }
-
-    ol.progress-meter li.pending {
-        color: silver;
-        border-bottom-color: silver;
-    }
-
-    ol.progress-meter li.pending:before {
-        color: silver;
-    }
-</style>
 <div class="Container">
-    <h1>List Of Pending Analysis Requests</h1>
-
-    <h2>In Progres:<h2>
-            <h2>Finished:<h2>
-                    {% for appointment in appointments %}
-                    <h3><a href="{% url 'client_appointment_detail' appointment.id %}">{{appointment}}</a></h3>
-                    {% if appointment.status != Appointment.OVERDUE %}
-                    <div class="progress-bar">
-                        <ol class="progress-meter">
-                            <li class="progress-point finished">Booked</li>
-                            {% if appointment.arrived %}
-                            <li class="progress-point finished">Arrived</li>
-                            {% else %}
-                            <li class="progress-point pending">Arrived</li>
-                            {% endif %}
-                            {% if appointment.performed %}
-                            <li class="progress-point finished">Performed</li>
-                            {% else %}
-                            <li class="progress-point pending">Performed</li>
-                            {% endif %}
-
-                            {% if appointment.analysisrequest and appointment.performed %}
-
-
-                            {% if appointment.analysisrequest.status == "working-on" %}
-                            <li class="progress-point finished">Working-on</li>
-                            <li class="progress-point pending">Finished</li>
-                            {% endif %}
-
-                            {% if appointment.analysisrequest.status == "finished" %}
-                            <li class="progress-point finished">Working-on</li>
-                            <li class="progress-point finished">Finished</li>
-                            {% endif %}
-
-
-                            {% if appointment.analysisrequest.testresult %}
-
-                            {% if appointment.analysisrequest.testresult.approved %}
-                            <li class="progress-point finished">Approved</li>
-                            {% else %}
-                            <li class="progress-point working">Unapproved</li>
-                            <li class="progress-point pending">Unfinished</li>
-                            {% endif %}
-
-                            {% if appointment.analysisrequest.testresult.report.invoice %}
-                            <li class="progress-point finished">Finished</li>
-                            {% elif appointment.analysisrequest.testresult.approved %}
-                            <li class="progress-point working">Finished</li>
-                            {% endif %}
-
-                            {% else %}
-                            <li class="progress-point pending">Unapproved</li>
-                            <li class="progress-point pending">Unfinished</li>
-                            {% endif %}
-
-                            {% else %}
-                            <li class="progress-point pending">Working-on</li>
-                            <li class="progress-point pending">Finished</li>
-                            <li class="progress-point pending">Approved</li>
-                            <li class="progress-point pending">Finalized</li>
-                            {% endif %}
-
-                        </ol>
-                    </div>
-                    {% endif %}
-                    {% endfor %}
-
+    <h1>Homepage - List of Reports</h1>
+    <ul>
+        {% if reports %}
+        <ul>
+            {% for report in reports %}
+            <li class="app1">
+                <span><strong>Report #{{ report.id }}</strong></span>
+                <span><strong>{{ report.test_result }}</strong></span>
+                <div class="buttons">
+                    <button class="list-button"><a class="list-links" href="{% url 'report_detail' report.id  %}">View
+                            Details</a></button>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div>
+            <ul class="lists">
+                <li class="app1 empty">
+                    <span><strong>No Reports Found</strong></span>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
+    </ul>
 
 </div>
 {% endblock main %}
+
+
+{% block sidebar %}
+
+    <li><a href={% url 'receptionist' %}><span class="material-icons X">layers</span> <span class="nav-item">Home</span></a></li>
+    <li><a href={% url 'appointment_list' %}><span class="material-icons X">list_alt</span><span class="nav-item">Appointment List</span></a></li>
+    <li><a href={% url 'complaint_list' %}><span class="material-icons X">list</span><span class="nav-item">Complaint list</span></a></li>
+    <li><a href={% url 'client_add' %}><span class="material-icons X">person_add</span><span class="nav-item">Create Client</span></a></li>
+
+{% endblock sidebar %}
+
+{% block scripts_2 %}
+<script>
+    var path = window.location.pathname;
+    var links = document.querySelectorAll('nav ul li a');
+  
+    links.forEach(function(link) {
+      var href = link.getAttribute('href');
+  
+      // Check if the current path starts with the href
+      if (path.startsWith(href)) {
+          // Add the "active" class to the parent <li> element
+          link.parentElement.classList.add('active');
+      }
+    });
+</script>
+{% endblock scripts_2 %}

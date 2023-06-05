@@ -9,29 +9,29 @@
 
 {% block main %}
 <div class="Container">
-    <h1>Homepage - List of Invoices</h1>
+    <h1>Homepage - List of Reports</h1>
     <ul>
-    {% if invoices %}
-        {% for invoice in invoices %}
-        <li class="app1">
-          <span><strong>Invoice #{{ invoice.id }}</strong></span>
-          <span><strong>{{ invoice.creation_time }}</strong></span>
-          <span><strong>Total Price: {{ invoice.total_price }}</strong></span>
-          <span><strong>{% if invoice.payment_status %}Paid{% else %}Unpaid{% endif %}</strong></span>
-          <div class="buttons">
-              <button class="list-button"><a class="list-links" href="{% url 'invoice_detail' invoice.id %}">View Details</a></button>
-          </div>
-        </li>
-        {% endfor %}
+        {% if reports %}
+        <ul>
+            {% for report in reports %}
+                <li class="app1">
+                    <span><strong>Report #{{ report.id }}</strong></span>
+                    <span><strong>{{ report.test_result }}</strong></span>
+                    <div class="buttons">
+                        <button class="list-button"><a class="list-links" href="{% url 'receptionist_report_detail' report.id  %}">View Details</a></button>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
         {% else %}
         <div>
             <ul class="lists">
                 <li class="app1 empty">
-                    <span><strong>No Invoices Found</strong></span>
+                    <span><strong>No Reports Found</strong></span>
                 </li>
             </ul>
         </div>
-    {% endif %}
+        {% endif %}
     </ul>
 
 </div>

@@ -5,7 +5,7 @@ from django.views.decorators.http import require_POST
 from client.models import Client
 from main_home.forms import UserRegisterForm
 
-from main_home.models import Appointment, BloodBank, Complaint, Invoice, Lobby, Payment
+from main_home.models import Appointment, BloodBank, Complaint, Invoice, Lobby, Payment, Report
 from nurse.models import Nurse
 from receptionist.forms import ConfirmationForm
 from django.db.models import Count, Q
@@ -19,16 +19,27 @@ from django.contrib.auth.models import Group
 @login_required
 @permission_required('receptionist.view_receptionist', raise_exception=True)
 def receptionist_home(request):
-    invoices = Invoice.objects.all()
+    reports = Report.objects.all()
     
     context ={
-        'invoices':invoices
+        'reports':reports
     }
     return render(request,'receptionist/receptionist.html', context)
 
 @login_required
 @permission_required('receptionist.view_receptionist', raise_exception=True)
-def invoice_detail(request, invoice_id):
+def receptionist_report_detail(request,report_id):
+    report = Report.objects.get(id=report_id)
+    context ={
+        'report':report,
+    }
+    
+    return render(request,'receptionist/report/report_detail.html', context)
+    
+
+@login_required
+@permission_required('receptionist.view_receptionist', raise_exception=True)
+def invoice_detail(request, report_id, invoice_id):
     invoice = Invoice.objects.get(id=invoice_id)
     payment = invoice.report.test_result.request.appointment.payment 
     unpaid = invoice.total_price - payment.total_amount_payed
