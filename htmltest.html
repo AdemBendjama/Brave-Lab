@@ -1,70 +1,255 @@
-{% extends 'nurse/nurse.html' %}
+{% extends 'main_home/actors_base.html' %}
 {% load static %}
+{% block css_3 %}
 
+
+<link rel="stylesheet" href="{% static 'css/resources/fontawesome.all.css'%}">
+
+<style>
+    .con {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+    }
+
+    .grid-item {
+        background-color: #00748c14;
+        padding: 20px 15px 30px 20px;
+        margin-right: 10px;
+        text-align: center;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .double-width {
+        grid-column: span 2;
+    }
+
+    .row-1 {
+        height: 140px;
+    }
+
+    .row-2 {
+        height: 280px;
+    }
+
+    .box-1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .row-container {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    .sub-container {
+        margin: 0 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .icon {
+        font-size: 20px;
+        color: #00748c;
+    }
+
+    .sub-header {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .description {
+        font-size: 10px;
+        color: #555;
+    }
+
+    .heading {
+        font-size: 32px;
+        font-weight: bold;
+        padding-left: 8px;
+    }
+
+    .fa-money-check-dollar {
+        font-size: 50px;
+    }
+</style>
+{% endblock css_3 %}
 {% block main %}
 <div class="Container">
+    <div class="con">
+        <div class="grid-container">
+            <div class="grid-item row-1 box-1">
+                <div class="row-container">
+                    <div class="sub-container">
+                        <div class="icon"><i class="fa-solid fa-money-check-dollar"></i></div>
+                    </div>
+                    <div class="sub-container">
+                        <div class="sub-header">Total Income</div>
+                        <div class="description">346 Analysis requests this week</div>
+                    </div>
+                    <div class="sub-container">
+                        <div class="icon"><i class="fa-solid fa-chevron-right"></i></div>
+                    </div>
+                </div>
+                <div class="row-container">
+                    <div class="heading">$4,566</div>
+                </div>
+            </div>
+            <div class="grid-item row-1 box-2">
+                <div class="row-container">
+                    <div class="sub-container">
+                        <div class="icon"><i class="fa-solid fa-money-check-dollar"></i></div>
+                    </div>
+                    <div class="sub-container">
+                        <div class="sub-header">Total Income</div>
+                        <div class="description">346 Analysis requests this week</div>
+                    </div>
+                    <div class="sub-container">
+                        <div class="icon"><i class="fa-solid fa-chevron-right"></i></div>
+                    </div>
+                </div>
+                <div class="row-container">
+                    <div class="heading">$4,566</div>
+                </div>
+            </div>
+            <div class="grid-item row-1 box-3">
 
-    <h1>Evaluation</h1>
+                <div class="row-container">
+                    <div class="sub-container">
+                        <div class="icon"><i class="fa-solid fa-money-check-dollar"></i></div>
+                    </div>
+                    <div class="sub-container">
+                        <div class="sub-header">Total Income</div>
+                        <div class="description">346 Analysis requests this week</div>
+                    </div>
+                    <div class="sub-container">
+                        <div class="icon"><i class="fa-solid fa-chevron-right"></i></div>
+                    </div>
+                </div>
+                <div class="row-container">
+                    <div class="heading">$4,566</div>
+                </div>
+            </div>
+            <div class="grid-item double-width row-2 box-4">
+                <canvas id="LineChart"></canvas>
+            </div>
+            <div class="grid-item row-2 box-5">
+                <canvas id="DoughnutChart"></canvas>
+            </div>
+        </div>
+    </div>
 
-    {% if not appointment.performed %}
-    <form method="POST">
-        {% csrf_token %}
-        <label for="id_gender">Gender:</label>
-        <select name="gender" required id="id_gender">
-            <option value="" selected>---------</option>
-            <option value="0.0">Male</option>
-            <option value="1.0">Female</option>
-        </select>
-</div>
-<div>
-    <label for="id_age">Age:</label>
-    <input type="number" name="age" step="any" required id="id_age">
-</div>
-<div>
-    <label for="id_hypertension">Hypertension:</label>
-    <select name="hypertension" required id="id_hypertension">
-        <option value="" selected>---------</option>
-        <option value="0.0">No</option>
-        <option value="1.0">Yes</option>
-    </select>
-</div>
-<div>
-    <label for="id_heart_disease">Heart disease:</label>
-    <select name="heart_disease" required id="id_heart_disease">
-        <option value="" selected>---------</option>
-        <option value="0.0">No</option>
-        <option value="1.0">Yes</option>
-    </select>
-</div>
-<div>
-    <label for="id_smoking_history">Smoking history:</label>
-    <select name="smoking_history" required id="id_smoking_history">
-        <option value="" selected>---------</option>
-        <option value="0.0">Never</option>
-        <option value="1.0">No Info</option>
-        <option value="2.0">Former</option>
-        <option value="3.0">Not Current</option>
-        <option value="4.0">Ever</option>
-        <option value="5.0">Current</option>
-    </select>
-</div>
-<div>
-    <label for="id_bmi">Bmi:</label>
-    <input type="number" name="bmi" step="any" required id="id_bmi">
-</div>
-<div>
-    <label for="id_hba1c_level">Hba1c level:</label>
-    <input type="number" name="hba1c_level" step="any" required id="id_hba1c_level">
-</div>
-<div>
-    <label for="id_blood_glucose_level">Blood glucose level:</label>
-    <input type="number" name="blood_glucose_level" step="any" required id="id_blood_glucose_level">
-</div>
-<button type="submit" name="preformed">Preformed</button>
-</form>
-{% else %}
-<p>Appointment already preformed.</p>
-{% endif %}
 
 </div>
 {% endblock main %}
+
+
+{% block sidebar %}
+
+<li><a href={% url 'auditor' %}><span class="material-icons X">layers</span> <span class="nav-item">Home</span></a></li>
+<li><a href={% url 'chat_rooms' %}><span class="material-icons X">chat</span><span class="nav-item">Messages</span></a>
+</li>
+<li><a href={% url 'auditor_request_list' %}><span class="material-icons X">list_alt</span><span
+            class="nav-item">Analysis Requests</span></a></li>
+<li><a href={% url 'test_result_list' %}><span class="material-icons X">list_alt</span><span class="nav-item">Test
+            Results</span></a></li>
+<li><a href={% url 'report_list' %}><span class="material-icons X">list</span><span class="nav-item">Review
+            Reports</span></a></li>
+
+
+{% endblock sidebar %}
+
+{% block scripts_2 %}
+<script src="{% static 'js/resources/chart.js' %}"></script>
+
+
+<script>
+    const ctx = document.getElementById('DoughnutChart');
+
+    const data = {
+        labels: [
+            'Complete Blood Count (CBC)',
+            'Hemoglobin A1C (HbA1c)',
+            'Vitamin D Levels'
+        ],
+        datasets: [{
+            label: 'Tests',
+            data: [12, 150, 14],
+            backgroundColor: [
+                'rgb(60, 127, 125)',
+                'rgb(40, 147, 140)',
+                'rgb(20, 167, 165)'
+            ],
+            hoverOffset: 4
+        }]
+    };
+
+    const config = {
+        type: 'doughnut',
+        data: data,
+    };
+
+    new Chart(ctx, config);
+
+</script>
+
+<script>
+    const ctx2 = document.getElementById('LineChart');
+
+
+    const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+    const data2 = {
+        labels: labels,
+        datasets: [{
+            label: 'Appointments',
+            data: [65, 59, 80, 81, 56, 55],
+            fill: false,
+            borderColor: 'rgb(20, 167, 165)',
+            tension: 0.1
+        }]
+    };
+
+    const config2 = {
+        type: 'line',
+        data: data2,
+    };
+
+    new Chart(ctx2, config2);
+
+
+
+</script>
+
+
+<script>
+    var path = window.location.pathname;
+    var links = document.querySelectorAll('nav ul li a');
+
+    links.forEach(function (link) {
+        var href = link.getAttribute('href');
+
+        // Check if the current path starts with the href
+        if (path.startsWith(href)) {
+            // Add the "active" class to the parent <li> element
+            link.parentElement.classList.add('active');
+        }
+    });
+</script>
+{% endblock scripts_2 %}
