@@ -23,7 +23,7 @@
     </ul>
 
     {% if not invoice.payment_status %}
-    <form action="{% url 'confirm_payment' invoice.id %}" method="POST">
+    <form action="{% url 'confirm_payment' invoice.report.id invoice.id %}" method="POST">
         {% csrf_token %}
         <button type="submit">Confirm Payment</button>
     </form>

@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from django.core.files.storage import default_storage
 import os
 
-from main_home.models import Appointment, Lobby
+from main_home.models import Appointment, Component, ComponentInformation, Lobby, Test
 
 from django.db.models.signals import pre_save, pre_delete
 from client.models import Client
@@ -11,7 +11,159 @@ from nurse.models import Nurse
 from receptionist.models import Receptionist
 from auditor.models import Auditor
 
+
+#######   Tests 
+
+@receiver(post_save, sender=Test)
+def add_components_to_test(sender, instance, created, **kwargs):
+    
+    if created and instance.test_offered.name == 'Complete Blood Count (CBC)':
+        
+        component_names = [
+            'Red Blood Cell Count (RBC)',
+            'White Blood Cell Count (WBC)',
+            'Platelet Count (PLT)',
+            'Hemoglobin (Hb)',
+            'Hematocrit (Hct)',
+            'Mean Corpuscular Volume (MCV)',
+            'Mean Corpuscular Hemoglobin (MCH)',
+            'Mean Corpuscular Hemoglobin Concentration (MCHC)',
+        ]
+        components = []
+        for component_name in component_names:
+            component_info = ComponentInformation.objects.get(name=component_name)
+            component = Component(info=component_info)
+            components.append(component)
+        Component.objects.bulk_create(components)
+        instance.components.add(*components)
+        
+    if created and instance.test_offered.name == 'Basic Metabolic Panel (BMP)':
+        
+        component_names = [
+            'Glucose (GLU)', 
+            'Sodium (Na)',  
+            'Potassium (K)', 
+            'Calcium (Ca)', 
+            'Chloride (Cl)', 
+            'Carbon Dioxide (CO2)',  
+            'Blood Urea Nitrogen (BUN)', 
+            'Creatinine (Cr)', 
+        ]
+        components = []
+        for component_name in component_names:
+            component_info = ComponentInformation.objects.get(name=component_name)
+            component = Component(info=component_info)
+            components.append(component)
+        Component.objects.bulk_create(components)
+        instance.components.add(*components)
+        
+    if created and instance.test_offered.name == 'Comprehensive Metabolic Panel (CMP)':
+        
+        component_names = [
+            'Glucose (GLU)',
+            'Sodium (Na)', 
+            'Potassium (K)',
+            'Calcium (Ca)',
+            'Chloride (Cl)',
+            'Carbon Dioxide (CO2)',
+            'Blood Urea Nitrogen (BUN)',
+            'Creatinine (Cr)',
+            'Albumin (Alb)',
+            'Bilirubin (Bili)',  
+            'Total Protein Level (TP)', 
+            'Alkaline Phosphatase (ALP)', 
+            'Alanine Aminotransferase (ALT)', 
+            'Aspartate Aminotransferase (AST)',
+        ]
+        
+        components = []
+        for component_name in component_names:
+            component_info = ComponentInformation.objects.get(name=component_name)
+            component = Component(info=component_info)
+            components.append(component)
+            
+        Component.objects.bulk_create(components)
+        instance.components.add(*components)
+        
+    if created and instance.test_offered.name == 'Lipid Panel':
+        
+        component_names = [
+            'Total Cholesterol (TC)',
+            'High-Density Lipoprotein (HDL)',
+            'Low-Density Lipoprotein (LDL)',
+            'Triglyceride (TG)', 
+        ]
+        components = []
+        for component_name in component_names:
+            component_info = ComponentInformation.objects.get(name=component_name)
+            component = Component(info=component_info)
+            components.append(component)
+        Component.objects.bulk_create(components)
+        instance.components.add(*components)
+    
+    
+    if created and instance.test_offered.name == 'Thyroid Function Tests':
+        
+        component_names = [
+            'Thyroid-Stimulating Hormone (TSH)',
+            'Triiodothyronine (T3)', 
+            'Thyroxine (T4)', 
+        ]
+        components = []
+        for component_name in component_names:
+            component_info = ComponentInformation.objects.get(name=component_name)
+            component = Component(info=component_info)
+            components.append(component)
+        Component.objects.bulk_create(components)
+        instance.components.add(*components)
+        
+        
+    if created and instance.test_offered.name == 'Hemoglobin A1C (HbA1c)':
+        
+        component_names = [
+            'HbA1c', 
+        ]
+        components = []
+        for component_name in component_names:
+            component_info = ComponentInformation.objects.get(name=component_name)
+            component = Component(info=component_info)
+            components.append(component)
+        Component.objects.bulk_create(components)
+        instance.components.add(*components)
+        
+        
+    if created and instance.test_offered.name == 'Coagulation Panel':
+        
+        component_names = [
+            'Prothrombin Time (PT)', 
+            'Partial Thromboplastin Time (PTT)', 
+            'International Normalized Ratio (INR)',
+        ]
+        components = []
+        for component_name in component_names:
+            component_info = ComponentInformation.objects.get(name=component_name)
+            component = Component(info=component_info)
+            components.append(component)
+        Component.objects.bulk_create(components)
+        instance.components.add(*components)
+        
+        
+    if created and instance.test_offered.name == 'Vitamin D Levels':
+        
+        component_names = [
+            'Vitamin D', 
+        ]
+        components = []
+        for component_name in component_names:
+            component_info = ComponentInformation.objects.get(name=component_name)
+            component = Component(info=component_info)
+            components.append(component)
+        Component.objects.bulk_create(components)
+        instance.components.add(*components)
+        
+        
 #######   Documents
+
 
 
 def get_all_document_paths():

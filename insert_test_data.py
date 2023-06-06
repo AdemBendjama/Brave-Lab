@@ -17,21 +17,38 @@ component_data = [
     (14, 'Carbon Dioxide (CO2)', 'mEq/L', 23, 29, 23, 29),
     (15, 'Blood Urea Nitrogen (BUN)', 'mg/dL', 7, 20, 7, 20),
     (16, 'Creatinine (Cr)', 'mg/dL', 0.6, 1.3, 0.5, 1.1),
-    (17, 'Total Cholesterol (TC)', 'mg/dL', 200, 0, 200, 0),
-    (18, 'High-Density Lipoprotein (HDL)', 'mg/dL', 0, 0, 0, 0),
-    (19, 'Low-Density Lipoprotein (LDL)', 'mg/dL', 0, 0, 0, 0),
-    (20, 'Triglyceride (TG)', 'mg/dL', 150, 0, 150, 0),
+    (17, 'Total Cholesterol (TC)', 'mg/dL', 200, 240, 200, 240),
+    (18, 'High-Density Lipoprotein (HDL)', 'mg/dL', 40, 60, 50, 60),
+    (19, 'Low-Density Lipoprotein (LDL)', 'mg/dL', 100, 190, 100, 190),
+    (20, 'Triglyceride (TG)', 'mg/dL', 100, 200, 100, 200),
     (21, 'HbA1c', '%', 4, 6.5, 4, 6.5),
     (22, 'Vitamin D', 'ng/mL', 12, 50, 12, 50),
+    (23, 'Albumin (Alb)', 'g/dL', 3.5, 5.5, 3.5, 5.5),
+    (24, 'Bilirubin (Bili)', 'mg/dL', 0.1, 1.2, 0.1, 1.2),
+    (25, 'Total Protein Level (TP)', 'g/dL', 6.0, 8.5, 6.0, 8.5),
+    (26, 'Alkaline Phosphatase (ALP)', 'IU/L', 30, 120, 30, 120),
+    (27, 'Alanine Aminotransferase (ALT)', 'IU/L', 10, 40, 10, 40),
+    (28, 'Aspartate Aminotransferase (AST)', 'IU/L', 10, 35, 10, 35),
+    (29, 'Thyroid-Stimulating Hormone (TSH)', 'μIU/mL', 0.4, 4, 0.4, 4),
+    (30, 'Triiodothyronine (T3)', 'ng/dL', 80, 200, 80, 200),
+    (31, 'Thyroxine (T4)', 'μg/dL', 4.5, 12, 4.5, 12),
+    (32, 'Prothrombin Time (PT)', 'seconds', 10, 14, 10, 14),
+    (33, 'Partial Thromboplastin Time (PTT)', 'seconds', 25, 35, 25, 35),
+    (34, 'International Normalized Ratio (INR)', 'ratio', 0.8, 1.2, 0.8, 1.2),
 ]
 
 test_data = [
-    (1, 'Complete Blood Count (CBC)',600),
-    (2, 'Basic Metabolic Panel (BMP)',500),
-    (3, 'Lipid Panel',900),
-    (4, 'Hemoglobin A1C (HbA1c)',750),
-    (5, 'Vitamin D Levels',700),
+    (1, 'Complete Blood Count (CBC)',29),
+    (2, 'Basic Metabolic Panel (BMP)',26),
+    (3, 'Lipid Panel',19),
+    (4, 'Hemoglobin A1C (HbA1c)',31),
+    (5, 'Vitamin D Levels',18),
+    (6, 'Coagulation Panel',86),
+    (7, 'Thyroid Function Tests', 100),
+    (8, 'Comprehensive Metabolic Panel (CMP)',48)
 ]
+
+
 
 print("Inserting component Data...")
 

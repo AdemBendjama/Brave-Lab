@@ -51,7 +51,7 @@ def invoice_detail(request, report_id, invoice_id):
     
     return render(request,'receptionist/invoice/invoice_detail.html', context)
 
-def confirm_payment(request, invoice_id):
+def confirm_payment(request,report_id , invoice_id):
     invoice = get_object_or_404(Invoice, id=invoice_id)
 
     if request.method == 'POST':
@@ -73,7 +73,7 @@ def confirm_payment(request, invoice_id):
 
         # Redirect to the invoice detail page
 
-    return redirect('invoice_detail', invoice_id=invoice_id)
+    return redirect('invoice_detail',report_id=report_id, invoice_id=invoice_id)
 ################################################################
 
 
