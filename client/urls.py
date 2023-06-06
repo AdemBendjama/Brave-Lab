@@ -14,6 +14,8 @@ urlpatterns = [
     
     path("appointment/book/",views.appointment_book,name="client_appointment_book"),
     path("appointment/book/confirm",views.client_appointment_confirm,name="client_appointment_confirm"),
+    path("appointment/book/contract/<int:appointment_id>",views.client_appointment_contract,name="client_appointment_contract"),
+    path("appointment/book/pay/<int:appointment_id>",views.client_appointment_pay,name="client_appointment_pay"),
     
     path("requests/",views.request_list,name="client_request_list"),
     path("requests/detail",views.request_detail,name="client_request_detail"),

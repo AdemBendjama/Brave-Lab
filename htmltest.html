@@ -1,255 +1,142 @@
-{% extends 'main_home/actors_base.html' %}
+{% extends 'client/client.html' %}
 {% load static %}
-{% block css_3 %}
 
-
-<link rel="stylesheet" href="{% static 'css/resources/fontawesome.all.css'%}">
-
+{% block main %}
 <style>
-    .con {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.5;
     }
 
-    .grid-container {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: 10px;
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
     }
 
-    .grid-item {
-        background-color: #00748c14;
-        padding: 20px 15px 30px 20px;
-        margin-right: 10px;
-        text-align: center;
-        border-radius: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-
-    .double-width {
-        grid-column: span 2;
-    }
-
-    .row-1 {
-        height: 140px;
-    }
-
-    .row-2 {
-        height: 280px;
-    }
-
-    .box-1 {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .row-container {
-        display: flex;
-        justify-content: left;
-        align-items: center;
+    h2 {
+        font-size: 18px;
+        margin-top: 30px;
         margin-bottom: 10px;
-        width: 100%;
     }
 
-    .sub-container {
-        margin: 0 8px;
-        display: flex;
-        flex-direction: column;
-        align-items: start;
+    h3 {
+        font-size: 16px;
+        margin-top: 20px;
+        margin-bottom: 10px;
     }
 
-    .icon {
-        font-size: 20px;
-        color: #00748c;
+    p {
+        margin-bottom: 10px;
     }
 
-    .sub-header {
-        font-size: 20px;
-        font-weight: bold;
+    .section {
+        margin-bottom: 30px;
     }
 
-    .description {
-        font-size: 10px;
-        color: #555;
-    }
-
-    .heading {
-        font-size: 32px;
-        font-weight: bold;
-        padding-left: 8px;
-    }
-
-    .fa-money-check-dollar {
-        font-size: 50px;
+    .signature {
+        margin-top: 40px;
     }
 </style>
-{% endblock css_3 %}
-{% block main %}
-<div class="Container">
-    <div class="con">
-        <div class="grid-container">
-            <div class="grid-item row-1 box-1">
-                <div class="row-container">
-                    <div class="sub-container">
-                        <div class="icon"><i class="fa-solid fa-money-check-dollar"></i></div>
-                    </div>
-                    <div class="sub-container">
-                        <div class="sub-header">Total Income</div>
-                        <div class="description">346 Analysis requests this week</div>
-                    </div>
-                    <div class="sub-container">
-                        <div class="icon"><i class="fa-solid fa-chevron-right"></i></div>
-                    </div>
-                </div>
-                <div class="row-container">
-                    <div class="heading">$4,566</div>
-                </div>
-            </div>
-            <div class="grid-item row-1 box-2">
-                <div class="row-container">
-                    <div class="sub-container">
-                        <div class="icon"><i class="fa-solid fa-money-check-dollar"></i></div>
-                    </div>
-                    <div class="sub-container">
-                        <div class="sub-header">Total Income</div>
-                        <div class="description">346 Analysis requests this week</div>
-                    </div>
-                    <div class="sub-container">
-                        <div class="icon"><i class="fa-solid fa-chevron-right"></i></div>
-                    </div>
-                </div>
-                <div class="row-container">
-                    <div class="heading">$4,566</div>
-                </div>
-            </div>
-            <div class="grid-item row-1 box-3">
-
-                <div class="row-container">
-                    <div class="sub-container">
-                        <div class="icon"><i class="fa-solid fa-money-check-dollar"></i></div>
-                    </div>
-                    <div class="sub-container">
-                        <div class="sub-header">Total Income</div>
-                        <div class="description">346 Analysis requests this week</div>
-                    </div>
-                    <div class="sub-container">
-                        <div class="icon"><i class="fa-solid fa-chevron-right"></i></div>
-                    </div>
-                </div>
-                <div class="row-container">
-                    <div class="heading">$4,566</div>
-                </div>
-            </div>
-            <div class="grid-item double-width row-2 box-4">
-                <canvas id="LineChart"></canvas>
-            </div>
-            <div class="grid-item row-2 box-5">
-                <canvas id="DoughnutChart"></canvas>
-            </div>
-        </div>
+<div class='Container'>
+    <h1>Contract</h1>
+    <div class="section">
+        <h1>Blood Test Appointment Contract</h1>
+        <p>This Blood Test Appointment Contract (the "Contract") is made between the laboratory (the "Laboratory") and
+            the client (the "Client") as of the date of booking the appointment (the "Effective Date").</p>
     </div>
 
+    <div class="section">
+        <h2>Services</h2>
+        <p>The Laboratory agrees to provide the following services to the Client:</p>
+        <ul>
+            <li>Blood test appointment at a mutually agreed date and time.</li>
+            <li>Collection of blood samples.</li>
+            <li>Analysis of the blood samples as per the requirements of the Client.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Appointment Details</h2>
+        <p>Date: [Date of the appointment]</p>
+        <p>Time: [Time of the appointment]</p>
+        <p>Location: [Address of the Laboratory]</p>
+    </div>
+
+    <div class="section">
+        <h2>Client's Responsibilities</h2>
+        <ul>
+            <li>The Client agrees to arrive at the Laboratory on time for the appointment.</li>
+            <li>The Client acknowledges that they may be required to fast or follow specific instructions before the
+                blood test.</li>
+            <li>The Client agrees to provide accurate and complete information regarding their medical history and any
+                relevant conditions.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Payment</h2>
+        <p>The Client agrees to pay the Laboratory the agreed-upon fee for the blood test appointment. The payment
+            details will be provided separately.</p>
+    </div>
+
+    <div class="section">
+        <h2>Confidentiality</h2>
+        <p>The Laboratory agrees to keep all client information and test results confidential, except as required by
+            law.</p>
+        <p>The Client acknowledges that the Laboratory cannot guarantee absolute confidentiality in cases where
+            information is transmitted electronically or through third-party services.</p>
+    </div>
+
+    <div class="section">
+        <h2>Test Results</h2>
+        <p>The Laboratory will provide the Client with the test results within a reasonable timeframe.</p>
+        <p>The Laboratory will communicate the results to the Client through a secure method or during a follow-up
+            appointment.</p>
+    </div>
+
+    <div class="section">
+        <h2>Limitation of Liability</h2>
+        <p>The Laboratory shall not be liable for any damages, losses, or injuries arising from the blood test
+            appointment, unless caused by gross negligence or willful misconduct.</p>
+    </div>
+
+    <div class="section">
+        <h2>Termination</h2>
+        <p>Either party may terminate this Contract in writing if there is a material breach by the other party.</p>
+    </div>
+
+    <div class="section">
+        <h2>Governing Law and Jurisdiction</h2>
+        <p>This Contract shall be governed by and construed in accordance with the laws of [Jurisdiction]. Any disputes
+            arising under or in connection with this Contract shall be subject to the exclusive jurisdiction of the
+            courts of [Jurisdiction].</p>
+    </div>
+
+    <div class="section">
+        <h2>Entire Agreement</h2>
+        <p>This Contract constitutes the entire agreement between the parties and supersedes any prior understandings or
+            agreements, whether written or oral, relating to the blood test appointment.</p>
+    </div>
+
+    <div class="section signature">
+        <p><strong>IN WITNESS WHEREOF, the parties have executed this Blood Test Appointment Contract as of the
+                Effective Date.</strong></p>
+        <p>[Client's Name]</p>
+        <p>[Client's Signature]</p>
+        <p>[Laboratory's Name]</p>
+        <p>[Laboratory's Signature]</p>
+    </div>
+
+    <p><em>Please note that this contract is provided for informational purposes only and should not be considered legal
+            advice. It's important to consult with a qualified legal professional to ensure the contract meets all legal
+            requirements in your jurisdiction and to address any specific considerations for your laboratory.</em></p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" name="confirm">Confirm and Agree</button>
+        <button type="submit" name="cancel">Cancel</button>
+    </form>
 
 </div>
+
+
 {% endblock main %}
-
-
-{% block sidebar %}
-
-<li><a href={% url 'auditor' %}><span class="material-icons X">layers</span> <span class="nav-item">Home</span></a></li>
-<li><a href={% url 'chat_rooms' %}><span class="material-icons X">chat</span><span class="nav-item">Messages</span></a>
-</li>
-<li><a href={% url 'auditor_request_list' %}><span class="material-icons X">list_alt</span><span
-            class="nav-item">Analysis Requests</span></a></li>
-<li><a href={% url 'test_result_list' %}><span class="material-icons X">list_alt</span><span class="nav-item">Test
-            Results</span></a></li>
-<li><a href={% url 'report_list' %}><span class="material-icons X">list</span><span class="nav-item">Review
-            Reports</span></a></li>
-
-
-{% endblock sidebar %}
-
-{% block scripts_2 %}
-<script src="{% static 'js/resources/chart.js' %}"></script>
-
-
-<script>
-    const ctx = document.getElementById('DoughnutChart');
-
-    const data = {
-        labels: [
-            'Complete Blood Count (CBC)',
-            'Hemoglobin A1C (HbA1c)',
-            'Vitamin D Levels'
-        ],
-        datasets: [{
-            label: 'Tests',
-            data: [12, 150, 14],
-            backgroundColor: [
-                'rgb(60, 127, 125)',
-                'rgb(40, 147, 140)',
-                'rgb(20, 167, 165)'
-            ],
-            hoverOffset: 4
-        }]
-    };
-
-    const config = {
-        type: 'doughnut',
-        data: data,
-    };
-
-    new Chart(ctx, config);
-
-</script>
-
-<script>
-    const ctx2 = document.getElementById('LineChart');
-
-
-    const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
-    const data2 = {
-        labels: labels,
-        datasets: [{
-            label: 'Appointments',
-            data: [65, 59, 80, 81, 56, 55],
-            fill: false,
-            borderColor: 'rgb(20, 167, 165)',
-            tension: 0.1
-        }]
-    };
-
-    const config2 = {
-        type: 'line',
-        data: data2,
-    };
-
-    new Chart(ctx2, config2);
-
-
-
-</script>
-
-
-<script>
-    var path = window.location.pathname;
-    var links = document.querySelectorAll('nav ul li a');
-
-    links.forEach(function (link) {
-        var href = link.getAttribute('href');
-
-        // Check if the current path starts with the href
-        if (path.startsWith(href)) {
-            // Add the "active" class to the parent <li> element
-            link.parentElement.classList.add('active');
-        }
-    });
-</script>
-{% endblock scripts_2 %}

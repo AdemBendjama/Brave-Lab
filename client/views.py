@@ -102,7 +102,6 @@ def client_appointment_confirm(request):
             
             if form.is_valid:
                 client = request.user.client
-                payed = request.POST.get('payed')
                 
                 tests_requested=[]
                 test_count = int(request.POST.get("data.test_count"))
@@ -139,14 +138,10 @@ def client_appointment_confirm(request):
                 
                 payment.tests_fee = appointment.total_price
                 
-                if payed == "payed" :
-                    payment.total_amount_payed += payment.appointment_fee
-                    payment.payed_appointment_fee = True
-                
                 payment.save()
                 appointment.save()
                 
-                return redirect('client')
+                return redirect('client_appointment_contract',appointment_id=appointment.id)
             else:
                 redirect('client_appointment_book')
                 
@@ -158,6 +153,46 @@ def client_appointment_confirm(request):
     }
 
     return render(request,'client/appointment/appointment_confirm.html',context)
+
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def client_appointment_contract(request, appointment_id):
+    appointment = Appointment.objects.get(id=appointment_id)
+    payment = appointment.payment
+    
+    if request.method == 'POST' and "confirm" in request.POST:
+        return redirect('client_appointment_pay',appointment_id=appointment_id)
+    if request.method == 'POST' and "cancel" in request.POST:
+        appointment.delete()
+        payment.delete()
+        return redirect("client")
+
+    context = {
+        "appointment":appointment,
+    }
+
+    return render(request,'client/appointment/appointment_contract.html',context)
+
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def client_appointment_pay(request, appointment_id):
+    
+    if request.method == 'POST':
+        payed = request.POST.get('payed')
+        if payed == 'payed':
+            appointment = Appointment.objects.get(id=appointment_id)
+            payment = appointment.payment
+            payment.total_amount_payed += payment.appointment_fee
+            payment.payed_appointment_fee = True
+            
+            payment.save()
+            
+        messages.success(request, 'Appointment Booked successfully!')
+            
+        return redirect('client')
+        
+
+    return render(request,'client/appointment/appointment_pay.html')
 
 @login_required
 @permission_required('client.view_client', raise_exception=True)
