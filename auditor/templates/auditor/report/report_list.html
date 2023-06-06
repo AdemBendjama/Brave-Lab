@@ -1,4 +1,4 @@
-{% extends 'receptionist/receptionist.html' %}
+{% extends 'auditor/auditor.html' %}
 {% load static %}
 {% block css_2 %}
 
@@ -10,7 +10,6 @@
     <h1>Reports</h1>
 
     <ul>
-        
         {% for report in reports %}
             <li class="app1">
                 <span><strong>Report #{{ report.id }}</strong></span>

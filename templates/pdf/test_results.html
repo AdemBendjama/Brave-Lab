@@ -47,9 +47,18 @@
         .header-container {
             margin: 5px 0 10px 0;
         }
-
+        
         .heading-main{
             font-size:2em;
+            padding-top:10px;
+            color: #00748c;
+        }
+        
+        .header-container-ai {
+            margin: 60px 0 10px 0;
+        }
+        .heading-ai{
+            font-size:1.4em;
             padding-top:10px;
             color: #00748c;
         }
@@ -69,7 +78,7 @@
         }
 
         .line-items-container {
-            margin: 20px 0 10px 0;
+            margin: 30px 0 10px 0;
             font-size: 0.875em;
         }
 
@@ -116,6 +125,12 @@
 
         .line-items-container th.heading-value {
             width: 180px;
+        }
+        .line-items-container th.heading-result {
+            width: 250px;
+        }
+        .line-items-container th.heading-accuracy {
+            width: 250px;
         }
 
         .payment-info {
@@ -170,6 +185,10 @@
 
         .line-items-container tbody .p-r-20{
             padding-right:20px !important;
+        }
+
+        .small{
+            font-size: 0.5em;
         }
     </style>
 </head>
@@ -281,6 +300,93 @@
             </table>
         {% endfor %}
 
+
+        {%if test_result.anemia%}
+        <table class="header-container-ai">
+            <tr>
+                <td class="heading-td">
+                    <h1 class="heading-ai">Anemia Results <small class="small">Powered By AI</small></h1>
+                </td>
+                <td class="logo-td">
+                </td>
+            </tr>
+            
+        </table>
+        <table class="line-items-container">
+            <thead>
+                    <tr>
+                        <th class="heading-result">Result</th>
+                        <th class="heading-value">Probability</th>
+                        <th>
+                        </th>
+                        <th class="heading-accuracy">
+                            Model Accuracy
+                        </th>
+                    </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td class="bold">
+                            {% if test_result.diabetes.positive %}
+                            Positive
+                            {% elif not test_result.diabetes.positive%}
+                            Negative
+                            {%endif%}
+                        </td>
+                        <td class="bold">{{test_result.anemia.probability}}%</td>
+                        <td >
+                        </td>
+                        <td class="bold high-value">
+                            94.25%
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        {%endif%}
+
+
+        {% if test_result.diabetes %}
+        <table class="header-container-ai">
+            <tr>
+                <td class="heading-td">
+                    <h1 class="heading-ai">Diabetes Results <small class="small">Powered By AI</small></h1>
+                </td>
+                <td class="logo-td">
+                </td>
+            </tr>
+            
+        </table>
+        <table class="line-items-container">
+            <thead>
+                    <tr>
+                        <th class="heading-result">Result</th>
+                        <th class="heading-value">Probability</th>
+                        <th>
+                        </th>
+                        <th class="heading-accuracy">
+                            Model Accuracy
+                        </th>
+                    </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td class="bold">
+                            {% if test_result.diabetes.positive %}
+                            Positive
+                            {% elif not test_result.diabetes.positive%}
+                            Negative
+                            {%endif%}
+                        </td>
+                        <td class="bold">{{test_result.diabetes.probability}}%</td>
+                        <td >
+                        </td>
+                        <td class="bold high-value">
+                            96.75%
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        {%endif%}
 
         <div class="footer">
             <div class="footer-info">
