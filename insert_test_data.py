@@ -2,8 +2,8 @@ from main_home.models import ComponentInformation, TestOffered
 
 component_data = [
     (1, 'Red Blood Cell Count (RBC)', 'M/μL', 4.5, 5.5, 4, 5),
-    (2, 'White Blood Cell Count (WBC)', 'cells/μL', 4300, 10800, 4300, 10800),
-    (3, 'Platelet Count (PLT)', 'K/μL', 150000, 450000, 150000, 450000),
+    (2, 'White Blood Cell Count (WBC)', 'cells/μL', 4.3, 10.8, 4.3, 10.8),
+    (3, 'Platelet Count (PLT)', 'mm3', 150, 450, 150, 450),
     (4, 'Hemoglobin (Hb)', 'g/dL', 13.5, 17.5, 12, 15.5),
     (5, 'Hematocrit (Hct)', '%', 38.8, 50, 34.9, 44.5),
     (6, 'Mean Corpuscular Volume (MCV)', 'fL', 80, 96, 80, 96),
@@ -35,6 +35,7 @@ component_data = [
     (32, 'Prothrombin Time (PT)', 'seconds', 10, 14, 10, 14),
     (33, 'Partial Thromboplastin Time (PTT)', 'seconds', 25, 35, 25, 35),
     (34, 'International Normalized Ratio (INR)', 'ratio', 0.8, 1.2, 0.8, 1.2),
+    (35, 'Red Cell Distribution Width (RDW)', '%', 11.5, 14.5, 11.5, 14.5),
 ]
 
 test_data = [

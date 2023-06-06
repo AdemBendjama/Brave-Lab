@@ -43,7 +43,11 @@ class TestFinalizeForm(forms.ModelForm):
         for component in self.instance.components.all():
             field_name = f"component_{component.id}"
             label = f"{component.info.name} ({component.info.unit})"
-            self.fields[field_name] = forms.FloatField(label=label)
+            low_range = str(component.info.low_male_range) if component.info.low_male_range else 'haha'
+            high_range = str(component.info.high_male_range) if component.info.high_male_range else 'haaa'
+            self.fields[field_name] = forms.FloatField(label=label, 
+                                            widget=forms.NumberInput(attrs=
+                                            {'placeholder': f'{low_range} ~ {high_range}'}))
 
     def save(self, commit=True):
         test = super().save(commit=False)

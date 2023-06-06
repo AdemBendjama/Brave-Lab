@@ -310,6 +310,8 @@ class Lobby(models.Model):
         
     def __str__(self):
         return f"Lobby: {self.nurse}"
+    
+    
        
 class AnalysisRequest(models.Model):
     PENDING = 'pending'
@@ -375,8 +377,7 @@ class AnalysisRequest(models.Model):
         
     def __str__(self):
         return f"{self.appointment.client.user.first_name} {self.appointment.client.user.last_name} - Analysis Requested #{self.id}"
-    
-    
+
     
 class TestResult(models.Model):
     request = models.OneToOneField(AnalysisRequest, on_delete=models.CASCADE)
@@ -389,6 +390,23 @@ class TestResult(models.Model):
         
     def __str__(self):
         return f"Test Result #{self.id}"
+    
+    
+class Diabetes(models.Model):
+    result = models.OneToOneField(TestResult, on_delete=models.CASCADE)
+    positive = models.BooleanField()
+    probability = models.FloatField()
+    
+    def __str__(self):
+        return f"Diabetes Prediction #{self.id}"
+    
+class Anemia(models.Model):
+    result = models.OneToOneField(TestResult, on_delete=models.CASCADE)
+    positive = models.BooleanField()
+    probability = models.FloatField()
+    
+    def __str__(self):
+        return f"Anemia Prediction #{self.result.id}: {self.probability}%"
         
 class Report(models.Model):
     test_result = models.OneToOneField(TestResult, on_delete=models.CASCADE)
@@ -421,6 +439,9 @@ class Invoice(models.Model):
         
     def __str__(self):
         return f"Invoice #{self.id}"
+    
+
+
 
 
 

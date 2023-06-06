@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User, Group
+from datetime import date
 from PIL import Image
 
 
@@ -39,5 +40,12 @@ class Client(models.Model):
             prefered_image_size = (320,320)
             img.thumbnail(prefered_image_size)
             img.save(img_url)
+            
+    @property
+    def age(self):
+        today = date.today()
+        age = today.year - self.date_of_birth.year
+        
+        return age
     
     

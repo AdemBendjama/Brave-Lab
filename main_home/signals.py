@@ -2,17 +2,92 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.core.files.storage import default_storage
 import os
+from brave_lab_project.settings import BASE_DIR
 
-from main_home.models import Appointment, Component, ComponentInformation, Lobby, Test
+from main_home.models import Anemia, Appointment, Component, ComponentInformation, Diabetes, Lobby, Test, TestResult
 
 from django.db.models.signals import pre_save, pre_delete
 from client.models import Client
 from nurse.models import Nurse
 from receptionist.models import Receptionist
 from auditor.models import Auditor
+import joblib
+import numpy as np
+import os
 
 
 #######   Tests 
+
+@receiver(post_save, sender=TestResult)
+def test_result_created(sender, instance, created , **kwargs):
+    result = instance
+    client = result.request.appointment.client
+    tests = result.request.tests.all()
+    test_names = []
+    for test in tests:
+        test_name = test.test_offered.name
+        test_names.append(test_name)
+        
+    # Compare the test_names to see if any of them match the name CBC
+    if created :
+        if 'Complete Blood Count (CBC)' in test_names:
+            test = tests.filter(test_offered__name = 'Complete Blood Count (CBC)').first()
+            age = result.request.evaluation.age
+            if client.gender == "M":
+                sex = 0.0 
+            elif client.gender == "F":
+                sex = 1.0 
+            RBC = test.components.all().filter(info__name='Red Blood Cell Count (RBC)').first().value
+            PCV = test.components.all().filter(info__name='Hematocrit (Hct)').first().value
+            MCV = test.components.all().filter(info__name='Mean Corpuscular Volume (MCV)').first().value
+            MCH = test.components.all().filter(info__name='Mean Corpuscular Hemoglobin (MCH)').first().value
+            MCHC = test.components.all().filter(info__name='Mean Corpuscular Hemoglobin Concentration (MCHC)').first().value
+            RDW = test.components.all().filter(info__name='Red Cell Distribution Width (RDW)').first().value
+            TLC = test.components.all().filter(info__name='White Blood Cell Count (WBC)').first().value
+            PLT = test.components.all().filter(info__name='Platelet Count (PLT)').first().value
+            HGB = test.components.all().filter(info__name='Hemoglobin (Hb)').first().value
+                
+            # Load the trained model from the file
+            log_reg = joblib.load(os.path.join(BASE_DIR, 'IA_modeles/model-anemia/pythonProject1/trained_model_for_anemia.pkl'))
+            #Age,Sex,RBC,PCV,MCV,MCH,MCHC,RDW,TLC,PLT/mm3,HGB
+            arr = np.array([sex,age,RBC,PCV,MCV,MCH,MCHC,RDW,TLC,PLT,HGB])
+            print(arr)
+            reshaped_arr = arr.reshape(1, -1)
+
+            # Load the scaler used for training
+            scaler = joblib.load(os.path.join(BASE_DIR, 'IA_modeles/model-anemia/pythonProject1/scaler_for_anemia.pkl'))
+            arr_scaled = scaler.transform(reshaped_arr)
+
+            # Make predictions and get probabilities
+            predictions = log_reg.predict(arr_scaled)
+            prediction = predictions[0]
+            probabilities = log_reg.predict_proba(arr_scaled)
+
+
+            # Extract the probability for the positive class (class 1)
+            positive_probability = probabilities[0, 1]
+
+            # Convert the probability to percentage
+            positive_percentage = positive_probability * 100
+            print(positive_percentage)
+            if 0 < positive_percentage <= 100:
+                positive_percentage = "{:.2f}".format(positive_percentage)
+            else :
+                positive_percentage = 0.0;
+
+            if prediction == 0 :
+                print("Prediction: Negative for Anemia")
+            elif prediction == 1 :
+                print("Prediction: Positive For Anemia")
+                
+            print("Positive Probability:", positive_probability)
+            print("Positive Percentage:", positive_percentage, "%")
+            
+            anemia = Anemia(result = result, positive=prediction,probability=positive_percentage)
+            
+            print(anemia)
+    
+        
 
 @receiver(post_save, sender=Test)
 def add_components_to_test(sender, instance, created, **kwargs):
@@ -28,6 +103,7 @@ def add_components_to_test(sender, instance, created, **kwargs):
             'Mean Corpuscular Volume (MCV)',
             'Mean Corpuscular Hemoglobin (MCH)',
             'Mean Corpuscular Hemoglobin Concentration (MCHC)',
+            'Red Cell Distribution Width (RDW)',
         ]
         components = []
         for component_name in component_names:
