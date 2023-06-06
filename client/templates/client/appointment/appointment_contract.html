@@ -54,6 +54,7 @@
       .Container {
         padding-left: 10%;
         padding-right: 10%;
+        animation: fade-in 0.5s ease;
       }
   
       .note {
@@ -83,6 +84,16 @@
       .button-cont button:hover {
         background-color: #45a049;
       }
+
+      @keyframes fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+      }
+      
   </style>
 <div class='Container'>
     <div class="cont">

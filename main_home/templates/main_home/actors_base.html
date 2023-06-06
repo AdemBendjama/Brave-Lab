@@ -15,11 +15,19 @@
     
 {% block content %}
 
+<style>
+    .smaller-text{
+        font-size: smaller;
+        margin-left: 10px;
+        color: #00748c;
+        text-transform: capitalize;
+    }
+</style>
     <div class="container">
         
         <header>
             <div class="wlc">
-                <h1>Welcome Back {{user.username}}</h1>
+                <h1>Welcome Back&nbsp;<span class="smaller-text">{{user.username}}</span></h1>
             </div>
             <div class="Left">
                 
