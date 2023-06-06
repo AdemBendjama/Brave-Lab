@@ -32,7 +32,7 @@ def test_result_created(sender, instance, created , **kwargs):
     if created :
         if 'Complete Blood Count (CBC)' in test_names:
             test = tests.filter(test_offered__name = 'Complete Blood Count (CBC)').first()
-            age = result.request.evaluation.age
+            age = result.request.appointment.evaluation.age
             if client.gender == "M":
                 sex = 0.0 
             elif client.gender == "F":
@@ -50,7 +50,7 @@ def test_result_created(sender, instance, created , **kwargs):
             # Load the trained model from the file
             log_reg = joblib.load(os.path.join(BASE_DIR, 'IA_modeles/model-anemia/pythonProject1/trained_model_for_anemia.pkl'))
             #Age,Sex,RBC,PCV,MCV,MCH,MCHC,RDW,TLC,PLT/mm3,HGB
-            arr = np.array([sex,age,RBC,PCV,MCV,MCH,MCHC,RDW,TLC,PLT,HGB])
+            arr = np.array([age,sex,RBC,PCV,MCV,MCH,MCHC,RDW,TLC,PLT,HGB])
             print(arr)
             reshaped_arr = arr.reshape(1, -1)
 
@@ -96,14 +96,14 @@ def add_components_to_test(sender, instance, created, **kwargs):
         
         component_names = [
             'Red Blood Cell Count (RBC)',
-            'White Blood Cell Count (WBC)',
-            'Platelet Count (PLT)',
-            'Hemoglobin (Hb)',
             'Hematocrit (Hct)',
             'Mean Corpuscular Volume (MCV)',
             'Mean Corpuscular Hemoglobin (MCH)',
             'Mean Corpuscular Hemoglobin Concentration (MCHC)',
             'Red Cell Distribution Width (RDW)',
+            'White Blood Cell Count (WBC)',
+            'Platelet Count (PLT)',
+            'Hemoglobin (Hb)',
         ]
         components = []
         for component_name in component_names:

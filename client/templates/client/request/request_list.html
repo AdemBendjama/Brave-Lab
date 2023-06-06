@@ -103,9 +103,9 @@
                         <li class="progress-point pending">Arrived</li>
                         {% endif %}
                         {% if appointment.performed %}
-                        <li class="progress-point finished">Performed</li>
+                        <li class="progress-point finished">Evaluated</li>
                         {% else %}
-                        <li class="progress-point pending">Performed</li>
+                        <li class="progress-point pending">Evaluated</li>
                         {% endif %}
                         
                         {% if appointment.analysisrequest and appointment.analysisrequest.status != 'pending'  %}
@@ -152,9 +152,9 @@
                         <li class="progress-point pending">Arrived</li>
                         {% endif %}
                         {% if appointment.performed %}
-                        <li class="progress-point finished">Performed</li>
+                        <li class="progress-point finished">Evaluated</li>
                         {% else %}
-                        <li class="progress-point pending">Performed</li>
+                        <li class="progress-point pending">Evaluated</li>
                         {% endif %}
                         
                         {% if appointment.analysisrequest  %}

@@ -69,7 +69,7 @@ def evaluation(request, appointment_id):
             heart_disease = request.POST.get('heart_disease')
             smoking_history = request.POST.get('smoking_history')
             bmi = (float(weight)) / (float(height) * float(height))
-            evaluation = Evaluation(gender=gender,age=age,bmi=bmi,
+            evaluation = Evaluation(appointment= appointment, gender=gender,age=age,bmi=bmi,
                                           heart_disease=heart_disease,hypertension=hypertension,
                                           smoking_history=smoking_history)
             evaluation.save()
@@ -77,13 +77,15 @@ def evaluation(request, appointment_id):
             
             messages.success(request,"Patient Information Saved Successfully !")
         
+        
             # Mark Appointment as performed
             appointment.performed = True
             appointment.save()
             lobby.clients.remove(appointment)
             
             # Create the Analysis Request
-            analysis_request = AnalysisRequest.objects.create(nurse=nurse, appointment=appointment , evaluation=evaluation)
+            analysis_request = AnalysisRequest.objects.create(nurse=nurse, appointment=appointment )
+            
             
             # Get the tests_requested from the appointment and create Test objects for each one
             tests_requested = appointment.tests_requested.all()
