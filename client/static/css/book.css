@@ -16,22 +16,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 48px;
+    padding: 22px 0 0 0;
 }
 
 .left-2 {
-    width: 600px;
+    width: 400px;
     height: auto;
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding: 3rem;
-    border-left: 2px solid gray;
+    padding: 2rem;
+    border-left: 3px solid #00748c70;
 }
 
 .formbold-form-wrapper {
-    margin: 0 100px;
-    max-width: 400px;
+    margin: 0 100px 0 0;
+    max-width: 300px;
     width: 100%;
     background: white;
 }
@@ -47,12 +47,12 @@
 .formbold-form-label-2 {
     font-weight: 600;
     font-size: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .formbold-form-input {
     width: 100%;
-    padding: 12px 24px;
+    padding: 10px 22px;
     border-radius: 6px;
     border: 1px solid #e0e0e0;
     background: white;
@@ -72,12 +72,12 @@
     text-align: center;
     font-size: 16px;
     border-radius: 6px;
-    padding: 14px 32px;
+    padding: 10px 30px;
     border: none;
     font-weight: 600;
     background-color: #267ca6;
     color: white;
-    width: 300px;
+    width: 250px;
     cursor: pointer;
 }
 
@@ -107,11 +107,6 @@
     width: 100%;
 }
 
-@media (min-width: 540px) {
-    .sm\:w-half {
-        width: 50%;
-    }
-}
 
 .cont {
     height: 230px;
@@ -123,7 +118,7 @@
     justify-content: space-between;
     padding: 10px;
     gap: 5px;
-    margin: 50px;
+    margin: 50px 0 50px 50px;
     background-color: rgba(0, 110, 255, 0.041);
 }
 
@@ -196,4 +191,8 @@
 .container-comp input {
     width: 50%;
     height: 500px;
+}
+
+.button-1 {
+    margin-left: 50px;
 }
