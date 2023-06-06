@@ -2,137 +2,140 @@
 {% load static %}
 
 {% block css_3 %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{%static 'css/book.css'%}" />
 
-{% include 'main_home/page_css_dev.html' %}
-
-<style>
-
-
-
-
-    {% comment %} Multiple Choice Drop Down {% endcomment %}
-
-    .select-multiple-container{
-        max-width:320px;
-        width:100%;
-        background-color:white;
-        margin:80px auto 30px;
-        border-radius: 8px;
-    }
-
-    .select-btn{
-        display: flex;
-        height: 50px;
-        align-items: center ;
-        justify-content:space-between;
-        padding : 0 16px;
-        cursor: pointer;
-        border-radius: 8px;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-    }
-
-    .select-btn .btn-text{
-        font-size:17px;
-        font-weight:400;
-        color:#333;
-    }
-
-    .select-btn .arrow-dwn{
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        height : 21px;
-        width: 21px;
-        border-radius:50%;
-        font-size:14px;
-        transition:0.3s; 
-    }
-
-    .select-btn.open .arrow-dwn{
-        transform:rotate(-180deg);
-    }
-
-    .list-items {
-        margin-top: 15px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-        padding: 16px;
-        display:none;
-    }
-
-    .select-btn.open ~ .list-items{
-        display:block;
-    }
-    
-    .list-items .item {
-        display: flex;
-        align-items: center;
-        list-style: none;
-        height:50px;
-        cursor:pointer;
-        transition: 0.3s;
-        padding: 0 15px;
-        border-radius: 8px;
-    }
-    
-    .list-items .item:hover{
-        background-color: #e7edfe;
-    }
-    
-    .item .item-text{
-        font-size: 16px;
-        font-weight: 400 ;
-        color:#333;
-    }
-    
-    .item .checkbox {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 16px;
-        width: 16px;
-        border-radius: 4px;
-        margin-right: 12px;
-        border: 1.5px solid #c0c0c0;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .item.checked .checkbox{
-        background-color:#4070f4;     
-        border-color:#4070f4;     
-    }
-    
-    .checkbox .check-icon{
-        color:#fff; 
-        font-size: 11px;
-        transform: scale(0);
-        transition: all 0.3s ease-in-out;
-    }
-
-    .item.checked .check-icon{
-        transform:scale(1.2); 
-    }
-
-    {% comment %} end {% endcomment %}
-
-</style>
 {% endblock css_3 %}
 
 
 {% block main %}
-<div class='Container'>
-    <h1>Book Appointment</h1>
 
+<div class='Container'>
+
+
+    <div class="formbold-main-wrapper">
+        <div class="formbold-form-wrapper">
+            <form >
+            <div class="formbold-mb-5">
+                <label for="name" class="formbold-form-label"> Full Name </label>
+                <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Full Name"
+                class="formbold-form-input"
+                />
+            </div>
+            <div class="formbold-mb-5">
+                <label for="phone" class="formbold-form-label"> Phone Number </label>
+                <input
+                type="text"
+                name="phone"
+                id="phone"
+                placeholder="Enter your phone number"
+                class="formbold-form-input"
+                />
+            </div>
+            <div class="formbold-mb-5">
+                <label for="email" class="formbold-form-label">Age</label>
+                <input
+                type="text"
+                name="area"
+                id="age"
+                placeholder="Enter your age"
+                class="formbold-form-input"
+                />
+            </div>
+            <div class="flex flex-wrap formbold--mx-3">
+                <div class="w-full sm:w-half formbold-px-3">
+                <div class="formbold-mb-5 w-full">
+                    <label for="date" class="formbold-form-label"> Date </label>
+                    <input
+                    type="date"
+                    name="date"
+                    id="date"
+                    class="formbold-form-input"
+                    />
+                </div>
+                </div>
+                <div class="w-full sm:w-half formbold-px-3">
+                <div class="formbold-mb-5">
+                    <label for="time" class="formbold-form-label"> Time </label>
+                    <input
+                    type="time"
+                    name="time"
+                    id="time"
+                    class="formbold-form-input"
+                    />
+                </div>
+                </div>
+            </div>
+            
+            <div class="formbold-mb-5 formbold-pt-3">
+                <label class="formbold-form-label formbold-form-label-2">
+                Test Details
+                </label>
+                <div class="flex flex-wrap formbold--mx-3">
+                <div class="w-full sm:w-half formbold-px-3">
+                    <div class="formbold-mb-5">
+                    <input
+                        type="text"
+                        name="area"
+                        id="area"
+                        placeholder="Enter test type"
+                        class="formbold-form-input"
+                    />
+                    </div>
+                </div>
+                <div class="w-full sm:w-half formbold-px-3">
+                    <div class="formbold-mb-5">
+                    <input
+                        type="text"
+                        name="city"
+                        id="city"
+                        placeholder="Set Urgency"
+                        class="formbold-form-input"
+                    />
+                    </div>
+                </div>
+                </div>
+                </div>
+            </div>
+            
+            <div class="left-2">
+                    <div class="formbold-mb-5">
+                    <input type="text" placeholder="Description..."class="formbold-form-input solo"/></div>
+                
+                <label for="name" class="formbold-form-label">Any Thing you want to Send us , click below </label>
+                <div class="cont">
+                    <div class="header-1"> 
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> 
+                        <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> <p>Browse File to upload!</p>
+                    </div> 
+                    <label for="file" class="footer-1"> 
+                    <svg fill="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M15.331 6H8.5v20h15V14.154h-8.169z"></path><path d="M18.153 6h-.009v5.342H23.5v-.002z"></path></g></svg> 
+                    <p>Click Here</p> 
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5.16565 10.1534C5.07629 8.99181 5.99473 8 7.15975 8H16.8402C18.0053 8 18.9237 8.9918 18.8344 10.1534L18.142 19.1534C18.0619 20.1954 17.193 21 16.1479 21H7.85206C6.80699 21 5.93811 20.1954 5.85795 19.1534L5.16565 10.1534Z" stroke="#000000" stroke-width="2"></path> <path d="M19.5 5H4.5" stroke="#000000" stroke-width="2" stroke-linecap="round"></path> <path d="M10 3C10 2.44772 10.4477 2 11 2H13C13.5523 2 14 2.44772 14 3V5H10V3Z" stroke="#000000" stroke-width="2"></path> </g></svg>
+                    </label> 
+                    <input id="file" type="file"> 
+                </div>
+                <div class="button">
+                    <button class="formbold-btn">Book Appointment</button>
+                </div>
+            </div>
+            </form>
+        </div>
+        </div>
+        
+{% comment %} 
 <form method="POST" action="{% url 'client_appointment_confirm' %}" enctype="multipart/form-data">
     {% csrf_token %}
 
     {{ form.as_div}}
 
     <button type="submit">Book</button>
-</form>
-</div>
+</form> {% endcomment %}
+
+    </div>
 
 
 

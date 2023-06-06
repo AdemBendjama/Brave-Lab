@@ -1,142 +1,162 @@
 {% extends 'client/client.html' %}
 {% load static %}
 
+{% block css_3 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link rel="stylesheet" href="{%static 'book.css'%}" />
+{% endblock css_3 %}
+
+
 {% block main %}
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        line-height: 1.5;
-    }
-
-    h1 {
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
-
-    h2 {
-        font-size: 18px;
-        margin-top: 30px;
-        margin-bottom: 10px;
-    }
-
-    h3 {
-        font-size: 16px;
-        margin-top: 20px;
-        margin-bottom: 10px;
-    }
-
-    p {
-        margin-bottom: 10px;
-    }
-
-    .section {
-        margin-bottom: 30px;
-    }
-
-    .signature {
-        margin-top: 40px;
-    }
-</style>
 <div class='Container'>
-    <h1>Contract</h1>
-    <div class="section">
-        <h1>Blood Test Appointment Contract</h1>
-        <p>This Blood Test Appointment Contract (the "Contract") is made between the laboratory (the "Laboratory") and
-            the client (the "Client") as of the date of booking the appointment (the "Effective Date").</p>
+    <div class="formbold-main-wrapper">
+        <div class="formbold-form-wrapper">
+            <form>
+                <div class="formbold-mb-5">
+                    <label for="name" class="formbold-form-label"> Full Name </label>
+                    <input type="text" name="name" id="name" placeholder="Full Name" class="formbold-form-input" />
+                </div>
+                <div class="formbold-mb-5">
+                    <label for="phone" class="formbold-form-label"> Phone Number </label>
+                    <input type="text" name="phone" id="phone" placeholder="Enter your phone number"
+                        class="formbold-form-input" />
+                </div>
+                <div class="formbold-mb-5">
+                    <label for="email" class="formbold-form-label">Age</label>
+                    <input type="text" name="area" id="age" placeholder="Enter your age" class="formbold-form-input" />
+                </div>
+                <div class="flex flex-wrap formbold--mx-3">
+                    <div class="w-full sm:w-half formbold-px-3">
+                        <div class="formbold-mb-5 w-full">
+                            <label for="date" class="formbold-form-label"> Date </label>
+                            <input type="date" name="date" id="date" class="formbold-form-input" />
+                        </div>
+                    </div>
+                    <div class="w-full sm:w-half formbold-px-3">
+                        <div class="formbold-mb-5">
+                            <label for="time" class="formbold-form-label"> Time </label>
+                            <input type="time" name="time" id="time" class="formbold-form-input" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formbold-mb-5 formbold-pt-3">
+                    <label class="formbold-form-label formbold-form-label-2">
+                        Test Details
+                    </label>
+                    <div class="flex flex-wrap formbold--mx-3">
+                        <div class="w-full sm:w-half formbold-px-3">
+                            <div class="formbold-mb-5">
+                                <input type="text" name="area" id="area" placeholder="Enter test type"
+                                    class="formbold-form-input" />
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-half formbold-px-3">
+                            <div class="formbold-mb-5">
+                                <input type="text" name="city" id="city" placeholder="Set Urgency"
+                                    class="formbold-form-input" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div>
+            <div class="left ">
+                <div class="formbold-mb-5">
+                    <input type="text" placeholder="Description..." class="formbold-form-input solo" />
+                </div>
+                <label for="name" class="formbold-form-label">Any Thing you want to Send us , click below </label>
+                <div class="container">
+                    <div class="header">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15"
+                                    stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                </path>
+                            </g>
+                        </svg>
+                        <p>Browse File to upload!</p>
+                    </div>
+                    <label for="file" class="footer">
+                        <svg fill="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path d="M15.331 6H8.5v20h15V14.154h-8.169z"></path>
+                                <path d="M18.153 6h-.009v5.342H23.5v-.002z"></path>
+                            </g>
+                        </svg>
+                        <p>Click Here</p>
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M5.16565 10.1534C5.07629 8.99181 5.99473 8 7.15975 8H16.8402C18.0053 8 18.9237 8.9918 18.8344 10.1534L18.142 19.1534C18.0619 20.1954 17.193 21 16.1479 21H7.85206C6.80699 21 5.93811 20.1954 5.85795 19.1534L5.16565 10.1534Z"
+                                    stroke="#000000" stroke-width="2"></path>
+                                <path d="M19.5 5H4.5" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
+                                <path d="M10 3C10 2.44772 10.4477 2 11 2H13C13.5523 2 14 2.44772 14 3V5H10V3Z"
+                                    stroke="#000000" stroke-width="2"></path>
+                            </g>
+                        </svg>
+                    </label>
+                    <input id="file" type="file">
+                </div>
+                <div class="button">
+                    <button class="formbold-btn">Book Appointment</button>
+                </div>
+                </form>
+            </div>
+        </div>
+
+        {% comment %} <h1>Book Appointment</h1>
+
+        <form method="POST" action="{% url 'client_appointment_confirm' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{ form.as_div}}
+
+            <button type="submit">Book</button>
+        </form> {% endcomment %}
     </div>
 
-    <div class="section">
-        <h2>Services</h2>
-        <p>The Laboratory agrees to provide the following services to the Client:</p>
-        <ul>
-            <li>Blood test appointment at a mutually agreed date and time.</li>
-            <li>Collection of blood samples.</li>
-            <li>Analysis of the blood samples as per the requirements of the Client.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>Appointment Details</h2>
-        <p>Date: [Date of the appointment]</p>
-        <p>Time: [Time of the appointment]</p>
-        <p>Location: [Address of the Laboratory]</p>
-    </div>
-
-    <div class="section">
-        <h2>Client's Responsibilities</h2>
-        <ul>
-            <li>The Client agrees to arrive at the Laboratory on time for the appointment.</li>
-            <li>The Client acknowledges that they may be required to fast or follow specific instructions before the
-                blood test.</li>
-            <li>The Client agrees to provide accurate and complete information regarding their medical history and any
-                relevant conditions.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>Payment</h2>
-        <p>The Client agrees to pay the Laboratory the agreed-upon fee for the blood test appointment. The payment
-            details will be provided separately.</p>
-    </div>
-
-    <div class="section">
-        <h2>Confidentiality</h2>
-        <p>The Laboratory agrees to keep all client information and test results confidential, except as required by
-            law.</p>
-        <p>The Client acknowledges that the Laboratory cannot guarantee absolute confidentiality in cases where
-            information is transmitted electronically or through third-party services.</p>
-    </div>
-
-    <div class="section">
-        <h2>Test Results</h2>
-        <p>The Laboratory will provide the Client with the test results within a reasonable timeframe.</p>
-        <p>The Laboratory will communicate the results to the Client through a secure method or during a follow-up
-            appointment.</p>
-    </div>
-
-    <div class="section">
-        <h2>Limitation of Liability</h2>
-        <p>The Laboratory shall not be liable for any damages, losses, or injuries arising from the blood test
-            appointment, unless caused by gross negligence or willful misconduct.</p>
-    </div>
-
-    <div class="section">
-        <h2>Termination</h2>
-        <p>Either party may terminate this Contract in writing if there is a material breach by the other party.</p>
-    </div>
-
-    <div class="section">
-        <h2>Governing Law and Jurisdiction</h2>
-        <p>This Contract shall be governed by and construed in accordance with the laws of [Jurisdiction]. Any disputes
-            arising under or in connection with this Contract shall be subject to the exclusive jurisdiction of the
-            courts of [Jurisdiction].</p>
-    </div>
-
-    <div class="section">
-        <h2>Entire Agreement</h2>
-        <p>This Contract constitutes the entire agreement between the parties and supersedes any prior understandings or
-            agreements, whether written or oral, relating to the blood test appointment.</p>
-    </div>
-
-    <div class="section signature">
-        <p><strong>IN WITNESS WHEREOF, the parties have executed this Blood Test Appointment Contract as of the
-                Effective Date.</strong></p>
-        <p>[Client's Name]</p>
-        <p>[Client's Signature]</p>
-        <p>[Laboratory's Name]</p>
-        <p>[Laboratory's Signature]</p>
-    </div>
-
-    <p><em>Please note that this contract is provided for informational purposes only and should not be considered legal
-            advice. It's important to consult with a qualified legal professional to ensure the contract meets all legal
-            requirements in your jurisdiction and to address any specific considerations for your laboratory.</em></p>
-    <form method="POST">
-        {% csrf_token %}
-        <button type="submit" name="confirm">Confirm and Agree</button>
-        <button type="submit" name="cancel">Cancel</button>
-    </form>
-
-</div>
 
 
 {% endblock main %}
+
+
+
+
+{% block scripts_3 %}
+
+    <script>
+        const selectBtn = document.querySelector(".select-btn"),
+            items = document.querySelectorAll(".item");
+
+
+        selectBtn.addEventListener("click", () => {
+            selectBtn.classList.toggle("open")
+        })
+
+
+        items.forEach(item => {
+            item.addEventListener("click", () => {
+                item.classList.toggle("checked");
+
+                let checked = document.querySelectorAll(".checked"),
+                    btnText = document.querySelector(".btn-text");
+
+                if (checked && checked.length > 0) {
+                    btnText.innerText = ` ${checked.length} Selected`;
+                } else {
+                    btnText.innerText = ` Select Tests`;
+                }
+            });
+        })
+    </script>
+
+{% endblock scripts_3 %}
