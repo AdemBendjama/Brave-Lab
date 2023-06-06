@@ -21,6 +21,7 @@ import os
 @receiver(post_save, sender=TestResult)
 def test_result_created(sender, instance, created , **kwargs):
     result = instance
+    evaluation = result.request.appointment.evaluation
     client = result.request.appointment.client
     tests = result.request.tests.all()
     test_names = []
@@ -32,11 +33,8 @@ def test_result_created(sender, instance, created , **kwargs):
     if created :
         if 'Complete Blood Count (CBC)' in test_names:
             test = tests.filter(test_offered__name = 'Complete Blood Count (CBC)').first()
-            age = result.request.appointment.evaluation.age
-            if client.gender == "M":
-                sex = 0.0 
-            elif client.gender == "F":
-                sex = 1.0 
+            age = evaluation.age
+            gender = evaluation.gender
             RBC = test.components.all().filter(info__name='Red Blood Cell Count (RBC)').first().value
             PCV = test.components.all().filter(info__name='Hematocrit (Hct)').first().value
             MCV = test.components.all().filter(info__name='Mean Corpuscular Volume (MCV)').first().value
@@ -50,7 +48,7 @@ def test_result_created(sender, instance, created , **kwargs):
             # Load the trained model from the file
             log_reg = joblib.load(os.path.join(BASE_DIR, 'IA_modeles/model-anemia/pythonProject1/trained_model_for_anemia.pkl'))
             #Age,Sex,RBC,PCV,MCV,MCH,MCHC,RDW,TLC,PLT/mm3,HGB
-            arr = np.array([age,sex,RBC,PCV,MCV,MCH,MCHC,RDW,TLC,PLT,HGB])
+            arr = np.array([age,gender,RBC,PCV,MCV,MCH,MCHC,RDW,TLC,PLT,HGB])
             print(arr)
             reshaped_arr = arr.reshape(1, -1)
 
@@ -84,8 +82,71 @@ def test_result_created(sender, instance, created , **kwargs):
             print("Positive Percentage:", positive_percentage, "%")
             
             anemia = Anemia(result = result, positive=prediction,probability=positive_percentage)
-            
+            anemia.save()
             print(anemia)
+            
+        # gender,age,hypertension,heart_disease,smoking_history,bmi,HbA1c_level,blood_glucose_level  
+        if 'Hemoglobin A1C (HbA1c)' in test_names and ( 'Basic Metabolic Panel (BMP)' in test_names ) or ( 'Comprehensive Metabolic Panel (CMP)' in test_names ):
+            HA1C_test = tests.filter(test_offered__name = 'Hemoglobin A1C (HbA1c)').first()
+            BMP_test = tests.filter(test_offered__name = 'Basic Metabolic Panel (BMP)').first()  
+            CMP_test = tests.filter(test_offered__name = 'Comprehensive Metabolic Panel (CMP)').first()  
+            
+            if BMP_test :
+                MP_test = BMP_test 
+            elif CMP_test :
+                MP_test = CMP_test
+                
+            
+            age = evaluation.age
+            gender = evaluation.gender
+            hypertension = evaluation.hypertension
+            heart_disease = evaluation.heart_disease
+            smoking_history = evaluation.smoking_history
+            bmi = evaluation.bmi
+             
+
+            HbA1c = HA1C_test.components.all().filter(info__name='HbA1c').first().value
+            Glucose = MP_test.components.all().filter(info__name='Glucose (GLU)').first().value
+                
+            # Load the trained model from the file
+            log_reg = joblib.load(os.path.join(BASE_DIR, 'IA_modeles/model-diabete/pythonProject2/trained_model_for_diabetes.pkl'))
+            # gender,age,hypertension,heart_disease,smoking_history,bmi,HbA1c_level,blood_glucose_level  
+            arr = np.array([gender,age,hypertension,heart_disease,smoking_history,bmi,HbA1c,Glucose])
+            print(arr)
+            reshaped_arr = arr.reshape(1, -1)
+
+            # Load the scaler used for training
+            scaler = joblib.load(os.path.join(BASE_DIR, 'IA_modeles/model-diabete/pythonProject2/scaler_for_diabetes.pkl'))
+            arr_scaled = scaler.transform(reshaped_arr)
+
+            # Make predictions and get probabilities
+            predictions = log_reg.predict(arr_scaled)
+            prediction = predictions[0]
+            probabilities = log_reg.predict_proba(arr_scaled)
+
+
+            # Extract the probability for the positive class (class 1)
+            positive_probability = probabilities[0, 1]
+
+            # Convert the probability to percentage
+            positive_percentage = positive_probability * 100
+            print(positive_percentage)
+            if 0 < positive_percentage <= 100:
+                positive_percentage = "{:.2f}".format(positive_percentage)
+            else :
+                positive_percentage = 0.0
+
+            if prediction == 0 :
+                print("Prediction: Negative for Diabete")
+            elif prediction == 1 :
+                print("Prediction: Positive For Diabete")
+                
+            print("Positive Probability:", positive_probability)
+            print("Positive Percentage:", positive_percentage, "%")
+            
+            diabetes = Diabetes(result = result, positive=prediction,probability=positive_percentage)
+            diabetes.save()
+            print(diabetes)
     
         
 

@@ -373,7 +373,7 @@ class Diabetes(models.Model):
     probability = models.FloatField()
     
     def __str__(self):
-        return f"Diabetes Prediction #{self.id}"
+        return f"Diabetes Prediction #{self.result.id}: {self.probability}%"
     
 class Anemia(models.Model):
     result = models.OneToOneField(TestResult, on_delete=models.CASCADE)
