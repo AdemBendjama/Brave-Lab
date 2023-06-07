@@ -257,12 +257,117 @@ def change_nurse(request, analysis_request_id):
 @login_required
 @permission_required('auditor.view_auditor', raise_exception=True)
 def result_list(request):
-    unapproved_results = TestResult.objects.filter(approved=False)
-    approved_results = TestResult.objects.filter(approved=True)
+                 
+    test_result = TestResult.objects.all()
+   
+    if request.GET.get('date_sort') :
+        date = request.GET.get('date')
+        
+        if date == 'True' :
+            test_result= test_result.order_by('creation_time')
+            sort_date = 'False'
+        elif date == "False":
+            test_result= test_result.order_by('-creation_time')
+            sort_date = 'True'
+            
+        sort_urgency= request.GET.get('urgency')
+        sort_nurse= request.GET.get('nurse')
+    
+            
+    if request.GET.get('urgency_sort'):
+        urgency = request.GET.get('urgency')
+        
+        if urgency == 'True':
+            test_result = test_result.order_by("-request__appointment__urgent")
+            sort_urgency= 'False'
+        elif urgency == 'False':
+            test_result = test_result.order_by("request__appointment__urgent")
+            sort_urgency= 'True'
+            
+        
+        sort_date= request.GET.get('date')
+        sort_nurse= request.GET.get('nurse')
+        
+    if request.GET.get('nurse_sort'):
+        nurse = request.GET.get('nurse')
+        
+        if nurse == 'True':
+            test_result = test_result.order_by("-request__nurse")
+            sort_nurse= 'False'
+        elif nurse == 'False':
+            test_result = test_result.order_by("request__nurse")
+            sort_nurse= 'True'
+            
+        
+        sort_date= request.GET.get('date')
+        sort_urgency= request.GET.get('urgency')
+        
+            
+    if not (request.GET.get('urgency_sort')) and not (request.GET.get('date_sort')) and not (request.GET.get('nurse_sort')):
+        sort_date = 'True'
+        sort_urgency = 'True'
+        sort_nurse = 'True'
+        
+    
+    if request.method == "POST" and "search" in request.POST :
+        search = request.POST.get("search")
+        if search != "" :
+            try:
+                parsed_number = int(search)
+                parsable = True
+            except ValueError:
+                parsable = False
+            
+            if parsable and test_result.filter(request__appointment__id=int(search)).exists() :    
+                    test_result = test_result.filter(request__appointment__id=int(search)).all()
+                
+            elif test_result.filter(request__nurse__user__username=search).exists() :
+                test_result = test_result.filter(request__nurse__user__username=search).all()
+                
+            else :
+                context={
+                    'sort_urgency':sort_urgency,
+                    'sort_date':sort_date,
+                    'sort_nurse':sort_nurse,
+                }
+                
+                return render(request,'auditor/result/result_list.html',context)
+    
+    unapproved_results = test_result.filter(approved=False)
+    approved_results = test_result.filter(approved=True)
+    
+    state = request.GET.get('state')
+    if state != "all" :
+        if state == "approved" :
+            context = {
+                'approved_results': approved_results,
+                'sort_urgency':sort_urgency,
+                'sort_date':sort_date,
+                'sort_nurse':sort_nurse,
+                'state':state,
+            }
+            return render(request,'auditor/result/result_list.html',context)
+        if state == "unapproved" :
+            context = {
+                'unapproved_results': unapproved_results,
+                'sort_urgency':sort_urgency,
+                'sort_date':sort_date,
+                'sort_nurse':sort_nurse,
+                'state':state,
+            }
+            return render(request,'auditor/result/result_list.html',context)
+       
+            
+    state = 'all'
+        
     
     context = {
         'unapproved_results': unapproved_results,
         'approved_results': approved_results,
+        'sort_urgency':sort_urgency,
+        'sort_date':sort_date,
+        'sort_nurse':sort_nurse,
+        'state':state
     }
     return render(request,'auditor/result/result_list.html', context)
 
