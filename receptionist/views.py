@@ -11,6 +11,8 @@ from nurse.models import Nurse
 from receptionist.forms import ConfirmationForm
 from django.db.models import Count, Q
 from django.contrib.auth.models import Group
+
+from django.core.files.storage import default_storage
 # Create your views here.
 
 ################################################################
@@ -118,11 +120,53 @@ def client_add(request):
 @login_required
 @permission_required('receptionist.view_receptionist', raise_exception=True)
 def appointment_add(request):
-    form = AppointmentForm()  
-    clients = Client.objects.all() 
+    
+    if request.method == 'POST' :
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            date = form.cleaned_data['date']
+            date = date.strftime("%Y-%m-%d")
+            description = form.cleaned_data['description']
+            tests_requested = form.cleaned_data['tests_requested']
+            
+            if 'document' in request.FILES :
+                document_file = request.FILES['document']
+                document = default_storage.save('medical_documents/' + document_file.name, document_file)
+            else :
+                document = None
+            
+            total_price = 0
+            for test in tests_requested:
+                total_price+=test.price
+            
+            client = form.cleaned_data['client']
+            
+            appointment = Appointment()
+            appointment.client = client
+            appointment.date = date
+            appointment.description = description
+            if document :
+                appointment.document = document
+            appointment.total_price = total_price
+            appointment.save()
+            
+            appointment.tests_requested.add(*tests_requested)
+            
+            payment = Payment(appointment=appointment)
+            payment.save()
+            
+            payment.tests_fee = appointment.total_price
+            
+            payment.save()
+            appointment.save()
+            
+            return redirect('appointment_detail',appointment_id=appointment.id)
+    else:
+        form = AppointmentForm() 
+       
+    
         
     context={
-        'clients':clients,
         'form':form,
     }
          

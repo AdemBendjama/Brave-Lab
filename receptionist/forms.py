@@ -21,7 +21,7 @@ class AppointmentForm(forms.ModelForm):
     client = forms.ModelChoiceField(queryset=Client.objects.all(), widget=forms.Select(attrs={'class': 'formbold-form-input select-1'}))
     class Meta:
         model = Appointment
-        fields = ['date', "tests_requested",'description', 'document', 'client']
+        fields = ['client','date', "tests_requested",'description', 'document']
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
