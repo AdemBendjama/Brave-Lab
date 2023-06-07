@@ -9,7 +9,7 @@ from main_home.forms import UserRegisterForm
 from main_home.models import Appointment, BloodBank, Complaint, Invoice, Lobby, Payment, Report
 from nurse.models import Nurse
 from receptionist.forms import ConfirmationForm
-from django.db.models import Count, Q
+from django.db.models import Count, Q,F
 from django.contrib.auth.models import Group
 from django.template.loader import render_to_string
 from brave_lab_project.settings import EMAIL_HOST_USER
@@ -261,8 +261,10 @@ def appointment_confirm(request, appointment_id):
             #
             payed = request.POST.get("payed")
             nurse = Nurse.objects.annotate(
-                analysis_requests_count=Count('analysisrequest', filter=Q(analysisrequest__status__in=['pending', 'working-on']))
-            ).order_by('analysis_requests_count').first()
+                    analysis_requests_count=Count('analysisrequest',filter=Q(analysisrequest__status__in=['pending', 'working-on'])
+                        ),
+                        lobby_clients_count=Count('lobby__clients')
+                    ).order_by('analysis_requests_count', F('lobby_clients_count').asc(nulls_last=True)).first()
 
             if nurse:
                 lobby, _ = Lobby.objects.get_or_create(nurse=nurse)

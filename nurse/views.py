@@ -114,15 +114,99 @@ def evaluation(request, appointment_id):
 @login_required
 @permission_required('nurse.view_nurse', raise_exception=True)
 def request_list(request):
-    analysis_requests = AnalysisRequest.objects.select_related('appointment__client').all()
+    nurse = request.user.nurse
+                 
+    analysis_requests = AnalysisRequest.objects.select_related('appointment__client').all().filter(nurse=nurse)
+   
+    if request.GET.get('date_sort') :
+        date = request.GET.get('date')
+        
+        if date == 'True' :
+            analysis_requests= analysis_requests.order_by('creation_time')
+            sort_date = 'False'
+        elif date == "False":
+            analysis_requests= analysis_requests.order_by('-creation_time')
+            sort_date = 'True'
+            
+        sort_urgency= request.GET.get('urgency')
+    
+            
+    if request.GET.get('urgency_sort'):
+        urgency = request.GET.get('urgency')
+        
+        if urgency == 'True':
+            analysis_requests = analysis_requests.order_by("-appointment__urgent")
+            sort_urgency= 'False'
+        elif urgency == 'False':
+            analysis_requests = analysis_requests.order_by("appointment__urgent")
+            sort_urgency= 'True'
+            
+        
+        sort_date= request.GET.get('date')
+        
+            
+    if not (request.GET.get('urgency_sort')) and not (request.GET.get('date_sort')) :
+        sort_date = 'True'
+        sort_urgency = 'True'
+        
+    
+    if request.method == "POST" and "search" in request.POST :
+        search = request.POST.get("search")
+        if search != "" :
+            try:
+                parsed_number = int(search)
+                parsable = True
+            except ValueError:
+                parsable = False
+            
+            if parsable :    
+                if analysis_requests.filter(nurse=nurse,appointment__id=int(search)).exists() :
+                    analysis_requests = analysis_requests.filter(nurse=nurse,appointment__id=int(search)).all()
+                    pending_requests = analysis_requests.filter(status=AnalysisRequest.PENDING)
+                    working_on_requests = analysis_requests.filter(status=AnalysisRequest.WORKING_ON)
+                    finished_requests = analysis_requests.filter(status=AnalysisRequest.FINISHED)
+                    context = {
+                        'pending_requests': pending_requests,
+                        'working_on_requests': working_on_requests,
+                        'finished_requests': finished_requests,
+                        'sort_urgency':sort_urgency,
+                        'sort_date':sort_date,
+                    }
+                    return render(request,'nurse/request/request_list.html', context)
+                
+            elif analysis_requests.filter(nurse=nurse,appointment__client__user__username=search).exists() :
+                analysis_requests = analysis_requests.filter(nurse=nurse,appointment__client__user__username=search).all()
+                pending_requests = analysis_requests.filter(status=AnalysisRequest.PENDING)
+                working_on_requests = analysis_requests.filter(status=AnalysisRequest.WORKING_ON)
+                finished_requests = analysis_requests.filter(status=AnalysisRequest.FINISHED)
+                context = {
+                    'pending_requests': pending_requests,
+                    'working_on_requests': working_on_requests,
+                    'finished_requests': finished_requests,
+                    'sort_urgency':sort_urgency,
+                    'sort_date':sort_date,
+                }
+                return render(request,'nurse/request/request_list.html', context)
+            
+            context={
+                'sort_urgency':sort_urgency,
+                'sort_date':sort_date,
+            }
+            
+            return render(request,'nurse/request/request_list.html',context)
+
+            
     pending_requests = analysis_requests.filter(status=AnalysisRequest.PENDING)
     working_on_requests = analysis_requests.filter(status=AnalysisRequest.WORKING_ON)
     finished_requests = analysis_requests.filter(status=AnalysisRequest.FINISHED)
+    
     
     context = {
         'pending_requests': pending_requests,
         'working_on_requests': working_on_requests,
         'finished_requests': finished_requests,
+        'sort_urgency':sort_urgency,
+        'sort_date':sort_date,
     }
     return render(request,'nurse/request/request_list.html', context)
 
