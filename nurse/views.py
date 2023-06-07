@@ -159,47 +159,55 @@ def request_list(request):
             except ValueError:
                 parsable = False
             
-            if parsable :    
-                if analysis_requests.filter(nurse=nurse,appointment__id=int(search)).exists() :
+            if parsable and analysis_requests.filter(nurse=nurse,appointment__id=int(search)).exists() :    
                     analysis_requests = analysis_requests.filter(nurse=nurse,appointment__id=int(search)).all()
-                    pending_requests = analysis_requests.filter(status=AnalysisRequest.PENDING)
-                    working_on_requests = analysis_requests.filter(status=AnalysisRequest.WORKING_ON)
-                    finished_requests = analysis_requests.filter(status=AnalysisRequest.FINISHED)
-                    context = {
-                        'pending_requests': pending_requests,
-                        'working_on_requests': working_on_requests,
-                        'finished_requests': finished_requests,
-                        'sort_urgency':sort_urgency,
-                        'sort_date':sort_date,
-                    }
-                    return render(request,'nurse/request/request_list.html', context)
                 
             elif analysis_requests.filter(nurse=nurse,appointment__client__user__username=search).exists() :
                 analysis_requests = analysis_requests.filter(nurse=nurse,appointment__client__user__username=search).all()
-                pending_requests = analysis_requests.filter(status=AnalysisRequest.PENDING)
-                working_on_requests = analysis_requests.filter(status=AnalysisRequest.WORKING_ON)
-                finished_requests = analysis_requests.filter(status=AnalysisRequest.FINISHED)
-                context = {
-                    'pending_requests': pending_requests,
-                    'working_on_requests': working_on_requests,
-                    'finished_requests': finished_requests,
+                
+            else :
+                context={
                     'sort_urgency':sort_urgency,
                     'sort_date':sort_date,
                 }
-                return render(request,'nurse/request/request_list.html', context)
-            
-            context={
-                'sort_urgency':sort_urgency,
-                'sort_date':sort_date,
-            }
-            
-            return render(request,'nurse/request/request_list.html',context)
-
+                
+                return render(request,'nurse/request/request_list.html',context)
             
     pending_requests = analysis_requests.filter(status=AnalysisRequest.PENDING)
     working_on_requests = analysis_requests.filter(status=AnalysisRequest.WORKING_ON)
     finished_requests = analysis_requests.filter(status=AnalysisRequest.FINISHED)
     
+    state = request.GET.get('state')
+    if state != "all" :
+        if state == "pending" :
+            context = {
+                'pending_requests': pending_requests,
+                'sort_urgency':sort_urgency,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'nurse/request/request_list.html',context)
+        if state == "working" :
+            context = {
+                'working_on_requests': working_on_requests,
+                'sort_urgency':sort_urgency,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'nurse/request/request_list.html',context)
+        if state == "finished" :
+            context = {
+                'finished_requests': finished_requests,
+                'sort_urgency':sort_urgency,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'nurse/request/request_list.html',context)
+       
+            
+            
+    state = 'all'
+            
     
     context = {
         'pending_requests': pending_requests,
@@ -207,7 +215,10 @@ def request_list(request):
         'finished_requests': finished_requests,
         'sort_urgency':sort_urgency,
         'sort_date':sort_date,
+        'state':state
     }
+
+    
     return render(request,'nurse/request/request_list.html', context)
 
 @login_required
