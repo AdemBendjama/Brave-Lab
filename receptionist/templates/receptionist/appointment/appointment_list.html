@@ -40,6 +40,13 @@
                 <li class="app1">
                     <span><strong>Appointment #{{ appointment.id }}</strong></span>
                     <span><strong>{{ appointment.date }}</strong></span>
+                    <span><strong>
+                        {% if appointment.urgent %}
+                            Urgent
+                        {% else %}
+                            Normal
+                        {% endif %}
+                    </strong></span>
                     <div class="buttons">
                         <button class="list-button"><a class="list-links" href="{% url 'appointment_detail' appointment.id %}">View Details</a></button>
                     </div>
@@ -63,6 +70,13 @@
                 <li class="app1">
                     <span><strong>Appointment #{{ appointment.id }}</strong></span>
                     <span><strong>{{ appointment.date }}</strong></span>
+                    <span><strong>
+                        {% if appointment.urgent %}
+                            Urgent
+                        {% else %}
+                            Normal
+                        {% endif %}
+                    </strong></span>
                     <div class="buttons">
                         <button class="list-button"><a class="list-links" href="{% url 'appointment_detail' appointment.id %}">View Details</a></button>
                     </div>
@@ -86,6 +100,13 @@
                 <li class="app1">
                     <span><strong>Appointment #{{ appointment.id }}</strong></span>
                     <span><strong>{{ appointment.date }}</strong></span>
+                    <span><strong>
+                        {% if appointment.urgent %}
+                            Urgent
+                        {% else %}
+                            Normal
+                        {% endif %}
+                    </strong></span>
                     <div class="buttons">
                         <button class="list-button"><a class="list-links" href="{% url 'appointment_detail' appointment.id %}">View Details</a></button>
                     </div>
@@ -110,6 +131,13 @@
                 <li class="app1">
                     <span><strong>Appointment #{{ appointment.id }}</strong></span>
                     <span><strong>{{ appointment.date }}</strong></span>
+                    <span><strong>
+                        {% if appointment.urgent %}
+                            Urgent
+                        {% else %}
+                            Normal
+                        {% endif %}
+                    </strong></span>
                     <div class="buttons">
                         <button class="list-button"><a class="list-links" href="{% url 'appointment_detail' appointment.id %}">View Details</a></button>
                     </div>

@@ -73,6 +73,10 @@ for data in test_data:
     test_offered.id = data[0]
     test_offered.name = data[1]
     test_offered.price = data[2]
+    if data[1] in ['Complete Blood Count (CBC)', 'Hemoglobin A1C (HbA1c)', 'Coagulation Panel', 'Thyroid Function Tests']:
+        test_offered.urgent = True
+        
     test_offered.save()
+    
 
 print("Test names Saved!")

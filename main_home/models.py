@@ -131,6 +131,7 @@ class Component(models.Model):
 class TestOffered(models.Model):
     name = models.CharField(max_length=50,unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    urgent = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'test_offered'
@@ -145,6 +146,7 @@ class Test(models.Model):
     value = models.CharField(max_length=100,blank=True,null=True)
     description = models.CharField(max_length=500, null=True, blank=True)
     confirmed = models.BooleanField(default=False)
+    
 
     class Meta:
             db_table = 'test'
@@ -233,6 +235,7 @@ class Appointment(models.Model):
     arrived = models.BooleanField(default=False)
     cancelled = models.BooleanField(default=False)
     performed = models.BooleanField(default=False)
+    urgent = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'appointment'

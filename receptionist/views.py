@@ -137,9 +137,11 @@ def appointment_add(request):
                 document = default_storage.save('medical_documents/' + document_file.name, document_file)
             else :
                 document = None
-            
+            urgent=False
             total_price = 0
             for test in tests_requested:
+                if test.urgent :
+                    urgent = True
                 total_price+=test.price
             
             client = form.cleaned_data['client']
@@ -151,6 +153,7 @@ def appointment_add(request):
             if document :
                 appointment.document = document
             appointment.total_price = total_price
+            appointment.urgent = urgent
             appointment.save()
             
             appointment.tests_requested.add(*tests_requested)

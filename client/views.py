@@ -103,11 +103,14 @@ def client_appointment_confirm(request):
             if form.is_valid:
                 client = request.user.client
                 
+                urgent = False
                 tests_requested=[]
                 test_count = int(request.POST.get("data.test_count"))
                 for i in range(1,test_count+1):
                     test_id = int(request.POST.get(f"data.tests_requested{i}"))
                     test = TestOffered.objects.get(id=test_id)
+                    if test.urgent: 
+                        urgent = True
                     tests_requested.append(test)
                     
                 date = datetime.strptime(request.POST.get("data.date"), "%Y-%m-%d").date()
@@ -127,6 +130,7 @@ def client_appointment_confirm(request):
                 if doc_was_provided :
                     appointment.document = document
                 appointment.total_price = total_price
+                appointment.urgent = urgent
                 appointment.save()
 
                 # Add the tests_requested to the appointment
