@@ -19,4 +19,5 @@ urlpatterns = [
     
     path("complaints/",views.complaint_list,name="complaint_list"),
     path("complaints/detail/<int:complaint_id>/",views.complaint_detail,name="complaint_detail"),
+    path("complaints/detail/<int:complaint_id>/reply",views.reply_complaint,name="reply_complaint"),
 ]

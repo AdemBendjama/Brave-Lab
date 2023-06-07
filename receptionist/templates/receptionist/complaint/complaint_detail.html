@@ -11,6 +11,12 @@
     <p>Client : {{ complaint.client.user.first_name }}{{ complaint.client.user.last_name }}</p>
     <p>Topic : {{ complaint.topic }}</p>
     <p>Description : {{ complaint.description }}</p>
-    <!-- Display other complaint details -->
+    
+    <form action="{% url 'reply_complaint' complaint.id %}" method="post">
+        {% csrf_token %}
+        <label for="id_description">Reply :</label>
+        <textarea name="description" id="id_description" cols="20" rows="5"></textarea>
+        <button type="submit">Reply</button>
+    </form>
 </div>
 {% endblock main %}

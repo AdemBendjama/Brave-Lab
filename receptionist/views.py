@@ -11,6 +11,9 @@ from nurse.models import Nurse
 from receptionist.forms import ConfirmationForm
 from django.db.models import Count, Q
 from django.contrib.auth.models import Group
+from django.template.loader import render_to_string
+from brave_lab_project.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
 
 from django.core.files.storage import default_storage
 # Create your views here.
@@ -292,3 +295,31 @@ def complaint_detail(request,complaint_id):
     return render(request,'receptionist/complaint/complaint_detail.html',context)
 
 ################################################################
+
+
+## reply to complaint 
+
+@login_required
+@permission_required('receptionist.view_receptionist', raise_exception=True)
+def reply_complaint(request, complaint_id):
+    complaint = Complaint.objects.get(id=complaint_id)
+    client=complaint.client
+    if request.method == 'POST':
+        content = request.POST.get("description")
+        title = f"{complaint.topic}"
+        topic = f"Replying to Customer Complaint No.{complaint_id}"
+        subject = f'{ client.user.first_name } { client.user.last_name } Customer Complaint Reply'
+        
+        html = render_to_string('receptionist/complaint/complaint_email_template.html',{
+            "user":request.user,
+            "topic":topic,
+            'content':content,
+            'title':title,
+        })
+        
+        send_mail(subject,content ,EMAIL_HOST_USER,[f"{client.user.email}"],html_message=html)
+        
+        return redirect('complaint_detail',complaint_id=complaint_id)
+        
+
+    return render(request, 'receptionist/complaint/complaint_detail.html')
