@@ -11,6 +11,7 @@ urlpatterns = [
     
     
     path("client/add/",views.client_add,name="client_add"),
+    path("appointment/add/",views.appointment_add,name="appointment_add"),
     
     path("appointments/",views.appointment_list,name="appointment_list"),
     path("appointments/detail/<int:appointment_id>/",views.appointment_detail,name="appointment_detail"),

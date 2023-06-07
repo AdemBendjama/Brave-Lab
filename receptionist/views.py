@@ -2,6 +2,7 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404, render , redirect
 from django.contrib.auth.decorators import login_required,permission_required
 from django.views.decorators.http import require_POST
+from .forms import AppointmentForm
 from client.models import Client
 from main_home.forms import UserRegisterForm
 
@@ -112,6 +113,20 @@ def client_add(request):
     }
     
     return render(request,'receptionist/add/client_add.html',context)
+
+
+@login_required
+@permission_required('receptionist.view_receptionist', raise_exception=True)
+def appointment_add(request):
+    form = AppointmentForm()  
+    clients = Client.objects.all() 
+        
+    context={
+        'clients':clients,
+        'form':form,
+    }
+         
+    return render(request,'receptionist/add/appointment_add.html',context)
 
 ################################################################
 
