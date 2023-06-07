@@ -23,25 +23,59 @@
             </form>
         </div>
         <div class="nurse">
-            <a href="{% url "appointment_list" %}?date={{sort_date}}&urgency={{sort_urgency}}&date_sort=True">
+            <a href="{% url "appointment_list" %}?date={{sort_date}}&urgency={{sort_urgency}}&date_sort=True&state={{state}}">
                 <button class="list-button filter">
                     <span>Date</span>
-                    <span class="material-icons">filter_list</span>
+                    <span class="material-icons">sort</span>
                 </button>
             </a>
-            <a href="{% url "appointment_list" %}?date={{sort_date}}&urgency={{sort_urgency}}&urgency_sort=True">
-            <button class="list-button filter">
+            <a href="{% url "appointment_list" %}?date={{sort_date}}&urgency={{sort_urgency}}&urgency_sort=True&state={{state}}">
+                <button class="list-button filter">
                 <span>Urgency</span>
-                <span class="material-icons">filter_list</span>
+                <span class="material-icons">sort</span>
             </button>
-            </a>
+        </a>
+            
         </div>
         
     </div>
+    <div class="header ">
+        <div class="search">
+           
+        </div>
+        <div class="nurse">
+        <a href="{% url "appointment_list" %}?state=today">
+            <button class="list-button filter">
+                <span>Today</span>
+                <span class="material-icons">filter_list</span>
+            </button>
+        </a>
+        <a href="{% url "appointment_list" %}?state=tomorrow">
+                <button class="list-button filter">
+                <span>Tommorow</span>
+                <span class="material-icons">filter_list</span>
+            </button>
+        </a>
+        <a href="{% url "appointment_list" %}?state=upcoming">
+                <button class="list-button filter">
+                <span>Upcoming</span>
+                <span class="material-icons">filter_list</span>
+            </button>
+        </a>
+        <a href="{% url "appointment_list" %}?state=paid">
+                <button class="list-button filter">
+                <span>Paid</span>
+                <span class="material-icons">filter_list</span>
+            </button>
+        </a>
+            
+        </div>
+        
+    </div>
+    
 
-
-    <h2>Today's Appointments</h2>
     {% if appointments_today %}
+    <h2>Today's Appointments</h2>
         <ul class="lists">
             {% for appointment in appointments_today %}
                 <li class="app1">
@@ -60,18 +94,10 @@
                 </li>
             {% endfor %}
         </ul>
-    {% else %}
-        <div>
-            <ul class="lists">
-                <li class="app1 empty">
-                    <span><strong>No Appointments Today</strong></span>
-                </li>
-            </ul>
-        </div>
     {% endif %}
 
-    <h2>Tomorrow's Appointments</h2>
     {% if appointments_tomorrow %}
+    <h2>Tomorrow's Appointments</h2>
         <ul class="lists">
             {% for appointment in appointments_tomorrow %}
                 <li class="app1">
@@ -90,18 +116,10 @@
                 </li>
             {% endfor %}
         </ul>
-    {% else %}
-        <div>
-            <ul class="lists">
-                <li class="app1 empty">
-                    <span><strong>No Appointments Tommorow</strong></span>
-                </li>
-            </ul>
-        </div>
     {% endif %}
 
-    <h2>Upcoming Appointments</h2>
     {% if appointments_upcoming %}
+    <h2>Upcoming Appointments</h2>
         <ul class="lists">
             {% for appointment in appointments_upcoming %}
                 <li class="app1">
@@ -120,19 +138,11 @@
                 </li>
             {% endfor %}
         </ul>
-    {% else %}
-        <div>
-            <ul class="lists">
-                <li class="app1 empty">
-                    <span><strong>No Upcoming Appointments</strong></span>
-                </li>
-            </ul>
-        </div>
     {% endif %}
 
 
-    <h2>Paid Appointments</h2>
     {% if paid_appointments %}
+    <h2>Paid Appointments</h2>
         <ul class="lists">
             {% for appointment in paid_appointments %}
                 <li class="app1">
@@ -151,14 +161,6 @@
                 </li>
             {% endfor %}
         </ul>
-    {% else %}
-        <div>
-            <ul class="lists">
-                <li class="app1 empty">
-                    <span><strong>No Paid Appointments</strong></span>
-                </li>
-            </ul>
-        </div>
     {% endif %}
 
 

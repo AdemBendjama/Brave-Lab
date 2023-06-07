@@ -37,3 +37,20 @@
     
 </div>
 {% endblock main %}
+
+{% block scripts_3 %}
+  <script src="{% static 'js/resources/sweetalert2.all.min.js'%}"></script>
+
+  {% if messages %}
+    {% for message in messages %}
+      <script>
+        Swal.fire({
+          title: 'Success !',
+          text: '{{ message }}',
+          icon: 'success',
+          confirmButtonText: 'Confirm'
+        })
+      </script>
+    {% endfor %}
+  {% endif %}
+{% endblock %}

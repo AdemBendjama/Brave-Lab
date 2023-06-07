@@ -27,8 +27,70 @@ from django.core.files.storage import default_storage
 def receptionist_home(request):
     reports = Report.objects.all()
     
+    
+    receptionist = request.user.receptionist
+                 
+   
+    if request.GET.get('date_sort') :
+        date = request.GET.get('date')
+        
+        if date == 'True' :
+            reports= reports.order_by('creation_time')
+            sort_date = 'False'
+        elif date == "False":
+            reports= reports.order_by('-creation_time')
+            sort_date = 'True'
+            
+        sort_client= request.GET.get('client')
+    
+            
+    if request.GET.get('client_sort'):
+        client = request.GET.get('client')
+        
+        if client == 'True':
+            reports = reports.order_by("-invoice__client")
+            sort_client= 'False'
+        elif client == 'False':
+            reports = reports.order_by("invoice__client")
+            sort_client= 'True'
+            
+        
+        sort_date= request.GET.get('date')
+        
+            
+    if not (request.GET.get('client_sort')) and not (request.GET.get('date_sort')) :
+        sort_date = 'True'
+        sort_client = 'True'
+        
+    
+    if request.method == "POST" and "search" in request.POST :
+        search = request.POST.get("search")
+        if search != "" :
+            try:
+                parsed_number = int(search)
+                parsable = True
+            except ValueError:
+                parsable = False
+            
+            if parsable and reports.filter(id=int(search)).exists() :
+                reports = reports.filter(id=int(search)).all()       
+                
+            elif reports.filter(invoice__client__user__username=search).exists() :
+                reports = reports.filter(invoice__client__user__username=search).all()
+            
+            else : 
+                context={
+                    'sort_client':sort_client,
+                    'sort_date':sort_date,
+                }
+            
+                return render(request,'receptionist/receptionist.html',context)
+
+    
     context ={
-        'reports':reports
+        'reports':reports,
+        'sort_client':sort_client,
+        'sort_date':sort_date,
     }
     return render(request,'receptionist/receptionist.html', context)
 
@@ -248,6 +310,9 @@ def appointment_list(request):
         sort_urgency = 'True'
         
     
+        
+        
+    
     if request.method == "POST" and "search" in request.POST :
         search = request.POST.get("search")
         if search != "" :
@@ -272,6 +337,8 @@ def appointment_list(request):
                 return render(request,'receptionist/appointment/appointment_list.html',context)
 
 
+    
+    
     for appointment in appointments:
         if appointment.payment.payed_appointment_fee and appointment.arrived:
             paid_appointments.append(appointment)
@@ -282,6 +349,44 @@ def appointment_list(request):
         elif appointment.status == appointment.UPCOMING:
             appointments_upcoming.append(appointment)
 
+    state = request.GET.get('state')
+    if state != "all" :
+        if state == "today" :
+            context = {
+                'appointments_today': appointments_today,
+                'sort_urgency':sort_urgency,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'receptionist/appointment/appointment_list.html',context)
+        if state == "tomorrow" :
+            context = {
+                'appointments_tomorrow': appointments_tomorrow,
+                'sort_urgency':sort_urgency,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'receptionist/appointment/appointment_list.html',context)
+        if state == "upcoming" :
+            context = {
+                'appointments_upcoming': appointments_upcoming,
+                'sort_urgency':sort_urgency,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'receptionist/appointment/appointment_list.html',context)
+        if state == "paid" :
+            context = {
+                'paid_appointments': paid_appointments,
+                'sort_urgency':sort_urgency,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'receptionist/appointment/appointment_list.html',context)
+            
+            
+    state = 'all'
+    
     context = {
         'appointments_today': appointments_today,
         'appointments_tomorrow': appointments_tomorrow,
@@ -289,6 +394,7 @@ def appointment_list(request):
         'paid_appointments': paid_appointments,
         'sort_urgency':sort_urgency,
         'sort_date':sort_date,
+        'state':state,
     }
     
 
@@ -366,6 +472,27 @@ def appointment_confirm(request, appointment_id):
 @permission_required('receptionist.view_receptionist', raise_exception=True)
 def complaint_list(request):
     complaints = Complaint.objects.all()
+    
+    if request.method == "POST" and "search" in request.POST :
+        search = request.POST.get("search")
+        if search != "" :
+            try:
+                parsed_number = int(search)
+                parsable = True
+            except ValueError:
+                parsable = False
+            
+            if parsable and complaints.filter(id=int(search)).exists() :
+                complaints = complaints.filter(id=int(search)).all()       
+                
+            elif complaints.filter(client__user__username=search).exists() :
+                complaints = complaints.filter(client__user__username=search).all()
+            
+            else :
+                return render(request,'receptionist/complaint/complaint_list.html')
+
+
+
     context = {
         'complaints': complaints
     }

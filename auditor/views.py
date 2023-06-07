@@ -12,6 +12,8 @@ from django.core.serializers import serialize
 from django.utils import formats
 
 from nurse.models import Nurse
+
+from django.contrib import messages
 # Create your views here.
 
 ################################################################
@@ -205,6 +207,8 @@ def approve_result(request, test_result_id):
             client=report.test_result.request.appointment.client,
             laboratory=laboratory
         )
+        
+        messages.success(request, 'Test Result Approved !')
         
 
     return redirect('test_result_detail', test_result_id=test_result_id)

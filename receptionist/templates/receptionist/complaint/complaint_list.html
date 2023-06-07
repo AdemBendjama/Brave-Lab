@@ -8,6 +8,23 @@
 {% block main %}
 <div class="Container">
     <h1>Complaint List</h1>
+
+    <div class="header ">
+        <div class="search">
+            <form class="search-bar" method="post" >
+                {% csrf_token %}
+                <button type="submit" name="search">
+                    <span class="material-icons search-icon">
+                        search
+                        </span>
+                </button>
+                <input class="search-bar-input" id="search" name="search" placeholder="Search" required="" type="text">
+                
+            </form>
+        </div>
+        
+    </div>
+
     {% if complaints %}
         <ul>
             {% for complaint in complaints %}

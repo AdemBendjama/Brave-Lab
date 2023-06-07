@@ -10,13 +10,59 @@
 {% block main %}
 <div class="Container">
     <h1>Homepage - List of Reports</h1>
+
+    <div class="header ">
+
+        <div class="search">
+
+            <form class="search-bar" method="post" >
+
+                {% csrf_token %}
+
+                <button type="submit" name="search">
+                    <span class="material-icons search-icon">
+                        search
+                        </span>
+                </button>
+
+                <input class="search-bar-input" id="search" name="search" placeholder="Search" required="" type="text">
+                
+            </form>
+        </div>
+
+
+        <div class="nurse">
+
+
+            <a href="{% url "receptionist" %}?date={{sort_date}}&client={{sort_client}}&date_sort=True">
+                <button class="list-button filter">
+                    <span>Date</span>
+                    <span class="material-icons">sort</span>
+                </button>
+            </a>
+
+
+            <a href="{% url "receptionist" %}?date={{sort_date}}&client={{sort_client}}&client_sort=True">
+            <button class="list-button filter">
+                <span>Client</span>
+                <span class="material-icons">sort</span>
+            </button>
+            </a>
+
+        </div>
+        
+    </div>
+
+
+
     <ul>
         {% if reports %}
         <ul>
             {% for report in reports %}
                 <li class="app1">
                     <span><strong>Report #{{ report.id }}</strong></span>
-                    <span><strong>{{ report.test_result }}</strong></span>
+                    <span><strong>Client: {{ report.invoice.client.user.username }}</strong></span>
+                    <span><strong>{{ report.creation_time }}</strong></span>
                     <div class="buttons">
                         <button class="list-button"><a class="list-links" href="{% url 'receptionist_report_detail' report.id  %}">View Details</a></button>
                     </div>
