@@ -123,14 +123,35 @@ def client_add(request):
 @login_required
 @permission_required('receptionist.view_receptionist', raise_exception=True)
 def appointment_add(request):
+    appointments = Appointment.objects.all().filter(cancelled=False)
+    for appointment in appointments:
+        appointment.check_overdue
     
     if request.method == 'POST' :
         form = AppointmentForm(request.POST)
         if form.is_valid():
+            client = form.cleaned_data['client']
+            appointments = appointments.filter(client=client)
             date = form.cleaned_data['date']
             date = date.strftime("%Y-%m-%d")
             description = form.cleaned_data['description']
             tests_requested = form.cleaned_data['tests_requested']
+            
+            dates=[]
+            for appointment in appointments:
+                dates.append(appointment.date)
+                
+            pending_app_count = appointments.filter(performed=False,arrived=False).count()
+
+
+            if pending_app_count >= 2:
+                limit=f"Client has {pending_app_count} appointments pending, Limit reached !"
+                return render(request,'receptionist/add/appointment_add.html',{'form':form,'limit':limit})  
+                
+            if date in dates :
+                limit= f"One appointment per day, {date} is already booked"
+                return render(request,'receptionist/add/appointment_add.html',{'form':form,'limit':limit})  
+
             
             if 'document' in request.FILES :
                 document_file = request.FILES['document']
@@ -144,7 +165,7 @@ def appointment_add(request):
                     urgent = True
                 total_price+=test.price
             
-            client = form.cleaned_data['client']
+            
             
             appointment = Appointment()
             appointment.client = client

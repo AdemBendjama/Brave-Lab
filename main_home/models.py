@@ -260,6 +260,13 @@ class Appointment(models.Model):
             return self.TOMORROW
         else:
             return self.OVERDUE
+        
+    @property    
+    def check_overdue(self):
+        if self.status == self.OVERDUE : 
+            self.cancelled = True
+            return 1
+        return 0
    
    
 class Payment(models.Model):

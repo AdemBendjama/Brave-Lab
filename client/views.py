@@ -23,17 +23,19 @@ from django.contrib import messages
 @permission_required('client.view_client', raise_exception=True)
 def client_home(request):
     # 
-    appointments = Appointment.objects.filter(client=request.user.client).order_by('date')
+    appointments = Appointment.objects.filter(client=request.user.client,performed=False).order_by('date')
+    for appointment in appointments:
+        appointment.check_overdue
 
     active_appointments = []
     canceled_appointments = []
     overdue_appointments = []
 
     for appointment in appointments:
-        if appointment.cancelled:
-            canceled_appointments.append(appointment)
-        elif appointment.status == appointment.OVERDUE:
+        if appointment.status == appointment.OVERDUE:
             overdue_appointments.append(appointment)
+        elif appointment.cancelled:
+            canceled_appointments.append(appointment)
         else:
             active_appointments.append(appointment)
 
@@ -59,7 +61,11 @@ def appointment_book(request):
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def client_appointment_confirm(request):
-    
+    client = request.user.client
+    appointments = Appointment.objects.all().filter(client=client,cancelled=False)
+    for appointment in appointments:
+        appointment.check_overdue
+        
     if request.method == 'POST':
         
         if request.POST.get("date") :
@@ -67,8 +73,20 @@ def client_appointment_confirm(request):
             form = AppointmentForm(request.POST,request.FILES)
             
             if form.is_valid():
-                
+                dates=[]
+                for appointment in appointments:
+                    dates.append(appointment.date)
                 date = form.cleaned_data['date']
+                pending_app_count = appointments.filter(performed=False,arrived=False).count()
+                
+                if pending_app_count >= 2:
+                    limit=f"You have {pending_app_count} appointments pending, Limit reached !"
+                    return render(request,'client/appointment/appointment_book.html',{'form':form,'limit':limit})  
+                
+                if date in dates :
+                    limit= f"One appointment per day, {date} is already booked"
+                    return render(request,'client/appointment/appointment_book.html',{'form':form,'limit':limit})  
+                
                 date = date.strftime("%Y-%m-%d")
                 description = form.cleaned_data['description']
                 tests_requested = form.cleaned_data['tests_requested']
