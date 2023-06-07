@@ -344,12 +344,72 @@ def request_detail(request):
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def result_list(request):
-    invoices = Invoice.objects.filter(client=request.user.client, payment_status=True).all()
-    unpaid_invoices = Invoice.objects.filter(client=request.user.client, payment_status=False).all()
+    
+    test_result = Invoice.objects.all()
+    
+    if request.GET.get('date') :
+        date = request.GET.get('date')
+        
+        if date == 'True' :
+            test_result= test_result.order_by('creation_time')
+            sort_date = 'False'
+        elif date == "False":
+            test_result= test_result.order_by('-creation_time')
+            sort_date = 'True'
+            
+            
+    if not (request.GET.get('date')) :
+        sort_date = 'True'
+        
+    
+    if request.method == "POST" and "search" in request.POST :
+        search = request.POST.get("search")
+        if search != "" :
+            try:
+                parsed_number = int(search)
+                parsable = True
+            except ValueError:
+                parsable = False
+            
+            if parsable and test_result.filter(report__test_result__request__appointment__id=int(search)).exists() :    
+                    test_result = test_result.filter(report__test_result__request__appointment__id=int(search)).all()
+                
+            else :
+                context={
+                    'sort_date':sort_date,
+                }
+                
+                return render(request,'client/result/result_list.html',context)
+    
+    invoices = test_result.filter(client=request.user.client, payment_status=True).all()
+    unpaid_invoices = test_result.filter(client=request.user.client, payment_status=False).all()
 
+    
+    state = request.GET.get('state')
+    if state != "all" :
+        if state == "unpaid" :
+            context = {
+                'unpaid_invoices': unpaid_invoices,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'client/result/result_list.html',context)
+        if state == "paid" :
+            context = {
+                'invoices': invoices,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'client/result/result_list.html',context)
+       
+            
+    state = 'all'
+        
     context = {
         'invoices': invoices,
-        'unpaid_invoices': unpaid_invoices
+        'unpaid_invoices': unpaid_invoices,
+        'sort_date':sort_date,
+        'state':state,
     }
     
     return render(request,'client/result/result_list.html', context)
