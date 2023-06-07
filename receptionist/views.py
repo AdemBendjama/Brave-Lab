@@ -212,6 +212,65 @@ def appointment_list(request):
     appointments_tomorrow = []
     appointments_upcoming = []
     paid_appointments = []
+    
+    receptionist = request.user.receptionist
+                 
+   
+    if request.GET.get('date_sort') :
+        date = request.GET.get('date')
+        
+        if date == 'True' :
+            appointments= appointments.order_by('date')
+            sort_date = 'False'
+        elif date == "False":
+            appointments= appointments.order_by('-date')
+            sort_date = 'True'
+            
+        sort_urgency= request.GET.get('urgency')
+    
+            
+    if request.GET.get('urgency_sort'):
+        urgency = request.GET.get('urgency')
+        
+        if urgency == 'True':
+            appointments = appointments.order_by("-urgent")
+            sort_urgency= 'False'
+        elif urgency == 'False':
+            appointments = appointments.order_by("urgent")
+            sort_urgency= 'True'
+            
+        
+        sort_date= request.GET.get('date')
+        
+            
+    if not (request.GET.get('urgency_sort')) and not (request.GET.get('date_sort')) :
+        sort_date = 'True'
+        sort_urgency = 'True'
+        
+    
+    if request.method == "POST" and "search" in request.POST :
+        search = request.POST.get("search")
+        if search != "" :
+            try:
+                parsed_number = int(search)
+                parsable = True
+            except ValueError:
+                parsable = False
+            
+            if parsable and appointments.filter(id=int(search)).exists() :
+                appointments = appointments.filter(id=int(search)).all()       
+                
+            elif appointments.filter(client__user__username=search).exists() :
+                appointments = appointments.filter(client__user__username=search).all()
+            
+            else : 
+                context={
+                    'sort_urgency':sort_urgency,
+                    'sort_date':sort_date,
+                }
+            
+                return render(request,'receptionist/appointment/appointment_list.html',context)
+
 
     for appointment in appointments:
         if appointment.payment.payed_appointment_fee and appointment.arrived:
@@ -228,6 +287,8 @@ def appointment_list(request):
         'appointments_tomorrow': appointments_tomorrow,
         'appointments_upcoming': appointments_upcoming,
         'paid_appointments': paid_appointments,
+        'sort_urgency':sort_urgency,
+        'sort_date':sort_date,
     }
     
 
