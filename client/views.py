@@ -22,27 +22,95 @@ from django.contrib import messages
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def client_home(request):
-    # 
-    appointments = Appointment.objects.filter(client=request.user.client,performed=False).order_by('date')
+    #
+    appointments = Appointment.objects.filter(client=request.user.client)
     for appointment in appointments:
         appointment.check_overdue
+                 
+   
+    if request.GET.get('date') :
+        date = request.GET.get('date')
+        
+        if date == 'True' :
+            appointments= appointments.order_by('date')
+            sort_date = 'False'
+        elif date == "False":
+            appointments= appointments.order_by('-date')
+            sort_date = 'True'
+            
+    if not (request.GET.get('date')) :
+        sort_date = 'True'
+        
+        
+    if request.method == "POST" and "search" in request.POST :
+        search = request.POST.get("search")
+        if search != "" :
+            try:
+                parsed_number = int(search)
+                parsable = True
+            except ValueError:
+                parsable = False
+            
+            if parsable and appointments.filter(id=int(search)).exists() :
+                appointments = appointments.filter(id=int(search)).all()
+            
+            else : 
+                context={
+                    'sort_date':sort_date,
+                }
+            
+                return render(request,'client/client.html',context)
 
-    active_appointments = []
+
+    booked_appointments = []
+    performed_appointments = []
     canceled_appointments = []
-    overdue_appointments = []
+
+    state = request.GET.get('state')
+    
+    
 
     for appointment in appointments:
-        if appointment.status == appointment.OVERDUE:
-            overdue_appointments.append(appointment)
-        elif appointment.cancelled:
+        if appointment.performed :
+            performed_appointments.append(appointment)
+        elif appointment.cancelled or (appointment.status == appointment.OVERDUE):
             canceled_appointments.append(appointment)
         else:
-            active_appointments.append(appointment)
+            booked_appointments.append(appointment)
+    
+    if state != "all" :
+        if state == "booked" :
+            context = {
+                'booked_appointments': booked_appointments,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'client/client.html',context)
+        if state == "performed" :
+            context = {
+                'performed_appointments': performed_appointments,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'client/client.html',context)
+        if state == "canceled" :
+            context = {
+                'canceled_appointments': canceled_appointments,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'client/client.html',context)
+        
+                  
+    state = 'all'
+   
 
     context = {
-        'active_appointments': active_appointments,
+        'booked_appointments': booked_appointments,
+        'performed_appointments': performed_appointments,
         'canceled_appointments': canceled_appointments,
-        'overdue_appointments': overdue_appointments,
+        'sort_date':sort_date,
+        'state':state,
     }
     return render(request,'client/client.html',context)
 

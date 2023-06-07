@@ -8,190 +8,174 @@
 {% endblock css_2 %}
 
 {% block main %}
-    <div class="Container">
-      <div class="header ">
-        <div class="search">
-            <form class="search-bar">
-                <button>
-                    <span class="material-icons search-icon">
-                        search
-                        </span>
-                </button>
-                <input class="search-bar-input" placeholder="Search" required="" type="text">
-                <button class="reset" type="reset">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </form>
-        </div>
-        <div class="nurse">
-            <button class="list-button filter">Filter<span class="material-icons">expand_more</span></button>
-        <button class="list-button">Sort</button>
-        <button class="list-button book"><a class="list-links" href={% url 'client_appointment_book' %}><span class="material-icons">add</span> Book Appointment</a></button>
-        </div>
+<div class="Container">
+  <div class="header ">
+    <div class="search">
+        <form class="search-bar" method="post" >
+            {% csrf_token %}
+            <button type="submit" name="search">
+                <span class="material-icons search-icon">
+                    search
+                    </span>
+            </button>
+            <input class="search-bar-input" id="search" name="search" placeholder="Search" required="" type="text">
+            
+        </form>
+    </div>
+    <div class="nurse">
+        <a href="{% url "client" %}?date={{sort_date}}&state={{state}}">
+            <button class="list-button filter">
+                <span>Date</span>
+                <span class="material-icons">sort</span>
+            </button>
+        </a>
         
     </div>
+    
+</div>
+<div class="header ">
+    <div class="search">
+       
+    </div>
+    <div class="nurse">
+    <a href="{% url "client" %}?state=booked">
+        <button class="list-button filter">
+            <span>Booked</span>
+            <span class="material-icons">filter_list</span>
+        </button>
+    </a>
+    <a href="{% url "client" %}?state=performed">
+            <button class="list-button filter">
+            <span>Performed</span>
+            <span class="material-icons">filter_list</span>
+        </button>
+    </a>
+    <a href="{% url "client" %}?state=canceled">
+            <button class="list-button filter">
+            <span>Canceled</span>
+            <span class="material-icons">filter_list</span>
+        </button>
+    </a>
         
-        <h2>Active Appointments</h2>
-        {% if active_appointments %}
-        <div>
-          <ul class="lists">
-              {% for appointment in active_appointments %}
-              {%if not appointment.performed %}
-                <li class="app1">
-                    <span><strong>Appointment #{{ appointment.id }}</strong></span>
-                    <span><strong>{{ appointment.date }}</strong></span>
-                    <div class="buttons">
-                      {% if appointment.cancelable >= 3 and not appointment.payment.payed_appointment_fee%}
-                        <button class="list-button cancel-button">Cancel</button>
-                      {% endif %}
-                        <button class="list-button"><a class="list-links" href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
-                    </div>
-                    <form class="cancel-form" action="{% url 'client_cancel_appointment' appointment.id %}" method="post">
-                      {% csrf_token %}
-                      <button type="submit">Cancel Appointment</button>
-                    </form>
-                </li>
-                {%endif%}
-              {% endfor %}
-                
-            </ul>
-          </div>
-        {% else %}
-        <div>
-          <ul class="lists">
-              <li class="app1 empty">
-                  <span><strong>No Active Appointments Found</strong></span>
-              </li>
-          </ul>
-        </div>         
-        {% endif %}
-        
-      <h2>Canceled Appointments</h2>
-      {% if canceled_appointments %}
-      <div>
+    </div>
+    
+</div>
+
+
+
+
+
+    {% if booked_appointments %}
+    <h2>Booked Appointments</h2>
+    <div>
+        <ul class="lists">
+            {% for appointment in booked_appointments %}
+            {% if not appointment.performed %}
+            <li class="app1">
+                <span><strong>Appointment #{{ appointment.id }}</strong></span>
+                <span><strong>{{ appointment.date }}</strong></span>
+                <div class="buttons">
+                    {% if appointment.cancelable >= 3 and not appointment.payment.payed_appointment_fee %}
+                    <button class="list-button cancel-button">Cancel</button>
+                    {% endif %}
+                    <button class="list-button"><a class="list-links"
+                            href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
+                </div>
+                <form class="cancel-form" action="{% url 'client_cancel_appointment' appointment.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Cancel Appointment</button>
+                </form>
+            </li>
+            {%endif%}
+            {% endfor %}
+
+        </ul>
+    </div>
+    {% endif %}
+
+
+    {% if performed_appointments %}
+    <h2>Performed Appointments</h2>
+    <div>
+        <ul class="lists">
+            {% for appointment in performed_appointments %}
+            <li class="app1">
+                <span><strong>Appointment #{{ appointment.id }}</strong></span>
+                <span><strong>{{ appointment.date }}</strong></span>
+                <div class="buttons">
+                    <button class="list-button"><a class="list-links"
+                            href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
+                </div>
+            </li>
+            {% endfor %}
+
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if canceled_appointments %}
+    <h2>Canceled Appointments</h2>
+    <div>
         <ul class="lists">
             {% for appointment in canceled_appointments %}
-              <li class="app1">
-                  <span><strong>Appointment #{{ appointment.id }}</strong></span>
-                  <span><strong>{{ appointment.date }}</strong></span>
-                  <div class="buttons">
-                      <button class="list-button"><a class="list-links" href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
-                  </div>
-              </li>
-            {% endfor %}
-              
-          </ul>
-      </div>
-      {% else %}
-      <div>
-        <ul class="lists">
-            <li class="app1 empty">
-                <span><strong>No Canceled Appointments Found</strong></span>
+            <li class="app1">
+                <span><strong>Appointment #{{ appointment.id }}</strong></span>
+                <span><strong>{{ appointment.date }}</strong></span>
+                <div class="buttons">
+                    <button class="list-button"><a class="list-links"
+                            href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
+                </div>
             </li>
-        </ul>
-      </div>
-      {% endif %}
-
-      <h2>Overdue Appointments</h2>
-      {% if overdue_appointments %}
-      <div>
-        <ul class="lists">
-            {% for appointment in overdue_appointments %}
-              <li class="app1">
-                  <span><strong>Appointment #{{ appointment.id }}</strong></span>
-                  <span><strong>{{ appointment.date }}</strong></span>
-                  <div class="buttons">
-                      <button class="list-button"><a class="list-links" href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
-                  </div>
-              </li>
             {% endfor %}
-              
-          </ul>
-        </div>
-      {% else %}
-      <div>
-        <ul class="lists">
-            <li class="app1 empty">
-                <span><strong>No Overdue Appointments Found</strong></span>
-            </li>
+
         </ul>
-      </div>
-      {% endif %}
-    
     </div>
+    {% endif %}
 
-      {% comment %} 
-      <h2>Active Appointments</h2>
-{% if active_appointments %}
-  <ul>
-    {% for appointment in active_appointments %}
-      <li>
-        <strong>Appointment ID:</strong> {{ appointment.id }}<br>
-        <strong>Date:</strong> {{ appointment.date }}<br>
-        <!-- Add any other relevant appointment information -->
-        <a href="{% url 'client_appointment_detail' appointment.id %}">View Details</a>
-      </li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>No active appointments available.</p>
-{% endif %}
 
-<h2>Canceled Appointments</h2>
-{% if canceled_appointments %}
-  <ul>
-    {% for appointment in canceled_appointments %}
-      <li>
-        <strong>Appointment ID:</strong> {{ appointment.id }}<br>
-        <strong>Date:</strong> {{ appointment.date }}<br>
-        <!-- Add any other relevant appointment information -->
-        <a href="{% url 'client_appointment_detail' appointment.id %}">View Details</a>
-      </li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>No canceled appointments available.</p>
-{% endif %}
- {% endcomment %}
-    </div>
+
+</div>
+</div>
 
 {% endblock main %}
 
 {% block sidebar %}
 
-    <li><a href={% url 'client' %}><span class="material-icons X">layers</span><span class="nav-item">Home</span></a></li>
-    <li><a href={% url 'client_appointment_book' %}><span class="material-icons X">event</span><span class="nav-item">Book Appointment</span></a></li>
-    <li><a href={% url 'client_result_list' %}><span class="material-icons X">list</span><span class="nav-item">Results</span></a></li>
-    <li><a href={% url 'client_request_list' %}><span class="material-icons X">track_changes</span><span class="nav-item">Track Progress</span></a></li>
-    <li><a href={% url 'create_complaint' %}><span class="material-icons X">feedback</span><span class="nav-item">Send Complaint</span></a></li>
+<li><a href={% url 'client' %}><span class="material-icons X">layers</span><span class="nav-item">Home</span></a></li>
+<li><a href={% url 'client_appointment_book' %}><span class="material-icons X">event</span><span class="nav-item">Book
+            Appointment</span></a></li>
+<li><a href={% url 'client_result_list' %}><span class="material-icons X">list</span><span
+            class="nav-item">Results</span></a></li>
+<li><a href={% url 'client_request_list' %}><span class="material-icons X">track_changes</span><span
+            class="nav-item">Track Progress</span></a></li>
+<li><a href={% url 'create_complaint' %}><span class="material-icons X">feedback</span><span class="nav-item">Send
+            Complaint</span></a></li>
 
 {% endblock sidebar %}
 
 
 {% block scripts_2 %}
 <script>
-  var path = window.location.pathname;
-  var links = document.querySelectorAll('nav ul li a');
+    var path = window.location.pathname;
+    var links = document.querySelectorAll('nav ul li a');
 
-  links.forEach(function(link) {
-    var href = link.getAttribute('href');
+    links.forEach(function (link) {
+        var href = link.getAttribute('href');
 
-    // Check if the current path starts with the href
-    if (path.startsWith(href)) {
-        // Add the "active" class to the parent <li> element
-        link.parentElement.classList.add('active');
-    }
-  });
+        // Check if the current path starts with the href
+        if (path.startsWith(href)) {
+            // Add the "booked" class to the parent <li> element
+            link.parentElement.classList.add('booked');
+        }
+    });
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  $(document).ready(function() {
-    $('.cancel-button').click(function() {
-      $(this).closest('.app1').find('.cancel-form').submit();
+    $(document).ready(function () {
+        $('.cancel-button').click(function () {
+            $(this).closest('.app1').find('.cancel-form').submit();
+        });
     });
-  });
 </script>
 {% endblock scripts_2 %}
