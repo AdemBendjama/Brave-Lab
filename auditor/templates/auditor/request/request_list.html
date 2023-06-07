@@ -12,36 +12,71 @@
 
     <div class="header ">
         <div class="search">
-            <form class="search-bar">
-                <button>
+            <form class="search-bar" method="post" >
+                {% csrf_token %}
+                <button type="submit" name="search">
                     <span class="material-icons search-icon">
                         search
                         </span>
                 </button>
-                <input class="search-bar-input" placeholder="Search" required="" type="text">
-                <button class="reset" type="reset">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+                <input class="search-bar-input" id="search" name="search" placeholder="Search" required="" type="text">
+                
             </form>
         </div>
         <div class="nurse">
-            <button class="list-button filter">Filter<span class="material-icons">expand_more</span></button>
-        <button class="list-button">Sort</button>
+            <a href="{% url "auditor_request_list" %}?date={{sort_date}}&nurse={{sort_nurse}}&date_sort=True&state={{state}}">
+                <button class="list-button filter">
+                    <span>Date</span>
+                    <span class="material-icons">sort</span>
+                </button>
+            </a>
+            <a href="{% url "auditor_request_list" %}?date={{sort_date}}&nurse={{sort_nurse}}&nurse_sort=True&state={{state}}">
+            <button class="list-button filter">
+                <span>Nurse</span>
+                <span class="material-icons">sort</span>
+            </button>
+            </a>
+        </div>
+        
+        
+    </div>
+
+    <div class="header ">
+        <div class="search">
+           
+        </div>
+        <div class="nurse">
+        <a href="{% url "auditor_request_list" %}?state=pending">
+            <button class="list-button filter">
+                <span>Pending</span>
+                <span class="material-icons">filter_list</span>
+            </button>
+        </a>
+        <a href="{% url "auditor_request_list" %}?state=working">
+                <button class="list-button filter">
+                <span>Working</span>
+                <span class="material-icons">filter_list</span>
+            </button>
+        </a>
+        <a href="{% url "auditor_request_list" %}?state=finished">
+                <button class="list-button filter">
+                <span>Finished</span>
+                <span class="material-icons">filter_list</span>
+            </button>
+        </a>
+            
         </div>
         
     </div>
 
     
-    <h2>Pending Requests</h2>
     {% if pending_requests %}
+    <h2>Pending Requests</h2>
         <ul>
             {% for request in pending_requests %}
                 <li class="app1">
                     <span><strong>Appointment #{{ request.appointment.id }}</strong></span>
-                    <span><strong>{{ request.appointment.client.user.first_name }}   
-                        {{ request.appointment.client.user.last_name }}</strong></span>
+                    <span><strong>Nurse: {{request.nurse.user.username}}</strong></span>
                     <span><strong>{{ request.creation_time }}</strong></span>
 
                     <div class="buttons">
@@ -50,24 +85,15 @@
                 </li>   
             {% endfor %}
         </ul>
-    {% else %}
-        <div>
-            <ul class="lists">
-                <li class="app1 empty">
-                    <span><strong>No Pending Requests Found</strong></span>
-                </li>
-            </ul>
-        </div>
     {% endif %}
     
-    <h2>Working On Requests</h2>
     {% if working_on_requests %}
+    <h2>Working On Requests</h2>
         <ul>
             {% for request in working_on_requests %}
                 <li class="app1">
                     <span><strong>Appointment #{{ request.appointment.id }}</strong></span>
-                    <span><strong>{{ request.appointment.client.user.first_name }}   
-                        {{ request.appointment.client.user.last_name }}</strong></span>
+                    <span><strong>Nurse: {{request.nurse.user.username}}</strong></span>
                     <span><strong>{{ request.creation_time }}</strong></span>
                     <div class="buttons">
                     <button class="list-button"><a class="list-links" href="{% url 'auditor_request_detail' request.id %}">View Details</a></button>
@@ -75,24 +101,15 @@
                 </li>  
             {% endfor %}
         </ul>
-    {% else %}
-        <div>
-            <ul class="lists">
-                <li class="app1 empty">
-                    <span><strong>No Working Requests Found</strong></span>
-                </li>
-            </ul>
-        </div>  
     {% endif %}
     
-    <h2>Finished Requests</h2>
     {% if finished_requests %}
+    <h2>Finished Requests</h2>
         <ul>
             {% for request in finished_requests %}
                 <li class="app1">
                     <span><strong>Appointment #{{ request.appointment.id }}</strong></span>
-                    <span><strong>{{ request.appointment.client.user.first_name }}   
-                        {{ request.appointment.client.user.last_name }}</strong></span>
+                    <span><strong>Nurse: {{request.nurse.user.username}}</strong></span>
                     <span><strong>{{ request.creation_time }}</strong></span>
                     <div class="buttons">
                     <button class="list-button"><a class="list-links" href="{% url 'auditor_request_detail' request.id %}">View Details</a></button>
@@ -100,14 +117,6 @@
                 </li>  
             {% endfor %}
         </ul>
-    {% else %}
-        <div>
-            <ul class="lists">
-                <li class="app1 empty">
-                    <span><strong>No Finished Requests Found</strong></span>
-                </li>
-            </ul>
-        </div>
     {% endif %}
     
 </div>

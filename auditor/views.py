@@ -109,16 +109,109 @@ def getMessages(request):
 @login_required
 @permission_required('auditor.view_auditor', raise_exception=True)
 def request_list(request):
+                 
     analysis_requests = AnalysisRequest.objects.select_related('appointment__client').all()
+   
+    if request.GET.get('date_sort') :
+        date = request.GET.get('date')
+        
+        if date == 'True' :
+            analysis_requests= analysis_requests.order_by('creation_time')
+            sort_date = 'False'
+        elif date == "False":
+            analysis_requests= analysis_requests.order_by('-creation_time')
+            sort_date = 'True'
+            
+        sort_nurse= request.GET.get('nurse')
+    
+            
+    if request.GET.get('nurse_sort'):
+        nurse = request.GET.get('nurse')
+        
+        if nurse == 'True':
+            analysis_requests = analysis_requests.order_by("-nurse")
+            sort_nurse= 'False'
+        elif nurse == 'False':
+            analysis_requests = analysis_requests.order_by("nurse")
+            sort_nurse= 'True'
+            
+        
+        sort_date= request.GET.get('date')
+        
+            
+    if not (request.GET.get('nurse_sort')) and not (request.GET.get('date_sort')) :
+        sort_date = 'True'
+        sort_nurse = 'True'
+        
+    
+    if request.method == "POST" and "search" in request.POST :
+        search = request.POST.get("search")
+        if search != "" :
+            try:
+                parsed_number = int(search)
+                parsable = True
+            except ValueError:
+                parsable = False
+            
+            if parsable and analysis_requests.filter(appointment__id=int(search)).exists() :    
+                    analysis_requests = analysis_requests.filter(appointment__id=int(search)).all()
+                
+            elif analysis_requests.filter(nurse__user__username=search).exists() :
+                analysis_requests = analysis_requests.filter(nurse__user__username=search).all()
+                
+            else :
+                context={
+                    'sort_nurse':sort_nurse,
+                    'sort_date':sort_date,
+                }
+                
+                return render(request,'auditor/request/request_list.html',context)
+            
     pending_requests = analysis_requests.filter(status=AnalysisRequest.PENDING)
     working_on_requests = analysis_requests.filter(status=AnalysisRequest.WORKING_ON)
     finished_requests = analysis_requests.filter(status=AnalysisRequest.FINISHED)
+    
+    state = request.GET.get('state')
+    if state != "all" :
+        if state == "pending" :
+            context = {
+                'pending_requests': pending_requests,
+                'sort_nurse':sort_nurse,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'auditor/request/request_list.html',context)
+        if state == "working" :
+            context = {
+                'working_on_requests': working_on_requests,
+                'sort_nurse':sort_nurse,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'auditor/request/request_list.html',context)
+        if state == "finished" :
+            context = {
+                'finished_requests': finished_requests,
+                'sort_nurse':sort_nurse,
+                'sort_date':sort_date,
+                'state':state,
+            }
+            return render(request,'auditor/request/request_list.html',context)
+       
+            
+            
+    state = 'all'
+            
     
     context = {
         'pending_requests': pending_requests,
         'working_on_requests': working_on_requests,
         'finished_requests': finished_requests,
+        'sort_nurse':sort_nurse,
+        'sort_date':sort_date,
+        'state':state
     }
+
     return render(request,'auditor/request/request_list.html', context)
 
 @login_required
