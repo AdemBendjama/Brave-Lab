@@ -9,11 +9,32 @@
 <div class="Container">
 		
     <h1>Client Lobby</h1>
+    <div class="header ">
+        <div class="search">
+        </div>
+        <div class="nurse">
+            <a href="{% url "nurse" %}?urgency={{sort_urgency}}">
+                <button class="list-button filter">
+                    <span>Urgency</span>
+                    <span class="material-icons">sort</span>
+                </button>
+            </a>
+        </div>
+        
+        
+    </div>
     {% if clients %}
         {% for client in clients %}
             <li class="app1">
                 <span><strong>Appointment #{{ client.id }}</strong></span>
                 <span><strong>{{ client.client.user.first_name }} {{ client.client.user.last_name }}</strong></span>
+                <span><strong>
+                    {% if client.urgent %}
+                        Urgent
+                    {% else %}
+                        Normal
+                    {% endif %}
+                </strong></span>
                 <div class="buttons">
                     <button class="list-button"><a class="list-links" href="{% url 'lobby_detail' client.id %}">View Details</a></button>
                 </div>

@@ -29,11 +29,27 @@ def nurse_home(request):
     nurse = request.user.nurse
     lobby = nurse.lobby
     clients = lobby.clients.all()
+    
+    if request.GET.get('urgency') :
+        urgency = request.GET.get('urgency')
+        
+        if urgency == 'True':
+            clients = clients.order_by("-urgent")
+            sort_urgency= 'False'
+        elif urgency == 'False':
+            clients = clients.order_by("urgent")
+            sort_urgency= 'True'
+            
+    else :
+        sort_urgency = 'True'
+    
+    
 
     context = {
         'nurse': nurse,
         'clients': clients,
-        "lobby":lobby
+        "lobby":lobby,
+        'sort_urgency':sort_urgency,
     }
 
     return render(request,'nurse/nurse.html', context)

@@ -258,10 +258,69 @@ def result_update(request, test_result_id):
 @permission_required('auditor.view_auditor', raise_exception=True)
 def report_list(request):
     reports = Report.objects.all()
+   
+    if request.GET.get('date_sort') :
+        date = request.GET.get('date')
+        
+        if date == 'True' :
+            reports= reports.order_by('creation_time')
+            sort_date = 'False'
+        elif date == "False":
+            reports= reports.order_by('-creation_time')
+            sort_date = 'True'
+            
+        sort_client= request.GET.get('client')
+    
+            
+    if request.GET.get('client_sort'):
+        client = request.GET.get('client')
+        
+        if client == 'True':
+            reports = reports.order_by("-invoice__client")
+            sort_client= 'False'
+        elif client == 'False':
+            reports = reports.order_by("invoice__client")
+            sort_client= 'True'
+            
+        
+        sort_date= request.GET.get('date')
+        
+            
+    if not (request.GET.get('client_sort')) and not (request.GET.get('date_sort')) :
+        sort_date = 'True'
+        sort_client = 'True'
+        
+    
+    if request.method == "POST" and "search" in request.POST :
+        search = request.POST.get("search")
+        if search != "" :
+            try:
+                parsed_number = int(search)
+                parsable = True
+            except ValueError:
+                parsable = False
+            
+            if parsable and reports.filter(id=int(search)).exists() :
+                reports = reports.filter(id=int(search)).all()       
+                
+            elif reports.filter(invoice__client__user__username=search).exists() :
+                reports = reports.filter(invoice__client__user__username=search).all()
+            
+            else : 
+                context={
+                    'sort_client':sort_client,
+                    'sort_date':sort_date,
+                }
+            
+                return render(request,'auditor/report/report_list.html',context)
 
-    context = {
-        'reports': reports,
+    
+    context ={
+        'reports':reports,
+        'sort_client':sort_client,
+        'sort_date':sort_date,
     }
+    
     return render(request,'auditor/report/report_list.html', context)
 
 @login_required
