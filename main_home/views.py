@@ -26,7 +26,7 @@ from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from .utils import is_client, is_nurse, is_receptionist, is_auditor
 
-
+from django.contrib.auth.hashers import check_password
 
 from django.template.loader import get_template
 from django.http import HttpResponse
@@ -39,19 +39,38 @@ from main_home.utils import render_to_pdf
 
 @login_required
 def profile_settings(request):
+    old_pass_correct = False
+    old_password =""
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('profile_settings')
+        if 'update' in request.POST :
+            form = PasswordChangeForm(request.user, request.POST)
+            if form.is_valid():
+                print("hello")
+                user = form.save()
+                update_session_auth_hash(request, user)  # Important!
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('profile_settings')
+            
+        elif 'confirm' in request.POST :
+            entered_password = request.POST.get("old_password")
+            if check_password(entered_password, request.user.password):
+                old_pass_correct = True
+                form = PasswordChangeForm(request.user)
+                old_password=entered_password
+            else:
+                form = PasswordChangeForm(request.user)
     else:
         form = PasswordChangeForm(request.user)
         
     group_name = request.user.groups.first().name
+    
+    context={
+        'old_pass_correct':old_pass_correct,
+        'old_password':old_password,
+        'form':form,
+    }
         
-    return render(request, f'{group_name}/profile/settings.html',{'form':form})
+    return render(request, f'{group_name}/profile/settings.html',context)
 
 
 def home(request):
