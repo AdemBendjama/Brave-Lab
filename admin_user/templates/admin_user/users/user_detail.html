@@ -1,8 +1,57 @@
 {% extends 'admin_user/admin_user.html' %}
 {% load static %}
+
 {% block main %}
+<style>
+    .Container {
+        border: 1px solid lightgray;
+        padding: 20px 80px;
+        border-radius: 5px;
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+        justify-content: center;
+    }
+    .Container .button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        background-color: #4CAF50;
+        transition: background-color 0.3s;
+        border-radius: 4px;
+    }
+    .Container .button.delete {
+        background-color: #FF0000;
+    }
+    .Container .button.update {
+        background-color: #45a049;
+    }
+    .Container .button.delete:hover {
+        background-color: #C40000;
+    }
+    .Container .button.update:hover {
+        background-color: #2e7331;
+    }
+</style>
 <div class="Container">
     <h1>User Detail</h1>
+    <p>User ID: {{ user.id }}</p>
+    <p>Username: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Group: {{ user.groups.first }}</p>
+    <p>Date of Creation: {{ user.date_joined }}</p>
 
+    <form method="POST">
+        {% csrf_token %}
+        <input type="submit" name="delete" value="Delete" class="button delete">
+        <input type="submit" name="update" value="Update" class="button update">
+    </form>
 </div>
 {% endblock main %}

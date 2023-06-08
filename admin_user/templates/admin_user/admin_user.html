@@ -1,13 +1,74 @@
 {% extends 'main_home/actors_base.html' %}
 {% load static %}
 
+{% block css_2 %}
+
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+
+{% endblock css_2 %}
+
 {% block main %}
 <div class="Container">
-    <h1>Admin Home</h1>
+    <div class="header ">
+        <div class="search">
+            <form class="search-bar" method="post" >
+                {% csrf_token %}
+                <button type="submit" name="search">
+                    <span class="material-icons search-icon">
+                        search
+                        </span>
+                </button>
+                <input class="search-bar-input" id="search" name="search" placeholder="Search" required="" type="text">
+                
+            </form>
+        </div>
+        <div class="nurse">
+            <a href="{% url "admin_user" %}?date={{sort_date}}&username={{sort_username}}&type={{sort_type}}&date_sort=True&state={{state}}">
+                <button class="list-button filter">
+                    <span>Date</span>
+                    <span class="material-icons">sort</span>
+                </button>
+            </a>
+            <a href="{% url "admin_user" %}?date={{sort_date}}&username={{sort_username}}&type={{sort_type}}&username_sort=True&state={{state}}">
+            <button class="list-button filter">
+                <span>Username</span>
+                <span class="material-icons">sort</span>
+            </button>
+            </a>
+            <a href="{% url "admin_user" %}?date={{sort_date}}&username={{sort_username}}&type={{sort_type}}&type_sort=True&state={{state}}">
+            <button class="list-button filter">
+                <span>Type</span>
+                <span class="material-icons">sort</span>
+            </button>
+            </a>
+        </div>
+        
+        
+    </div>
+
+
+    
+    {% if users %}
+    <h2>Users</h2>
+        <ul>
+            {% for user in users %}
+                <li class="app1">
+                    <span><strong>User #{{ user.id }}</strong></span>
+                    <span><strong>Username: {{ user.username }}</strong></span>
+                    <span><strong>Group: {{ user.groups.first.name }}</strong></span>
+
+                    <div class="buttons">
+                    <button class="list-button"><a class="list-links" href="{% url 'user_detail' user.id %}">View Details</a></button>
+                    </div>
+                </li>   
+            {% endfor %}
+        </ul>
+    {% endif %}
 
 </div>
 {% endblock main %}
-
+    
+    
 
 {% block sidebar %}
 

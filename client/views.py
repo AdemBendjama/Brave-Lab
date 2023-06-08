@@ -277,7 +277,7 @@ def client_appointment_pay(request, appointment_id):
             
             payment.save()
             
-        messages.success(request, 'Appointment Booked successfully!')
+        # messages.success(request, 'Appointment Booked successfully!')
             
         return redirect('client')
         
@@ -308,11 +308,11 @@ def cancel_appointment(request, appointment_id):
             # Cancel appointment logic here
             appointment.cancelled = True
             appointment.save()
-            messages.success(request, "Appointment successfully cancelled.")
-        else:
-            messages.error(request, "Cannot cancel appointment. Less than 3 days remaining.")
-    else:
-        messages.error(request, "Invalid request.")
+    #         messages.success(request, "Appointment successfully cancelled.")
+    #     else:
+    #         messages.error(request, "Cannot cancel appointment. Less than 3 days remaining.")
+    # else:
+    #     messages.error(request, "Invalid request.")
     
     return redirect('client_appointment_detail', appointment_id=appointment_id)
 
