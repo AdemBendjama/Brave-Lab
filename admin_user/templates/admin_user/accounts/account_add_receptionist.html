@@ -1,8 +1,255 @@
 {% extends 'admin_user/admin_user.html' %}
 {% load static %}
 {% block main %}
-<div class="Container">
-    <h1>Account Add Recep</h1>
+<style>
 
+    .formbold-mb-5 {
+        margin-bottom: 20px;
+    }
+    .formbold-main-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3% 0 0 10%;
+    }
+
+    .formbold-form-wrapper {
+        margin: 0 100px 0 0;
+        max-width: 400px;
+        width: 100%;
+        background: white;
+        text-align: left;
+    }
+
+    /*LABEL*/
+    .formbold-form-label {
+        display: block;
+        font-weight: 500;
+        font-size: 16px;
+        color: #000000;
+        margin-bottom: 12px;
+    }
+    
+    .formbold-form-label-2 {
+        font-weight: 600;
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    /*INPUT*/
+
+    .formbold-form-input {
+        width: 100%;
+        padding: 15px 20px 15px 15px;
+        border-radius: 6px;
+        border: 1px solid #e0e0e0;
+        background: white;
+        font-weight: 500;
+        font-size: 16px;
+        color: #6b7280;
+        outline: none;
+        resize: none;
+    }
+    
+    .formbold-form-input:focus {
+        border-color: #267ca6;
+        box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    /*BUTTON*/
+
+    .formbold-btn {
+        text-align: center;
+        font-size: 16px;
+        border-radius: 6px;
+        padding: 10px 30px;
+        border: none;
+        font-weight: 600;
+        background-color: #267ca6;
+        color: white;
+        width: 250px;
+        cursor: pointer;
+    }
+
+    .formbold-btn:hover {
+        box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .select-drop{
+        width: 110%;
+    }
+    
+    .form-button{
+        width:110%;
+    }
+
+    .mg-b{
+        margin-bottom:10px;
+    }
+
+    .formbold-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .formbold-container > div {
+        flex-basis: 45%;
+    }
+</style>
+<div class="Container">
+    <h3>Receptionist Creation Form</h3>
+    <div class="formbold-main-wrapper">
+        <div class="formbold-container">
+            <div class="formbold-form-wrapper">
+                <form method='POST'>
+
+                    {% csrf_token %}
+
+                    <div class="username field formbold-mb-5">
+                        <label class="formbold-form-label" for="id_username">Username:</label>
+                        <input class="formbold-form-input" type="text" name="username" placeholder="ahmed" maxlength="150" autofocus required id="id_username">
+                    </div>
+
+                    {% if form.username.errors %}
+                        <div class="login-errors">
+                            {% for error in form.username.errors %}
+                                {{ error }} 
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="email field formbold-mb-5">
+                        <label class="formbold-form-label" for="id_email">Email address:</label>
+                        <input class="formbold-form-input" type="email" name="email" placeholder="ahmed.amokrane@gmail.com" maxlength="254" id="id_email">
+                    </div>
+
+                    {% if form.email.errors %}
+                        <div class="login-errors">
+                            {% for error in form.email.errors %}
+                                {{ error }} 
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="name formbold-mb-5">
+                        <div class="first-name field">
+                            <label class="formbold-form-label" for="id_first_name">First name:</label>
+                            <input class="formbold-form-input" type="text" name="first_name" placeholder="John" maxlength="150" id="id_first_name">
+                        </div>
+                        <div class="last-name field">
+                            <label class="formbold-form-label" for="id_last_name">Last name:</label>
+                            <input class="formbold-form-input" type="text" name="last_name" placeholder="Doe" maxlength="150" id="id_last_name">
+                        </div>
+                    </div>
+
+                    {% if form.first_name.errors or form.last_name.errors %}
+                        <div class="login-errors">
+                            {% for error in form.first_name.errors %}
+                                {{ error }} 
+                            {% endfor %}
+                            {% for error in form.last_name.errors %}
+                                {{ error }} 
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="number field formbold-mb-5">
+                        <label class="formbold-form-label" for="id_phone_number">Phone number:</label>
+                        <input class="formbold-form-input" type="text" name="phone_number" maxlength="10" placeholder="+213 0000000000" required id="id_phone_number">
+                    </div>
+
+                    {% if form.phone_number.errors %}
+                        <div class="login-errors">
+                            {% for error in form.phone_number.errors %}
+                                {{ error }} 
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+
+                </div>
+
+                <div class="formbold-form-wrapper">
+
+                    <div class="gender field formbold-mb-5">
+                        <label class="formbold-form-label" for="id_gender">Gender:</label>
+                        <select class="formbold-form-input select-drop" name="gender" required id="id_gender">
+                            <option value="" selected>Choose Here:</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                        </select>
+                    </div>
+
+                    {% if form.gender.errors %}
+                        <div class="login-errors">
+                            {% for error in form.gender.errors %}
+                                {{ error }} 
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="address field formbold-mb-5">
+                        <label class="formbold-form-label" for="id_address">Address:</label>
+                        <input class="formbold-form-input" type="text" name="address" maxlength="50" placeholder="Setif, El Eulma" required id="id_address">
+                    </div>
+
+                    {% if form.address.errors %}
+                        <div class="login-errors">
+                            {% for error in form.address.errors %}
+                                {{ error }} 
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="address field formbold-mb-5">
+                        <label class="formbold-form-label" for="id_date_of_birth">Date of birth:</label>
+                        <input class="formbold-form-input" type="date" name="date_of_birth" required id="id_date_of_birth">
+                    </div>
+
+                    {% if form.date_of_birth.errors %}
+                        <div class="login-errors">
+                            {% for error in form.date_of_birth.errors %}
+                                {{ error }} 
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="password-container formbold-mb-5">
+                        <div class="password field mg-b">
+                            <label class="formbold-form-label" for="id_password1">Password:</label>
+                            <input class="formbold-form-input" type="password" name="password1" autocomplete="new-password" required id="id_password1"> 
+                        </div>
+                        <div class="password field">
+                            <label class="formbold-form-label" for="id_password2">Password confirmation:</label>
+                            <input class="formbold-form-input" type="password" name="password2" autocomplete="new-password" required id="id_password2">
+                        </div>
+                    </div>
+
+                    {% if form.password1.errors or form.password2.errors %}
+                        <div class="login-errors">
+                            {% for error in form.password1.errors %}
+                                {{ error }} 
+                            {% endfor %}
+                            {% for error in form.password2.errors %}
+                                {{ error }} 
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if form.non_field_errors %}
+                        <div class="form-group">
+                            {% for error in form.non_field_errors %}
+                                <p class="error">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <input class="form-button formbold-btn" type="submit" value="Register">
+
+                </div>
+
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock main %}

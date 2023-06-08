@@ -2,10 +2,14 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.contrib.auth.models import User,Group
 from django.http import HttpResponse
-from admin_user.forms import UserUpdateForm
+from admin_user.forms import UserAddForm, UserUpdateForm
+from auditor.models import Auditor
 
 from main_home.models import BloodBank
 from django.contrib import messages
+
+from nurse.models import Nurse
+from receptionist.models import Receptionist
 
 def admin_user(request):
     # Get the superuser
@@ -14,7 +18,7 @@ def admin_user(request):
     # Get the admin_user group
     admin_group = Group.objects.get(name='admin_user')
                  
-    users = User.objects.exclude(pk=superuser.pk).exclude(groups=admin_group).all()
+    users = User.objects.exclude(pk=superuser.pk).exclude(groups=admin_group).all().order_by('-date_joined')
    
     if request.GET.get('date_sort') :
         date = request.GET.get('date')
@@ -138,16 +142,115 @@ def account_add(request):
     return render(request,'admin_user/accounts/account_add.html')
 
 def account_add_nurse(request):
-    # Add your logic for the account_add_nurse view here
-    return render(request,'admin_user/accounts/account_add_nurse.html')
+    
+    if request.method == "POST":
+        form = UserAddForm(request.POST)
+        if form.is_valid():
+            # Automaticly save the client and add him to the client group
+            # save the user into the user database
+            user = form.save()
+            # add him to the client group
+            group = Group.objects.get(name="nurse")
+            group.user_set.add(user)
+            # extract form data
+            data = form.cleaned_data
+            phone_number = data.get("phone_number")
+            gender = data.get("gender")
+            address = data.get("address")
+            date_of_birth = data.get("date_of_birth")
+            # add him with any additionel information into the client table
+            Nurse.objects.create(user = user,
+                            phone_number = phone_number,
+                            gender = gender,
+                            address = address,
+                            date_of_birth = date_of_birth)
+            
+            added="Nurse Added Successfully !"
+            messages.success(request,added)       
+            return redirect('account_add')
+            
+    else :
+        form = UserAddForm()
+    
+    context ={
+        'form':form,
+    }
+    
+    return render(request,'admin_user/accounts/account_add_nurse.html',context)
 
 def account_add_receptionist(request):
-    # Add your logic for the account_add_receptionist view here
-    return render(request,'admin_user/accounts/account_add_receptionist.html')
+    
+    if request.method == "POST":
+        form = UserAddForm(request.POST)
+        if form.is_valid():
+            # Automaticly save the client and add him to the client group
+            # save the user into the user database
+            user = form.save()
+            # add him to the client group
+            group = Group.objects.get(name="receptionist")
+            group.user_set.add(user)
+            # extract form data
+            data = form.cleaned_data
+            phone_number = data.get("phone_number")
+            gender = data.get("gender")
+            address = data.get("address")
+            date_of_birth = data.get("date_of_birth")
+            # add him with any additionel information into the client table
+            Receptionist.objects.create(user = user,
+                            phone_number = phone_number,
+                            gender = gender,
+                            address = address,
+                            date_of_birth = date_of_birth)
+            
+            added="Receptionist Added Successfully !"
+            messages.success(request,added)       
+            return redirect('account_add')
+            
+    else :
+        form = UserAddForm()
+    
+    context ={
+        'form':form,
+    }
+    
+    return render(request,'admin_user/accounts/account_add_receptionist.html',context)
 
 def account_add_auditor(request):
-    # Add your logic for the account_add_auditor view here
-    return render(request,'admin_user/accounts/account_add_auditor.html')
+    
+    if request.method == "POST":
+        form = UserAddForm(request.POST)
+        if form.is_valid():
+            # Automaticly save the client and add him to the client group
+            # save the user into the user database
+            user = form.save()
+            # add him to the client group
+            group = Group.objects.get(name="auditor")
+            group.user_set.add(user)
+            # extract form data
+            data = form.cleaned_data
+            phone_number = data.get("phone_number")
+            gender = data.get("gender")
+            address = data.get("address")
+            date_of_birth = data.get("date_of_birth")
+            # add him with any additionel information into the client table
+            Auditor.objects.create(user = user,
+                            phone_number = phone_number,
+                            gender = gender,
+                            address = address,
+                            date_of_birth = date_of_birth)
+            
+            added="Auditor Added Successfully !"
+            messages.success(request,added)       
+            return redirect('account_add')
+            
+    else :
+        form = UserAddForm()
+    
+    context ={
+        'form':form,
+    }
+    
+    return render(request,'admin_user/accounts/account_add_auditor.html',context)
 
 def blood_banks(request):
     # Add your logic for the blood_banks view here

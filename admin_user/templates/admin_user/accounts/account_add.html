@@ -49,3 +49,37 @@
   </div>
 </div>
 {% endblock %}
+
+
+
+{% block scripts_2 %}
+<script src="{% static 'js/resources/sweetalert2.all.min.js'%}"></script>
+
+{% if messages %}
+{% for message in messages %}
+<script>
+    Swal.fire({
+        title: 'Added !',
+        text: '{{ message }}',
+        icon: 'success',
+        confirmButtonText: 'Confirm'
+    })
+</script>
+{% endfor %}
+{% endif %}
+
+<script>
+    var path = window.location.pathname;
+    var links = document.querySelectorAll('nav ul li a');
+
+    links.forEach(function (link) {
+        var href = link.getAttribute('href');
+
+        // Check if the current path starts with the href
+        if (path.startsWith(href)) {
+            // Add the "active" class to the parent <li> element
+            link.parentElement.classList.add('active');
+        }
+    });
+</script>
+{% endblock scripts_2 %}

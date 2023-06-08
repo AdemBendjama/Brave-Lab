@@ -74,6 +74,7 @@ class UserRegisterForm(UserCreationForm):
         if age < 14:
             raise forms.ValidationError("You must be 14 years old or older to register.")
         return date_of_birth
+
         
         
 class UserUpdateForm(forms.ModelForm):
