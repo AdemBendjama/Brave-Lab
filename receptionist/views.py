@@ -5,6 +5,7 @@ from django.views.decorators.http import require_POST
 from .forms import AppointmentForm
 from client.models import Client
 from main_home.forms import UserRegisterForm
+from django.contrib import messages
 
 from main_home.models import Appointment, BloodBank, Complaint, Invoice, Lobby, Payment, Report
 from nurse.models import Nurse
@@ -190,7 +191,7 @@ def appointment_add(request):
         appointment.check_overdue
     
     if request.method == 'POST' :
-        form = AppointmentForm(request.POST)
+        form = AppointmentForm(request.POST,request.FILES)
         if form.is_valid():
             client = form.cleaned_data['client']
             appointments = appointments.filter(client=client)
@@ -248,6 +249,9 @@ def appointment_add(request):
             
             payment.save()
             appointment.save()
+            
+            booked = "Appointent Booked Successfully !"
+            messages.success(request,booked)
             
             return redirect('appointment_detail',appointment_id=appointment.id)
     else:

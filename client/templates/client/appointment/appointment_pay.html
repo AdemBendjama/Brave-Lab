@@ -2,6 +2,42 @@
 {% load static %}
 
 {% block main %}
+<script src="{%static 'js/resources/jquery-3.1.1.min.js'%}" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+<script>
+    function verifyToken() {
+        var csrfToken = '{{ csrf_token }}';
+        var url= "{% url 'verify_token' %}";
+        var date = "{{data.date}}"
+        console.log(url);
+
+        $.ajax({
+            url: url,  // Replace with the URL of your verification view
+            type: 'POST',
+            data: {csrfmiddlewaretoken: csrfToken,'date':date},
+            success: function(response) {
+                if (response === 'valid') {
+                    // Token is valid, perform the desired action
+                    console.log('Token is valid');
+                    
+                } else {
+                    // Token is invalid, handle the error
+                    console.log('Token is invalid');
+                    // You can display an error message or perform other error handling actions here
+                    clickButton();
+                }
+            },
+            error: function() {
+                // Error occurred during the request
+                console.log('Error occurred');
+                // You can display an error message or perform other error handling actions here
+            }
+        });
+    }
+
+    verifyToken();
+</script>
+
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -64,17 +100,36 @@
 </style>
 <div class='Container'>
     <h1>Choose Payment Method</h1>
-    <form method="POST">
+    <form method="POST" action="{% url 'client_appointment_pay' %}">
         {% csrf_token %}
+
+        <input type="hidden" name="data.date" value="{{ data.date }}">
+        <input type="hidden" name="data.description" value="{{ data.description }}">
+        
+        {% if data.document is not None %}
+        <input type="hidden" name="data.document" value="{{ data.document }}">
+        {% endif %}
+
+        <input type="hidden" name="data.test_count" value="{{ data.test_count }}">
+        {% for test in data.tests_requested %}
+        <input type="hidden" name="data.tests_requested{{ forloop.counter }}" value="{{ test }}">
+        {% endfor %}
+
+        <input type="hidden" name="data.total_price" value="{{ data.total_price }}">
+        
+        <input type="hidden" name="confirm" value="">
+
         <input type="hidden" name="payed" id="payedInput" value="unpayed">
 
         <h3>Online</h3>
         <div id="paypal-button-container"></div>
 
         <h3>Cash</h3>
-        <button type="submit" id="bookButton">Cash</button>
+        <button type="submit" id="bookButton" name="cash">Cash</button>
+
     </form>
 </div>
+
 {% endblock main %}
 
 {% block scripts_3 %}
@@ -83,6 +138,7 @@
 <script
     src="https://www.paypal.com/sdk/js?client-id=AedI_3BVqb2iK2jXTYxxmcbKWHvdipYhZQYFPxfaq-6_XxiKvnjuSd6cyriyOOrybkLx8E8sEAYi5cFy&components=buttons&currency=USD&disable-funding=credit,card"></script>
 <script>
+   
     function clickButton() {
         var bookButton = document.getElementById('bookButton');
         bookButton.click();
@@ -128,5 +184,6 @@
         },
         locale: 'en_US',
     }).render('#paypal-button-container');
+
 </script>
 {% endblock scripts_3 %}

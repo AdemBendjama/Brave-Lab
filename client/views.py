@@ -1,6 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
 from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render ,redirect
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required , permission_required
@@ -12,6 +13,10 @@ from django.core.files.storage import default_storage
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib import messages
+from django.middleware.csrf import get_token
+from django.contrib.sessions.backends.db import SessionStore
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 # Create your views here.
 
@@ -121,168 +126,319 @@ def client_home(request):
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def appointment_book(request):
+    client = request.user.client
+    appointments = Appointment.objects.all().filter(client=client,cancelled=False)
+    for appointment in appointments:
+        appointment.check_overdue
         
-    form = AppointmentForm()   
+    if request.method == 'POST' :
+        
+        form = AppointmentForm(request.POST,request.FILES)
+
+        if form.is_valid():
+            dates=[]
+            for appointment in appointments:
+                dates.append(appointment.date)
+            date = form.cleaned_data['date']
+            pending_app_count = appointments.filter(performed=False,arrived=False).count()
+            
+            if pending_app_count >= 2:
+                limit=f"You have {pending_app_count} appointments pending, Limit reached !"
+                return render(request,'client/appointment/appointment_book.html',{'form':form,'limit':limit})  
+            
+            if date in dates :
+                limit= f"One appointment per day, {date} is already booked"
+                return render(request,'client/appointment/appointment_book.html',{'form':form,'limit':limit})  
+            
+            date = date.strftime("%Y-%m-%d")
+            description = form.cleaned_data['description']
+            tests_requested = form.cleaned_data['tests_requested']
+            
+            if 'document' in request.FILES :
+                document_file = request.FILES['document']
+                document = default_storage.save('medical_documents/' + document_file.name, document_file)
+            else :
+                document = None
+            
+            total_price = 0
+            for test in tests_requested:
+                total_price+=test.price
+            
+            data = {
+                'date':date,
+                'description':description,
+                'document':document,
+                'tests_requested':tests_requested,
+                'total_price':total_price,
+            }
+            
+            context ={
+                'data':data,
+            }
+
+            return render(request,'client/appointment/appointment_confirm.html',context)
+
+    else :      
+        form = AppointmentForm()   
+        
          
     return render(request,'client/appointment/appointment_book.html',{'form':form})
 
 @login_required
 @permission_required('client.view_client', raise_exception=True)
 def client_appointment_confirm(request):
-    client = request.user.client
-    appointments = Appointment.objects.all().filter(client=client,cancelled=False)
-    for appointment in appointments:
-        appointment.check_overdue
         
     if request.method == 'POST':
+            
+        if "confirm" in request.POST and request.POST.get('data.date') :
+            
+            client = request.user.client
+            
+            # urgent = False
+            tests_requested=[]
+            test_count = int(request.POST.get("data.test_count"))
+            for i in range(1,test_count+1):
+                test_id = int(request.POST.get(f"data.tests_requested{i}"))
+                tests_requested.append(test_id)
+                # test = TestOffered.objects.get(id=test_id)
+                # if test.urgent: 
+                #     urgent = True
+                # tests_requested.append(test)
+                
+            date = request.POST.get("data.date")
+            description = request.POST.get('data.description')
+            if "data.document" in request.POST:
+                document = request.POST.get('data.document')
+            else:
+                document=None
+                
+            total_price = Decimal(request.POST.get('data.total_price'))
+            
+            data = {
+                'date':date,
+                'description':description,
+                'document':document,
+                'tests_requested':tests_requested,
+                'total_price':total_price,
+                'test_count':test_count,
+            }
+            
+            context ={
+                'data':data,
+            }
+            
+            # appointment = Appointment()
+            # appointment.client = client
+            # appointment.date = date
+            # appointment.description = description
+            # if doc_was_provided :
+            #     appointment.document = document
+            # appointment.total_price = total_price
+            # appointment.urgent = urgent
+            # appointment.save()
+
+            # # Add the tests_requested to the appointment
+            # appointment.tests_requested.add(*tests_requested)
+            
+            # # 
+            # payment = Payment(appointment=appointment)
+            # payment.save()
+            
+            # payment.tests_fee = appointment.total_price
+            
+            # payment.save()
+            # appointment.save()
+            
+            return render(request,'client/appointment/appointment_contract.html',context)
+            
+
+    return redirect('client_appointment_book')
+    
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def client_appointment_contract(request):
+     
+    if request.method == 'POST' :
         
-        if request.POST.get("date") :
-            
-            form = AppointmentForm(request.POST,request.FILES)
-            
-            if form.is_valid():
-                dates=[]
-                for appointment in appointments:
-                    dates.append(appointment.date)
-                date = form.cleaned_data['date']
-                pending_app_count = appointments.filter(performed=False,arrived=False).count()
+        if "contract" in request.POST and request.POST.get("data.date"):
+        
+            # urgent = False
+            tests_requested=[]
+            test_count = int(request.POST.get("data.test_count"))
+            for i in range(1,test_count+1):
+                test_id = int(request.POST.get(f"data.tests_requested{i}"))
+                tests_requested.append(test_id)
+                # test = TestOffered.objects.get(id=test_id)
+                # if test.urgent: 
+                #     urgent = True
+                # tests_requested.append(test)
                 
-                if pending_app_count >= 2:
-                    limit=f"You have {pending_app_count} appointments pending, Limit reached !"
-                    return render(request,'client/appointment/appointment_book.html',{'form':form,'limit':limit})  
-                
-                if date in dates :
-                    limit= f"One appointment per day, {date} is already booked"
-                    return render(request,'client/appointment/appointment_book.html',{'form':form,'limit':limit})  
-                
-                date = date.strftime("%Y-%m-%d")
-                description = form.cleaned_data['description']
-                tests_requested = form.cleaned_data['tests_requested']
-                
-                if 'document' in request.FILES :
-                    document_file = request.FILES['document']
-                    document = default_storage.save('medical_documents/' + document_file.name, document_file)
-                else :
-                    document = None
-                
-                total_price = 0
-                for test in tests_requested:
-                    total_price+=test.price
-                
-                data = {
-                    'date':date,
-                    'description':description,
-                    'document':document,
-                    'tests_requested':tests_requested,
-                    'total_price':total_price,
-                }
-                
-                print(f'{type(date)} _ {description} _ {tests_requested} _ {total_price} _ {document} ')
-                
+            date = request.POST.get("data.date")
+            description = request.POST.get('data.description')
+            if "data.document" in request.POST:
+                document = request.POST.get('data.document')
+                doc_was_provided=True
             else:
-                return render(request,'client/appointment/appointment_book.html',{'form':form})
+                document=None
+                doc_was_provided=False
+                
+            total_price = Decimal(request.POST.get('data.total_price'))
             
-        elif request.POST.get("payed") :
+            data = {
+                'date':date,
+                'description':description,
+                'document':document,
+                'tests_requested':tests_requested,
+                'total_price':total_price,
+                'test_count':test_count,
+            }
             
-            form = AppointmentPaymentForm(request.POST)
+            context ={
+                'data':data,
+            }
             
-            if form.is_valid:
-                client = request.user.client
-                
-                urgent = False
-                tests_requested=[]
-                test_count = int(request.POST.get("data.test_count"))
-                for i in range(1,test_count+1):
-                    test_id = int(request.POST.get(f"data.tests_requested{i}"))
-                    test = TestOffered.objects.get(id=test_id)
-                    if test.urgent: 
-                        urgent = True
-                    tests_requested.append(test)
-                    
-                date = datetime.strptime(request.POST.get("data.date"), "%Y-%m-%d").date()
-                description = request.POST.get('data.description')
-                if "data.document" in request.POST:
-                    document = request.POST.get('data.document')
-                    doc_was_provided=True
-                else:
-                    doc_was_provided=False
-                    
-                total_price = Decimal(request.POST.get('data.total_price'))
-                
-                appointment = Appointment()
-                appointment.client = client
-                appointment.date = date
-                appointment.description = description
-                if doc_was_provided :
-                    appointment.document = document
-                appointment.total_price = total_price
-                appointment.urgent = urgent
-                appointment.save()
+            # appointment = Appointment()
+            # appointment.client = client
+            # appointment.date = date
+            # appointment.description = description
+            # if doc_was_provided :
+            #     appointment.document = document
+            # appointment.total_price = total_price
+            # appointment.urgent = urgent
+            # appointment.save()
 
-                # Add the tests_requested to the appointment
-                appointment.tests_requested.add(*tests_requested)
-                
-                # 
-                payment = Payment(appointment=appointment)
-                payment.save()
-                
-                payment.tests_fee = appointment.total_price
-                
-                payment.save()
-                appointment.save()
-                
-                return redirect('client_appointment_contract',appointment_id=appointment.id)
-            else:
-                redirect('client_appointment_book')
-                
-    else:
-        return redirect('client_appointment_book')
+            # # Add the tests_requested to the appointment
+            # appointment.tests_requested.add(*tests_requested)
+            
+            # # 
+            # payment = Payment(appointment=appointment)
+            # payment.save()
+            
+            # payment.tests_fee = appointment.total_price
+            
+            # payment.save()
+            # appointment.save()
+            
+            return render(request,'client/appointment/appointment_pay.html',context)
 
-    context ={
-        'data':data,
-    }
+        elif "cancel" in request.POST:
+            
+            return redirect("client")
 
-    return render(request,'client/appointment/appointment_confirm.html',context)
+    
+    return redirect('client_appointment_book')
+    
 
 @login_required
 @permission_required('client.view_client', raise_exception=True)
-def client_appointment_contract(request, appointment_id):
-    appointment = Appointment.objects.get(id=appointment_id)
-    payment = appointment.payment
+def client_appointment_pay(request):
     
-    if request.method == 'POST' and "confirm" in request.POST:
-        return redirect('client_appointment_pay',appointment_id=appointment_id)
-    if request.method == 'POST' and "cancel" in request.POST:
-        appointment.delete()
-        payment.delete()
-        return redirect("client")
-
-    context = {
-        "appointment":appointment,
-    }
-
-    return render(request,'client/appointment/appointment_contract.html',context)
-
-@login_required
-@permission_required('client.view_client', raise_exception=True)
-def client_appointment_pay(request, appointment_id):
+    session = SessionStore(session_key=request.session.session_key)
     
-    if request.method == 'POST':
+    if request.method == 'POST' and "cash" in request.POST :
+        
+        form_token = request.POST.get('csrfmiddlewaretoken')
+        used_tokens = session.get('used_tokens', [])
+        
+        date = datetime.strptime(request.POST.get("data.date"), "%Y-%m-%d").date()
+        client = request.user.client
+        appointment_exists = Appointment.objects.filter(client=client,date=date).all().exists()
+
+        if form_token in used_tokens or appointment_exists:
+            messages.error(request, 'Form Has Already Been Submitted !')
+                
+            return redirect('client')
+        
+        used_tokens.append(form_token)
+        session['used_tokens'] = used_tokens
+        session.save()
+        print(used_tokens)
+        
+        
+        
+        client = request.user.client
         payed = request.POST.get('payed')
+        
+        urgent = False
+        tests_requested=[]
+        test_count = int(request.POST.get("data.test_count"))
+        for i in range(1,test_count+1):
+            test_id = int(request.POST.get(f"data.tests_requested{i}"))
+            test = TestOffered.objects.get(id=test_id)
+            if test.urgent: 
+                urgent = True
+            tests_requested.append(test)
+            
+        date = datetime.strptime(request.POST.get("data.date"), "%Y-%m-%d").date()
+        description = request.POST.get('data.description')
+        
+        if "data.document" in request.POST:
+            document = request.POST.get('data.document')
+            doc_was_provided=True
+        else:
+            document=None
+            doc_was_provided=False
+            
+        total_price = Decimal(request.POST.get('data.total_price'))
+        
+  
+        appointment = Appointment()
+        appointment.client = client
+        appointment.date = date
+        appointment.description = description
+        if doc_was_provided :
+            appointment.document = document
+        appointment.total_price = total_price
+        appointment.urgent = urgent
+        appointment.save()
+
+        # Add the tests_requested to the appointment
+        appointment.tests_requested.add(*tests_requested)
+        
+        # 
+        payment = Payment(appointment=appointment)
+        payment.save()
+        
+        payment.tests_fee = appointment.total_price
+        
+        payment.save()
+        appointment.save()
+        
         if payed == 'payed':
-            appointment = Appointment.objects.get(id=appointment_id)
-            payment = appointment.payment
             payment.total_amount_payed += payment.appointment_fee
             payment.payed_appointment_fee = True
             
             payment.save()
             
-        # messages.success(request, 'Appointment Booked successfully!')
-            
-        return redirect('client')
         
+        messages.success(request, 'Appointment Booked successfully!')
+            
+        return HttpResponseRedirect(reverse('client'))
+        
+    return redirect('client_appointment_book')
 
-    return render(request,'client/appointment/appointment_pay.html')
+@login_required
+@permission_required('client.view_client', raise_exception=True)
+def verify_token(request):
+    if request.method == 'POST':
+        session = SessionStore(session_key=request.session.session_key)
+        used_tokens = session.get('used_tokens', [])
+        
+        form_token = request.POST.get('csrfmiddlewaretoken')
+        
+        date = datetime.strptime(request.POST.get("date"), "%Y-%m-%d").date()
+        client = request.user.client
+        appointment_exists = Appointment.objects.filter(client=client,date=date).all().exists()
+        
+        if form_token in used_tokens or appointment_exists:
+            # Token is invalid or already used
+            return HttpResponse('invalid')
+        
+        # Token is valid
+        return HttpResponse('valid')
+    
+    # Invalid request method
+    return HttpResponse(status=400)
 
 @login_required
 @permission_required('client.view_client', raise_exception=True)

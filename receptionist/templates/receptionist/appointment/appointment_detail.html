@@ -90,3 +90,22 @@
         
 </div>
 {% endblock main %}
+
+{% block scripts_3 %}
+
+<script src="{% static 'js/resources/sweetalert2.all.min.js'%}"></script>
+
+{% if messages %}
+    {% for message in messages %}
+        <script>
+            Swal.fire({
+                title: {% if message.tags == 'success' %}'Booked!'{% else %}'Error!'{% endif %},
+                text: '{{ message }}',
+                icon: {% if message.tags == 'success' %}'success'{% else %}'error'{% endif %},
+                confirmButtonText: 'Confirm'
+            });
+        </script>
+    {% endfor %}
+{% endif %}
+
+{% endblock scripts_3 %}

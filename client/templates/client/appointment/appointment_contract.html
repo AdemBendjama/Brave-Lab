@@ -193,10 +193,27 @@
       </div>
   
       <div class="button-cont">
-        <form method="POST">
-          {% csrf_token %}
-          <button type="submit" name="confirm">Confirm and Agree</button>
-          <button type="submit" name="cancel">Cancel</button>
+          <form method="POST" action="{% url 'client_appointment_contract' %}" >
+
+            {% csrf_token %}
+    
+            <input type="hidden" name="data.date" value="{{ data.date }}">
+            <input type="hidden" name="data.description" value="{{ data.description }}">
+            
+            {% if data.document is not None %}
+            <input type="hidden" name="data.document" value="{{ data.document }}">
+            {% endif %}
+
+            <input type="hidden" name="data.test_count" value="{{ data.test_count }}">
+            {% for test in data.tests_requested %}
+            <input type="hidden" name="data.tests_requested{{ forloop.counter }}" value="{{ test }}">
+            {% endfor %}
+
+            <input type="hidden" name="data.total_price" value="{{ data.total_price }}">
+    
+            <button type="submit" name="contract">Confirm and Agree</button>
+            <button type="submit" name="cancel">Cancel</button>
+            
         </form>
       </div>
 

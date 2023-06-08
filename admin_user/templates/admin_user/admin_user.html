@@ -83,7 +83,7 @@
 
 
 {% block scripts_2 %}
-<script src="{% static 'js/resources/sweetalert2.all.min.js'%}"></script>
+script src="{% static 'js/resources/sweetalert2.all.min.js'%}"></script>
 
 {% if messages %}
 {% for message in messages %}
@@ -96,7 +96,7 @@
     })
 </script>
 {% endfor %}
-{% endif %}
+{% endif %}<
 
 <script>
     var path = window.location.pathname;

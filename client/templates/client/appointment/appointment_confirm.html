@@ -71,7 +71,7 @@
         }
     }
 </style>
-<div class='Container'>
+<div class='Container' id="cont-1">
     <h1>Book Appointment</h1>
 
     <h3>Client</h3>
@@ -103,24 +103,27 @@
     <p>No Document provided.</p>
     {% endif %}
 
-    <form method="POST">
+    <form method="POST" action="{% url 'client_appointment_confirm' %}">
         {% csrf_token %}
 
-        <input type="hidden" name="data.client" value="{{ data.client.id }}">
         <input type="hidden" name="data.date" value="{{ data.date }}">
         <input type="hidden" name="data.description" value="{{ data.description }}">
+        
         {% if data.document is not None %}
         <input type="hidden" name="data.document" value="{{ data.document }}">
         {% endif %}
+
         <input type="hidden" name="data.test_count" value="{{ data.tests_requested.count }}">
         {% for test in data.tests_requested %}
         <input type="hidden" name="data.tests_requested{{ forloop.counter }}" value="{{ test.id }}">
         {% endfor %}
-        <input type="hidden" name="data.total_price" value="{{ data.total_price }}">
-        <input type="hidden" name="payed" id="payedInput" value="unpayed">
 
-        <button type="submit" id="bookButton">Confirm</button>
+        <input type="hidden" name="data.total_price" value="{{ data.total_price }}">
+
+        <button type="submit" name="confirm" id="bookButton">Confirm</button>
     </form>
 
 </div>
 {% endblock main %}
+
+
