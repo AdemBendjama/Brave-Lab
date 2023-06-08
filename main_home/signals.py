@@ -2,6 +2,7 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.core.files.storage import default_storage
 import os
+from admin_user.models import AdminUser
 from brave_lab_project.settings import BASE_DIR
 
 from main_home.models import Anemia, Appointment, Component, ComponentInformation, Diabetes, Lobby, Test, TestResult
@@ -343,7 +344,8 @@ def get_all_profile_pic_paths():
         list(Client.objects.exclude(profile_pic='').values_list('profile_pic', flat=True)) +
         list(Nurse.objects.exclude(profile_pic='').values_list('profile_pic', flat=True)) +
         list(Receptionist.objects.exclude(profile_pic='').values_list('profile_pic', flat=True)) +
-        list(Auditor.objects.exclude(profile_pic='').values_list('profile_pic', flat=True))
+        list(Auditor.objects.exclude(profile_pic='').values_list('profile_pic', flat=True))+
+        list(AdminUser.objects.exclude(profile_pic='').values_list('profile_pic', flat=True))
     )
     return set(all_profile_pics)
 
@@ -372,6 +374,7 @@ def delete_unused_profile_pics():
 @receiver(pre_save, sender=Nurse)
 @receiver(pre_save, sender=Receptionist)
 @receiver(pre_save, sender=Auditor)
+@receiver(pre_save, sender=AdminUser)
 def handle_user_profile_pic_change(sender, instance, **kwargs):
     if sender.objects.filter(pk=instance.pk).exists() :
         # Retrieve the existing profile picture path
@@ -388,6 +391,7 @@ def handle_user_profile_pic_change(sender, instance, **kwargs):
 @receiver(pre_delete, sender=Nurse)
 @receiver(pre_delete, sender=Receptionist)
 @receiver(pre_delete, sender=Auditor)
+@receiver(pre_delete, sender=AdminUser)
 def handle_user_profile_pic_deletion(sender, instance, **kwargs):
     # Delete the profile picture when a user is deleted
     profile_pic_path = instance.profile_pic.path

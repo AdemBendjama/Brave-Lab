@@ -42,11 +42,11 @@
 </style>
 <div class="Container">
     <h1>User Detail</h1>
-    <p>User ID: {{ user.id }}</p>
-    <p>Username: {{ user.username }}</p>
-    <p>Email: {{ user.email }}</p>
-    <p>Group: {{ user.groups.first }}</p>
-    <p>Date of Creation: {{ user.date_joined }}</p>
+    <p>User ID: {{ user_detail.id }}</p>
+    <p>Username: {{ user_detail.username }}</p>
+    <p>Email: {{ user_detail.email }}</p>
+    <p>Group: {{ user_detail.groups.first }}</p>
+    <p>Date of Creation: {{ user_detail.date_joined }}</p>
 
     <form method="POST">
         {% csrf_token %}
@@ -55,3 +55,36 @@
     </form>
 </div>
 {% endblock main %}
+
+
+{% block scripts_2 %}
+<script src="{% static 'js/resources/sweetalert2.all.min.js'%}"></script>
+
+{% if messages %}
+{% for message in messages %}
+<script>
+    Swal.fire({
+        title: 'Updated !',
+        text: '{{ message }}',
+        icon: 'success',
+        confirmButtonText: 'Confirm'
+    })
+</script>
+{% endfor %}
+{% endif %}
+
+<script>
+    var path = window.location.pathname;
+    var links = document.querySelectorAll('nav ul li a');
+
+    links.forEach(function (link) {
+        var href = link.getAttribute('href');
+
+        // Check if the current path starts with the href
+        if (path.startsWith(href)) {
+            // Add the "active" class to the parent <li> element
+            link.parentElement.classList.add('active');
+        }
+    });
+</script>
+{% endblock scripts_2 %}

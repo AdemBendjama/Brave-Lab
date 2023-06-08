@@ -258,7 +258,7 @@ def start_analysis(request, analysis_request_id):
         analysis_request.accepted = True
         analysis_request.save()
 
-        return redirect('request_detail', analysis_request_id=analysis_request.id)
+        return redirect('request_test_list', analysis_request_id=analysis_request.id)
 
     return redirect('request_list')
 
@@ -488,8 +488,14 @@ def blood_add(request):
         form = BloodSampleForm(request.POST)
         if form.is_valid():
             blood_sample = form.save() 
-            messages.success(request, 'Blood sample added successfully!')
-            return redirect('blood_add')  
+            blood_added = 'Blood sample added successfully!'
+            form = BloodSampleForm()
+            context={
+                'form': form,
+                'blood_added':blood_added,
+            }
+            
+            return render(request,'nurse/add/blood_add.html',context)  
     else:
         form = BloodSampleForm()
 

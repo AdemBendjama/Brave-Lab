@@ -2,8 +2,10 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.contrib.auth.models import User,Group
 from django.http import HttpResponse
+from admin_user.forms import UserUpdateForm
 
 from main_home.models import BloodBank
+from django.contrib import messages
 
 def admin_user(request):
     # Get the superuser
@@ -99,30 +101,37 @@ def admin_user(request):
     return render(request,'admin_user/admin_user.html',context)
 
 def user_detail(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+    user_detail = get_object_or_404(User, id=user_id)
 
     if request.method == 'POST':
         if 'delete' in request.POST:
-            # Logic to delete the user
-            return redirect('user_delete', user_id=user_id)
+            user_detail.delete() 
+            deleted="User Deleted Successfully !"
+            messages.success(request,deleted)
+            return redirect('admin_user')
         elif 'update' in request.POST:
             # Logic to update the user
             return redirect('user_update', user_id=user_id)
 
-    context = {'user': user}    
+    context = {'user_detail': user_detail}    
     return render(request,'admin_user/users/user_detail.html',context)
 
-def user_delete(request, user_id):
-    # Add your logic for the user_delete view here
-    user = get_object_or_404(User, id=user_id)  # Assuming you have a User model
-    # Delete the user or perform any other necessary actions
-    return render(request,'admin_user/users/user_detail.html')
 
 def user_update(request, user_id):
-    # Add your logic for the user_update view here
-    user = get_object_or_404(User, id=user_id)  # Assuming you have a User model
-    # Update the user or perform any other necessary actions
-    return render(request,'admin_user/users/user_update.html')
+    user = get_object_or_404(User, id=user_id)
+    form = UserUpdateForm(instance=user)
+
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            updated="User Updated Successfully !"
+            messages.success(request,updated)
+
+            return redirect('user_detail', user_id=user_id)
+
+    context = {'form': form}
+    return render(request, 'admin_user/users/user_update.html', context)
 
 def account_add(request):
     # Add your logic for the account_add view here

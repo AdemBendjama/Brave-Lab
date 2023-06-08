@@ -1,9 +1,9 @@
 {% extends 'main_home/actors_base.html' %}
 {% load static %}
+
 {% block css_2 %}
 
 <link rel="stylesheet" href="{% static 'css/list.css' %}">
-<link rel="stylesheet" href="{% static 'css/lists/ap_list.css' %}">
 
 {% endblock css_2 %}
 
@@ -11,124 +11,96 @@
 <div class="Container">
     <div class="header ">
         <div class="search">
-            <form class="search-bar">
-                <button>
+            <form class="search-bar" method="post">
+                {% csrf_token %}
+                <button type="submit" name="search">
                     <span class="material-icons search-icon">
                         search
                     </span>
                 </button>
-                <input class="search-bar-input" placeholder="Search" required="" type="text">
-                <button class="reset" type="reset">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+                <input class="search-bar-input" id="search" name="search" placeholder="Search" required="" type="text">
+
             </form>
         </div>
         <div class="nurse">
-            <button class="list-button filter">Filter<span class="material-icons">expand_more</span></button>
-            <button class="list-button">Sort</button>
-            <button class="list-button book"><a class="list-links" href={% url 'client_appointment_book' %}><span
-                        class="material-icons">add</span> Book Appointment</a></button>
+            <a href="{% url " admin_user"
+                %}?date={{sort_date}}&username={{sort_username}}&type={{sort_type}}&date_sort=True&state={{state}}">
+                <button class="list-button filter">
+                    <span>Date</span>
+                    <span class="material-icons">sort</span>
+                </button>
+            </a>
+            <a href="{% url " admin_user"
+                %}?date={{sort_date}}&username={{sort_username}}&type={{sort_type}}&username_sort=True&state={{state}}">
+                <button class="list-button filter">
+                    <span>Username</span>
+                    <span class="material-icons">sort</span>
+                </button>
+            </a>
+            <a href="{% url " admin_user"
+                %}?date={{sort_date}}&username={{sort_username}}&type={{sort_type}}&type_sort=True&state={{state}}">
+                <button class="list-button filter">
+                    <span>Type</span>
+                    <span class="material-icons">sort</span>
+                </button>
+            </a>
         </div>
 
+
     </div>
 
 
 
+    {% if users %}
+    <h2>Users</h2>
+    <ul>
+        {% for user in users %}
+        <li class="app1">
+            <span><strong>User #{{ user.id }}</strong></span>
+            <span><strong>Username: {{ user.username }}</strong></span>
+            <span><strong>Group: {{ user.groups.first.name }}</strong></span>
 
-
-    {% if booked_appointments %}
-    <h2>Booked Appointments</h2>
-    <div>
-        <ul class="lists">
-            {% for appointment in booked_appointments %}
-            {%if not appointment.performed %}
-            <li class="app1">
-                <span><strong>Appointment #{{ appointment.id }}</strong></span>
-                <span><strong>{{ appointment.date }}</strong></span>
-                <div class="buttons">
-                    {% if appointment.cancelable >= 3 and not appointment.payment.payed_appointment_fee%}
-                    <button class="list-button cancel-button">Cancel</button>
-                    {% endif %}
-                    <button class="list-button"><a class="list-links"
-                            href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
-                </div>
-                <form class="cancel-form" action="{% url 'client_cancel_appointment' appointment.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Cancel Appointment</button>
-                </form>
-            </li>
-            {%endif%}
-            {% endfor %}
-
-        </ul>
-    </div>
+            <div class="buttons">
+                <button class="list-button"><a class="list-links" href="{% url 'user_detail' user.id %}">View
+                        Details</a></button>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
     {% endif %}
-
-
-    {% if performed_appointments %}
-    <h2>Performed Appointments</h2>
-    <div>
-        <ul class="lists">
-            {% for appointment in performed_appointments %}
-            <li class="app1">
-                <span><strong>Appointment #{{ appointment.id }}</strong></span>
-                <span><strong>{{ appointment.date }}</strong></span>
-                <div class="buttons">
-                    <button class="list-button"><a class="list-links"
-                            href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
-                </div>
-            </li>
-            {% endfor %}
-
-        </ul>
-    </div>
-    {% endif %}
-
-    {% if canceled_appointments %}
-    <h2>Canceled Appointments</h2>
-    <div>
-        <ul class="lists">
-            {% for appointment in canceled_appointments %}
-            <li class="app1">
-                <span><strong>Appointment #{{ appointment.id }}</strong></span>
-                <span><strong>{{ appointment.date }}</strong></span>
-                <div class="buttons">
-                    <button class="list-button"><a class="list-links"
-                            href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
-                </div>
-            </li>
-            {% endfor %}
-
-        </ul>
-    </div>
-    {% endif %}
-
-
 
 </div>
-</div>
-
 {% endblock main %}
+
+
 
 {% block sidebar %}
 
-<li><a href={% url 'client' %}><span class="material-icons X">layers</span><span class="nav-item">Home</span></a></li>
-<li><a href={% url 'client_appointment_book' %}><span class="material-icons X">event</span><span class="nav-item">Book
-            Appointment</span></a></li>
-<li><a href={% url 'client_result_list' %}><span class="material-icons X">list</span><span
-            class="nav-item">Results</span></a></li>
-<li><a href={% url 'client_request_list' %}><span class="material-icons X">track_changes</span><span
-            class="nav-item">Track Progress</span></a></li>
-<li><a href={% url 'create_complaint' %}><span class="material-icons X">feedback</span><span class="nav-item">Send
-            Complaint</span></a></li>
+<li><a href={% url 'admin_user' %}><span class="material-icons X">layers</span> <span class="nav-item">Home</span></a>
+</li>
+<li><a href={% url 'account_add' %}><span class="material-icons X">person_add</span><span class="nav-item">Create
+            Account</span></a>
+</li>
+<li><a href={% url 'blood_banks' %}><span class="material-icons X">vaccines</span><span class="nav-item">Blood
+            Banks</span></a></li>
+
 
 {% endblock sidebar %}
 
-
 {% block scripts_2 %}
+<script src="{% static 'js/resources/sweetalert2.all.min.js'%}"></script>
+
+{% if blood_added %}
+<script>
+    Swal.fire({
+        title: 'Success !',
+        text: '{{ blood_added }}',
+        icon: 'success',
+        confirmButtonText: 'Confirm'
+    })
+</script>
+{% endif %}
+
 <script>
     var path = window.location.pathname;
     var links = document.querySelectorAll('nav ul li a');
@@ -138,18 +110,9 @@
 
         // Check if the current path starts with the href
         if (path.startsWith(href)) {
-            // Add the "booked" class to the parent <li> element
-            link.parentElement.classList.add('booked');
+            // Add the "active" class to the parent <li> element
+            link.parentElement.classList.add('active');
         }
-    });
-</script>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('.cancel-button').click(function () {
-            $(this).closest('.app1').find('.cancel-form').submit();
-        });
     });
 </script>
 {% endblock scripts_2 %}

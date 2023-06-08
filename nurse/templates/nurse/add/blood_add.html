@@ -16,16 +16,14 @@
 {% block scripts_3 %}
   <script src="{% static 'js/resources/sweetalert2.all.min.js'%}"></script>
 
-  {% if messages %}
-    {% for message in messages %}
+  {% if blood_added %}
       <script>
         Swal.fire({
           title: 'Success !',
-          text: '{{ message }}',
+          text: '{{ blood_added }}',
           icon: 'success',
           confirmButtonText: 'Confirm'
         })
       </script>
-    {% endfor %}
   {% endif %}
 {% endblock %}
