@@ -3,63 +3,12 @@
 
 {% block main %}
 <div class="Container">
-
-
-    <div class="header ">
-        <div class="search">
-            <form class="search-bar" method="post" >
-                {% csrf_token %}
-                <button type="submit" name="search">
-                    <span class="material-icons search-icon">
-                        search
-                        </span>
-                </button>
-                <input class="search-bar-input" id="search" name="search" placeholder="Search" required="" type="text">
-                
-            </form>
-        </div>
-        <div class="nurse">
-            <a href="{% url "client_result_list" %}?date={{sort_date}}&state={{state}}">
-                <button class="list-button filter">
-                    <span>Date</span>
-                    <span class="material-icons">sort</span>
-                </button>
-            </a>
-        </div>
-        
-        
-    </div>
-
-    <div class="header ">
-        <div class="search">
-           
-        </div>
-        <div class="nurse">
-        <a href="{% url "client_result_list" %}?state=unpaid">
-            <button class="list-button filter">
-                <span>Unpaid</span>
-                <span class="material-icons">filter_list</span>
-            </button>
-        </a>
-        <a href="{% url "client_result_list" %}?state=paid">
-                <button class="list-button filter">
-                <span>Paid</span>
-                <span class="material-icons">filter_list</span>
-            </button>
-        </a>
-            
-        </div>
-        
-    </div>
-
-
-
-    {% if invoices %}
-    <h3>List of Test Results</h3>
+        <h3>List of Test Results</h3>
+        {% if invoices %}
         <ul>
           {% for invoice in invoices %}
           <li class="app1">
-            <span><strong>Appointment #{{ invoice.report.test_result.request.appointment.id }}</strong></span>
+            <span><strong>Invoice #{{ invoice.id }}</strong></span>
             <span><strong>{{ invoice.creation_time }}</strong></span>
             <span><strong>Total Price: {{ invoice.total_price }}</strong></span>
             <div class="buttons">
@@ -68,15 +17,23 @@
           </li>
           {% endfor %}
         </ul>
+        {% else %}
+          <div>
+              <ul class="lists">
+                  <li class="app1 empty">
+                      <span><strong>No Test Results Found</strong></span>
+                  </li>
+              </ul>
+          </div>
         {% endif %}
 
 
-        {% if unpaid_invoices %}
         <h3>List of Unpaid Test Results</h3>
+        {% if unpaid_invoices %}
         <ul>
             {% for invoice in unpaid_invoices %}
             <li class="app1">
-                <span><strong>Appointment #{{ invoice.report.test_result.request.appointment.id }}</strong></span>
+                <span><strong>Invoice #{{ invoice.id }}</strong></span>
                 <span><strong>{{ invoice.creation_time }}</strong></span>
                 <span><strong>Total Price: {{ invoice.total_price }}</strong></span>
                 <div class="buttons">
@@ -85,6 +42,14 @@
             </li>
             {% endfor %}
         </ul>
+        {% else %}
+        <div>
+            <ul class="lists">
+                <li class="app1 empty">
+                    <span><strong>No Unpaid Test Results Found</strong></span>
+                </li>
+            </ul>
+        </div>
         {% endif %}
 </div>
 {% endblock main %}
