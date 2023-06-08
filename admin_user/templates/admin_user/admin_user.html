@@ -1,0 +1,39 @@
+{% extends 'main_home/actors_base.html' %}
+{% load static %}
+
+{% block main %}
+<div class="Container">
+    <h1>Admin Home</h1>
+
+</div>
+{% endblock main %}
+
+
+{% block sidebar %}
+
+<li><a href={% url 'admin_user' %}><span class="material-icons X">layers</span> <span class="nav-item">Home</span></a></li>
+<li><a href={% url 'account_add' %}><span class="material-icons X">person_add</span><span class="nav-item">Create Account</span></a>
+</li>
+<li><a href={% url 'blood_banks' %}><span class="material-icons X">vaccines</span><span
+            class="nav-item">Blood Banks</span></a></li>
+
+
+{% endblock sidebar %}
+
+{% block scripts_2 %}
+
+<script>
+    var path = window.location.pathname;
+    var links = document.querySelectorAll('nav ul li a');
+
+    links.forEach(function (link) {
+        var href = link.getAttribute('href');
+
+        // Check if the current path starts with the href
+        if (path.startsWith(href)) {
+            // Add the "active" class to the parent <li> element
+            link.parentElement.classList.add('active');
+        }
+    });
+</script>
+{% endblock scripts_2 %}

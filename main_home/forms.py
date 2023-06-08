@@ -3,6 +3,7 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from admin_user.models import AdminUser
 from client.models import Client
 from main_home.models import BloodBank ,BloodSample
 from nurse.models import Nurse
@@ -81,6 +82,12 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']
 
+        
+class AdminUserUpdateForm(forms.ModelForm):
+    
+    class Meta:
+        model = AdminUser
+        fields = ['phone_number', 'address', 'profile_pic']
         
 class ClientUpdateForm(forms.ModelForm):
     

@@ -14,6 +14,7 @@ from brave_lab_project.settings import EMAIL_HOST_USER
 from client.models import Client
 from main_home.models import Invoice
 from .forms import (
+   AdminUserUpdateForm,
    UserRegisterForm, 
    UserUpdateForm, 
    ClientUpdateForm,
@@ -24,7 +25,7 @@ from .forms import (
 )
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
-from .utils import is_client, is_nurse, is_receptionist, is_auditor
+from .utils import is_admin_user, is_client, is_nurse, is_receptionist, is_auditor
 
 from django.contrib.auth.hashers import check_password
 
@@ -87,6 +88,8 @@ def home(request):
             return redirect('receptionist')
         elif is_auditor(user) :
             return redirect('auditor')
+        elif is_admin_user(user) :
+            return redirect('admin_user')
         
     if request.method == 'POST':
         
@@ -130,6 +133,8 @@ def register(request):
             return redirect('receptionist')
         elif is_auditor(user) :
             return redirect('auditor')
+        elif is_admin_user(user) :
+            return redirect('admin_user')
     
     # handling of a post request from register page
     if request.method == "POST":
@@ -179,6 +184,8 @@ def login_view(request):
             return redirect('receptionist')
         elif is_auditor(user) :
             return redirect('auditor')
+        elif is_admin_user(user) :
+            return redirect('admin_user')
     
     # handling of a post request from register page
     if request.method == 'POST':
@@ -201,6 +208,8 @@ def login_view(request):
                     return redirect('receptionist')
                 elif is_auditor(user) :
                     return redirect('auditor')
+                elif is_admin_user(user) :
+                    return redirect('admin_user')
                 
     else:
         form = AuthenticationForm()
@@ -225,6 +234,8 @@ def profile_update(request):
             actor_form = ReceptionistUpdateForm(request.POST, request.FILES, instance=user.receptionist)
         elif is_auditor(user) :
             actor_form = AuditorUpdateForm(request.POST, request.FILES, instance=user.auditor)
+        elif is_admin_user(user) :
+            actor_form = AdminUserUpdateForm(request.POST, request.FILES, instance=user.adminuser)
         
         if user_form.is_valid() and actor_form.is_valid():
             user_form.save()
@@ -242,6 +253,8 @@ def profile_update(request):
             actor_form = ReceptionistUpdateForm(instance=user.receptionist)
         elif is_auditor(user) :
             actor_form = AuditorUpdateForm(instance=user.auditor)
+        elif is_admin_user(user) :
+            actor_form = AdminUserUpdateForm(instance=user.adminuser)
 
         
     context={

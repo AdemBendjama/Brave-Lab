@@ -67,6 +67,14 @@
                     <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
                     <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
                     
+                    {% elif user.groups.first.name == 'admin_user' %}
+                    
+                    {% comment %} <li><a href="#"><span class="material-icons notifications">notifications</span></a></li> {% endcomment %}
+                    <li class="profile-header"><a class="profile-pic-container" onclick="showElement()"><img class="profile-pic" alt="profile_pic" src="{{ user.adminuser.profile_pic.url }}"></img><i class="fa-solid fa-chevron-down"></i></a>
+                    <ul id="myElement">
+                    <a href="{% url 'profile_update' %}" class="drop-down"><li><span class="material-icons">person</span>Profile</li></a>
+                    <a href="{% url 'profile_settings' %}" class="drop-down"><li><span class="material-icons">settings</span>Settings</li></a>
+                    
                     {% endif %}
                             </ul>
                         </li>

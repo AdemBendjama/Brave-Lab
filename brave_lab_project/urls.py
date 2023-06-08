@@ -28,6 +28,7 @@ urlpatterns = [
     path('nurse/',include('nurse.urls'),name="nurse"),
     path('receptionist/',include('receptionist.urls'),name="receptionist"),
     path('auditor/',include('auditor.urls'),name="auditor"),
+    path('admin_user/',include('admin_user.urls'),name="admin_user"),
 ]
 
 if settings.DEBUG:

@@ -34,6 +34,10 @@ def is_auditor(user):
     auditor_group = Group.objects.get(name='auditor')
     return auditor_group in user.groups.all()
 
+def is_admin_user(user):
+    admin_user_group = Group.objects.get(name='admin_user')
+    return admin_user_group in user.groups.all()
+
 
 
 
