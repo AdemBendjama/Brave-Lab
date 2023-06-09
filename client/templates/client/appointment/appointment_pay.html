@@ -2,8 +2,6 @@
 {% load static %}
 
 {% block main %}
-
-
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -25,7 +23,41 @@
         margin-bottom: 20px;
         text-align: center;
     }
+    <script src="{%static 'js/resources/jquery-3.1.1.min.js'%}"></script>
 
+    <script>
+        function verifyToken() {
+            var csrfToken = '{{ csrf_token }}';
+            var url= "{% url 'verify_token' %}";
+            var date = "{{data.date}}"
+            console.log(url);
+    
+            $.ajax({
+                url: url,  // Replace with the URL of your verification view
+                type: 'POST',
+                data: {csrfmiddlewaretoken: csrfToken,'date':date},
+                success: function(response) {
+                    if (response === 'valid') {
+                        // Token is valid, perform the desired action
+                        console.log('Token is valid');
+                        
+                    } else {
+                        // Token is invalid, handle the error
+                        console.log('Token is invalid');
+                        // You can display an error message or perform other error handling actions here
+                        clickButton();
+                    }
+                },
+                error: function() {
+                    // Error occurred during the request
+                    console.log('Error occurred');
+                    // You can display an error message or perform other error handling actions here
+                }
+            });
+        }
+    
+        verifyToken();
+    </script>
     h3 {
         font-size: 18px;
         color: #555;

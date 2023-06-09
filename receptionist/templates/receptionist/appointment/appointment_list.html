@@ -22,6 +22,49 @@
                 
             </form>
         </div>
+
+
+
+
+
+        <div class="header ">
+            <div class="search">
+               
+            </div>
+            <div class="nurse">
+            <a href="{% url "appointment_list" %}?state=today">
+                <button class="list-button filter">
+                    <span>Today</span>
+                    <span class="material-icons">filter_list</span>
+                </button>
+            </a>
+            <a href="{% url "appointment_list" %}?state=tomorrow">
+                    <button class="list-button filter">
+                    <span>Tommorow</span>
+                    <span class="material-icons">filter_list</span>
+                </button>
+            </a>
+            <a href="{% url "appointment_list" %}?state=upcoming">
+                    <button class="list-button filter">
+                    <span>Upcoming</span>
+                    <span class="material-icons">filter_list</span>
+                </button>
+            </a>
+            <a href="{% url "appointment_list" %}?state=paid">
+                    <button class="list-button filter">
+                    <span>Paid</span>
+                    <span class="material-icons">filter_list</span>
+                </button>
+            </a>
+                
+            </div>
+            
+        </div>
+
+
+
+
+
         <div class="nurse">
             <a href="{% url "appointment_list" %}?date={{sort_date}}&urgency={{sort_urgency}}&date_sort=True&state={{state}}">
                 <button class="list-button filter">
@@ -39,43 +82,11 @@
         </div>
         
     </div>
-    <div class="header ">
-        <div class="search">
-           
-        </div>
-        <div class="nurse">
-        <a href="{% url "appointment_list" %}?state=today">
-            <button class="list-button filter">
-                <span>Today</span>
-                <span class="material-icons">filter_list</span>
-            </button>
-        </a>
-        <a href="{% url "appointment_list" %}?state=tomorrow">
-                <button class="list-button filter">
-                <span>Tommorow</span>
-                <span class="material-icons">filter_list</span>
-            </button>
-        </a>
-        <a href="{% url "appointment_list" %}?state=upcoming">
-                <button class="list-button filter">
-                <span>Upcoming</span>
-                <span class="material-icons">filter_list</span>
-            </button>
-        </a>
-        <a href="{% url "appointment_list" %}?state=paid">
-                <button class="list-button filter">
-                <span>Paid</span>
-                <span class="material-icons">filter_list</span>
-            </button>
-        </a>
-            
-        </div>
-        
-    </div>
+    
     
 
     {% if appointments_today %}
-    <h2>Today's Appointments</h2>
+   
         <ul class="lists">
             {% for appointment in appointments_today %}
                 <li class="app1">
@@ -97,7 +108,7 @@
     {% endif %}
 
     {% if appointments_tomorrow %}
-    <h2>Tomorrow's Appointments</h2>
+
         <ul class="lists">
             {% for appointment in appointments_tomorrow %}
                 <li class="app1">
@@ -119,7 +130,7 @@
     {% endif %}
 
     {% if appointments_upcoming %}
-    <h2>Upcoming Appointments</h2>
+
         <ul class="lists">
             {% for appointment in appointments_upcoming %}
                 <li class="app1">
@@ -142,7 +153,7 @@
 
 
     {% if paid_appointments %}
-    <h2>Paid Appointments</h2>
+ 
         <ul class="lists">
             {% for appointment in paid_appointments %}
                 <li class="app1">

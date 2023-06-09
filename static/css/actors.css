@@ -6,7 +6,9 @@
 
 body {
     background-color: #fff;
+    overflow-y: scroll;
 }
+
 
 ul {
     list-style-type: none;
@@ -213,8 +215,9 @@ nav a {
     padding-left: 20px;
     padding-right: 30px;
     width: 15vw;
- 
 }
+
+
 
 nav .material-icons {
     position: relative;
@@ -248,6 +251,7 @@ nav ul li {
     width: auto;
     margin-bottom: 10px;
 }
+
 
 
 nav ul li::after {
@@ -322,7 +326,7 @@ nav a {
 
 /* Search Bar */
 .search {
-    width: 100%;
+    width: 25%;
     position: relative;
     display: flex;
     cursor: pointer;

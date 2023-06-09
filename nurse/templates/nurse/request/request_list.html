@@ -7,9 +7,6 @@
 {% endblock css_2 %}
 {% block main %}
 <div class="Container">
-		
-    <h1>Analysis Requests</h1>
-
     <div class="header ">
         <div class="search">
             <form class="search-bar" method="post" >
@@ -23,6 +20,45 @@
                 
             </form>
         </div>
+
+
+
+
+
+        <div class="header ">
+            <div class="search">
+               
+            </div>
+            <div class="nurse">
+            <a href="{% url "request_list" %}?state=pending">
+                <button class="list-button filter">
+                    <span>Pending</span>
+                    <span class="material-icons">filter_list</span>
+                </button>
+            </a>
+            <a href="{% url "request_list" %}?state=working">
+                    <button class="list-button filter">
+                    <span>Working</span>
+                    <span class="material-icons">filter_list</span>
+                </button>
+            </a>
+            <a href="{% url "request_list" %}?state=finished">
+                    <button class="list-button filter">
+                    <span>Finished</span>
+                    <span class="material-icons">filter_list</span>
+                </button>
+            </a>
+                
+            </div>
+            
+        </div>
+
+
+
+
+
+
+
         <div class="nurse">
             <a href="{% url "request_list" %}?date={{sort_date}}&urgency={{sort_urgency}}&date_sort=True&state={{state}}">
                 <button class="list-button filter">
@@ -41,33 +77,7 @@
         
     </div>
 
-    <div class="header ">
-        <div class="search">
-           
-        </div>
-        <div class="nurse">
-        <a href="{% url "request_list" %}?state=pending">
-            <button class="list-button filter">
-                <span>Pending</span>
-                <span class="material-icons">filter_list</span>
-            </button>
-        </a>
-        <a href="{% url "request_list" %}?state=working">
-                <button class="list-button filter">
-                <span>Working</span>
-                <span class="material-icons">filter_list</span>
-            </button>
-        </a>
-        <a href="{% url "request_list" %}?state=finished">
-                <button class="list-button filter">
-                <span>Finished</span>
-                <span class="material-icons">filter_list</span>
-            </button>
-        </a>
-            
-        </div>
-        
-    </div>
+    
     
 
     

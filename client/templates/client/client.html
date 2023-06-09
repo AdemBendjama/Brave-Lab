@@ -22,6 +22,38 @@
             
         </form>
     </div>
+
+
+    <div class="header ">
+        <div class="search">
+           
+        </div>
+        <div class="nurse">
+        <a href="{% url "client" %}?state=booked">
+            <button class="list-button filter">
+                <span>Booked</span>
+                <span class="material-icons">filter_list</span>
+            </button>
+        </a>
+        <a href="{% url "client" %}?state=performed">
+                <button class="list-button filter">
+                <span>Performed</span>
+                <span class="material-icons">filter_list</span>
+            </button>
+        </a>
+        <a href="{% url "client" %}?state=canceled">
+                <button class="list-button filter">
+                <span>Canceled</span>
+                <span class="material-icons">filter_list</span>
+            </button>
+        </a>
+            
+        </div>
+        
+    </div>
+
+
+
     <div class="nurse">
         <a href="{% url "client" %}?date={{sort_date}}&state={{state}}">
             <button class="list-button filter">
@@ -33,101 +65,102 @@
     </div>
     
 </div>
-<div class="header ">
-    <div class="search">
-       
-    </div>
-    <div class="nurse">
-    <a href="{% url "client" %}?state=booked">
-        <button class="list-button filter">
-            <span>Booked</span>
-            <span class="material-icons">filter_list</span>
-        </button>
-    </a>
-    <a href="{% url "client" %}?state=performed">
-            <button class="list-button filter">
-            <span>Performed</span>
-            <span class="material-icons">filter_list</span>
-        </button>
-    </a>
-    <a href="{% url "client" %}?state=canceled">
-            <button class="list-button filter">
-            <span>Canceled</span>
-            <span class="material-icons">filter_list</span>
-        </button>
-    </a>
-        
-    </div>
-    
-</div>
+
 
 
 
 
 
     {% if booked_appointments %}
-    <h2>Booked Appointments</h2>
-    <div>
-        <ul class="lists">
-            {% for appointment in booked_appointments %}
-            {% if not appointment.performed %}
-            <li class="app1">
-                <span><strong>Appointment #{{ appointment.id }}</strong></span>
-                <span><strong>{{ appointment.date }}</strong></span>
-                <div class="buttons">
-                    <button class="list-button cancel-button">Cancel</button>
-                    <button class="list-button"><a class="list-links"
-                            href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
-                </div>
-                <form class="cancel-form" action="{% url 'client_cancel_appointment' appointment.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Cancel Appointment</button>
-                </form>
-            </li>
-            {%endif%}
-            {% endfor %}
+   
 
-        </ul>
-    </div>
+    <div class="userlistcl">
+            <div class="infoheadercl">
+                <h3>Booked Appointments</h3>
+            </div>     
+        <div class="userscontianercl">
+            <div class= "scrollcl">
+                <ul class="lists">
+                    {% for appointment in booked_appointments %}
+                    {% if not appointment.performed %}
+                    <li class="app1">
+                        <span><strong>Appointment #{{ appointment.id }}</strong></span>
+                        <span><strong>{{ appointment.date }}</strong></span>
+                        <div class="buttons">
+                            <button class="list-button cancel-button">Cancel</button>
+                            <button class="list-button"><a class="list-links"
+                                    href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
+                        </div>
+                        <form class="cancel-form" action="{% url 'client_cancel_appointment' appointment.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Cancel Appointment</button>
+                        </form>
+                    </li>
+                    {%endif%}
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+        </div> 
+    </div> 
     {% endif %}
 
 
     {% if performed_appointments %}
-    <h2>Performed Appointments</h2>
-    <div>
-        <ul class="lists">
-            {% for appointment in performed_appointments %}
-            <li class="app1">
-                <span><strong>Appointment #{{ appointment.id }}</strong></span>
-                <span><strong>{{ appointment.date }}</strong></span>
-                <div class="buttons">
-                    <button class="list-button"><a class="list-links"
-                            href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
-                </div>
-            </li>
-            {% endfor %}
+    
+    <div class="userlistcl">
+        <div class="infoheadercl">
+            <h3>Performed Appointments</h3>
+        </div>    
 
-        </ul>
-    </div>
+        <div class="userscontianercl">
+            <div class= "scrollcl">
+
+                <ul class="lists">
+                    {% for appointment in performed_appointments %}
+                    <li class="app1">
+                        <span><strong>Appointment #{{ appointment.id }}</strong></span>
+                        <span><strong>{{ appointment.date }}</strong></span>
+                        <div class="buttons">
+                            <button class="list-button"><a class="list-links"
+                                    href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
+                        </div>
+                    </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+        </div> 
+    </div> 
     {% endif %}
 
     {% if canceled_appointments %}
-    <h2>Canceled Appointments</h2>
-    <div>
-        <ul class="lists">
-            {% for appointment in canceled_appointments %}
-            <li class="app1">
-                <span><strong>Appointment #{{ appointment.id }}</strong></span>
-                <span><strong>{{ appointment.date }}</strong></span>
-                <div class="buttons">
-                    <button class="list-button"><a class="list-links"
-                            href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
-                </div>
-            </li>
-            {% endfor %}
 
-        </ul>
-    </div>
+    
+    <div class="userlistcl">
+            <div class="infoheadercl">
+                <h3>Canceled Appointments</h3>
+            </div>   
+
+            <div class="userscontianercl">
+                <div class= "scrollcl">
+                    <ul class="lists">
+                        {% for appointment in canceled_appointments %}
+                        <li class="app1">
+                            <span><strong>Appointment #{{ appointment.id }}</strong></span>
+                            <span><strong>{{ appointment.date }}</strong></span>
+                            <div class="buttons">
+                                <button class="list-button"><a class="list-links"
+                                        href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
+                            </div>
+                        </li>
+                        {% endfor %}
+
+                    </ul>
+            </div>
+        </div> 
+    </div> 
     {% endif %}
 
 

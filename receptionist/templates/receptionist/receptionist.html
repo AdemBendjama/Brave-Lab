@@ -9,7 +9,7 @@
 
 {% block main %}
 <div class="Container">
-    <h1>Homepage - List of Reports</h1>
+   
 
     <div class="header ">
 
@@ -57,18 +57,27 @@
 
     <ul>
         {% if reports %}
-        <ul>
-            {% for report in reports %}
-                <li class="app1">
-                    <span><strong>Appointment #{{ report.test_result.request.appointment.id }}</strong></span>
-                    <span><strong>Client: {{ report.invoice.client.user.username }}</strong></span>
-                    <span><strong>{{ report.creation_time }}</strong></span>
-                    <div class="buttons">
-                        <button class="list-button"><a class="list-links" href="{% url 'receptionist_report_detail' report.id  %}">View Details</a></button>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="userlist">
+            <div class="infoheader">
+                <h3>List of Reports</h3>
+            </div>     
+        <div class="userscontianer">
+          <div class= "scroll">
+                <ul>
+                    {% for report in reports %}
+                        <li class="app1">
+                            <span><strong>Appointment #{{ report.test_result.request.appointment.id }}</strong></span>
+                            <span><strong>Client: {{ report.invoice.client.user.username }}</strong></span>
+                            <span><strong>{{ report.creation_time }}</strong></span>
+                            <div class="buttons">
+                                <button class="list-button"><a class="list-links" href="{% url 'receptionist_report_detail' report.id  %}">View Details</a></button>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div> 
+    </div>    
         {% else %}
         <div>
             <ul class="lists">
@@ -77,6 +86,7 @@
                 </li>
             </ul>
         </div>
+        
         {% endif %}
     </ul>
 
