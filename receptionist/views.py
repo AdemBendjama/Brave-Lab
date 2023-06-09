@@ -26,7 +26,7 @@ from django.core.files.storage import default_storage
 @login_required
 @permission_required('receptionist.view_receptionist', raise_exception=True)
 def receptionist_home(request):
-    reports = Report.objects.all()
+    reports = Report.objects.all().order_by('-creation_time')
     
     if request.GET.get('date_sort') :
         date = request.GET.get('date')
@@ -137,6 +137,8 @@ def confirm_payment(request,report_id , invoice_id):
         appointment.save()
         
         messages.success(request,"Appointment Marked as Payed")
+        
+        return redirect("receptionist_report_detail",report_id=report_id)
 
     return redirect('invoice_detail',report_id=report_id, invoice_id=invoice_id)
 ################################################################

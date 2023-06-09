@@ -212,7 +212,7 @@ padding-right: 8%;
 
 
 .userscontianercl  {
-    height: 30vh;
+    height: 50vh;
     border-left: 3px solid #00748c50;
     border-right: 3px solid #00748c50;
     border-bottom: 3px solid #00748c50;
@@ -244,7 +244,7 @@ padding-right: 8%;
     
         background-color: #fff;
         padding: 10px;
-        height: 25vh;
+        height: 45vh;
         overflow-y: scroll;
         background-color: #fff;
 }
