@@ -50,7 +50,7 @@
         <div>-------------------------------</div>
         <div>
             <p>Total</p>
-            <p><strong><span>$</span>180</strong></p>
+            <p><strong><span>$</span>{{report.invoice.}}</strong></p>
         </div>
         {%if not report.invoice.payment_status %}
         <a href="{% url 'invoice_detail' report.id report.invoice.id %}"><button class="formbold-btn">Pay Invoice Fees</button></a>
