@@ -422,8 +422,10 @@ def create_chat_room(sender, instance, created, **kwargs):
 
         # Create a new chat room
         chat_room = ChatRoom(name=f"Nurse Chat Room {instance.user.id}")
+        lobby = Lobby(nurse=instance)
 
         # Add the nurse and main auditor to the chat room
         chat_room.nurse = instance
         chat_room.auditor = Auditor.objects.all().first()
+        lobby.save()
         chat_room.save()
