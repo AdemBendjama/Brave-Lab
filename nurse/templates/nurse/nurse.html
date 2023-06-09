@@ -8,59 +8,66 @@
 {% block main %}
 <div class="Container">
 		
-   
-
     <div class="header ">
         <div class="search">
         </div>
-        <div class="nurse">
-            <a href="{% url "nurse" %}?urgency={{sort_urgency}}">
-                <button class="list-button filter">
-                    <span>Urgency</span>
-                    <span class="material-icons">sort</span>
-                </button>
-            </a>
-        </div>
-        
-        
+            <div class="nurse">
+                <a href="{% url "nurse" %}?urgency={{sort_urgency}}">
+                    <button class="list-button filter">
+                        <span>Urgency</span>
+                        <span class="material-icons">sort</span>
+                    </button>
+                </a>
+            </div>
     </div>
+
     {% if clients %}
     <div class="userlist">
+
         <div class="infoheader">
-             <h3>Client Lobby</h3>
+            <h3>Client Lobby</h3>
         </div>
 
         <div class="userscontianer">
-            <div class= "scroll">
-        {% for client in clients %}
-            <li class="app1">
-                <span><strong>Appointment #{{ client.id }}</strong></span>
-                <span><strong>{{ client.client.user.first_name }} {{ client.client.user.last_name }}</strong></span>
-                <span><strong>
-                    {% if client.urgent %}
-                        Urgent
-                    {% else %}
-                        Normal
-                    {% endif %}
-                </strong></span>
-                <div class="buttons">
-                    <button class="list-button"><a class="list-links" href="{% url 'lobby_detail' client.id %}">View Details</a></button>
-                </div>
-            </li>
-        {% endfor %}
+            <div class="scroll">
+                {% for client in clients %}
+                <li class="app1">
+                    <span><strong>Appointment #{{ client.id }}</strong></span>
+                    <span><strong>{{ client.client.user.first_name }} {{ client.client.user.last_name }}</strong></span>
+                    <span><strong>
+                            {% if client.urgent %}
+                            Urgent
+                            {% else %}
+                            Normal
+                            {% endif %}
+                        </strong></span>
+                    <div class="buttons">
+                        <button class="list-button"><a class="list-links" href="{% url 'lobby_detail' client.id %}">View
+                                Details</a></button>
+                    </div>
+                </li>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
     {% else %}
-        <div>
-            <ul class="lists">
-                <li class="app1 empty">
+    <div class="userlist">
+
+        <div class="infoheader">
+            <h3>Client Lobby</h3>
+        </div>
+
+        <div class="userscontianer">
+            <div class="scroll">
+                <li class="app1">
                     <span><strong>No Clients Waiting in the Lobby</strong></span>
                 </li>
-            </ul>
+            </div>
         </div>
-    </div> 
-</div> 
-        </div>
+
+    </div>
     {% endif %}
-     
     
 </div>
 
