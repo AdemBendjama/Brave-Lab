@@ -4,15 +4,75 @@
 {% block main %}
 <style>
     .Container {
-        border: 1px solid lightgray;
-        padding: 20px 80px;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 40px 80px;
+        border: 2px solid lightgray;
+        border-radius: 10px;
+        background-color: #fff;
+        animation: fade-in 1s ease-out;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .Container h1 {
+        color: #111;
+        margin-bottom: 20px;
+    }
+    
+    .Container h3 {
+        color: #222;
+        margin-bottom: 10px;
+    }
+    
+    .Container p {
+        font-size: 1.6rem;
+        color: #333;
+        margin-bottom: 5px;
+    }
+    
+    .Container ul {
+        list-style: none;
+        padding-left: 20px;
+        margin-top: 0;
+    }
+    
+    .Container li {
+        color: #333;
+        margin-bottom: 5px;
+    }
+    
+    .Container img {
+        max-width: 100%;
+        height: auto;
+        border: 2px solid lightgray;
         border-radius: 5px;
-        width: 30%;
+        margin-top: 10px;
+    }
+    
+    @keyframes fade-in {
+        from {
+        opacity: 0;
+        }
+        to {
+        opacity: 1;
+        }
+    }
+    
+
+    .Container .tests{
         display: flex;
         flex-direction: column;
         align-items: baseline;
-        justify-content: center;
+        padding: 0;
     }
+
+    form{
+        display: flex;
+        gap: 30px;
+    }
+
     .Container .button {
         margin-top: 10px;
         padding: 10px 20px;
@@ -26,6 +86,7 @@
         background-color: #4CAF50;
         transition: background-color 0.3s;
         border-radius: 4px;
+        font-size: 1.4rem;
     }
     .Container .button.delete {
         background-color: #FF0000;
@@ -42,11 +103,11 @@
 </style>
 <div class="Container">
     <h1>User Detail</h1>
-    <p>User ID: {{ user_detail.id }}</p>
-    <p>Username: {{ user_detail.username }}</p>
-    <p>Email: {{ user_detail.email }}</p>
-    <p>Group: {{ user_detail.groups.first }}</p>
-    <p>Date of Creation: {{ user_detail.date_joined }}</p>
+    <p>User ID <strong>#{{ user_detail.id }}</strong></p>
+    <p>Username: <strong>{{ user_detail.username }}</strong></p>
+    <p>Email: <strong>{{ user_detail.email }}</strong></p>
+    <p>Group: <strong>{{ user_detail.groups.first }}</strong></p>
+    <p>Date of Creation: <strong>{{ user_detail.date_joined }}</strong></p>
 
     <form method="POST">
         {% csrf_token %}

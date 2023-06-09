@@ -91,7 +91,7 @@ def admin_user(request):
                     'sort_type':sort_type,
                 }
                 
-                return render(request,'auditor/result/result_list.html',context)
+                return render(request,'admin_user/admin_user.html',context)
     
         
     
