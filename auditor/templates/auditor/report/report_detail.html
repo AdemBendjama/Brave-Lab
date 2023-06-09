@@ -13,24 +13,26 @@
   </div>
 <div class="infos">
     <div class="client cont">
-        <p>Client #ID : <strong>23132</strong></p>
-        <p>Client Name :<strong>Ahmed Amokrane</strong></p>
-        <p>Age : <strong>21</strong></p>
-        <p>gender: <strong>male</strong></p>
-        <p>email:<strong>smart.gaming86@gmail.com</strong></p>
-        <p>Adress:<strong>Constantine-alger</strong></p>
-        <p>Appointment #ID :<strong>24</strong></p>
-        <p>Date:<strong>25/12/2023</strong></p>
-        <p>Blood type : <strong>O-</strong></p>
+        <p>Report ID: <strong>#{{report.id}}</strong></p>
+        <p>Invoice ID : <a href="{% url 'invoice_detail' report.id report.invoice.id %}">#{{ report.invoice.id }}</a></p>
+        <p>Client ID : #<strong>{{report.invoice.client.user.id}}</strong></p>
+        <p>Client Name :&nbsp;<strong>{{report.invoice.client.user.first_name}} {{report.invoice.client.user.last_name}}</strong></p>
+        <p>Age : &nbsp;<strong>{{report.invoice.client.age}}</strong></p>
+        <p>Gender: &nbsp;<strong> {{report.invoice.client.gender}} </strong></p>
+        <p>Email:&nbsp;<strong>{{report.invoice.client.user.email}}</strong></p>
+        <p>Address:&nbsp;<strong>{{report.invoice.client.address}}</strong></p>
+        <p>Appointment ID :<strong>#{{ report.test_result.request.appointment.id }}</strong></p>
+        <p>Date:&nbsp;<strong>{{report.test_result.request.appointment.date}}</strong></p>
     </div>
     <div class="work cont">
-        <p>Test #ID:<strong>25</strong></p>
-        <p>Test Time:<strong>14:25pm</strong></p>
-        <p>Receptionist: <strong>Adem Adem</strong></p>
-        <p>Nurses Served: <strong>Ahmed , adem ,</strong></p>
-        <p>Auditor: <strong>Amokrane Ahmed</strong></p>
-        <p>Tests Made:<strong>Lipid Panel , Hemoglobin test</strong></p>
-        <p>Report #ID:<strong> 35</strong></p>
+        <p>Test Results ID: <strong>#{{report.test_result.id}}</strong></p>
+        <p>Test Duration:&nbsp;<strong>8 hours 15 mins{{report.test_result.request.durations}}</strong></p>
+        <p>Nurse: &nbsp;<strong>{{report.test_result.request.nurse.user.first_name}} {{report.test_result.request.nurse.user.last_name}}</strong></p>
+        <p>Tests Made:&nbsp;
+          {% for test in report.test_result.request.tests.all %}
+          <strong>-{{test.test_offered.name}}</strong>
+          {% endfor %}
+        </p>
     </div>
     <div class="payments cont">
         <div>

@@ -13,6 +13,7 @@
   </div>
 <div class="infos">
     <div class="client cont">
+        <p>Report ID: <strong>#{{report.id}}</strong></p>
         <p>Invoice ID : <a href="{% url 'invoice_detail' report.id report.invoice.id %}">#{{ report.invoice.id }}</a></p>
         <p>Client ID : #<strong>{{report.invoice.client.user.id}}</strong></p>
         <p>Client Name :&nbsp;<strong>{{report.invoice.client.user.first_name}} {{report.invoice.client.user.last_name}}</strong></p>
@@ -26,13 +27,12 @@
     <div class="work cont">
         <p>Test Results ID: <strong>#{{report.test_result.id}}</strong></p>
         <p>Test Duration:&nbsp;<strong>8 hours 15 mins{{report.test_result.request.durations}}</strong></p>
-        <p>Receptionist: &nbsp;<strong>Ahmed Allala</strong></p>
-        <p>Nurse: &nbsp;<strong>Samira bendali</strong></p>
-        <p>Auditor: &nbsp;<strong>Ben Zahir Mouhamed</strong></p>
-        <p>Tests Made:&nbsp;<strong>Lipid Panel</strong>
-          <strong>Hemoglobin</strong>
+        <p>Nurse: &nbsp;<strong>{{report.test_result.request.nurse.user.first_name}} {{report.test_result.request.nurse.user.last_name}}</strong></p>
+        <p>Tests Made:&nbsp;
+          {% for test in report.test_result.request.tests.all %}
+          <strong>-{{test.test_offered.name}}</strong>
+          {% endfor %}
         </p>
-        <p>Report ID:<strong>#{{report.id}}</strong></p>
     </div>
     <div class="payments cont">
         <div>
