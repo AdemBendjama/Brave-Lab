@@ -1,12 +1,64 @@
 {% extends 'auditor/auditor.html' %}
 {% load static %}
+{% block css_3 %}
 
+<link rel="stylesheet" href="{% static 'css/report.css' %}">
+
+{% endblock css_3 %}
 {% block main %}
 <div class="Container">
-    <h1>Report Detail</h1>
+  <div class="header-detail"> 
+    <H1>GENERAL REPORT</H1>
+    
+  </div>
+<div class="infos">
+    <div class="client cont">
+        <p>Client #ID : <strong>23132</strong></p>
+        <p>Client Name :<strong>Ahmed Amokrane</strong></p>
+        <p>Age : <strong>21</strong></p>
+        <p>gender: <strong>male</strong></p>
+        <p>email:<strong>smart.gaming86@gmail.com</strong></p>
+        <p>Adress:<strong>Constantine-alger</strong></p>
+        <p>Appointment #ID :<strong>24</strong></p>
+        <p>Date:<strong>25/12/2023</strong></p>
+        <p>Blood type : <strong>O-</strong></p>
+    </div>
+    <div class="work cont">
+        <p>Test #ID:<strong>25</strong></p>
+        <p>Test Time:<strong>14:25pm</strong></p>
+        <p>Receptionist: <strong>Adem Adem</strong></p>
+        <p>Nurses Served: <strong>Ahmed , adem ,</strong></p>
+        <p>Auditor: <strong>Amokrane Ahmed</strong></p>
+        <p>Tests Made:<strong>Lipid Panel , Hemoglobin test</strong></p>
+        <p>Report #ID:<strong> 35</strong></p>
+    </div>
+    <div class="payments cont">
+        <div>
+            <p>Tests Made</p>
+            <p><strong>3</strong></p>
+        </div>
+        <div>
+            <p>Price</p>
+            <p><strong><span>$</span>150</strong></p>
+        </div>
+        <div>
+            <p>Appointment</p>
+            <p><strong><span>$</span>30</strong></p>
+        </div>
+        <div>-------------------------------</div>
+        <div>
+            <p>Total</p>
+            <p><strong><span>$</span>180</strong></p>
+        </div>
+    </div>
+</div>
+<div class="buttons">
+    <button class="formbold-btn">Download PDF</button>
+    <button class="formbold-btn">View PDF</button>
+</div>
+    {% comment %} <h1>Report Detail</h1>
     <h2>Report #{{ report.id }}</h2>
     <p>Test Result: <a href="{% url 'test_result_detail' report.test_result.id %}">{{ report.test_result }}</a></p>
-    <p>Description: {{ report.description }}</p>
-  </div>
+    <p>Description: {{ report.description }}</p> {% endcomment %}
 </div>
 {% endblock main %}
