@@ -133,6 +133,7 @@
 {% endblock main %}
 
 {% block scripts_3 %}
+<script src="{% static 'js/resources/sweetalert2.all.min.js'%}"></script>
 
 
 <script
@@ -166,7 +167,12 @@
             return actions.order.capture().then(function (details) {
                 // Handle the successful transaction
                 console.log(details);
-                alert("Transaction Complete! $5.00 USD Paid");
+                Swal.fire({
+                    title: 'Success!',
+                    text: "Transaction Complete, $5.00 USD Paid",
+                    icon: 'success',
+                    confirmButtonText: 'Confirm'
+                });
                 markAsPaid();
                 clickButton();
             });
@@ -175,7 +181,12 @@
         // Handle errors or cancellations
         onError: function (err) {
             console.log(err);
-            // You can display an error message or perform other error handling actions here
+            Swal.fire({
+                title: 'Error!',
+                text: "Transaction Failed",
+                icon: 'error',
+                confirmButtonText: 'Confirm'
+            });
         },
 
         style: {

@@ -75,9 +75,7 @@
                 <span><strong>Appointment #{{ appointment.id }}</strong></span>
                 <span><strong>{{ appointment.date }}</strong></span>
                 <div class="buttons">
-                    {% if appointment.cancelable >= 3 and not appointment.payment.payed_appointment_fee %}
                     <button class="list-button cancel-button">Cancel</button>
-                    {% endif %}
                     <button class="list-button"><a class="list-links"
                             href="{% url 'client_appointment_detail' appointment.id %}">View Details</a></button>
                 </div>
@@ -157,18 +155,18 @@
 {% block scripts_2 %}
 <script src="{% static 'js/resources/sweetalert2.all.min.js'%}"></script>
 
+<script>
 {% if messages %}
     {% for message in messages %}
-        <script>
             Swal.fire({
-                title: {% if message.tags == 'success' %}'Booked!'{% else %}'Error!'{% endif %},
+                title: {% if message.tags == 'success' %}'Success!'{% else %}'Error!'{% endif %},
                 text: '{{ message }}',
                 icon: {% if message.tags == 'success' %}'success'{% else %}'error'{% endif %},
                 confirmButtonText: 'Confirm'
             });
-        </script>
     {% endfor %}
 {% endif %}
+</script>
 
 
 

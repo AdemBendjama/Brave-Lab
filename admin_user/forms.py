@@ -3,6 +3,7 @@ from django.contrib.auth.models import User,Group
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
 from datetime import date
+from django.contrib.auth.hashers import make_password
 
 from main_home.models import BloodBank
 
@@ -27,6 +28,11 @@ class UserUpdateForm(forms.ModelForm):
 
         if password and password_confirmation and password != password_confirmation:
             raise forms.ValidationError('Passwords do not match')
+
+        # Hash the password
+        if password:
+            hashed_password = make_password(password)
+            cleaned_data['password'] = hashed_password
 
         return cleaned_data
     

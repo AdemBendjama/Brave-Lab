@@ -58,7 +58,7 @@
             </button>
         </a>
         <a href="{% url "test_result_list" %}?state=approved">
-                <button class="list-button filter">
+            <button class="list-button filter">
                 <span>Approved</span>
                 <span class="material-icons">filter_list</span>
             </button>
@@ -83,6 +83,10 @@
                     Normal
                 {% endif %}
              </strong></span>
+
+            <div class="buttons">
+                <button class="list-button"><a class="list-links" href="{% url 'test_result_detail' result.id %}">View Details</a></button>
+            </div>
         </li>
         {% endfor %}
     </ul>
@@ -104,7 +108,7 @@
                         {% endif %}
                     </strong></span>
                     <div class="buttons">
-                        <button class="list-button"><a class="list-links" href="{% url 'test_result_detail' result.id  %}">View Details</a></button>
+                        <button class="list-button"><a class="list-links" href="{% url 'test_result_detail' result.id %}">View Details</a></button>
                     </div>
                 </li>
             {% endfor %}

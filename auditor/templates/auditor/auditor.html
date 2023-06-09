@@ -119,14 +119,14 @@
                     </div>
                     <div class="sub-container">
                         <div class="sub-header">Total Income</div>
-                        <div class="description">346 Analysis requests this week</div>
+                        <div class="description">${{monthly_revenue}} Monthly Revenue</div>
                     </div>
                     <div class="sub-container right">
                         <div class="icon"><i class="fa-solid fa-chevron-right"></i></div>
                     </div>
                 </div>
                 <div class="row-container">
-                    <div class="heading">$4,566</div>
+                    <div class="heading">${{total_income}}</div>
                 </div>
             </div>
             <div class="grid-item row-1 box-2">
@@ -136,14 +136,14 @@
                     </div>
                     <div class="sub-container">
                         <div class="sub-header">Clients</div>
-                        <div class="description">17 New clients this week</div>
+                        <div class="description">{{new_client_count}} New clients in the last 7 days</div>
                     </div>
                     <div class="sub-container right">
                         <div class="icon"><i class="fa-solid fa-chevron-right"></i></div>
                     </div>
                 </div>
                 <div class="row-container">
-                    <div class="heading">457</div>
+                    <div class="heading">{{client_count}}</div>
                 </div>
             </div>
             <div class="grid-item row-1 box-3">
@@ -154,14 +154,14 @@
                     </div>
                     <div class="sub-container">
                         <div class="sub-header">Complaints</div>
-                        <div class="description">3 this week</div>
+                        <div class="description">{{complaints_last_7_days}} this week</div>
                     </div>
                     <div class="sub-container right">
                         <div class="icon"><i class="fa-solid fa-chevron-right"></i></div>
                     </div>
                 </div>
                 <div class="row-container">
-                    <div class="heading">47</div>
+                    <div class="heading">{{total_complaints}}</div>
                 </div>
             </div>
             <div class="grid-item double-width row-2 box-4">
@@ -194,21 +194,63 @@
 {% endblock sidebar %}
 
 {% block scripts_2 %}
-<script src="{% static 'js/resources/chart.js' %}"></script>
+
+<script src="{% static 'js/resources/sweetalert2.all.min.js'%}"></script>
+
+{% if messages %}
+    {% for message in messages %}
+        <script>
+            Swal.fire({
+                title: {% if message.tags == 'success' %}'Success!'{% else %}'Error!'{% endif %},
+                text: '{{ message }}',
+                icon: {% if message.tags == 'success' %}'success'{% else %}'error'{% endif %},
+                confirmButtonText: 'Confirm'
+            });
+        </script>
+    {% endfor %}
+{% endif %}
 
 
 <script>
-    const ctx = document.getElementById('DoughnutChart');
+    var path = window.location.pathname;
+    var links = document.querySelectorAll('nav ul li a');
 
+    links.forEach(function (link) {
+        var href = link.getAttribute('href');
+
+        // Check if the current path starts with the href
+        if (path.startsWith(href)) {
+            // Add the "active" class to the parent <li> element
+            link.parentElement.classList.add('active');
+        }
+    });
+</script>
+{% endblock scripts_2 %}
+
+{% block scripts_3 %}
+
+<script src="{% static 'js/resources/chart.js' %}"></script>
+
+<script>
+    const ctx = document.getElementById('DoughnutChart');
+    const test_labels =[];
+    const chart_data =[];
+
+    {% for test in top_tests  %}
+        test_name = '{{test.test_offered__name}}';
+        test_count = parseInt('{{test.count}}');
+        console.log('{{test.count}}');
+        
+        test_labels.push(test_name);
+        chart_data.push(test_count);
+    {% endfor %}
+        
+    console.log(chart_data[0]);
     const data = {
-        labels: [
-            'Complete Blood Count (CBC)',
-            'Hemoglobin A1C (HbA1c)',
-            'Vitamin D Levels'
-        ],
+        labels: test_labels,
         datasets: [{
             label: 'Tests',
-            data: [12, 150, 14],
+            data: chart_data,
             backgroundColor: [
                 'rgb(60, 127, 125)',
                 'rgb(40, 147, 140)',
@@ -229,14 +271,22 @@
 
 <script>
     const ctx2 = document.getElementById('LineChart');
+    const month_labels =[];
+    const app_data =[];
 
+    {% for app in app_count  %}
+        app_month = '{{app.month}}';
+        app_count = '{{app.count}}';
+        
+        month_labels.push(app_month);
+        app_data.push(app_count);
+    {% endfor %}
 
-    const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
     const data2 = {
-        labels: labels,
+        labels: month_labels,
         datasets: [{
             label: 'Appointments',
-            data: [65, 59, 80, 81, 56, 55],
+            data: app_data,
             fill: false,
             borderColor: 'rgb(20, 167, 165)',
             tension: 0.1
@@ -255,18 +305,7 @@
 </script>
 
 
-<script>
-    var path = window.location.pathname;
-    var links = document.querySelectorAll('nav ul li a');
 
-    links.forEach(function (link) {
-        var href = link.getAttribute('href');
+{% endblock scripts_3 %}
 
-        // Check if the current path starts with the href
-        if (path.startsWith(href)) {
-            // Add the "active" class to the parent <li> element
-            link.parentElement.classList.add('active');
-        }
-    });
-</script>
-{% endblock scripts_2 %}
+

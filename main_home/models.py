@@ -1,4 +1,4 @@
-from datetime import timedelta, timezone
+from datetime import timedelta, timezone,date
 from django.db import models
 from django.forms import ValidationError
 from auditor.models import Auditor
@@ -6,9 +6,9 @@ from client.models import Client
 from nurse.models import Nurse
 from receptionist.models import Receptionist
 from django.utils import timezone
-from django.db.models import Sum
+from django.db.models import Sum,Count,Avg
 from django.contrib.auth.models import User
-
+from django.db.models.functions import TruncMonth
 
 
 # Get the current time in Algeria timezone
@@ -457,3 +457,87 @@ class Evaluation(models.Model):
 
     def __str__(self):
         return f"Evaluation #{self.id}"
+    
+    
+class Statistics(models.Model):
+    @staticmethod
+    def get_most_common_tests():
+        return Test.objects.values('test_offered__name').annotate(count=Count('test_offered')).order_by('-count')[:3]
+
+    @staticmethod
+    def get_most_common_tests_with_count():
+        most_common_tests = Statistics.get_most_common_tests()
+        return [(item['test_offered__name'], item['count']) for item in most_common_tests]
+
+    @staticmethod
+    def get_last_four_months_appointments_count():
+        today = date.today()
+        four_months_ago = today - timedelta(days=120)
+
+        appointments_count = (
+            Appointment.objects
+            .filter(date__gte=four_months_ago)
+            .annotate(month=TruncMonth('date'))
+            .values('month')
+            .annotate(count=Count('id'))
+            .order_by('month')
+        )
+
+        table = []
+        for entry in appointments_count:
+            month_name = entry['month'].strftime('%B')
+            count = entry['count']
+            table.append({'month': month_name, 'count': count})
+
+        return table
+    
+
+
+    @staticmethod
+    def get_total_earnings():
+        total_earnings = Invoice.objects.filter(payment_status=True).aggregate(total=Sum('total_price'))['total']
+        return total_earnings or 0
+
+    @staticmethod
+    def get_monthly_revenue():
+        average_revenue = (
+            Invoice.objects.filter(payment_status=True)
+            .annotate(month=TruncMonth('creation_time'))
+            .values('month')
+            .annotate(total_revenue=Sum('total_price'))
+            .aggregate(average=Avg('total_revenue'))['average']
+        )
+        if average_revenue :
+            return average_revenue 
+        else :
+            return 0
+        
+    @staticmethod
+    def get_client_count():
+        client_count = Client.objects.all().count()
+        return client_count
+    
+    @staticmethod
+    def get_new_clients():
+        # Calculate the date 7 days ago
+        seven_days_ago = date.today() - timedelta(days=7)
+        
+        # Retrieve all users who joined in the past 7 days
+        new_clients = Client.objects.filter(user__date_joined__gte=seven_days_ago).count()        
+        
+        return new_clients
+    
+    @staticmethod
+    def get_total_complaints():
+        total_complaints = Complaint.objects.all().count()
+        return total_complaints
+    
+    @staticmethod
+    def get_complaints_last_7_days():
+        # Calculate the date 7 days ago
+        seven_days_ago = date.today() - timedelta(days=7)
+        
+        # Retrieve the count of complaints created in the last 7 days
+        complaints_last_7_days = Complaint.objects.filter(date__gte=seven_days_ago).count()
+        
+        return complaints_last_7_days

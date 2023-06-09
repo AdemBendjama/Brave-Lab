@@ -5,7 +5,7 @@ import os
 from admin_user.models import AdminUser
 from brave_lab_project.settings import BASE_DIR
 
-from main_home.models import Anemia, Appointment, Component, ComponentInformation, Diabetes, Lobby, Test, TestResult
+from main_home.models import Anemia, Appointment, ChatRoom, Component, ComponentInformation, Diabetes, Lobby, Test, TestResult
 
 from django.db.models.signals import pre_save, pre_delete
 from client.models import Client
@@ -72,7 +72,7 @@ def test_result_created(sender, instance, created , **kwargs):
             if 0 < positive_percentage <= 100:
                 positive_percentage = "{:.2f}".format(positive_percentage)
             else :
-                positive_percentage = 0.0;
+                positive_percentage = 0.0
 
             if prediction == 0 :
                 print("Prediction: Negative for Anemia")
@@ -414,3 +414,16 @@ def create_nurse_lobby(sender, instance, created, **kwargs):
 def delete_nurse_lobby(sender, instance, **kwargs):
     if instance.lobby:
         instance.lobby.delete()
+
+
+@receiver(post_save, sender=Nurse)
+def create_chat_room(sender, instance, created, **kwargs):
+    if created:
+
+        # Create a new chat room
+        chat_room = ChatRoom(name=f"Nurse Chat Room {instance.user.id}")
+
+        # Add the nurse and main auditor to the chat room
+        chat_room.nurse = instance
+        chat_room.auditor = Auditor.objects.all().first()
+        chat_room.save()

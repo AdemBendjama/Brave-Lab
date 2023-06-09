@@ -92,10 +92,10 @@
 
     <ul>
         <li>Creation Time: {{ invoice.creation_time }}</li>
-        <li>Total Price: {{ invoice.total_price }}</li>
+        <li>Total Price: ${{ invoice.total_price }}</li>
         <li>Payment Status: {% if invoice.payment_status %}Paid{% else %}Unpaid{% endif %}</li>
         {% if not invoice.payment_status %}
-        <li>Ammount Unpaid: {{ invoice.total_price }}</li>
+        <li>Ammount Unpaid: ${{ invoice.total_price }}</li>
         {% endif %}
         <li>Client: {{ invoice.client.user.first_name }} {{ invoice.client.user.last_name }}</li>
         <li>Laboratory: {{ invoice.laboratory }}</li>

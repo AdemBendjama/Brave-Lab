@@ -28,10 +28,6 @@ from django.core.files.storage import default_storage
 def receptionist_home(request):
     reports = Report.objects.all()
     
-    
-    receptionist = request.user.receptionist
-                 
-   
     if request.GET.get('date_sort') :
         date = request.GET.get('date')
         
@@ -73,9 +69,9 @@ def receptionist_home(request):
             except ValueError:
                 parsable = False
             
-            if parsable and reports.filter(id=int(search)).exists() :
-                reports = reports.filter(id=int(search)).all()       
-                
+            if parsable and reports.filter(test_result__request__appointment__id=int(search)).exists() :
+                reports = reports.filter(test_result__request__appointment__id=int(search)).all()       
+
             elif reports.filter(invoice__client__user__username=search).exists() :
                 reports = reports.filter(invoice__client__user__username=search).all()
             
@@ -139,8 +135,8 @@ def confirm_payment(request,report_id , invoice_id):
         
         appointment.payment_status = True
         appointment.save()
-
-        # Redirect to the invoice detail page
+        
+        messages.success(request,"Appointment Marked as Payed")
 
     return redirect('invoice_detail',report_id=report_id, invoice_id=invoice_id)
 ################################################################
@@ -171,6 +167,8 @@ def client_add(request):
                             address = address,
                             policy = policy,
                             date_of_birth = date_of_birth)
+            
+            messages.success(request,"Client Added Successfully")
             
             return redirect('receptionist')
     else:
@@ -454,7 +452,7 @@ def appointment_confirm(request, appointment_id):
             payment.save()
             appointment.save()
             
-            
+            messages.success(request,'Client Arrived Successfully')
             
             return redirect("appointment_detail",appointment_id=appointment_id)
                 
@@ -536,6 +534,8 @@ def reply_complaint(request, complaint_id):
         })
         
         send_mail(subject,content ,EMAIL_HOST_USER,[f"{client.user.email}"],html_message=html)
+        
+        messages.success(request,"Reply Composed Successfully")
         
         return redirect('complaint_detail',complaint_id=complaint_id)
         

@@ -3,8 +3,8 @@
 
 {% block main %}
 <div class="Container">
-    <h1>Report Detail</h1>
-    <h2>Report #{{ report.id }}</h2>
+    <h3>Report #{{ report.id }}</h3>
+    <p>Appointment #{{ report.test_result.request.appointment.id }}</p>
     <p>Invoice: <a href="{% url 'invoice_detail' report.id report.invoice.id %}">{{ report.invoice }}</a></p>
     <p>Description: {{ report.description }}</p>
   </div>
