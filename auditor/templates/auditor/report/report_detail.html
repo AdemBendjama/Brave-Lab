@@ -50,11 +50,14 @@
             <p>Total</p>
             <p><strong><span>$</span>180</strong></p>
         </div>
+        <a href="{% url 'pdf_client_invoice' report.invoice.id %}?download=true" class="download-button"><button class="formbold-btn">Download Invoice</button></a>
+        <a href="{% url 'pdf_client_invoice' report.invoice.id %}" target="_blank" class="view-button"><button class="formbold-btn">View Invoice</button></a>
+      
     </div>
 </div>
 <div class="buttons">
-    <button class="formbold-btn">Download PDF</button>
-    <button class="formbold-btn">View PDF</button>
+  <a href="{% url 'pdf_client_results' report.invoice.id %}?download=true" class="download-button"><button class="formbold-btn">Download Test Details</button></a>
+  <a href="{% url 'pdf_client_results' report.invoice.id %}" target="_blank" class="view-button"><button class="formbold-btn">View Test Details</button></a>
 </div>
     {% comment %} <h1>Report Detail</h1>
     <h2>Report #{{ report.id }}</h2>
