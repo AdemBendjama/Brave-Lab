@@ -34,21 +34,22 @@
     </div>
     <div class="payments cont">
         <div>
-            <p>Tests Made</p>
-            <p><strong>{{3}}</strong></p>
+        <p>Tests Made</p>
+        <p>&nbsp;<strong>{{report.test_result.request.tests.count}}</strong></p>
         </div>
         <div>
             <p>Price</p>
-            <p><strong><span>$</span>150</strong></p>
+            <p>&nbsp;<strong><span>$</span>{{report.invoice.total_price}}</strong></p>
         </div>
         <div>
-            <p>Appointment</p>
-            <p><strong><span>$</span>30</strong></p>
+            <p>(Payed)Appointment</p>
+            <p>&nbsp;<strong><span>$</span>5</strong></p>
+            
         </div>
         <div>-------------------------------</div>
         <div>
-            <p>Total</p>
-            <p><strong><span>$</span>180</strong></p>
+            <p>Total Payed</p>
+            <p>&nbsp;<strong><span>$</span>{{report.test_result.request.appointment.payment.total_amount_payed}}</strong></p>
         </div>
         <a href="{% url 'pdf_client_invoice' report.invoice.id %}?download=true" class="download-button"><button class="formbold-btn">Download Invoice</button></a>
         <a href="{% url 'pdf_client_invoice' report.invoice.id %}" target="_blank" class="view-button"><button class="formbold-btn">View Invoice</button></a>
