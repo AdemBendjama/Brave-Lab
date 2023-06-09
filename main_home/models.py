@@ -157,16 +157,21 @@ class Test(models.Model):
     
 class BloodBank(models.Model):
     MAX_SAMPLE_CAPACITY_CHOICES = [
+        (500, '500'),
         (400, '400'),
         (300, '300'),
-        (200, '200')
+        (200, '200'),
     ]
 
+    codename = models.CharField(max_length=10)
     capacity = models.IntegerField(choices=MAX_SAMPLE_CAPACITY_CHOICES)
 
     def __str__(self):
-        return f"Blood Bank - Capacity: {self.capacity} samples"
+        return f"Blood Bank {self.codename} - Capacity: {self.capacity} samples"
 
+    def count(self):
+        return self.blood_samples.count()
+    
     def is_full(self):
         sample_count = self.blood_samples.count()
         return sample_count >= self.capacity

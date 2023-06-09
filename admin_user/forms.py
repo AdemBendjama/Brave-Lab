@@ -4,6 +4,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
 from datetime import date
 
+from main_home.models import BloodBank
+
+class BloodBankAdd(forms.ModelForm):
+    class Meta:
+        model= BloodBank
+        fields=["codename","capacity"]
+    
 class UserUpdateForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     password_confirmation = forms.CharField(widget=forms.PasswordInput)
