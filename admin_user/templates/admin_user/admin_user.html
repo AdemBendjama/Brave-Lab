@@ -49,20 +49,31 @@
 
     
     {% if users %}
-    <h2>Users</h2>
-        <ul>
-            {% for user in users %}
-                <li class="app1">
-                    <span><strong>User #{{ user.id }}</strong></span>
-                    <span><strong>Username: {{ user.username }}</strong></span>
-                    <span><strong>Group: {{ user.groups.first.name }}</strong></span>
+    <div class="userlist">
+        <div class="infoheader">
+    <div class= "infoheader1">user id</div>
+    <div claas= "infoheader2">Username</div>
+    <div class= "infoheader3">Group</div>
+    <div class= "infoheader4">Details</div>
+        </div>     
+        <div class="userscontianer">
+            <div class= "scroll">
+            <ul>
+                {% for user in users %}
+                    <li class="app1">
+                        <span><strong> #{{ user.id }}</strong></span>
+                        <span><strong> {{ user.username }}</strong></span>
+                        <span><strong> {{ user.groups.first.name }}</strong></span>
 
-                    <div class="buttons">
-                    <button class="list-button"><a class="list-links" href="{% url 'user_detail' user.id %}">View Details</a></button>
-                    </div>
-                </li>   
-            {% endfor %}
-        </ul>
+                        <div class="buttons">
+                        <button class="list-button"><a class="list-links" href="{% url 'user_detail' user.id %}">View Details</a></button>
+                        </div>
+                    </li>   
+                {% endfor %}
+            </ul>
+        </div>
+        </div> 
+    </div>    
     {% endif %}
 
 </div>

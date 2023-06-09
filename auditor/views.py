@@ -4,8 +4,9 @@ from django.contrib.auth.decorators import login_required , permission_required
 from auditor.forms import NurseForm, UpdateTestsForm
 from auditor.models import Auditor
 from django.contrib.auth.models import User
+from django.contrib import messages
 
-from main_home.models import AnalysisRequest, ChatRoom, Component, Invoice, Laboratory, Message, Report, Test, TestResult
+from main_home.models import AnalysisRequest, ChatRoom, Component, Invoice, Laboratory, Message, Report, Statistics, Test, TestResult
 
 
 from django.core.serializers import serialize
@@ -23,9 +24,26 @@ from django.contrib import messages
 @login_required
 @permission_required('auditor.view_auditor', raise_exception=True)
 def auditor_home(request):
+    top_tests = Statistics.get_most_common_tests()
+    app_count = Statistics.get_last_four_months_appointments_count()
+    total_income = Statistics.get_total_earnings()
+    monthly_revenue = Statistics.get_monthly_revenue()
+    client_count = Statistics.get_client_count()
+    new_client_count = Statistics.get_new_clients()
+    total_complaints = Statistics.get_total_complaints()
+    complaints_last_7_days = Statistics.get_complaints_last_7_days()
     
-    
-    return render(request,'auditor/auditor.html')
+    context={
+        "top_tests":top_tests,
+        'app_count':app_count,
+        'total_income':total_income,
+        'monthly_revenue':monthly_revenue,
+        'client_count':client_count,
+        'new_client_count':new_client_count,
+        'total_complaints':total_complaints,
+        'complaints_last_7_days':complaints_last_7_days,
+    }
+    return render(request,'auditor/auditor.html',context)
 
 ################################################################
 
@@ -245,6 +263,8 @@ def change_nurse(request, analysis_request_id):
             
             # nurse = Nurse.objects.get(id=nurse_id)
             print(analysis_request.nurse)
+            
+            messages.success(request,'Nurse Changed Successfully')
     
     
     return redirect('auditor_request_detail',analysis_request_id=analysis_request_id)
@@ -434,6 +454,8 @@ def result_update(request, test_result_id):
                         if component_value_key in form.cleaned_data:
                             component.value = form.cleaned_data[component_value_key]
                             component.save()
+                            
+            messages.success(request ,'Test Results Updated Successfully')
 
             return redirect('test_result_detail', test_result_id=test_result_id)
     else:

@@ -60,7 +60,7 @@
         <ul>
             {% for report in reports %}
                 <li class="app1">
-                    <span><strong>Report #{{ report.id }}</strong></span>
+                    <span><strong>Appointment #{{ report.test_result.request.appointment.id }}</strong></span>
                     <span><strong>Client: {{ report.invoice.client.user.username }}</strong></span>
                     <span><strong>{{ report.creation_time }}</strong></span>
                     <div class="buttons">
@@ -95,6 +95,21 @@
 {% endblock sidebar %}
 
 {% block scripts_2 %}
+<script src="{% static 'js/resources/sweetalert2.all.min.js'%}"></script>
+
+<script>
+{% if messages %}
+    {% for message in messages %}
+            Swal.fire({
+                title: {% if message.tags == 'success' %}'Success!'{% else %}'Error!'{% endif %},
+                text: '{{ message }}',
+                icon: {% if message.tags == 'success' %}'success'{% else %}'error'{% endif %},
+                confirmButtonText: 'Confirm'
+            });
+    {% endfor %}
+{% endif %}
+</script>
+
 <script>
     var path = window.location.pathname;
     var links = document.querySelectorAll('nav ul li a');

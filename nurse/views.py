@@ -91,10 +91,7 @@ def evaluation(request, appointment_id):
                                           heart_disease=heart_disease,hypertension=hypertension,
                                           smoking_history=smoking_history)
             evaluation.save()
-            
-            
-            messages.success(request,"Patient Information Saved Successfully !")
-        
+                    
         
             # Mark Appointment as performed
             appointment.performed = True
@@ -110,8 +107,10 @@ def evaluation(request, appointment_id):
             for test_offered in tests_requested:
                 test = Test.objects.create(test_offered=test_offered)
                 analysis_request.tests.add(test)
+                
+            messages.success(request,"Patient Information Saved ,  Analysis Request Added")
             
-            return redirect('lobby_detail', appointment_id=appointment.id)
+            return redirect('request_list')
         
     else : 
         form = EvaluationForm()
@@ -257,6 +256,8 @@ def start_analysis(request, analysis_request_id):
         analysis_request.status = AnalysisRequest.WORKING_ON
         analysis_request.accepted = True
         analysis_request.save()
+        
+        messages.success(request,"Analysis Procedure Started")
 
         return redirect('request_test_list', analysis_request_id=analysis_request.id)
 
@@ -280,6 +281,8 @@ def finish_analysis(request, analysis_request_id):
                 request=analysis_request,
                 duration=analysis_request.duration_unformated()
             )
+            
+            messages.success(request,"Analysis Tests Submitted Successfully")
             
             return redirect('request_detail', analysis_request.id)
     
@@ -315,6 +318,8 @@ def request_test_add(request, analysis_request_id):
             appointment.payment_status = False
             appointment.save()
             
+            messages.success(request,'Test Added Successfully')
+            
             return redirect('request_test_list', analysis_request_id=analysis_request_id)
     else:
         form = AddTestForm(appointment)
@@ -337,6 +342,9 @@ def request_test_add_component(request, analysis_request_id, test_id):
         if form.is_valid():
             component = form.cleaned_data['component']
             test.components.create(info=component)
+            
+            messages.success(request,'Component Added Successfully')
+            
             return redirect('request_test_add_component', analysis_request_id=analysis_request_id, test_id=test_id)
     else:
         form = AddComponentForm(test=test)
@@ -386,6 +394,9 @@ def request_test_finalize(request, analysis_request_id, test_id):
             form.save()  # Save the form data
             test.confirmed = True  # Mark the test as confirmed
             test.save()
+            
+            messages.success(request,'Test Finalized Successfully')
+            
             return redirect('request_test_detail', analysis_request_id=analysis_request_id, test_id=test_id)
     else:
         form = TestFinalizeForm(instance=test)
@@ -494,6 +505,8 @@ def blood_add(request):
                 'form': form,
                 'blood_added':blood_added,
             }
+            
+            messages.success(request,'Blood Sample Added Successfully')
             
             return render(request,'nurse/add/blood_add.html',context)  
     else:

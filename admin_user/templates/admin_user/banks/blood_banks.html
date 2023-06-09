@@ -10,9 +10,7 @@
     }
 </style>
 <div class="Container">
-    
-    <h3>Blood Banks</h3>
-
+ 
     <div class="header ">
         <div class="search">
             
@@ -29,12 +27,21 @@
         
     </div>
     {% if banks %}
+    <div class="userlist">
+        <div class="infoheader">
+    <div class= "infoheader1">Bank</div>
+    <div claas= "infoheader2">Capacity</div>
+    <div class= "infoheader3">Samples</div>
+    <div class= "infoheader4">Details</div>
+        </div>     
+        <div class="userscontianer">
+            <div class= "scroll">
         <ul>
             {% for bank in banks %}
                 <li class="app1">
-                    <span><strong>Bank #{{ bank.id }}</strong></span>
-                    <span><strong>Capacity: {{ bank.capacity }}</strong></span>
-                    <span><strong>Samples: {{ bank.count }}</strong></span>
+                    <span><strong> #{{ bank.id }}</strong></span>
+                    <span><strong> {{ bank.capacity }}</strong></span>
+                    <span><strong> {{ bank.count }}</strong></span>
 
                     <div class="buttons">
                     <button class="list-button"><a class="list-links" href="{% url 'blood_bank_detail' bank.id %}">View Details</a></button>
@@ -42,6 +49,9 @@
                 </li>   
             {% endfor %}
         </ul>
+    </div>
+</div> 
+</div>
     {% else %}
         <ul>
             <li class="app1">

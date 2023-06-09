@@ -194,16 +194,11 @@ def client_appointment_confirm(request):
             
             client = request.user.client
             
-            # urgent = False
             tests_requested=[]
             test_count = int(request.POST.get("data.test_count"))
             for i in range(1,test_count+1):
                 test_id = int(request.POST.get(f"data.tests_requested{i}"))
                 tests_requested.append(test_id)
-                # test = TestOffered.objects.get(id=test_id)
-                # if test.urgent: 
-                #     urgent = True
-                # tests_requested.append(test)
                 
             date = request.POST.get("data.date")
             description = request.POST.get('data.description')
@@ -226,28 +221,6 @@ def client_appointment_confirm(request):
             context ={
                 'data':data,
             }
-            
-            # appointment = Appointment()
-            # appointment.client = client
-            # appointment.date = date
-            # appointment.description = description
-            # if doc_was_provided :
-            #     appointment.document = document
-            # appointment.total_price = total_price
-            # appointment.urgent = urgent
-            # appointment.save()
-
-            # # Add the tests_requested to the appointment
-            # appointment.tests_requested.add(*tests_requested)
-            
-            # # 
-            # payment = Payment(appointment=appointment)
-            # payment.save()
-            
-            # payment.tests_fee = appointment.total_price
-            
-            # payment.save()
-            # appointment.save()
             
             return render(request,'client/appointment/appointment_contract.html',context)
             
@@ -262,25 +235,18 @@ def client_appointment_contract(request):
         
         if "contract" in request.POST and request.POST.get("data.date"):
         
-            # urgent = False
             tests_requested=[]
             test_count = int(request.POST.get("data.test_count"))
             for i in range(1,test_count+1):
                 test_id = int(request.POST.get(f"data.tests_requested{i}"))
                 tests_requested.append(test_id)
-                # test = TestOffered.objects.get(id=test_id)
-                # if test.urgent: 
-                #     urgent = True
-                # tests_requested.append(test)
                 
             date = request.POST.get("data.date")
             description = request.POST.get('data.description')
             if "data.document" in request.POST:
                 document = request.POST.get('data.document')
-                doc_was_provided=True
             else:
                 document=None
-                doc_was_provided=False
                 
             total_price = Decimal(request.POST.get('data.total_price'))
             
@@ -296,28 +262,6 @@ def client_appointment_contract(request):
             context ={
                 'data':data,
             }
-            
-            # appointment = Appointment()
-            # appointment.client = client
-            # appointment.date = date
-            # appointment.description = description
-            # if doc_was_provided :
-            #     appointment.document = document
-            # appointment.total_price = total_price
-            # appointment.urgent = urgent
-            # appointment.save()
-
-            # # Add the tests_requested to the appointment
-            # appointment.tests_requested.add(*tests_requested)
-            
-            # # 
-            # payment = Payment(appointment=appointment)
-            # payment.save()
-            
-            # payment.tests_fee = appointment.total_price
-            
-            # payment.save()
-            # appointment.save()
             
             return render(request,'client/appointment/appointment_pay.html',context)
 
@@ -345,14 +289,13 @@ def client_appointment_pay(request):
         appointment_exists = Appointment.objects.filter(client=client,date=date).all().exists()
 
         if form_token in used_tokens or appointment_exists:
-            messages.error(request, 'Form Has Already Been Submitted !')
+            messages.error(request, 'Appointment Already Booked')
                 
             return redirect('client')
         
         used_tokens.append(form_token)
         session['used_tokens'] = used_tokens
         session.save()
-        print(used_tokens)
         
         
         
@@ -411,9 +354,9 @@ def client_appointment_pay(request):
             payment.save()
             
         
-        messages.success(request, 'Appointment Booked successfully!')
+        messages.success(request, 'Appointment Booked successfully')
             
-        return HttpResponseRedirect(reverse('client'))
+        return redirect('client')
         
     return redirect('client_appointment_book')
 
@@ -464,11 +407,11 @@ def cancel_appointment(request, appointment_id):
             # Cancel appointment logic here
             appointment.cancelled = True
             appointment.save()
-    #         messages.success(request, "Appointment successfully cancelled.")
-    #     else:
-    #         messages.error(request, "Cannot cancel appointment. Less than 3 days remaining.")
-    # else:
-    #     messages.error(request, "Invalid request.")
+            messages.success(request, "Appointment Successfully Cancelled")
+        else:
+            messages.error(request, "Cannot cancel Appointment with less than 3 days remaining.")
+    else:
+        messages.error(request, "Invalid request.")
     
     return redirect('client_appointment_detail', appointment_id=appointment_id)
 
@@ -617,6 +560,8 @@ def online_pay(request, invoice_id):
         appointment.payment_status = True
         appointment.save()
         
+        messages.success(request, "Payed Successfully")
+        
         return redirect("client_result_list")
     
     context = {
@@ -656,6 +601,7 @@ def client_contact(request):
             })
             
             send_mail(subject,content ,EMAIL_HOST_USER,["bravelaboratory2023@gmail.com"],html_message=html)
+            messages.success(request,'Email Sent Successfully')
             return redirect('client')
         
     else:
@@ -702,6 +648,7 @@ def create_complaint(request):
             
             send_mail(subject,content ,EMAIL_HOST_USER,["bravelaboratory2023@gmail.com"],html_message=html)
             
+            messages.success(request,"Complaint Sent Successfully")
             return redirect('client')
         
     else:
