@@ -3,6 +3,12 @@
 {% block main %}
 <div class="Container">
     <h1>Blood Bank Add</h1>
+    <form  method="post">
+        {% csrf_token %}
 
+        {{ form.as_div}}
+
+        <button type="submit">Add</button>
+    </form>
 </div>
 {% endblock main %}

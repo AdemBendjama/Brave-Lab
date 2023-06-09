@@ -2,7 +2,7 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.contrib.auth.models import User,Group
 from django.http import HttpResponse
-from admin_user.forms import UserAddForm, UserUpdateForm
+from admin_user.forms import BloodBankAdd, UserAddForm, UserUpdateForm
 from auditor.models import Auditor
 
 from main_home.models import BloodBank
@@ -253,14 +253,40 @@ def account_add_auditor(request):
     return render(request,'admin_user/accounts/account_add_auditor.html',context)
 
 def blood_banks(request):
-    # Add your logic for the blood_banks view here
-    return render(request,'admin_user/banks/blood_banks.html')
+    banks = BloodBank.objects.all()
+    
+    context={
+        'banks':banks,
+    }
+    
+    return render(request,'admin_user/banks/blood_banks.html',context)
 
 def blood_bank_detail(request, bank_id):
     # Add your logic for the blood_bank_detail view here
     bank = get_object_or_404(BloodBank, id=bank_id)  # Assuming you have a BloodBank model
-    return render(request,'admin_user/banks/blood_bank_detail.html')
+    
+    context={
+        'bank':bank,
+    }
+    
+    return render(request,'admin_user/banks/blood_bank_detail.html', context)
 
 def blood_bank_add(request):
     # Add your logic for the blood_bank_add view here
-    return render(request,'admin_user/banks/blood_bank_add.html')
+    if request.method == 'POST':
+        form = BloodBankAdd(request.POST)
+        if form.is_valid():
+            bank = form.save()
+            
+            added = "Blood Bank Added Successfully !"
+            messages.success(request,added)
+            
+            return redirect("blood_bank_detail",bank_id=bank.id)
+    else :
+        form = BloodBankAdd()
+    
+    context = {
+        'form':form,
+    }
+    
+    return render(request,'admin_user/banks/blood_bank_add.html',context)
