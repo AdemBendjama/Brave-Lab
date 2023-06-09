@@ -4,7 +4,13 @@
 
 <link rel="stylesheet" href="{% static 'css/list.css' %}">
 <link rel="stylesheet" href="{% static 'css/lists/test_list.css' %}">
-
+<link rel="stylesheet" href="{% static 'css/button_style.css' %}">
+<style>
+    .paragraph{
+        font-size: 1.2rem;
+        margin: 15px 0;
+    }
+</style>
 {% endblock css_2 %}
 
 {% block main %}
@@ -28,15 +34,15 @@
         {% endfor %}
     </ul>
     {% if analysis_request.all_tests_confirmed and not analysis_request.status == "finished" %}
-    <p>All Tests Are Confirmed !</p>
-    <a href="{% url 'request_detail' analysis_request_id=analysis_request.id %}"> Go Back to Mark As Finished
+    <p class="paragraph">All Tests Are Confirmed !</p>
+    <a href="{% url 'request_detail' analysis_request_id=analysis_request.id %}"><button class="formbold-btn">Mark As Finished</button>
     </a>
     {% else %}
-    <a href="{% url 'request_detail' analysis_request_id=analysis_request.id %}" >Back to Analysis Request Detail</a>
+    <a href="{% url 'request_detail' analysis_request_id=analysis_request.id %}" > <button class="formbold-btn"> Go Back</button></a>
     {% endif %}
     
     {% if not analysis_request.status == "finished" %}
-    <a href="{% url 'request_test_add' analysis_request_id=analysis_request.id %}" >Add Test</a>
+    <a href="{% url 'request_test_add' analysis_request_id=analysis_request.id %}" ><button class="formbold-btn">Add Test</button></a>
     {% endif %}
 
     
