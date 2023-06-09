@@ -1,4 +1,5 @@
 from datetime import timedelta, timezone,date
+from decimal import Decimal
 from django.db import models
 from django.forms import ValidationError
 from auditor.models import Auditor
@@ -495,22 +496,25 @@ class Statistics(models.Model):
 
     @staticmethod
     def get_total_earnings():
-        total_earnings = Invoice.objects.filter(payment_status=True).aggregate(total=Sum('total_price'))['total']
-        return total_earnings or 0
+        total_earnings = Payment.objects.filter(payed_appointment_fee=True).aggregate(total=Sum('total_amount_payed'))['total']
+        if total_earnings :
+            return total_earnings 
+        else : 
+            return Decimal(0) 
 
     @staticmethod
     def get_monthly_revenue():
         average_revenue = (
-            Invoice.objects.filter(payment_status=True)
-            .annotate(month=TruncMonth('creation_time'))
+            Payment.objects.filter(payed_appointment_fee=True)
+            .annotate(month=TruncMonth('appointment__date'))
             .values('month')
-            .annotate(total_revenue=Sum('total_price'))
+            .annotate(total_revenue=Sum('total_amount_payed'))
             .aggregate(average=Avg('total_revenue'))['average']
         )
-        if average_revenue :
-            return average_revenue 
-        else :
-            return 0
+        if average_revenue:
+            return average_revenue
+        else:
+            return Decimal(0)
         
     @staticmethod
     def get_client_count():
