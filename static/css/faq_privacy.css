@@ -23,6 +23,12 @@
     margin:2rem;
     font-size: 0.8rem;
 }
+h1{
+    font-size: 1.8rem;
+}
+p{
+    font-size: 1rem;
+}
 .Writing{
     text-align: center;
     width:90%;

@@ -11,52 +11,20 @@
 
 <label for="id_email" class="label">Email</label>
 <input type="email" name="email" value="{{ user_form.email.value }}" maxlength="254" id="id_email" class="input-field">
-{% if actor_form.email.errors %}
-<div class="error">
-    {% for error in actor_form.email.errors %}
-        <span>{{ error }}</span>
-    {% endfor %}
-</div>
-{% endif %}
+
 
 <label class="label" for="id_first_name">First name</label>
 <input type="text" name="first_name" value="{{ user_form.first_name.value }}" maxlength="150" id="id_first_name" class="input-field">
-{% if actor_form.first_name.errors %}
-<div class="error">
-    {% for error in actor_form.first_name.errors %}
-        <span>{{ error }}</span>
-    {% endfor %}
-</div>
-{% endif %}
 
 <label  class="label" for="id_last_name">Last name</label>
 <input type="text" name="last_name" value="{{ user_form.last_name.value }}" maxlength="150" id="id_last_name" class="input-field">
-{% if actor_form.last_name.errors %}
-<div class="error">
-    {% for error in actor_form.last_name.errors %}
-        <span>{{ error }}</span>
-    {% endfor %}
-</div>
-{% endif %}
 
 <label class="label" for="id_phone_number">Phone number</label>
 <input type="text" name="phone_number" value="{{ actor_form.phone_number.value }}" maxlength="10" required id="id_phone_number" class="input-field">
-{% if actor_form.phone_number.errors %}
-<div class="error">
-    {% for error in actor_form.phone_number.errors %}
-        <span>{{ error }}</span>
-    {% endfor %}
-</div>
-{% endif %}
+
 
 <label class="label" for="id_address">Address</label>
 <input type="text" name="address" value="{{ actor_form.address.value }}" maxlength="50" required id="id_address" class="input-field">
-{% if actor_form.address.errors %}
-<div class="error">
-    {% for error in actor_form.address.errors %}
-        <span>{{ error }}</span>
-    {% endfor %}
-</div>
-{% endif %}
+
 
 <button class="btn" type='submit'>Update</button>

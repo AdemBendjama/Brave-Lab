@@ -28,7 +28,7 @@ from django.urls import reverse
 @permission_required('client.view_client', raise_exception=True)
 def client_home(request):
     #
-    appointments = Appointment.objects.filter(client=request.user.client)
+    appointments = Appointment.objects.filter(client=request.user.client).order_by('-date')
     for appointment in appointments:
         appointment.check_overdue
                  
@@ -354,7 +354,7 @@ def client_appointment_pay(request):
             payment.save()
             
         
-        messages.success(request, 'Appointment Booked successfully')
+        messages.success(request, f"Please remember your Appointment ID #{appointment.id}")
             
         return redirect('client')
         
@@ -444,7 +444,7 @@ def request_detail(request):
 @permission_required('client.view_client', raise_exception=True)
 def result_list(request):
     
-    test_result = Invoice.objects.all()
+    test_result = Invoice.objects.all().order_by('-creation_time')
     
     if request.GET.get('date') :
         date = request.GET.get('date')
@@ -600,7 +600,12 @@ def client_contact(request):
                 'content':content
             })
             
-            send_mail(subject,content ,EMAIL_HOST_USER,["bravelaboratory2023@gmail.com"],html_message=html)
+            try:
+                send_mail(subject,content ,EMAIL_HOST_USER,["bravelaboratory2023@gmail.com"],html_message=html)
+            except : 
+                messages.error(request,'Wireless Connection Failed')
+                return redirect('client')
+
             messages.success(request,'Email Sent Successfully')
             return redirect('client')
         
@@ -646,8 +651,12 @@ def create_complaint(request):
             complaint = Complaint(client = request.user.client , description = content , topic = topic)
             complaint.save()
             
-            send_mail(subject,content ,EMAIL_HOST_USER,["bravelaboratory2023@gmail.com"],html_message=html)
-            
+            try :
+                send_mail(subject,content ,EMAIL_HOST_USER,["bravelaboratory2023@gmail.com"],html_message=html)
+            except :
+                messages.success(request,"Complaint Sent Successfully")
+                return redirect('client')
+                
             messages.success(request,"Complaint Sent Successfully")
             return redirect('client')
         

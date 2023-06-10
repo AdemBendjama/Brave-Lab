@@ -104,8 +104,12 @@ def home(request):
                 "email": email,
                 'content':content
             })
-            
-            send_mail("Internet User Support",content ,EMAIL_HOST_USER,["bravelaboratory2023@gmail.com"],html_message=html)
+            try:
+                send_mail("Internet User Support",content ,EMAIL_HOST_USER,["bravelaboratory2023@gmail.com"],html_message=html)
+            except:
+                
+                return redirect('home')
+                
             return redirect('home')
         
     else:
