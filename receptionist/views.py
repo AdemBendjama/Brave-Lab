@@ -275,7 +275,7 @@ def appointment_add(request):
 @permission_required('receptionist.view_receptionist', raise_exception=True)
 def appointment_list(request):
     
-    appointments = Appointment.objects.exclude(cancelled=True)
+    appointments = Appointment.objects.exclude(cancelled=True).all().order_by('-date')
     appointments_today = []
     appointments_tomorrow = []
     appointments_upcoming = []
@@ -477,7 +477,7 @@ def appointment_confirm(request, appointment_id):
 @login_required
 @permission_required('receptionist.view_receptionist', raise_exception=True)
 def complaint_list(request):
-    complaints = Complaint.objects.all()
+    complaints = Complaint.objects.all().order_by('-date')
     
     if request.method == "POST" and "search" in request.POST :
         search = request.POST.get("search")
