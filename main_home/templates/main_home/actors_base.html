@@ -3,8 +3,8 @@
     
 {% block css %}
     
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="{% static 'css/resources/google_icons.css' %}">
+        <link rel="stylesheet" href="{% static 'css/resources/font-awesome.all.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/actors.css' %}" />
    
 
@@ -110,6 +110,7 @@
 {% endblock content %}
 
 {% block scripts %}
+<script src="{% static 'js/resources/font-awesome.all.js' %}"></script>
 <script>
     function showElement() {
         var element = document.getElementById("myElement");

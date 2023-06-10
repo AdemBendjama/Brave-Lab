@@ -3,6 +3,7 @@
 
 {% block css_3 %}
 <link rel="stylesheet" href="{% static 'css/pdf.css' %}">
+<link rel="stylesheet" href="{% static 'css/detail_style.css' %}">
 
 {% endblock css_3 %}
 
@@ -18,30 +19,6 @@
         border-radius: 10px;
         background-color: #fff;
         animation: fade-in 1s ease-out;
-    }
-
-    .Container h1 {
-        color: #111;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    .Container ul {
-        list-style: none;
-        padding-left: 0;
-        margin-bottom: 20px;
-    }
-
-    .Container li {
-        color: #333;
-        margin-bottom: 5px;
-        font-size: 16px;
-    }
-
-    .Container form {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
     }
 
     .Container button {
@@ -87,26 +64,20 @@
         font-size: 16px;
     }
 
+    .test{
+        text-align: left;
+    }
+
 </style>
 
 <div class="Container">
+    <div class="left-section">
     {% if invoice.payment_status %}
     <h1>Test Results - Invoice #{{ invoice.id }}</h1>
     <p>Date: {{ invoice.creation_time }}</p>
     <p>Approved: {% if test_result.approved %}Yes{% else %}No{% endif %}</p>
     <p>Duration: {{ test_result.duration }}</p>
     <p>Total Price: {{ invoice.total_price }}</p>
-
-    <h3>Tests:</h3>
-    {% for test in test_request.tests.all %}
-    <div class="test">
-        <h3>{{ test.test_offered.name }}</h3>
-        <p>Description: {{ test.description }}</p>
-        {% for component in test.components.all %}
-        <p>{{ component.info.name }}: {{ component.value }} {{ component.info.unit }}</p>
-        {% endfor %}
-    </div>
-    {% endfor %}
 
     <h3>Invoice:</h3>
     <div class="button-container">
@@ -119,8 +90,22 @@
         <a href="{% url 'pdf_client_results' invoice.id %}?download=true" class="download-button">Download PDF</a>
         <a href="{% url 'pdf_client_results' invoice.id %}" target="_blank" class="view-button">View PDF</a>
     </div>
+    </div>
+    <div class="right-section">
+    <h3>Tests:</h3>
+    {% for test in test_request.tests.all %}
+    <div class="test">
+        <h3>{{ test.test_offered.name }}</h3>
+        <p>Description: {{ test.description }}</p>
+        {% for component in test.components.all %}
+        <p>-{{ component.info.name }}: {{ component.value }} {{ component.info.unit }}</p>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
     {% else %}
     <h1>404 Not Found</h1>
     {% endif %}
+    </div>
 </div>
 {% endblock main %}

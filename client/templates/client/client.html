@@ -71,9 +71,8 @@
 
 
 
+    {% if booked_appointments is not None %}
     {% if booked_appointments %}
-   
-
     <div class="userlistcl">
             <div class="infoheadercl">
                 <h3>Booked Appointments</h3>
@@ -104,11 +103,29 @@
             </div>
         </div> 
     </div> 
+    {% else %}
+    <div class="userlistcl">
+        <div class="infoheadercl">
+            <h3>Booked Appointments</h3>
+            </div>     
+        <div class="userscontianercl">
+            <div class= "scrollcl">
+                <ul class="lists">
+                    <li class="app1">
+                        <span><strong></strong></span>
+                        <span><strong>No Booked Appointments Found</strong></span>
+                        <span><strong></strong></span>
+                    </li>
+                </ul>
+            </div>
+        </div> 
+    </div> 
+    {% endif %}
     {% endif %}
 
 
+    {% if performed_appointments is not None %}
     {% if performed_appointments %}
-    
     <div class="userlistcl">
         <div class="infoheadercl">
             <h3>Performed Appointments</h3>
@@ -133,11 +150,28 @@
             </div>
         </div> 
     </div> 
+    {% else %}
+    <div class="userlistcl">
+        <div class="infoheadercl">
+            <h3>Performed Appointments</h3>
+            </div>     
+        <div class="userscontianercl">
+            <div class= "scrollcl">
+                <ul class="lists">
+                    <li class="app1">
+                        <span><strong></strong></span>
+                        <span><strong>No Performed Appointments Found</strong></span>
+                        <span><strong></strong></span>
+                    </li>
+                </ul>
+            </div>
+        </div> 
+    </div> 
+    {% endif %}
     {% endif %}
 
+    {% if canceled_appointments is not None %}
     {% if canceled_appointments %}
-
-    
     <div class="userlistcl">
             <div class="infoheadercl">
                 <h3>Canceled Appointments</h3>
@@ -161,6 +195,24 @@
             </div>
         </div> 
     </div> 
+    {% else %}
+    <div class="userlistcl">
+        <div class="infoheadercl">
+            <h3>Cancelled Appointments</h3>
+            </div>     
+        <div class="userscontianercl">
+            <div class= "scrollcl">
+                <ul class="lists">
+                    <li class="app1">
+                        <span><strong></strong></span>
+                        <span><strong>No Cancelled Appointments Found</strong></span>
+                        <span><strong></strong></span>
+                    </li>
+                </ul>
+            </div>
+        </div> 
+    </div> 
+    {% endif %}
     {% endif %}
 
 
