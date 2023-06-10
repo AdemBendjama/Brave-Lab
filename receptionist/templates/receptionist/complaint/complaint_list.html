@@ -25,6 +25,13 @@
     </div>
 
     {% if complaints %}
+    <div class="userlistcl">
+        <div class="infoheadercl">
+            <h3>Complaints</h3>
+        </div>  
+
+        <div class="userscontianercl">
+        <div class= "scrollcl">
         <ul>
             {% for complaint in complaints %}
                 <li class="app1">
@@ -36,14 +43,26 @@
                 </li>
             {% endfor %}
         </ul>
-    {% else %}
-        <div>
-            <ul class="lists">
-                <li class="app1 empty">
-                    <span><strong>No Complaints Found</strong></span>
-                </li>
-            </ul>
         </div>
+    </div> 
+    </div> 
+    {% else %}
+    <div class="userlistcl">
+        <div class="infoheadercl">
+            <h3>Complaints</h3>
+            </div>     
+        <div class="userscontianercl">
+            <div class= "scrollcl">
+                <ul class="lists">
+                    <li class="app1">
+                        <span><strong></strong></span>
+                        <span><strong>No Complaints found</strong></span>
+                        <span><strong></strong></span>
+                    </li>
+                </ul>
+            </div>
+        </div> 
+    </div> 
     {% endif %}
 </div>
 {% endblock main %}
