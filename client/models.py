@@ -15,6 +15,16 @@ class Client(models.Model):
         ('M','Male'),
         ('F','Female')
     ]
+    BLOOD_TYPES = [
+        ('A+', 'A+'),
+        ('A-', 'A-'),
+        ('B+', 'B+'),
+        ('B-', 'B-'),
+        ('AB+', 'AB+'),
+        ('AB-', 'AB-'),
+        ('O+', 'O+'),
+        ('O-', 'O-')
+    ]
     user = models.OneToOneField(User, primary_key = True, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=10,validators=[phone_regex])
     gender = models.CharField(max_length = 1 ,choices = GENDERS)
@@ -23,6 +33,8 @@ class Client(models.Model):
     profile_pic = models.ImageField(default="default.png", upload_to="profile_pics")
     date_of_birth = models.DateField(default='2003-03-08')
     tests_made = models.PositiveIntegerField(default=0)
+    blood_type = models.CharField(max_length=3, choices=BLOOD_TYPES,null=True,blank=True)
+
     
     class Meta():
         db_table = 'auth_client'

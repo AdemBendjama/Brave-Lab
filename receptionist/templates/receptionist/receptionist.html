@@ -56,7 +56,7 @@
 
 
     <ul>
-        {% if reports %}
+    {% if reports %}
     <div class="userlist">
             <div class="infoheader">
                 <h3>List of Reports</h3>
@@ -78,14 +78,25 @@
             </div>
         </div> 
     </div>    
-        {% else %}
-        <div>
-            <ul class="lists">
-                <li class="app1 empty">
-                    <span><strong>No Reports Found</strong></span>
-                </li>
-            </ul>
-        </div>
+    {% else %}
+        <div class="userlist">
+            <div class="infoheader">
+                <h3>List of Reports</h3>
+            </div>     
+        <div class="userscontianer">
+          <div class= "scroll">
+                <ul>
+                    {% for report in reports %}
+                        <li class="app1">
+                            <span><strong></strong></span>
+                            <span><strong>No Reports Found</strong></span>
+                            <span><strong></strong></span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div> 
+    </div>    
         
         {% endif %}
     </ul>

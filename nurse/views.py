@@ -133,7 +133,7 @@ def evaluation(request, appointment_id):
 def request_list(request):
     nurse = request.user.nurse
                  
-    analysis_requests = AnalysisRequest.objects.select_related('appointment__client').all().filter(nurse=nurse)
+    analysis_requests = AnalysisRequest.objects.select_related('appointment__client').all().filter(nurse=nurse).all().order_by("-creation_time")
    
     if request.GET.get('date_sort') :
         date = request.GET.get('date')
@@ -501,6 +501,9 @@ def blood_add(request):
         form = BloodSampleForm(request.POST)
         if form.is_valid():
             blood_sample = form.save() 
+            client = blood_sample.client
+            client.blood_type = blood_sample.blood_type
+            client.save()
             blood_added = 'Blood sample added successfully!'
             form = BloodSampleForm()
             context={

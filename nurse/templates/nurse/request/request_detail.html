@@ -21,7 +21,7 @@
 
     <p>Date of Creation: {{ analysis_request.creation_time }}</p>
     <p>Client: {{ analysis_request.appointment.client.user.first_name }} {{ analysis_request.appointment.client.user.last_name }}</p>
-    <p>Blood Type: {{ analysis_request.appointment.client.bloodbank.blood_type }}</p>
+    <p>Blood Type: {{ analysis_request.appointment.client.blood_type }}</p>
     <!-- Display other client information as needed -->
 
     <p>Duration: {{ analysis_request.duration }}</p>

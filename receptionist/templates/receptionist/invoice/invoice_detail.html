@@ -4,12 +4,13 @@
 {% block css_3 %}
 
 <link rel="stylesheet" href="{% static 'css/pdf.css' %}">
+<link rel="stylesheet" href="{% static 'css/button_style.css' %}">
 <style>
     .Container {
         max-width: 800px;
         margin: 0 auto;
         padding: 40px;
-        border: 2px solid lightgray;
+        border: 3px solid #00748c50;
         border-radius: 10px;
         background-color: #fff;
         animation: fade-in 1s ease-out;
@@ -39,22 +40,6 @@
         margin-top: 20px;
     }
 
-    .Container button {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-        font-size: 16px;
-    }
-
-    .Container button:hover {
-        background-color: #0056b3;
-    }
 
     .Container .button-container {
         display: flex;
@@ -82,6 +67,10 @@
         font-size: 16px;
     }
 
+    .formbold-btn{
+        margin-bottom: 10px;
+    }
+
 </style>
 
 {% endblock css_3 %}
@@ -105,12 +94,12 @@
     {% if not invoice.payment_status %}
     <form action="{% url 'confirm_payment' invoice.report.id invoice.id %}" method="POST">
         {% csrf_token %}
-        <button type="submit">Confirm Payment</button>
+        <button type="submit" class="formbold-btn">Confirm Payment</button>
     </form>
     {% else %}
     <p>Invoice Fully Payed</p>
     {% endif %}
     
-    <a href="{% url 'receptionist_report_detail' invoice.report.id %}">Back to Report</a>
+    <a href="{% url 'receptionist_report_detail' invoice.report.id %}"> <button class="formbold-btn"> Back to Report</button></a>
 </div>
 {% endblock main %}

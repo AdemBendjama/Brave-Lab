@@ -81,9 +81,16 @@
     
 
     
+    {% if pending_requests is not None%}
     {% if pending_requests %}
-    <h2>Pending Requests</h2>
-        <ul>
+    <div class="userlistcl">
+        <div class="infoheadercl">
+            <h3>Pending Requests</h3>
+        </div>  
+
+        <div class="userscontianercl">
+        <div class= "scrollcl">
+        <ul class="lists">
             {% for request in pending_requests %}
                 <li class="app1">
                     <span><strong>Appointment #{{ request.appointment.id }}</strong></span>
@@ -97,11 +104,39 @@
                 </li>   
             {% endfor %}
         </ul>
+        </div>
+        </div>
+        </div>
+    {% else %}
+    <div class="userlistcl">
+        <div class="infoheadercl">
+            <h3>Pending Requests</h3>
+            </div>     
+        <div class="userscontianercl">
+            <div class= "scrollcl">
+                <ul class="lists">
+                    <li class="app1">
+                        <span><strong></strong></span>
+                        <span><strong>No Pending Requests</strong></span>
+                        <span><strong></strong></span>
+                    </li>
+                </ul>
+            </div>
+        </div> 
+    </div> 
+    {% endif %}
     {% endif %}
     
+    {% if working_on_requests is not None%}
     {% if working_on_requests %}
-    <h2>Working On Requests</h2>
-        <ul>
+    <div class="userlistcl">
+        <div class="infoheadercl">
+            <h3>Working Requests</h3>
+        </div>  
+
+        <div class="userscontianercl">
+        <div class= "scrollcl">
+        <ul class="lists">
             {% for request in working_on_requests %}
                 <li class="app1">
                     <span><strong>Appointment #{{ request.appointment.id }}</strong></span>
@@ -114,12 +149,39 @@
                 </li>  
             {% endfor %}
         </ul>
-    
+    </div>
+    </div>
+    </div>
+    {% else %}
+    <div class="userlistcl">
+        <div class="infoheadercl">
+            <h3>Working Requests</h3>
+            </div>     
+        <div class="userscontianercl">
+            <div class= "scrollcl">
+                <ul class="lists">
+                    <li class="app1">
+                        <span><strong></strong></span>
+                        <span><strong>No Working Requests</strong></span>
+                        <span><strong></strong></span>
+                    </li>
+                </ul>
+            </div>
+        </div> 
+    </div> 
+    {% endif %}
     {% endif %}
     
+    {% if finished_requests is not None%}
     {% if finished_requests %}
-    <h2>Finished Requests</h2>
-        <ul>
+    <div class="userlistcl">
+        <div class="infoheadercl">
+            <h3>Finished Requests</h3>
+        </div>  
+
+        <div class="userscontianercl">
+        <div class= "scrollcl">
+        <ul class="lists">
             {% for request in finished_requests %}
                 <li class="app1">
                     <span><strong>Appointment #{{ request.appointment.id }}</strong></span>
@@ -132,7 +194,27 @@
                 </li>  
             {% endfor %}
         </ul>
-    
+    </div>
+    </div>
+    </div>
+    {% else %}
+        <div class="userlistcl">
+            <div class="infoheadercl">
+                <h3>Finished Requests</h3>
+                </div>     
+            <div class="userscontianercl">
+                <div class= "scrollcl">
+                    <ul class="lists">
+                        <li class="app1">
+                            <span><strong></strong></span>
+                            <span><strong>No Finished Requests</strong></span>
+                            <span><strong></strong></span>
+                        </li>
+                    </ul>
+                </div>
+            </div> 
+        </div> 
+        {% endif %}
     {% endif %}
 
     
