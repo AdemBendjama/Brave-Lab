@@ -6,9 +6,9 @@
 {% block main %}
 <style>
     .Container {
-        max-width: 800px;
+        max-width: 1000px;
         margin: 0 auto;
-        padding: 40px;
+        padding: 10px 0 40px 0 ;
         border: 2px solid lightgray;
         border-radius: 10px;
         background-color: #fff;
@@ -95,6 +95,12 @@
         align-items: baseline;
         padding: 0;
     }
+    .select-drop{
+        width: 111%;
+    }
+    .form-button{
+        width: 111%;
+    }
 </style>
 <div class="Container">
     <div class="formbold-main-wrapper">
@@ -150,7 +156,7 @@
                     </div>
                 {% endif %}
 
-                <div class="number field formbold-mb-5">
+                <div class=" field formbold-mb-5">
                     <label class="formbold-form-label"  for="id_phone_number">Phone number:</label>
                     <input class="formbold-form-input" type="text" name="phone_number" maxlength="10" placeholder="+213 0000000000" required id="id_phone_number">
                 </div>
