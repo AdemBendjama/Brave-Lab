@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block main %}
+<link rel="stylesheet" href="{% static 'css/button_style.css' %}">
 <style>
     .Container {
         max-width: 800px;
@@ -76,23 +77,7 @@
         margin-top: 20px;
     }
 
-    .Container button {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-        font-size: 16px;
-    }
 
-    .Container button:hover {
-        background-color: #0056b3;
-        cursor:pointer;
-    }
 </style>
 <div class="Container">
     <div class="left-section">
@@ -143,7 +128,7 @@
     {% if not appointment.arrived %}
         <form action="{% url 'appointment_confirm' appointment.id %}" method="post">
             {% csrf_token %}
-            <button type="submit">Mark as Arrived</button>
+            <button type="submit" class="formbold-btn">Mark as Arrived</button>
         </form>
     {% else %}
         <p>Client has arrived</p>

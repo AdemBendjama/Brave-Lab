@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block css_2 %}
+<link rel="stylesheet" href="{% static 'css/button_style.css' %}">
+<link rel="stylesheet" href="{% static 'css/form_create.css' %}">
 <style>
     .Container {
         max-width: 800px;
@@ -58,27 +60,21 @@
         border-radius: 5px;
     }
 
-    .Container button {
-        margin-top: 10px;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-        cursor: pointer;
-    }
-
-    .Container button:hover {
-        background-color: #0056b3;
-    }
 
     .form-detail{
         display: flex;
         flex-direction: column;
         align-items: baseline;
+    }
+
+    form{
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        gap: 20px;
+    }
+    form .formbold-btn {
+        width:50%;
     }
 </style>
 {% endblock css_2 %}
@@ -100,9 +96,9 @@
         <div class="reply-section">
             <form class="form-detail"action="{% url 'reply_complaint' complaint.id %}" method="post">
                 {% csrf_token %}
-                <label for="id_description">Reply:</label>
-                <textarea name="description" id="id_description" cols="20" rows="5"></textarea>
-                <button type="submit" class="reply-button">Reply</button>
+                <label class="formbold-form-label" for="id_description">Reply:</label>
+                <textarea class="formbold-form-input" name="description" id="id_description" cols="20" rows="5"></textarea>
+                <button type="submit" class="reply-button formbold-btn">Reply</button>
             </form>
         </div>
     </div>
