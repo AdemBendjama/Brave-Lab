@@ -104,9 +104,11 @@ def evaluation(request, appointment_id):
             
             # Get the tests_requested from the appointment and create Test objects for each one
             tests_requested = appointment.tests_requested.all()
-            for test_offered in tests_requested:
-                test = Test.objects.create(test_offered=test_offered)
-                analysis_request.tests.add(test)
+            
+            if tests_requested :
+                for test_offered in tests_requested:
+                    test = Test.objects.create(test_offered=test_offered)
+                    analysis_request.tests.add(test)
                 
             messages.success(request,"Patient Information Saved ,  Analysis Request Added")
             

@@ -1,18 +1,27 @@
 {% extends 'auditor/auditor.html' %}
 {% load static %}
-
+{% block css_3 %}
+<link rel="stylesheet" href="{% static 'css/form_create.css' %}">
+<style>
+  form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+</style>
+{% endblock css_3 %}
 {% block main %}
   <div class="Container">
-    <h1>Update Test Results</h1>
-    <h2>{{ test_result }}</h2>
-    <h3>{{ test_result.request }}</h3>
+    <h2>Update Test Results</h2>
     {% if not test_result.approved %}
       <form method="POST" action="{% url 'result_update' test_result.id %}">
         {% csrf_token %}
         {% for field in form %}
           {% if 'test_' in field.html_name %}
-            <h3>{{ field.label }}</h3>
-            <input type="text" name="{{ field.html_name }}" value="{{ field.value }}" hidden />
+            <h3 class="formbold-form-label">{{ field.label }}</h3>
+            <input class="formbold-form-input" type="text" name="{{ field.html_name }}" value="{{ field.value }}" hidden />
           {% endif %}
 
           {% if 'component_' in field.html_name %}
@@ -21,7 +30,7 @@
           {% endif %}
         {% endfor %}
 
-        <button type="submit">Update</button>
+        <button type="submit" class="formbold-btn">Update</button>
       </form>
     {% else %}
       <p>
@@ -30,3 +39,23 @@
     {% endif %}
   </div>
 {% endblock %}
+
+
+{% block scripts_3 %}
+<script>
+  var inputElements = document.querySelectorAll('select');
+
+  for (var i = 0; i < inputElements.length; i++) {
+    inputElements[i].classList.add('formbold-form-input');
+    inputElements[i].classList.add('select-drop');
+  }
+  
+  var inputElementsa = document.querySelectorAll('input');
+
+  for (var i = 0; i < inputElementsa.length; i++) {
+    inputElementsa[i].classList.add('formbold-form-input');
+    inputElementsa[i].classList.add('number');
+  }
+
+</script>
+{% endblock scripts_3 %}

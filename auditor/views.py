@@ -477,7 +477,7 @@ def result_update(request, test_result_id):
 @login_required
 @permission_required('auditor.view_auditor', raise_exception=True)
 def report_list(request):
-    reports = Report.objects.all()
+    reports = Report.objects.all().order_by("-creation_time")
    
     if request.GET.get('date_sort') :
         date = request.GET.get('date')

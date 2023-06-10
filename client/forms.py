@@ -25,6 +25,7 @@ class AppointmentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['document'].required = False
+        self.fields['tests_requested'].required = False
 
         
 class AppointmentPaymentForm(forms.ModelForm):

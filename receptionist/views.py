@@ -223,10 +223,11 @@ def appointment_add(request):
                 document = None
             urgent=False
             total_price = 0
-            for test in tests_requested:
-                if test.urgent :
-                    urgent = True
-                total_price+=test.price
+            if tests_requested:
+                for test in tests_requested:
+                    if test.urgent :
+                        urgent = True
+                    total_price+=test.price
             
             
             
@@ -240,7 +241,8 @@ def appointment_add(request):
             appointment.urgent = urgent
             appointment.save()
             
-            appointment.tests_requested.add(*tests_requested)
+            if tests_requested :
+                appointment.tests_requested.add(*tests_requested)
             
             payment = Payment(appointment=appointment)
             payment.save()

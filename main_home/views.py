@@ -332,11 +332,11 @@ def pdf_client_results(request, invoice_id):
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
         filename = "Invoice_%s.pdf" % (invoice.id)
-        content = "inline; filename='%s'" % (filename)
+        content = f"inline; filename={filename}"
         download = request.GET.get("download")
         
         if download:
-            content = "attachment; filename='%s'" % (filename)
+            content = f"attachment; filename={filename}" 
         
         response['Content-Disposition'] = content
         return response

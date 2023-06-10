@@ -33,8 +33,7 @@
             </li> {% endcomment %}
         {% endfor %}
     </ul>
-    {% if analysis_request.all_tests_confirmed and not analysis_request.status == "finished" %}
-    <p class="paragraph">All Tests Are Confirmed !</p>
+    {% if analysis_request.all_tests_confirmed and not analysis_request.status == "finished" and analysis_request.tests.count != 0 %}
     <a href="{% url 'request_detail' analysis_request_id=analysis_request.id %}"><button class="formbold-btn">Mark As Finished</button>
     </a>
     {% else %}

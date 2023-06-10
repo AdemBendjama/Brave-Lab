@@ -232,7 +232,7 @@ class Appointment(models.Model):
     
     
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    tests_requested = models.ManyToManyField(TestOffered) 
+    tests_requested = models.ManyToManyField(TestOffered, blank=True) 
     date = models.DateField(validators=[validate_date_not_past])
     description = models.CharField(max_length=1000,blank=True)
     document = models.ImageField(null=True,blank=True,upload_to='medical_documents')
@@ -318,7 +318,7 @@ class AnalysisRequest(models.Model):
     
     appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE)
     nurse = models.ForeignKey(Nurse, on_delete=models.CASCADE)
-    tests = models.ManyToManyField(Test)
+    tests = models.ManyToManyField(Test, blank=True)
     creation_time = models.DateTimeField(auto_now_add=True)
     start_time = models.DateTimeField(null=True, blank=True)
     finish_time = models.DateTimeField(null=True, blank=True)

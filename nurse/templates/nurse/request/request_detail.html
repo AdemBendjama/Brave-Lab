@@ -27,9 +27,9 @@
     <p>Duration: {{ analysis_request.duration }}</p>
 
     <h3>Requested Tests</h3>
-    <ul>
+    <ul class="tests">
         {% for test in analysis_request.appointment.tests_requested.all %}
-        <li><strong>{{ test }}</strong></li>
+        <li><strong>-{{ test }}</strong></li>
         {% endfor %}
     </ul>
 </div>
@@ -55,7 +55,7 @@
     <a href="{% url 'request_test_list' analysis_request_id=analysis_request.id %}" ><button class="formbold-btn"> View Tests</button></a>
     {% endif %}
 
-    {% if analysis_request.all_tests_confirmed and not analysis_request.status == "finished" %}
+    {% if analysis_request.all_tests_confirmed and not analysis_request.status == "finished" and analysis_request.tests.count != 0%}
     <form method="POST" action="{% url 'finish_analysis' analysis_request.id %}">
         {% csrf_token %}
         <button type="submit" class="formbold-btn">Mark Request as Finished</button>
