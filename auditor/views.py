@@ -278,7 +278,7 @@ def change_nurse(request, analysis_request_id):
 @permission_required('auditor.view_auditor', raise_exception=True)
 def result_list(request):
                  
-    test_result = TestResult.objects.all()
+    test_result = TestResult.objects.all().order_by('-creation_time')
    
     if request.GET.get('date_sort') :
         date = request.GET.get('date')

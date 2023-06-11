@@ -258,12 +258,13 @@ class Appointment(models.Model):
     def status(self):
         today = timezone.now().date()
         
-        if self.date > today:
-            return self.UPCOMING
-        elif self.date == today:
+        
+        if self.date == today:
             return self.TODAY
         elif self.date == today + timezone.timedelta(days=1):
             return self.TOMORROW
+        elif self.date > today:
+            return self.UPCOMING
         else:
             return self.OVERDUE
         
@@ -512,7 +513,7 @@ class Statistics(models.Model):
             .aggregate(average=Avg('total_revenue'))['average']
         )
         if average_revenue:
-            return average_revenue
+            return '{:.2f}'.format(average_revenue)
         else:
             return Decimal(0)
         

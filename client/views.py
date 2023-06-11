@@ -444,7 +444,7 @@ def request_detail(request):
 @permission_required('client.view_client', raise_exception=True)
 def result_list(request):
     
-    test_result = Invoice.objects.all().order_by('-creation_time')
+    test_result = Invoice.objects.all().order_by('creation_time')
     
     if request.GET.get('date') :
         date = request.GET.get('date')

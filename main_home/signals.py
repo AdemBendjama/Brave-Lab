@@ -76,18 +76,20 @@ def test_result_created(sender, instance, created , **kwargs):
 
             if prediction == 0 :
                 print("Prediction: Negative for Anemia")
+                positive=False
             elif prediction == 1 :
                 print("Prediction: Positive For Anemia")
+                positive=True
                 
             print("Positive Probability:", positive_probability)
             print("Positive Percentage:", positive_percentage, "%")
             
-            anemia = Anemia(result = result, positive=prediction,probability=positive_percentage)
+            anemia = Anemia(result = result, positive=positive,probability=positive_percentage)
             anemia.save()
             print(anemia)
             
         # gender,age,hypertension,heart_disease,smoking_history,bmi,HbA1c_level,blood_glucose_level  
-        if 'Hemoglobin A1C (HbA1c)' in test_names and ( 'Basic Metabolic Panel (BMP)' in test_names ) or ( 'Comprehensive Metabolic Panel (CMP)' in test_names ):
+        if 'Hemoglobin A1C (HbA1c)' in test_names and ( ('Basic Metabolic Panel (BMP)' in test_names)  or  ('Comprehensive Metabolic Panel (CMP)' in test_names) ):
             HA1C_test = tests.filter(test_offered__name = 'Hemoglobin A1C (HbA1c)').first()
             BMP_test = tests.filter(test_offered__name = 'Basic Metabolic Panel (BMP)').first()  
             CMP_test = tests.filter(test_offered__name = 'Comprehensive Metabolic Panel (CMP)').first()  
@@ -139,13 +141,15 @@ def test_result_created(sender, instance, created , **kwargs):
 
             if prediction == 0 :
                 print("Prediction: Negative for Diabete")
+                positive=False
             elif prediction == 1 :
                 print("Prediction: Positive For Diabete")
+                positive=True
                 
             print("Positive Probability:", positive_probability)
             print("Positive Percentage:", positive_percentage, "%")
             
-            diabetes = Diabetes(result = result, positive=prediction,probability=positive_percentage)
+            diabetes = Diabetes(result = result, positive=positive,probability=positive_percentage)
             diabetes.save()
             print(diabetes)
     
@@ -422,10 +426,8 @@ def create_chat_room(sender, instance, created, **kwargs):
 
         # Create a new chat room
         chat_room = ChatRoom(name=f"Nurse Chat Room {instance.user.id}")
-        lobby = Lobby(nurse=instance)
 
         # Add the nurse and main auditor to the chat room
         chat_room.nurse = instance
         chat_room.auditor = Auditor.objects.all().first()
-        lobby.save()
         chat_room.save()

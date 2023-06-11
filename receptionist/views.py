@@ -252,8 +252,8 @@ def appointment_add(request):
             payment.save()
             appointment.save()
             
-            booked = "Appointent Booked Successfully !"
-            messages.success(request,booked)
+            
+            messages.success(request, f"Please remember your Appointment ID #{appointment.id}")
             
             return redirect('appointment_detail',appointment_id=appointment.id)
     else:
@@ -434,10 +434,14 @@ def appointment_confirm(request, appointment_id):
             #
             payed = request.POST.get("payed")
             nurse = Nurse.objects.annotate(
-                    analysis_requests_count=Count('analysisrequest',filter=Q(analysisrequest__status__in=['pending', 'working-on'])
-                        ),
-                        lobby_clients_count=Count('lobby__clients')
-                    ).order_by('analysis_requests_count', F('lobby_clients_count').asc(nulls_last=True)).first()
+                        lobby_clients_count=Count('lobby__clients'),
+                        analysis_requests_count=Count(
+                            'analysisrequest',
+                            filter=Q(analysisrequest__status__in=['pending', 'working-on'])
+                        )
+                    ).order_by(
+                        'lobby_clients_count', 'analysis_requests_count'
+                    ).first()
 
             if nurse:
                 lobby, _ = Lobby.objects.get_or_create(nurse=nurse)

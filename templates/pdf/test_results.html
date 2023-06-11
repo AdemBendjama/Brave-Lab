@@ -327,9 +327,9 @@
             <tbody>
                     <tr>
                         <td class="bold">
-                            {% if test_result.diabetes.positive %}
+                            {% if test_result.anemia.positive %}
                             Positive
-                            {% elif not test_result.diabetes.positive%}
+                            {% elif not test_result.anemia.positive%}
                             Negative
                             {%endif%}
                         </td>
@@ -373,9 +373,9 @@
                         <td class="bold">
                             {% if test_result.diabetes.positive %}
                             Positive
-                            {% elif not test_result.diabetes.positive%}
+                            {% elif not test_result.diabetes.positive %}
                             Negative
-                            {%endif%}
+                            {% endif %}
                         </td>
                         <td class="bold">{{test_result.diabetes.probability}}%</td>
                         <td >
