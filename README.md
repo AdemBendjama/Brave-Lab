@@ -36,7 +36,10 @@ Welcome to Brave Lab! We are a blood laboratory that provides convenient and eff
 
 To get started with Brave Lab, follow these steps:
 
-1. Clone the repository: `git clone 'git@github.com:AdemBendjama/Brave-Lab.git'`
+1. Clone the repository:
+```
+git clone 'git@github.com:AdemBendjama/Brave-Lab.git
+```
 2. Install the required dependencies: `pip install joblib numpy scipy pytz setuptools tzdata wheel pandas scikit-learn xhtml2pdf django`
 3. Configure the environment:
    - For Visual Studio Code: Open the cloned folder in Visual Studio Code, set up your virtual environment, install recommended extensions, and configure environment-specific settings.
