@@ -38,7 +38,7 @@ To get started with Brave Lab, follow these steps:
 
 1. Clone the repository:
 ```
-git clone 'git@github.com:AdemBendjama/Brave-Lab.git
+git clone git@github.com:AdemBendjama/Brave-Lab.git
 ```
 2. Install the required dependencies: `pip install joblib numpy scipy pytz setuptools tzdata wheel pandas scikit-learn xhtml2pdf django`
 3. Configure the environment:
