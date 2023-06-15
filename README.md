@@ -48,7 +48,16 @@ pip install Django joblib numpy scipy pytz setuptools tzdata wheel pandas scikit
 3. Configure the environment:
    - For Visual Studio Code: Open the cloned folder in Visual Studio Code, set up your virtual environment, install recommended extensions, and configure environment-specific settings.
    - For PyCharm: Open the project in PyCharm, set up your virtual environment, and configure environment-specific settings.
-4. Run the application using 
+4. Run the following commands to set up the data:
+```
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser --username admin --email admin@example.com
+python manage.py shell < group_permission_setup.py
+python manage.py shell < insert_default_data.py
+python manage.py shell < insert_test_data.py
+```
+5. Run the application using 
 ```
 python manage.py runserver 
 ```
@@ -56,7 +65,7 @@ or
 ```
 py manage.py runserver
 ```
-5. Visit `http://localhost:8000` in your browser to access Brave Lab.
+6. Visit `http://localhost:8000` in your browser to access Brave Lab.
 
 > **Note**: In order to use the email functionality, make sure to define the `EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD` variables in the `settings.py` file with the appropriate values for your email host and password.
 
