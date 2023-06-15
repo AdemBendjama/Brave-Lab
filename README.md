@@ -1,4 +1,5 @@
 
+
 # Brave Lab
 
 Welcome to Brave Lab! We are a blood laboratory that provides convenient and efficient services. We provide the option to book appointments online, while also having fast online payment integrations with PayPal. The results of our tests are accurate and are powered by Modern AI Technologies. Our mission is to deliver clean and timely results while utilizing advanced AI models for disease predictions, such as anemia and diabetes.
@@ -40,11 +41,21 @@ To get started with Brave Lab, follow these steps:
 ```
 git clone git@github.com:AdemBendjama/Brave-Lab.git
 ```
-2. Install the required dependencies: `pip install joblib numpy scipy pytz setuptools tzdata wheel pandas scikit-learn xhtml2pdf django`
+2. Install the required dependencies: 
+```
+pip install Django joblib numpy scipy pytz setuptools tzdata wheel pandas scikit-learn xhtml2pdf django
+```
 3. Configure the environment:
    - For Visual Studio Code: Open the cloned folder in Visual Studio Code, set up your virtual environment, install recommended extensions, and configure environment-specific settings.
    - For PyCharm: Open the project in PyCharm, set up your virtual environment, and configure environment-specific settings.
-4. Run the application using `python manage.py runserver` or `py manage.py runserver`.
+4. Run the application using 
+```
+python manage.py runserver 
+```
+or
+```
+py manage.py runserver
+```
 5. Visit `http://localhost:8000` in your browser to access Brave Lab.
 
 > **Note**: In order to use the email functionality, make sure to define the `EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD` variables in the `settings.py` file with the appropriate values for your email host and password.
@@ -53,49 +64,55 @@ git clone git@github.com:AdemBendjama/Brave-Lab.git
 
 ### Homepage
 
-[Insert description and screenshot of the homepage here]
-
-## Client Interface
-
-### Book Appointment
-
-[Insert description and screenshot of the book appointment feature here]
+![Homepage](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/493fbec5-dad3-4078-a915-492d403fb519)
 
 ### Manage Profile
 
-[Insert description and screenshot of the manage profile feature here]
+![Profile](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/e56e704b-c7bf-45c7-8f0b-6149fa1b7d3e)
 
-### Track Progress
+### Client Book Appointment
 
-[Insert description and screenshot of the track progress feature here]
+![Book](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/27317e03-7035-46cc-b6bf-febb78202ce7)
 
-### Nurse Interface
+### Client Test Results
 
-[Insert screenshot of the nurse interface here]
+![CResults](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/981f508f-4672-45b6-ad1f-3f91c3178ff9)
 
-### Receptionist Interface
+### Client Online Payment With PayPal
 
-[Insert screenshot of the receptionist interface here]
+![Paypal01](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/f4bf3614-0000-430f-9389-89390843e0a9)
 
-### Auditor Interface
+### Nurse Fill Test Values
 
-[Insert screenshot of the auditor interface here]
+![FillTest](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/e4bd7b74-4a64-4cff-b9c9-8d54e230c0c5)
+
+### Nurse Chat
+
+![NChat](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/f2808f4b-0189-4799-b1dc-c1041abcefa2)
+
+###  Auditor Chat Rooms
+
+![ChatRooms](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/cbc4b048-5300-44ae-9edd-cf2a41e40a4c)
+
+###  Auditor Chat
+
+![AChat](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/0f85e827-271b-4c4b-b083-597b9f69ff4c)
+
+### Auditor Stats
+
+![Stats](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/182496cd-8d96-4d78-9f00-4504f61edf20)
 
 ### Admin Interface
 
-[Insert screenshot of the admin interface here]
+![Admin](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/82869da1-c0de-4d8c-a008-d676cb9624a0)
 
-### Chat System
+### Invoice
 
-[Insert screenshot of the chat system feature here]
+![InvoicePDF](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/4fbdb821-1128-4a50-a6db-070dca44ef98)
 
-### AI Prediction
+### Test Results and AI Prediction
 
-[Insert screenshot of AI prediction feature here]
-
-### Test Results
-
-[Insert screenshot of test results feature here]
+![ResultsPDF](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/8dd0db57-0fb2-4d73-8ed5-6a2994a81158)
 
 ## Future Work
 
