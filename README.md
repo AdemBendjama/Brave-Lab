@@ -1,4 +1,4 @@
-
+![NChat](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/a58d81ec-2d12-4f45-93e5-ffdf6ce23b30)
 
 # Brave Lab
 
@@ -73,55 +73,55 @@ py manage.py runserver
 
 ### Homepage
 
-![Homepage](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/493fbec5-dad3-4078-a915-492d403fb519)
+![Homepage](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/e5d727dd-29fe-40a2-805c-f4246873466a)
 
 ### Manage Profile
 
-![Profile](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/e56e704b-c7bf-45c7-8f0b-6149fa1b7d3e)
+![Profile](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/48dd309e-1689-41a7-91db-9465801328bf)
 
 ### Client Book Appointment
 
-![Book](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/27317e03-7035-46cc-b6bf-febb78202ce7)
+![Book](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/e65048ed-f514-43ca-a6d7-81f2da787b17)
 
 ### Client Test Results
 
-![CResults](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/981f508f-4672-45b6-ad1f-3f91c3178ff9)
+![CResults](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/77d36fef-352f-414d-9571-2ed6b150e01e)
 
 ### Client Online Payment With PayPal
 
-![Paypal01](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/f4bf3614-0000-430f-9389-89390843e0a9)
+![Paypal01](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/0353e6d0-b8fe-4171-8ef9-ec708a7fb4b7)
 
 ### Nurse Fill Test Values
 
-![FillTest](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/e4bd7b74-4a64-4cff-b9c9-8d54e230c0c5)
+![FillTest](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/0825bc41-d77c-4c11-b610-089319d7b29b)
 
 ### Nurse Chat
 
-![NChat](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/f2808f4b-0189-4799-b1dc-c1041abcefa2)
+![NChat](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/15f6dc58-acef-4587-ac14-eff5cf6a9e44)
 
 ###  Auditor Chat Rooms
 
-![ChatRooms](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/cbc4b048-5300-44ae-9edd-cf2a41e40a4c)
+![ChatRooms](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/c6934054-a6d0-498b-a458-4be6bccbcb26)
 
 ###  Auditor Chat
 
-![AChat](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/0f85e827-271b-4c4b-b083-597b9f69ff4c)
+![AChat](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/8430b544-ecae-4889-b39d-eb8786718686)
 
 ### Auditor Stats
 
-![Stats](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/182496cd-8d96-4d78-9f00-4504f61edf20)
+![Stats](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/02507b00-6466-4443-89f4-95757e205b9c)
 
 ### Admin Interface
 
-![Admin](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/82869da1-c0de-4d8c-a008-d676cb9624a0)
+![Admin](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/43107cee-69f6-47cb-9d38-727405b35a10)
 
 ### Invoice
 
-![InvoicePDF](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/4fbdb821-1128-4a50-a6db-070dca44ef98)
+![InvoicePDF](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/2c0b6f10-e0dc-4337-bb98-d42f4ef95b58)
 
 ### Test Results and AI Prediction
 
-![ResultsPDF](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/8dd0db57-0fb2-4d73-8ed5-6a2994a81158)
+![ResultsPDF](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/c119f76f-a1c9-488f-9464-83492ec1914c)
 
 ## Future Work
 
