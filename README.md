@@ -1,5 +1,3 @@
-![NChat](https://github.com/AdemBendjama/Brave-Lab/assets/93732841/a58d81ec-2d12-4f45-93e5-ffdf6ce23b30)
-
 # Brave Lab
 
 Welcome to Brave Lab! We are a blood laboratory that provides convenient and efficient services. We provide the option to book appointments online, while also having fast online payment integrations with PayPal. The results of our tests are accurate and are powered by Modern AI Technologies. Our mission is to deliver clean and timely results while utilizing advanced AI models for disease predictions, such as anemia and diabetes.
