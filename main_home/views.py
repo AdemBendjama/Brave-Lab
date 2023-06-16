@@ -33,12 +33,13 @@ from django.template.loader import get_template
 from django.http import HttpResponse
 
 from main_home.utils import render_to_pdf
-
+from django.views.decorators.csrf import csrf_protect
 # Create your views here.
 
 
 
 @login_required
+@csrf_protect
 def profile_settings(request):
     old_pass_correct = False
     old_password =""
@@ -73,7 +74,7 @@ def profile_settings(request):
         
     return render(request, f'{group_name}/profile/settings.html',context)
 
-
+@csrf_protect
 def home(request):
     # Accessing the home page requires log out
     user = request.user
@@ -122,7 +123,7 @@ def home(request):
     return render(request,'main_home/home.html',context)
 
 
-
+@csrf_protect
 def register(request):
     # Accessing the register page requires log out
     user = request.user
@@ -141,39 +142,41 @@ def register(request):
             return redirect('admin_user')
     
     # handling of a post request from register page
-    if request.method == "POST":
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            # Automaticly save the client and add him to the client group
-            # save the user into the user database
-            user = form.save()
-            # add him to the client group
-            group = Group.objects.get(name="client")
-            group.user_set.add(user)
-            # extract form data
-            data = form.cleaned_data
-            phone_number = data.get("phone_number")
-            gender = data.get("gender")
-            address = data.get("address")
-            policy = data.get("policy")
-            date_of_birth = data.get("date_of_birth")
-            # add him with any additionel information into the client table
-            Client.objects.create(user = user,
-                            phone_number = phone_number,
-                            gender = gender,
-                            address = address,
-                            policy = policy,
-                            date_of_birth = date_of_birth)
+        # Disable Registration
+    # if request.method == "POST":
+    #     form = UserRegisterForm(request.POST)
+        # if form.is_valid():
+        #     # Automaticly save the client and add him to the client group
+        #     # save the user into the user database
+        #     user = form.save()
+        #     # add him to the client group
+        #     group = Group.objects.get(name="client")
+        #     group.user_set.add(user)
+        #     # extract form data
+        #     data = form.cleaned_data
+        #     phone_number = data.get("phone_number")
+        #     gender = data.get("gender")
+        #     address = data.get("address")
+        #     policy = data.get("policy")
+        #     date_of_birth = data.get("date_of_birth")
+        #     # add him with any additionel information into the client table
+        #     Client.objects.create(user = user,
+        #                     phone_number = phone_number,
+        #                     gender = gender,
+        #                     address = address,
+        #                     policy = policy,
+        #                     date_of_birth = date_of_birth)
             
-            return redirect('login')
+        #     return redirect('login')
             
-    else :
-        form = UserRegisterForm()
+    # else :
+    #     form = UserRegisterForm()
     
-    return render(request,'main_home/register.html', {'form':form})
+    return redirect('login')
+    # return render(request,'main_home/login.html', {'form':form})
 
 
-
+@csrf_protect
 def login_view(request):
     # Accessing the register page requires log out
     user = request.user
@@ -222,6 +225,7 @@ def login_view(request):
 
 
 @login_required
+@csrf_protect
 def profile_update(request):
     
     user = request.user

@@ -17,7 +17,7 @@ from django.middleware.csrf import get_token
 from django.contrib.sessions.backends.db import SessionStore
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
+from django.views.decorators.csrf import csrf_protect
 # Create your views here.
 
 ################################################################
@@ -25,6 +25,7 @@ from django.urls import reverse
 # Home
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def client_home(request):
     #
@@ -124,6 +125,7 @@ def client_home(request):
 # Appointment
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def appointment_book(request):
     client = request.user.client
@@ -185,6 +187,7 @@ def appointment_book(request):
     return render(request,'client/appointment/appointment_book.html',{'form':form})
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def client_appointment_confirm(request):
         
@@ -228,6 +231,7 @@ def client_appointment_confirm(request):
     return redirect('client_appointment_book')
     
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def client_appointment_contract(request):
      
@@ -274,6 +278,7 @@ def client_appointment_contract(request):
     
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def client_appointment_pay(request):
     
@@ -361,6 +366,7 @@ def client_appointment_pay(request):
     return redirect('client_appointment_book')
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def verify_token(request):
     if request.method == 'POST':
@@ -384,6 +390,7 @@ def verify_token(request):
     return HttpResponse(status=400)
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def appointment_detail(request, appointment_id):
     # Retrieve the appointment based on the provided ID
@@ -398,6 +405,7 @@ def appointment_detail(request, appointment_id):
 
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def cancel_appointment(request, appointment_id):
     if request.method == 'POST':
@@ -420,6 +428,7 @@ def cancel_appointment(request, appointment_id):
 # Request
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def request_list(request):
     appointments = Appointment.objects.filter(cancelled=False,client=request.user.client)
@@ -430,6 +439,7 @@ def request_list(request):
     return render(request,'client/request/request_list.html',context)
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def request_detail(request):
     
@@ -441,6 +451,7 @@ def request_detail(request):
 # Result
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def result_list(request):
     
@@ -514,6 +525,7 @@ def result_list(request):
     return render(request,'client/result/result_list.html', context)
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def result_detail(request, invoice_id):
     
@@ -535,6 +547,7 @@ def result_detail(request, invoice_id):
 
     
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def online_pay(request, invoice_id):
     
@@ -578,12 +591,14 @@ def online_pay(request, invoice_id):
 # Profile
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def client_help(request):
     
     return render(request,'client/profile/help.html')
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def client_contact(request):
      
@@ -619,6 +634,7 @@ def client_contact(request):
     return render(request,'client/profile/contact.html',context)
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def client_policy(request):
     
@@ -629,6 +645,7 @@ def client_policy(request):
 # Complaint
 
 @login_required
+@csrf_protect
 @permission_required('client.view_client', raise_exception=True)
 def create_complaint(request):
     
