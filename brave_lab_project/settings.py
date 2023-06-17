@@ -26,13 +26,11 @@ SECRET_KEY = 'django-insecure-qdw6s03ob(#w@ml#zsd=vef56q)#g=&hv90od0wc*p&b1!o+2)
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-# Deployment Settings
+# Deployment Settings 
+# Remember to turn DEBUG off in Deployment
 ALLOWED_HOSTS = ['brave-lab.azurewebsites.net','localhost','127.0.0.1']
 DEBUG = True
 
-# Dev Settings
-# DEBUG = True
-# ALLOWED_HOSTS = []
 
 
 

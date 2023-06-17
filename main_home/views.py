@@ -33,13 +33,12 @@ from django.template.loader import get_template
 from django.http import HttpResponse
 
 from main_home.utils import render_to_pdf
-from django.views.decorators.csrf import csrf_protect
 # Create your views here.
 
 
 
 @login_required
-@csrf_protect
+
 def profile_settings(request):
     old_pass_correct = False
     old_password =""
@@ -74,7 +73,7 @@ def profile_settings(request):
         
     return render(request, f'{group_name}/profile/settings.html',context)
 
-@csrf_protect
+
 def home(request):
     # Accessing the home page requires log out
     user = request.user
@@ -123,7 +122,7 @@ def home(request):
     return render(request,'main_home/home.html',context)
 
 
-@csrf_protect
+
 def register(request):
     # Accessing the register page requires log out
     user = request.user
@@ -176,7 +175,7 @@ def register(request):
     # return render(request,'main_home/login.html', {'form':form})
 
 
-@csrf_protect
+
 def login_view(request):
     # Accessing the register page requires log out
     user = request.user
@@ -225,7 +224,7 @@ def login_view(request):
 
 
 @login_required
-@csrf_protect
+
 def profile_update(request):
     
     user = request.user
