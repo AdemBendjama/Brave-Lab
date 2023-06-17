@@ -141,38 +141,36 @@ def register(request):
             return redirect('admin_user')
     
     # handling of a post request from register page
-        # Disable Registration
-    # if request.method == "POST":
-    #     form = UserRegisterForm(request.POST)
-        # if form.is_valid():
-        #     # Automaticly save the client and add him to the client group
-        #     # save the user into the user database
-        #     user = form.save()
-        #     # add him to the client group
-        #     group = Group.objects.get(name="client")
-        #     group.user_set.add(user)
-        #     # extract form data
-        #     data = form.cleaned_data
-        #     phone_number = data.get("phone_number")
-        #     gender = data.get("gender")
-        #     address = data.get("address")
-        #     policy = data.get("policy")
-        #     date_of_birth = data.get("date_of_birth")
-        #     # add him with any additionel information into the client table
-        #     Client.objects.create(user = user,
-        #                     phone_number = phone_number,
-        #                     gender = gender,
-        #                     address = address,
-        #                     policy = policy,
-        #                     date_of_birth = date_of_birth)
+    if request.method == "POST":
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            # Automaticly save the client and add him to the client group
+            # save the user into the user database
+            user = form.save()
+            # add him to the client group
+            group = Group.objects.get(name="client")
+            group.user_set.add(user)
+            # extract form data
+            data = form.cleaned_data
+            phone_number = data.get("phone_number")
+            gender = data.get("gender")
+            address = data.get("address")
+            policy = data.get("policy")
+            date_of_birth = data.get("date_of_birth")
+            # add him with any additionel information into the client table
+            Client.objects.create(user = user,
+                            phone_number = phone_number,
+                            gender = gender,
+                            address = address,
+                            policy = policy,
+                            date_of_birth = date_of_birth)
             
-        #     return redirect('login')
+            return redirect('login')
             
-    # else :
-    #     form = UserRegisterForm()
-    
-    return redirect('login')
-    # return render(request,'main_home/login.html', {'form':form})
+    else :
+        form = UserRegisterForm()
+
+    return render(request,'main_home/login.html', {'form':form})
 
 
 
