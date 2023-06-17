@@ -30,9 +30,7 @@ SECRET_KEY = 'django-insecure-qdw6s03ob(#w@ml#zsd=vef56q)#g=&hv90od0wc*p&b1!o+2)
 # Remember to turn DEBUG off in Deployment
 ALLOWED_HOSTS = ['brave-lab.azurewebsites.net','localhost','127.0.0.1']
 DEBUG = True
-
-
-
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # Application definition
 
@@ -134,8 +132,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
 
 MEDIA_URL = "/media/"
 
