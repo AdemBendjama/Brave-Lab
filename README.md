@@ -31,31 +31,28 @@ Welcome to Brave Lab! We are a blood laboratory that provides convenient and eff
 - Database: SQLite3
 - AI/ML: Logistic Regression algorithms for anemia and diabetes prediction
 
-## Getting Started
+# Getting Started
 
+## **Live Preview**
+**You can access a live preview of the website [here](https://brave-lab.azurewebsites.net/).**
+
+> **Note:** 
+> - Registration as a client is available to all users. However, access to other account types such as receptionist, nurse and auditor require specific credentials. 
+> - If you need access to these account types, please contact me at adembendjama22@gmail.com, and I will provide you with the necessary account credentials to access the additional features.
+
+
+## **Local Setup**
 To get started with Brave Lab, follow these steps:
-
 1. Clone the repository:
 ```
-git clone git@github.com:AdemBendjama/Brave-Lab.git
+git clone https://github.com/AdemBendjama/Brave-Lab.git
+cd Brave-Lab
 ```
 2. Install the required dependencies: 
 ```
-pip install Django joblib numpy scipy pytz setuptools tzdata wheel pandas scikit-learn xhtml2pdf django
+pip install -r requirements.txt
 ```
-3. Configure the environment:
-   - For Visual Studio Code: Open the cloned folder in Visual Studio Code, set up your virtual environment, install recommended extensions, and configure environment-specific settings.
-   - For PyCharm: Open the project in PyCharm, set up your virtual environment, and configure environment-specific settings.
-4. Run the following commands to set up the data:
-```
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser --username admin --email admin@example.com
-python manage.py shell < group_permission_setup.py
-python manage.py shell < insert_default_data.py
-python manage.py shell < insert_test_data.py
-```
-5. Run the application using 
+3. Run the application using 
 ```
 python manage.py runserver 
 ```
@@ -63,9 +60,9 @@ or
 ```
 py manage.py runserver
 ```
-6. Visit `http://localhost:8000` in your browser to access Brave Lab.
+4. Visit `http://localhost:8000` in your browser to access Brave Lab.
 
-> **Note**: In order to use the email functionality, make sure to define the `EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD` variables in the `settings.py` file with the appropriate values for your email host and password.
+> **Note**: In the local version, email functionality depends on settings.py credentials. Live site has proper credentials configured.
 
 ## Screenshots
 
@@ -126,7 +123,7 @@ py manage.py runserver
 Here are the several areas i could work on to improve the site's functionality, security and Code readability:
 
 - Enhancing the security of the payment integration with PayPal to ensure the safety of user transactions.
-- Hosting the website with Https and SSLTLS and a custom domain.
+- Hosting the website with Https and SSLTLS and a custom domain. &#x2714;
 - Conducting code reviews and optimizing the codebase to improve efficiency and maintainability.
 - Adding comprehensive documentation to guide users and developers in understanding the system.
 - Organizing files and folders to enhance the project's structure and maintain a clean codebase.
