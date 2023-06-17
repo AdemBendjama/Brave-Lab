@@ -170,7 +170,7 @@ def register(request):
     else :
         form = UserRegisterForm()
 
-    return render(request,'main_home/login.html', {'form':form})
+    return render(request,'main_home/register.html', {'form':form})
 
 
 
