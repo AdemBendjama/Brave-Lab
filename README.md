@@ -122,14 +122,15 @@ py manage.py runserver
 
 Here are the several areas i could work on to improve the site's functionality, security and Code readability:
 
-- Enhancing the security of the payment integration with PayPal to ensure the safety of user transactions.
 - Hosting the website with Https and SSLTLS and a custom domain. &#x2714;
+- Changing the current database Sqlite3 into a more secure and robust database management system like PostgreSQL or MySQL.
+- Enhancing the security of the payment integration with PayPal to ensure the safety of user transactions.
+- Adding Cloud Storage for image uploads
+- Investigating the possibility of integrating face recognition and OCR (Optical Character Recognition) AI models for advanced functionality.
 - Conducting code reviews and optimizing the codebase to improve efficiency and maintainability.
 - Adding comprehensive documentation to guide users and developers in understanding the system.
 - Organizing files and folders to enhance the project's structure and maintain a clean codebase.
 - Adding more styles and visual enhancements to improve the overall user experience.
-- Investigating the possibility of integrating face recognition and OCR (Optical Character Recognition) AI models for advanced functionality.
-- Changing the current database Sqlite3 into a more secure and robust database management system like PostgreSQL or MySQL.
 
 We are committed to continuously improving Brave Lab and providing an exceptional user experience. Stay tuned for updates and new features!
 
