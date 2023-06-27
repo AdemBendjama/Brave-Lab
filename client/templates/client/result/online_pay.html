@@ -73,7 +73,6 @@
     }
     
 
-    var total_price = '{{ invoice.total_price }}'
     paypal.Buttons({
 
         // Set up the transaction
@@ -81,7 +80,7 @@
             return actions.order.create({
                 purchase_units: [{
                     amount: {
-                        value: total_price, 
+                        value: '{{ invoice.total_price }}', 
                     }
                 }]
             });
@@ -93,7 +92,7 @@
                 console.log(details);
                 Swal.fire({
                   title: 'Success!',
-                  text: "Transaction Complete! $"+total_price+" USD Paid",
+                  text: "Transaction Complete!",
                   icon: 'success',
                   confirmButtonText: 'Confirm'
                 });
