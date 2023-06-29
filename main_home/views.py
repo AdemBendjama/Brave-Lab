@@ -33,6 +33,8 @@ from django.template.loader import get_template
 from django.http import HttpResponse
 
 from main_home.utils import render_to_pdf
+
+from verify_email.email_handler import send_verification_email
 # Create your views here.
 
 
@@ -146,7 +148,8 @@ def register(request):
         if form.is_valid():
             # Automaticly save the client and add him to the client group
             # save the user into the user database
-            user = form.save()
+            # user = form.save()
+            user = send_verification_email(request, form)
             # add him to the client group
             group = Group.objects.get(name="client")
             group.user_set.add(user)
@@ -199,7 +202,7 @@ def login_view(request):
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
             
-            if user is not None:
+            if user is not None :
                 login(request,user)
                 
                 if user.is_superuser :

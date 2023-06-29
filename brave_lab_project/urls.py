@@ -29,4 +29,5 @@ urlpatterns = [
     path('receptionist/',include('receptionist.urls'),name="receptionist"),
     path('auditor/',include('auditor.urls'),name="auditor"),
     path('admin_user/',include('admin_user.urls'),name="admin_user"),
+    path('verification/', include('verify_email.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
