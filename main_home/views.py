@@ -173,14 +173,32 @@ def register(request):
                             policy = policy,
                             date_of_birth = date_of_birth)
             
-            return redirect('login')
+            return redirect('check_email')
             
     else :
         form = UserRegisterForm()
 
     return render(request,'main_home/register.html', {'form':form})
 
-
+def check_email(request):
+    user = request.user
+    if user.is_authenticated : 
+        if user.is_superuser :
+            return redirect('/admin/')
+        elif is_client(user) :
+            return redirect('client')
+        elif is_nurse(user) :
+            return redirect('nurse')
+        elif is_receptionist(user) :
+            return redirect('receptionist')
+        elif is_auditor(user) :
+            return redirect('auditor')
+        elif is_admin_user(user) :
+            return redirect('admin_user')
+    
+    return render(request,'main_home/check_email.html')
+        
+    
 
 def login_view(request):
     # Accessing the register page requires log out
