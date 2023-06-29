@@ -35,6 +35,8 @@ from django.http import HttpResponse
 from main_home.utils import render_to_pdf
 
 from verify_email.email_handler import send_verification_email
+from django.utils import timezone
+from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -127,6 +129,9 @@ def home(request):
 
 def register(request):
     # Accessing the register page requires log out
+    one_day_ago = timezone.now() - timezone.timedelta(days=1)
+    User.objects.filter(is_active=False, date_joined__lt=one_day_ago).delete()
+    
     user = request.user
     if user.is_authenticated : 
         if user.is_superuser :

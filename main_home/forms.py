@@ -74,6 +74,12 @@ class UserRegisterForm(UserCreationForm):
         if age < 14:
             raise forms.ValidationError("You must be 14 years old or older to register.")
         return date_of_birth
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("An account with this email already exists.")
+        return email
 
         
         
