@@ -123,7 +123,7 @@ py manage.py runserver
 Here are the several areas i could work on to improve the site's functionality, security and Code readability:
 
 - Hosting the website with Https and SSLTLS and a custom domain. &#x2714;
-- Changing the current database Sqlite3 into a more secure and robust database management system like PostgreSQL or MySQL.
+- Changing the current database Sqlite3 into a more secure and robust database management system like PostgreSQL or MySQL. &#x2714;
 - Enhancing the security of the payment integration with PayPal to ensure the safety of user transactions.
 - Adding Cloud Storage for image uploads
 - Investigating the possibility of integrating face recognition and OCR (Optical Character Recognition) AI models for advanced functionality.
