@@ -33,14 +33,6 @@ Welcome to Brave Lab! We are a blood laboratory that provides convenient and eff
 
 # Getting Started
 
-## **Live Preview**
-**You can access a live preview of the website [here](https://brave-lab.azurewebsites.net/).**
-
-> **Note:** 
-> - Registration as a client is available to all users. However, access to other account types such as receptionist, nurse and auditor require specific credentials. 
-> - If you need access to these account types, please contact me at adembendjama22@gmail.com, and I will provide you with the necessary account credentials to access the additional features.
-
-
 ## **Local Setup**
 To get started with Brave Lab, follow these steps:
 1. Clone the repository:
