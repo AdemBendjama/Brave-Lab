@@ -54,7 +54,7 @@ py manage.py runserver
 ```
 4. Visit `http://localhost:8000` in your browser to access Brave Lab.
 
-> **Note**: In the local version, email functionality depends on settings.py credentials. Live site has proper credentials configured.
+> **Note**: In the local version, email functionality depends on settings.py credentials.
 
 ## Screenshots
 
